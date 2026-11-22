@@ -42,19 +42,30 @@ function hexToRgba(hex: string, alpha: number): string {
 const root = document.documentElement;
 const logEl = must<HTMLElement>("#event-log");
 const themeToggle = must<HTMLElement>("#theme-toggle");
-const heroReplay = must<HTMLElement>("#hero-replay");
-const heroNative = must<HTMLElement>("#hero-native");
 const recipeGrid = must<HTMLElement>("#recipe-grid");
 const recipeTarget = must<HTMLElement>("#recipe-target");
 const springBall = must<HTMLElement>("#spring-ball");
 const springReplay = must<HTMLElement>("#spring-replay");
 const reducedToggle = must<HTMLElement>("#reduced-toggle");
-const nativeBadge = must<HTMLElement>("#native-badge");
-const nativeStatusBadge = must<HTMLElement>("#native-status-badge");
+const nativeStatusText = must<HTMLElement>("#native-status");
 const nativeTitle = must<HTMLElement>("#native-title");
 const nativeReason = must<HTMLElement>("#native-reason");
 const nativeCode = must<HTMLElement>("#native-code");
-const motionModeBadge = must<HTMLElement>("#motion-mode-badge");
+const motionMode = must<HTMLElement>("#motion-mode");
+
+function initialTheme(): "light" | "dark" {
+  try {
+    const saved = localStorage.getItem("gk-docs-theme");
+    if (saved === "light" || saved === "dark") return saved;
+  } catch {
+    // Storage can be unavailable in private browsing.
+  }
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+
+const startingTheme = initialTheme();
+root.dataset.gkTheme = startingTheme;
+themeToggle.textContent = startingTheme === "dark" ? "Light" : "Dark";
 
 function log(kind: string, message: string): void {
   logEl.querySelector(".event-empty")?.remove();
@@ -93,15 +104,20 @@ must<HTMLElement>("#clear-log").addEventListener("gk-activate", () => {
   logEl.replaceChildren();
   const empty = document.createElement("div");
   empty.className = "event-empty";
-  empty.textContent = "Interact with any component above.";
+  empty.textContent = "No events yet.";
   logEl.append(empty);
 });
 
 themeToggle.addEventListener("gk-activate", () => {
-  const light = root.dataset.gkTheme !== "light";
-  root.dataset.gkTheme = light ? "light" : "dark";
-  themeToggle.textContent = light ? "Dark" : "Light";
-  log("theme", light ? "light" : "dark");
+  const next = root.dataset.gkTheme === "light" ? "dark" : "light";
+  root.dataset.gkTheme = next;
+  themeToggle.textContent = next === "dark" ? "Light" : "Dark";
+  try {
+    localStorage.setItem("gk-docs-theme", next);
+  } catch {
+    // Theme still works for this session without persistence.
+  }
+  log("theme", next);
 });
 
 function renderAccents(): void {
@@ -246,8 +262,8 @@ springReplay.addEventListener("gk-activate", replaySpring);
 reducedToggle.addEventListener("gk-change", (event) => {
   const checked = (event as CustomEvent<{ checked: boolean }>).detail.checked;
   setReducedMotionOverride(checked);
-  motionModeBadge.textContent = checked ? "Reduced motion forced" : "System motion";
-  (motionModeBadge as HTMLElement).setAttribute("tone", checked ? "warning" : "accent");
+  motionMode.textContent = checked ? "Reduced motion forced" : "System motion";
+  motionMode.dataset.state = checked ? "reduced" : "system";
   log("motion", checked ? "reduced motion forced" : "system motion restored");
   replaySpring();
 });
@@ -258,10 +274,8 @@ function configureNative(): void {
     ? "Tauri host detected"
     : "Running in browser preview";
   nativeReason.textContent = status.reason;
-  nativeBadge.textContent = status.native ? "Native" : "Browser";
-  nativeBadge.setAttribute("tone", status.native ? "success" : "warning");
-  nativeStatusBadge.textContent = status.native ? "Tauri host" : "Browser preview";
-  nativeStatusBadge.setAttribute("tone", status.native ? "success" : "warning");
+  nativeStatusText.textContent = status.native ? "Tauri host" : "Browser preview";
+  nativeStatusText.dataset.state = status.native ? "native" : "browser";
   nativeCode.textContent = [
     "import { applyNativeGlass, setNativeCorners } from '@glasskit/native';",
     "",
@@ -298,23 +312,19 @@ must<HTMLElement>("#native-round").addEventListener("gk-activate", () =>
 must<HTMLElement>("#native-clear").addEventListener("gk-activate", () =>
   void nativeCall("clear", () => clearNativeGlass()),
 );
-heroNative.addEventListener("gk-activate", () =>
-  void nativeCall("hero blur", () => applyNativeGlass("blur")),
-);
-
-heroReplay.addEventListener("gk-activate", () => {
-  animateRecipe(must<HTMLElement>(".overview-copy"), "panel-in");
-  document.querySelectorAll<HTMLElement>(".spec-strip > div").forEach((item, index) => {
-    window.setTimeout(() => animateRecipe(item, "popover-in"), index * 50);
-  });
-});
-
 function configureNav(): void {
-  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>(".side-nav a"));
+  const links = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>(".side-nav a, .toc a"),
+  );
   const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-section]"));
 
   const activate = (id: string): void => {
-    for (const link of links) link.classList.toggle("is-active", link.hash === `#${id}`);
+    for (const link of links) {
+      const active = link.hash === `#${id}`;
+      link.classList.toggle("is-active", active);
+      if (active) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    }
   };
 
   for (const link of links) {
@@ -330,6 +340,7 @@ function configureNav(): void {
     { rootMargin: "-15% 0px -75% 0px" },
   );
   for (const section of sections) observer.observe(section);
+  activate("overview");
 }
 
 renderAccents();
@@ -341,8 +352,3 @@ renderRecipes();
 configureNative();
 configureNav();
 replaySpring();
-
-animateRecipe(must<HTMLElement>(".overview-copy"), "panel-in");
-document.querySelectorAll<HTMLElement>(".spec-strip > div").forEach((item, index) => {
-  window.setTimeout(() => animateRecipe(item, "popover-in"), index * 60);
-});
