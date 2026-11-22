@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en" data-gk-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="GlassKit is an Apple-inspired design system for Windows apps: design tokens, native DWM material, shared motion physics, and Web Components."
+    />
+    <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <title>Components — Glass Kit</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#components">Skip to content</a>
+<header class="site-header">
+      <div class="nav-shell">
+        <a class="brand" href="index.html">
+          <img class="brand-logo brand-logo--light" src="/assets/light-mode-logo.png" alt="" />
+          <img class="brand-logo brand-logo--dark" src="/assets/dark-mode-logo.png" alt="" />
+          <span class="brand-name">Glass Kit</span>
+        </a>
+
+        <nav class="top-nav" aria-label="Primary">
+          <a href="index.html">Overview</a>
+          <a href="tokens.html">Tokens</a>
+          <a href="materials.html">Materials</a>
+          <a href="components.html">Components</a>
+          <a href="motion.html">Motion</a>
+          <a href="native.html">Native</a>
+          <a href="guidelines.html">Practices</a>
+          <a href="playground.html">Playground</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a
+            class="nav-repo"
+            href="https://github.com/LowPolyPhosphorus/GlassKit"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <svg class="icon"><use href="/icons.svg#icon-code"></use></svg>
+            <span>GitHub</span>
+          </a>
+          <gk-button id="theme-toggle" variant="quiet" size="small" aria-label="Toggle appearance">
+            <svg class="icon"><use href="/icons.svg#icon-sun"></use></svg>
+            <span id="theme-toggle-label">Dark</span>
+          </gk-button>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-grid">
+      <main>
+<section id="components" class="section section--tinted" data-section>
+          <header class="section-heading">
+            <span class="section-icon">
+              <svg class="icon"><use href="/icons.svg#icon-components"></use></svg>
+            </span>
+            <p class="eyebrow">Libraries</p>
+            <h1>Components with a point of view.</h1>
+            <p>
+              Nine framework-agnostic Web Components share the same tokens, motion, and event model.
+              Each one stays keyboard accessible and Windows-native.
+            </p>
+          </header>
+
+          <div class="specimens">
+            <article class="specimen" id="button">
+              <div class="specimen-copy">
+                <span class="specimen-icon">
+                  <svg class="icon"><use href="/icons.svg#icon-components"></use></svg>
+                </span>
+                <h2>Button</h2>
+                <p>Primary, secondary, quiet, and size variants.</p>
+                <code>gk-activate</code>
+              </div>
+              <div class="specimen-demo preview">
+                <gk-button variant="primary">Primary</gk-button>
+                <gk-button>Secondary</gk-button>
+                <gk-button variant="quiet">Quiet</gk-button>
+                <gk-button size="small">Small</gk-button>
+                <gk-button disabled>Disabled</gk-button>
+              </div>
+            </article>
+
+            <article class="specimen" id="toggle">
+              <div class="specimen-copy">
+                <span class="specimen-icon">
+                  <svg class="icon"><use href="/icons.svg#icon-check"></use></svg>
+                </span>
+                <h2>Toggle</h2>
+                <p>Binary state with a clear on and off treatment.</p>
+                <code>gk-change</code>
+              </div>
+              <div class="specimen-demo preview">
+                <label>On <gk-toggle checked label="On"></gk-toggle></label>
+                <label>Off <gk-toggle label="Off"></gk-toggle></label>
+                <label>Disabled <gk-toggle checked disabled label="Disabled"></gk-toggle></label>
+              </div>
+            </article>
+
+            <article class="specimen" id="segmented">
+              <div class="specimen-copy">
+                <span class="specimen-icon">
+                  <svg class="icon"><use href="/icons.svg#icon-sliders"></use></svg>
+                </span>
+                <h2>Segmented control</h2>
+                <p>Switch between closely related views.</p>
+                <code>gk-change</code>
+              </div>
+              <div class="specimen-demo">
+                <gk-segmented id="gallery-segment" value="day">
+                  <button value="day">Day</button>
+                  <button value="week">Week</button>
+                  <button value="month">Month</button>
+                </gk-segmented>
+              </div>
+            </article>
+
+            <article class="specimen" id="text-field">
+              <div class="specimen-copy">
+                <span class="specimen-icon">
+                  <svg class="icon"><use href="/icons.svg#icon-window"></use></svg>
+                </span>
+                <h2>Text field</h2>
+                <p>Persistent labels keep context while typing.</p>
+                <code>gk-input</code>
+              </div>
+              <div class="specimen-demo">
+                <gk-text-field
+                  id="gallery-text"
+                  label="Device name"
+                  placeholder="Name your buds"
+                  value="Living Room Buds"
+                ></gk-text-field>
+              </div>
+            </article>
+
+            <article class="specimen" id="slider">
+              <div class="specimen-copy">
+                <span class="specimen-icon">
+                  <svg class="icon"><use href="/icons.svg#icon-sliders"></use></svg>
+                </span>
+                <h2>Slider</h2>
+                <p>Continuous values with an optional unit.</p>
+                <code>gk-input / gk-change</code>
+              </div>
+              <div class="specimen-demo">
+                <gk-slider id="gallery-slider" label="Volume" min="0" max="100" value="64" unit="%"></gk-slider>
+              </div>
+            </article>
+
+            <article class="specimen" id="badge-toolbar">
+              <div class="specimen-copy">
+                <span class="specimen-icon">
+                  <svg class="icon"><use href="/icons.svg#icon-sparkle"></use></svg>
+                </span>
+                <h2>Badge and toolbar</h2>
+                <p>Compact status and grouped actions.</p>
+                <code>presentational</code>
+              </div>
+              <div class="specimen-demo">
+                <div class="preview badge-row">
+                  <gk-badge>Neutral</gk-badge>
+                  <gk-badge tone="accent" dot>Accent</gk-badge>
+                  <gk-badge tone="success" dot>Success</gk-badge>
+                </div>
+                <gk-toolbar>
+                  <gk-button size="small" variant="quiet">Undo</gk-button>
+                  <gk-button size="small" variant="quiet">Redo</gk-button>
+                  <span class="toolbar-spacer"></span>
+                  <gk-button size="small">Done</gk-button>
+                </gk-toolbar>
+              </div>
+            </article>
+
+            <article class="specimen specimen--stacked" id="list-row">
+              <div class="specimen-copy">
+                <span class="specimen-icon">
+                  <svg class="icon"><use href="/icons.svg#icon-layers"></use></svg>
+                </span>
+                <h2>List row</h2>
+                <p>Leading and trailing slots for dense settings content.</p>
+                <code>slot: leading / trailing</code>
+              </div>
+              <div class="specimen-demo list-stack">
+                <gk-list-row subtitle="Connected · 84%" interactive>
+                  <gk-badge slot="leading" tone="success" dot>Live</gk-badge>
+                  CMF Buds Pro 2
+                  <gk-button slot="trailing" size="small" variant="quiet">Details</gk-button>
+                </gk-list-row>
+                <gk-list-row subtitle="Adaptive noise cancellation" interactive>
+                  Noise control
+                  <gk-toggle slot="trailing" checked label="Noise control"></gk-toggle>
+                </gk-list-row>
+                <gk-list-row subtitle="Taskbar, tray, and snapping stay native" interactive>
+                  Native behaviour
+                  <gk-badge slot="trailing" tone="accent">Windows</gk-badge>
+                </gk-list-row>
+              </div>
+            </article>
+          </div>
+
+          <details class="event-drawer" id="events">
+            <summary>
+              <span>
+                <svg class="icon"><use href="/icons.svg#icon-code"></use></svg>
+                Component events
+              </span>
+              <span class="drawer-hint">Open the live event stream</span>
+            </summary>
+            <div id="event-log" class="event-log" role="log" aria-live="polite">
+              <div class="event-empty">No events yet.</div>
+            </div>
+            <gk-button id="clear-log" size="small" variant="quiet">Clear</gk-button>
+          </details>
+        </section>
+      </main>
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <a href="#components"><svg class="icon"><use href="/icons.svg#icon-components"></use></svg><span>Components</span></a>
+        <a href="#button"><svg class="icon"><use href="/icons.svg#icon-components"></use></svg><span>Button</span></a>
+        <a href="#toggle"><svg class="icon"><use href="/icons.svg#icon-check"></use></svg><span>Toggle</span></a>
+        <a href="#segmented"><svg class="icon"><use href="/icons.svg#icon-sliders"></use></svg><span>Segmented</span></a>
+        <a href="#text-field"><svg class="icon"><use href="/icons.svg#icon-window"></use></svg><span>Text field</span></a>
+        <a href="#slider"><svg class="icon"><use href="/icons.svg#icon-sliders"></use></svg><span>Slider</span></a>
+        <a href="#badge-toolbar"><svg class="icon"><use href="/icons.svg#icon-sparkle"></use></svg><span>Badge and toolbar</span></a>
+        <a href="#list-row"><svg class="icon"><use href="/icons.svg#icon-layers"></use></svg><span>List row</span></a>
+        <a href="#events"><svg class="icon"><use href="/icons.svg#icon-code"></use></svg><span>Events</span></a>
+      </aside>
+    </div>
+
+<footer class="site-footer">
+      <div class="footer-shell">
+        <div class="footer-brand">
+          <img class="brand-logo brand-logo--light" src="/assets/light-mode-logo.png" alt="" />
+          <img class="brand-logo brand-logo--dark" src="/assets/dark-mode-logo.png" alt="" />
+          <strong>Glass Kit</strong>
+          <p>Design system for Windows apps.</p>
+        </div>
+        <div class="footer-col">
+          <h2>Explore</h2>
+          <a href="tokens.html">Tokens</a>
+          <a href="materials.html">Materials</a>
+          <a href="components.html">Components</a>
+          <a href="motion.html">Motion</a>
+          <a href="playground.html">Playground</a>
+        </div>
+        <div class="footer-col">
+          <h2>Platform</h2>
+          <span>Windows 11</span>
+          <span>DWM material</span>
+          <span>Tauri 2</span>
+          <span>Web Components</span>
+        </div>
+        <div class="footer-col">
+          <h2>Project</h2>
+          <a href="https://github.com/LowPolyPhosphorus/GlassKit" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="native.html">Native</a>
+          <a href="guidelines.html">Practices</a>
+        </div>
+      </div>
+      <p class="footer-legal">
+        Visual language inspired by Apple. Built for Windows. No Apple assets, fonts, symbols, or
+        interaction patterns are included.
+      </p>
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

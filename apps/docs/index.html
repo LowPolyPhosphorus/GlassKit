@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" data-gk-theme="light">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
@@ -13,22 +13,23 @@
   </head>
   <body>
     <a class="skip-link" href="#overview">Skip to content</a>
-
-    <header class="site-header">
+<header class="site-header">
       <div class="nav-shell">
-        <a class="brand" href="#overview">
+        <a class="brand" href="index.html">
           <img class="brand-logo brand-logo--light" src="/assets/light-mode-logo.png" alt="" />
           <img class="brand-logo brand-logo--dark" src="/assets/dark-mode-logo.png" alt="" />
           <span class="brand-name">Glass Kit</span>
         </a>
 
         <nav class="top-nav" aria-label="Primary">
-          <a href="#overview">Overview</a>
-          <a href="#tokens">Tokens</a>
-          <a href="#materials">Materials</a>
-          <a href="#components">Components</a>
-          <a href="#motion">Motion</a>
-          <a href="#native">Native</a>
+          <a href="index.html">Overview</a>
+          <a href="tokens.html">Tokens</a>
+          <a href="materials.html">Materials</a>
+          <a href="components.html">Components</a>
+          <a href="motion.html">Motion</a>
+          <a href="native.html">Native</a>
+          <a href="guidelines.html">Practices</a>
+          <a href="playground.html">Playground</a>
         </nav>
 
         <div class="nav-actions">
@@ -49,39 +50,10 @@
       </div>
     </header>
 
-    <nav class="chapter-nav" aria-label="Sections">
-      <div class="chapter-shell">
-        <a href="#tokens">
-          <svg class="icon"><use href="/icons.svg#icon-palette"></use></svg>
-          <span>Tokens</span>
-        </a>
-        <a href="#materials">
-          <svg class="icon"><use href="/icons.svg#icon-layers"></use></svg>
-          <span>Materials</span>
-        </a>
-        <a href="#components">
-          <svg class="icon"><use href="/icons.svg#icon-components"></use></svg>
-          <span>Components</span>
-        </a>
-        <a href="#motion">
-          <svg class="icon"><use href="/icons.svg#icon-motion"></use></svg>
-          <span>Motion</span>
-        </a>
-        <a href="#native">
-          <svg class="icon"><use href="/icons.svg#icon-window"></use></svg>
-          <span>Native material</span>
-        </a>
-        <a href="#guidelines">
-          <svg class="icon"><use href="/icons.svg#icon-check"></use></svg>
-          <span>Practices</span>
-        </a>
-      </div>
-    </nav>
-
     <div class="page-grid">
       <main>
-        <section id="overview" class="section hero" data-section>
-          <div class="hero-copy">
+<section id="overview" class="section hero" data-section>
+          <div class="hero-copy" id="idea">
             <p class="eyebrow">Glass Kit for Windows</p>
             <h1>Glass that feels<br />at home.</h1>
             <p class="hero-lede">
@@ -89,18 +61,18 @@
               shaped by Apple's clarity and restraint, built for Windows behaviour.
             </p>
             <div class="hero-actions">
-              <a class="pill pill--primary" href="#tokens">
+              <a class="pill pill--primary" href="tokens.html">
                 Explore the system
                 <svg class="icon"><use href="/icons.svg#icon-arrow"></use></svg>
               </a>
-              <a class="pill" href="#native">
+              <a class="pill" href="native.html">
                 See native material
                 <svg class="icon"><use href="/icons.svg#icon-arrow"></use></svg>
               </a>
             </div>
           </div>
 
-          <div class="hero-stage" aria-hidden="true">
+          <div class="hero-stage" id="hero-visual" aria-hidden="true">
             <div class="app-window">
               <div class="window-bar">
                 <span class="window-name">Glass Kit Studio</span>
@@ -154,433 +126,19 @@
             </div>
           </div>
 
-          <p class="hero-note">Original icons · Native Windows behaviour · No Apple assets</p>
-        </section>
-
-        <section id="tokens" class="section section--tinted" data-section>
-          <header class="section-heading">
-            <span class="section-icon">
-              <svg class="icon"><use href="/icons.svg#icon-palette"></use></svg>
-            </span>
-            <p class="eyebrow">Foundations</p>
-            <h2>One system.<br />Every surface.</h2>
-            <p>
-              Colour, type, spacing, radius, and motion live in one package. Use the CSS variables in
-              markup or import the typed values in TypeScript.
-            </p>
-          </header>
-
-          <div class="token-board">
-            <article class="token-card">
-              <div class="token-card-head">
-                <h3>Accent</h3>
-                <code>color</code>
-              </div>
-              <div id="accent-swatches" class="swatches"></div>
-              <p class="token-help">Choose a swatch to preview the system with a different accent.</p>
-            </article>
-
-            <article class="token-card">
-              <div class="token-card-head">
-                <h3>Type scale</h3>
-                <code>font.size</code>
-              </div>
-              <div id="type-scale" class="type-scale"></div>
-            </article>
-
-            <article class="token-card">
-              <div class="token-card-head">
-                <h3>Spacing</h3>
-                <code>space</code>
-              </div>
-              <div id="spacing-grid" class="spacing-grid"></div>
-            </article>
-
-            <article class="token-card">
-              <div class="token-card-head">
-                <h3>Radius</h3>
-                <code>radius</code>
-              </div>
-              <div id="radius-grid" class="radius-grid"></div>
-            </article>
-
-            <article class="token-card token-card--wide">
-              <div class="token-card-head">
-                <h3>Motion</h3>
-                <code>motion</code>
-              </div>
-              <div id="motion-token-grid" class="motion-token-grid"></div>
-            </article>
-          </div>
-        </section>
-
-        <section id="materials" class="section" data-section>
-          <header class="section-heading section-heading--center">
-            <span class="section-icon">
-              <svg class="icon"><use href="/icons.svg#icon-glass"></use></svg>
-            </span>
-            <p class="eyebrow">Materials</p>
-            <h2>Real blur, not a picture of blur.</h2>
-            <p>
-              CSS <code>backdrop-filter</code> cannot sample the desktop through a transparent WebView2
-              window. GlassKit applies blur and rounded corners to the HWND, then layers neutral veils
-              in web content.
-            </p>
-          </header>
-
-          <div class="material-stage">
-            <gk-glass-panel tone="thin" elevation="flat" class="material-sample">
-              <svg class="icon sample-icon"><use href="/icons.svg#icon-layers"></use></svg>
-              <h3>Thin</h3>
-              <p>Grouped backgrounds and quiet containment.</p>
-              <code>--gk-color-glass-thin</code>
-            </gk-glass-panel>
-            <gk-glass-panel tone="regular" elevation="flat" class="material-sample">
-              <svg class="icon sample-icon"><use href="/icons.svg#icon-window"></use></svg>
-              <h3>Regular</h3>
-              <p>The default surface for panels and sidebars.</p>
-              <code>--gk-color-glass-regular</code>
-            </gk-glass-panel>
-            <gk-glass-panel tone="thick" elevation="flat" class="material-sample">
-              <svg class="icon sample-icon"><use href="/icons.svg#icon-sparkle"></use></svg>
-              <h3>Thick</h3>
-              <p>Popovers and transient overlays.</p>
-              <code>--gk-color-glass-thick</code>
-            </gk-glass-panel>
-          </div>
-
-          <p class="section-note">
-            Run <code>apps/native-host</code> to see the real DWM material applied to the Tauri window.
-          </p>
-        </section>
-
-        <section id="components" class="section section--tinted" data-section>
-          <header class="section-heading">
-            <span class="section-icon">
-              <svg class="icon"><use href="/icons.svg#icon-components"></use></svg>
-            </span>
-            <p class="eyebrow">Libraries</p>
-            <h2>Components with a point of view.</h2>
-            <p>
-              Nine framework-agnostic Web Components share the same tokens, motion, and event model.
-              Each one stays keyboard accessible and Windows-native.
-            </p>
-          </header>
-
-          <div class="specimens">
-            <article class="specimen">
-              <div class="specimen-copy">
-                <span class="specimen-icon">
-                  <svg class="icon"><use href="/icons.svg#icon-components"></use></svg>
-                </span>
-                <h3>Button</h3>
-                <p>Primary, secondary, quiet, and size variants.</p>
-                <code>gk-activate</code>
-              </div>
-              <div class="specimen-demo preview">
-                <gk-button variant="primary">Primary</gk-button>
-                <gk-button>Secondary</gk-button>
-                <gk-button variant="quiet">Quiet</gk-button>
-                <gk-button size="small">Small</gk-button>
-                <gk-button disabled>Disabled</gk-button>
-              </div>
-            </article>
-
-            <article class="specimen">
-              <div class="specimen-copy">
-                <span class="specimen-icon">
-                  <svg class="icon"><use href="/icons.svg#icon-check"></use></svg>
-                </span>
-                <h3>Toggle</h3>
-                <p>Binary state with a clear on and off treatment.</p>
-                <code>gk-change</code>
-              </div>
-              <div class="specimen-demo preview">
-                <label>On <gk-toggle checked label="On"></gk-toggle></label>
-                <label>Off <gk-toggle label="Off"></gk-toggle></label>
-                <label>Disabled <gk-toggle checked disabled label="Disabled"></gk-toggle></label>
-              </div>
-            </article>
-
-            <article class="specimen">
-              <div class="specimen-copy">
-                <span class="specimen-icon">
-                  <svg class="icon"><use href="/icons.svg#icon-sliders"></use></svg>
-                </span>
-                <h3>Segmented control</h3>
-                <p>Switch between closely related views.</p>
-                <code>gk-change</code>
-              </div>
-              <div class="specimen-demo">
-                <gk-segmented id="gallery-segment" value="day">
-                  <button value="day">Day</button>
-                  <button value="week">Week</button>
-                  <button value="month">Month</button>
-                </gk-segmented>
-              </div>
-            </article>
-
-            <article class="specimen">
-              <div class="specimen-copy">
-                <span class="specimen-icon">
-                  <svg class="icon"><use href="/icons.svg#icon-window"></use></svg>
-                </span>
-                <h3>Text field</h3>
-                <p>Persistent labels keep context while typing.</p>
-                <code>gk-input</code>
-              </div>
-              <div class="specimen-demo">
-                <gk-text-field
-                  id="gallery-text"
-                  label="Device name"
-                  placeholder="Name your buds"
-                  value="Living Room Buds"
-                ></gk-text-field>
-              </div>
-            </article>
-
-            <article class="specimen">
-              <div class="specimen-copy">
-                <span class="specimen-icon">
-                  <svg class="icon"><use href="/icons.svg#icon-sliders"></use></svg>
-                </span>
-                <h3>Slider</h3>
-                <p>Continuous values with an optional unit.</p>
-                <code>gk-input / gk-change</code>
-              </div>
-              <div class="specimen-demo">
-                <gk-slider id="gallery-slider" label="Volume" min="0" max="100" value="64" unit="%"></gk-slider>
-              </div>
-            </article>
-
-            <article class="specimen">
-              <div class="specimen-copy">
-                <span class="specimen-icon">
-                  <svg class="icon"><use href="/icons.svg#icon-sparkle"></use></svg>
-                </span>
-                <h3>Badge and toolbar</h3>
-                <p>Compact status and grouped actions.</p>
-                <code>presentational</code>
-              </div>
-              <div class="specimen-demo">
-                <div class="preview badge-row">
-                  <gk-badge>Neutral</gk-badge>
-                  <gk-badge tone="accent" dot>Accent</gk-badge>
-                  <gk-badge tone="success" dot>Success</gk-badge>
-                </div>
-                <gk-toolbar>
-                  <gk-button size="small" variant="quiet">Undo</gk-button>
-                  <gk-button size="small" variant="quiet">Redo</gk-button>
-                  <span class="toolbar-spacer"></span>
-                  <gk-button size="small">Done</gk-button>
-                </gk-toolbar>
-              </div>
-            </article>
-
-            <article class="specimen specimen--stacked">
-              <div class="specimen-copy">
-                <span class="specimen-icon">
-                  <svg class="icon"><use href="/icons.svg#icon-layers"></use></svg>
-                </span>
-                <h3>List row</h3>
-                <p>Leading and trailing slots for dense settings content.</p>
-                <code>slot: leading / trailing</code>
-              </div>
-              <div class="specimen-demo list-stack">
-                <gk-list-row subtitle="Connected · 84%" interactive>
-                  <gk-badge slot="leading" tone="success" dot>Live</gk-badge>
-                  CMF Buds Pro 2
-                  <gk-button slot="trailing" size="small" variant="quiet">Details</gk-button>
-                </gk-list-row>
-                <gk-list-row subtitle="Adaptive noise cancellation" interactive>
-                  Noise control
-                  <gk-toggle slot="trailing" checked label="Noise control"></gk-toggle>
-                </gk-list-row>
-                <gk-list-row subtitle="Taskbar, tray, and snapping stay native" interactive>
-                  Native behaviour
-                  <gk-badge slot="trailing" tone="accent">Windows</gk-badge>
-                </gk-list-row>
-              </div>
-            </article>
-          </div>
-
-          <details class="event-drawer">
-            <summary>
-              <span>
-                <svg class="icon"><use href="/icons.svg#icon-code"></use></svg>
-                Component events
-              </span>
-              <span class="drawer-hint">Open the live event stream</span>
-            </summary>
-            <div id="event-log" class="event-log" role="log" aria-live="polite">
-              <div class="event-empty">No events yet.</div>
-            </div>
-            <gk-button id="clear-log" size="small" variant="quiet">Clear</gk-button>
-          </details>
-        </section>
-
-        <section id="motion" class="section" data-section>
-          <header class="section-heading">
-            <span class="section-icon">
-              <svg class="icon"><use href="/icons.svg#icon-motion"></use></svg>
-            </span>
-            <p class="eyebrow">Libraries</p>
-            <h2>Motion with a reason.</h2>
-            <p>One analytic spring model, exposed as presets and named recipes for every app.</p>
-            <span id="motion-mode" class="status-text">System motion</span>
-          </header>
-
-          <div class="motion-grid">
-            <article class="surface">
-              <div class="surface-head">
-                <h3>Recipes</h3>
-                <span>12 named transitions</span>
-              </div>
-              <div id="recipe-grid" class="recipe-list"></div>
-              <div class="recipe-stage">
-                <div id="recipe-target" class="recipe-target">
-                  <span>Preview surface</span>
-                  <strong>Spring target</strong>
-                  <p>Shared across every Glass Kit app.</p>
-                </div>
-              </div>
-            </article>
-
-            <article class="surface">
-              <div class="surface-head">
-                <h3>Spring lab</h3>
-                <label class="reduce-label">
-                  <gk-toggle id="reduced-toggle" label="Force reduced motion"></gk-toggle>
-                  Reduce motion
-                </label>
-              </div>
-              <div class="spring-layout">
-                <div class="spring-controls">
-                  <gk-slider id="spring-stiffness" label="Stiffness" min="80" max="600" value="420"></gk-slider>
-                  <gk-slider id="spring-damping" label="Damping" min="5" max="80" value="34"></gk-slider>
-                  <gk-slider id="spring-mass" label="Mass" min="0.5" max="2" step="0.1" value="0.9"></gk-slider>
-                  <gk-button id="spring-replay" variant="primary">Replay spring</gk-button>
-                </div>
-                <div class="spring-stage">
-                  <div class="spring-track"></div>
-                  <div id="spring-ball" class="spring-ball"></div>
-                </div>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section id="native" class="section section--tinted" data-section>
-          <header class="section-heading">
-            <span class="section-icon">
-              <svg class="icon"><use href="/icons.svg#icon-window"></use></svg>
-            </span>
-            <p class="eyebrow">Platform</p>
-            <h2>Native material, from Rust.</h2>
-            <p>The browser bridge detects Tauri and calls the DWM commands directly.</p>
-            <span id="native-status" class="status-text">Browser preview</span>
-          </header>
-
-          <div class="platform-panel">
-            <div class="platform-copy">
-              <h3 id="native-title">Running in browser preview</h3>
-              <p id="native-reason">Native DWM material needs a Tauri window.</p>
-              <div class="actions">
-                <gk-button id="native-blur" variant="primary">Apply blur</gk-button>
-                <gk-button id="native-acrylic">Apply acrylic</gk-button>
-                <gk-button id="native-round">Round corners</gk-button>
-                <gk-button id="native-clear" variant="quiet">Clear</gk-button>
-              </div>
-            </div>
-            <pre class="code-block"><code id="native-code"></code></pre>
-          </div>
-        </section>
-
-        <section id="guidelines" class="section" data-section>
-          <header class="section-heading section-heading--center">
-            <span class="section-icon">
-              <svg class="icon"><use href="/icons.svg#icon-check"></use></svg>
-            </span>
-            <p class="eyebrow">Platform</p>
-            <h2>Apple-inspired. Windows-first.</h2>
-            <p>A short set of rules that keeps the visual craft high and the native behaviour intact.</p>
-          </header>
-
-          <div class="practice-list">
-            <article>
-              <span class="practice-icon">
-                <svg class="icon"><use href="/icons.svg#icon-glass"></use></svg>
-              </span>
-              <div>
-                <h3>Use real material</h3>
-                <p>Apply native blur and rounded HWND corners instead of imitating them with CSS alone.</p>
-              </div>
-            </article>
-            <article>
-              <span class="practice-icon">
-                <svg class="icon"><use href="/icons.svg#icon-palette"></use></svg>
-              </span>
-              <div>
-                <h3>Keep colour in the content</h3>
-                <p>Neutral glass should carry the surface; let app content provide emphasis.</p>
-              </div>
-            </article>
-            <article>
-              <span class="practice-icon">
-                <svg class="icon"><use href="/icons.svg#icon-motion"></use></svg>
-              </span>
-              <div>
-                <h3>Make motion meaningful</h3>
-                <p>Use shared springs for state changes, and honour the Windows reduce-motion setting.</p>
-              </div>
-            </article>
-            <article>
-              <span class="practice-icon">
-                <svg class="icon"><use href="/icons.svg#icon-shield"></use></svg>
-              </span>
-              <div>
-                <h3>Stay accessible</h3>
-                <p>Maintain keyboard focus, UI Automation support, and readable contrast in both themes.</p>
-              </div>
-            </article>
-            <article>
-              <span class="practice-icon">
-                <svg class="icon"><use href="/icons.svg#icon-window"></use></svg>
-              </span>
-              <div>
-                <h3>Respect Windows</h3>
-                <p>Preserve the taskbar, tray, right-click menus, shortcuts, and window snapping.</p>
-              </div>
-            </article>
-          </div>
-
-          <div class="avoid-note">
-            <svg class="icon"><use href="/icons.svg#icon-check"></use></svg>
-            <div>
-              <strong>Avoid</strong>
-              <p>
-                Traffic lights, Mac gestures, Apple logos, SF Pro, SF Symbols,
-                <code>SetWindowRgn</code> on transparent WebView2 windows, and focus handlers that clear
-                and reapply material.
-              </p>
-            </div>
-          </div>
+          <p class="hero-note" id="hero-note">Original icons · Native Windows behaviour · No Apple assets</p>
         </section>
       </main>
-
       <aside class="toc" aria-label="On this page">
         <p>On this page</p>
-        <a href="#overview">Overview</a>
-        <a href="#tokens">Tokens</a>
-        <a href="#materials">Materials</a>
-        <a href="#components">Components</a>
-        <a href="#motion">Motion</a>
-        <a href="#native">Native material</a>
-        <a href="#guidelines">Best practices</a>
+        <a href="#overview"><svg class="icon"><use href="/icons.svg#icon-glass"></use></svg><span>Overview</span></a>
+        <a href="#idea"><svg class="icon"><use href="/icons.svg#icon-sparkle"></use></svg><span>The idea</span></a>
+        <a href="#hero-visual"><svg class="icon"><use href="/icons.svg#icon-window"></use></svg><span>Preview</span></a>
+        <a href="#hero-note"><svg class="icon"><use href="/icons.svg#icon-check"></use></svg><span>Ground rules</span></a>
       </aside>
     </div>
 
-    <footer class="site-footer">
+<footer class="site-footer">
       <div class="footer-shell">
         <div class="footer-brand">
           <img class="brand-logo brand-logo--light" src="/assets/light-mode-logo.png" alt="" />
@@ -589,24 +147,25 @@
           <p>Design system for Windows apps.</p>
         </div>
         <div class="footer-col">
-          <h3>Explore</h3>
-          <a href="#tokens">Tokens</a>
-          <a href="#materials">Materials</a>
-          <a href="#components">Components</a>
-          <a href="#motion">Motion</a>
+          <h2>Explore</h2>
+          <a href="tokens.html">Tokens</a>
+          <a href="materials.html">Materials</a>
+          <a href="components.html">Components</a>
+          <a href="motion.html">Motion</a>
+          <a href="playground.html">Playground</a>
         </div>
         <div class="footer-col">
-          <h3>Platform</h3>
+          <h2>Platform</h2>
           <span>Windows 11</span>
           <span>DWM material</span>
           <span>Tauri 2</span>
           <span>Web Components</span>
         </div>
         <div class="footer-col">
-          <h3>Project</h3>
+          <h2>Project</h2>
           <a href="https://github.com/LowPolyPhosphorus/GlassKit" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="#native">Native host</a>
-          <a href="#guidelines">Practices</a>
+          <a href="native.html">Native</a>
+          <a href="guidelines.html">Practices</a>
         </div>
       </div>
       <p class="footer-legal">
@@ -614,7 +173,6 @@
         interaction patterns are included.
       </p>
     </footer>
-
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

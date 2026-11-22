@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en" data-gk-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="GlassKit is an Apple-inspired design system for Windows apps: design tokens, native DWM material, shared motion physics, and Web Components."
+    />
+    <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <title>Tokens — Glass Kit</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#tokens">Skip to content</a>
+<header class="site-header">
+      <div class="nav-shell">
+        <a class="brand" href="index.html">
+          <img class="brand-logo brand-logo--light" src="/assets/light-mode-logo.png" alt="" />
+          <img class="brand-logo brand-logo--dark" src="/assets/dark-mode-logo.png" alt="" />
+          <span class="brand-name">Glass Kit</span>
+        </a>
+
+        <nav class="top-nav" aria-label="Primary">
+          <a href="index.html">Overview</a>
+          <a href="tokens.html">Tokens</a>
+          <a href="materials.html">Materials</a>
+          <a href="components.html">Components</a>
+          <a href="motion.html">Motion</a>
+          <a href="native.html">Native</a>
+          <a href="guidelines.html">Practices</a>
+          <a href="playground.html">Playground</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a
+            class="nav-repo"
+            href="https://github.com/LowPolyPhosphorus/GlassKit"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <svg class="icon"><use href="/icons.svg#icon-code"></use></svg>
+            <span>GitHub</span>
+          </a>
+          <gk-button id="theme-toggle" variant="quiet" size="small" aria-label="Toggle appearance">
+            <svg class="icon"><use href="/icons.svg#icon-sun"></use></svg>
+            <span id="theme-toggle-label">Dark</span>
+          </gk-button>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-grid">
+      <main>
+<section id="tokens" class="section section--tinted" data-section>
+          <header class="section-heading">
+            <span class="section-icon">
+              <svg class="icon"><use href="/icons.svg#icon-palette"></use></svg>
+            </span>
+            <p class="eyebrow">Foundations</p>
+            <h1>One system.<br />Every surface.</h1>
+            <p>
+              Colour, type, spacing, radius, and motion live in one package. Use the CSS variables in
+              markup or import the typed values in TypeScript.
+            </p>
+          </header>
+
+          <div class="token-board">
+            <article class="token-card" id="accent">
+              <div class="token-card-head">
+                <h2>Accent</h2>
+                <code>color</code>
+              </div>
+              <div id="accent-swatches" class="swatches"></div>
+              <p class="token-help">Choose a swatch to preview the system with a different accent.</p>
+            </article>
+
+            <article class="token-card" id="type">
+              <div class="token-card-head">
+                <h2>Type scale</h2>
+                <code>font.size</code>
+              </div>
+              <div id="type-scale" class="type-scale"></div>
+            </article>
+
+            <article class="token-card" id="spacing">
+              <div class="token-card-head">
+                <h2>Spacing</h2>
+                <code>space</code>
+              </div>
+              <div id="spacing-grid" class="spacing-grid"></div>
+            </article>
+
+            <article class="token-card" id="radius">
+              <div class="token-card-head">
+                <h2>Radius</h2>
+                <code>radius</code>
+              </div>
+              <div id="radius-grid" class="radius-grid"></div>
+            </article>
+
+            <article class="token-card token-card--wide" id="motion-tokens">
+              <div class="token-card-head">
+                <h2>Motion</h2>
+                <code>motion</code>
+              </div>
+              <div id="motion-token-grid" class="motion-token-grid"></div>
+            </article>
+          </div>
+        </section>
+      </main>
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <a href="#tokens"><svg class="icon"><use href="/icons.svg#icon-palette"></use></svg><span>Tokens</span></a>
+        <a href="#accent"><svg class="icon"><use href="/icons.svg#icon-palette"></use></svg><span>Accent</span></a>
+        <a href="#type"><svg class="icon"><use href="/icons.svg#icon-book"></use></svg><span>Type scale</span></a>
+        <a href="#spacing"><svg class="icon"><use href="/icons.svg#icon-sliders"></use></svg><span>Spacing</span></a>
+        <a href="#radius"><svg class="icon"><use href="/icons.svg#icon-components"></use></svg><span>Radius</span></a>
+        <a href="#motion-tokens"><svg class="icon"><use href="/icons.svg#icon-motion"></use></svg><span>Motion</span></a>
+      </aside>
+    </div>
+
+<footer class="site-footer">
+      <div class="footer-shell">
+        <div class="footer-brand">
+          <img class="brand-logo brand-logo--light" src="/assets/light-mode-logo.png" alt="" />
+          <img class="brand-logo brand-logo--dark" src="/assets/dark-mode-logo.png" alt="" />
+          <strong>Glass Kit</strong>
+          <p>Design system for Windows apps.</p>
+        </div>
+        <div class="footer-col">
+          <h2>Explore</h2>
+          <a href="tokens.html">Tokens</a>
+          <a href="materials.html">Materials</a>
+          <a href="components.html">Components</a>
+          <a href="motion.html">Motion</a>
+          <a href="playground.html">Playground</a>
+        </div>
+        <div class="footer-col">
+          <h2>Platform</h2>
+          <span>Windows 11</span>
+          <span>DWM material</span>
+          <span>Tauri 2</span>
+          <span>Web Components</span>
+        </div>
+        <div class="footer-col">
+          <h2>Project</h2>
+          <a href="https://github.com/LowPolyPhosphorus/GlassKit" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="native.html">Native</a>
+          <a href="guidelines.html">Practices</a>
+        </div>
+      </div>
+      <p class="footer-legal">
+        Visual language inspired by Apple. Built for Windows. No Apple assets, fonts, symbols, or
+        interaction patterns are included.
+      </p>
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
