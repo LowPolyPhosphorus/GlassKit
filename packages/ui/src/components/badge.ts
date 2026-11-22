@@ -15,7 +15,7 @@ const styles = `
 }
 
 :host([tone="accent"]) {
-  color: var(--gk-color-accent);
+  color: var(--gk-color-text);
   background: var(--gk-color-accent-fill);
   border-color: var(--gk-color-accent-stroke);
 }
