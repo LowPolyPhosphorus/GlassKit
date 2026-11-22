@@ -76,6 +76,7 @@ export class SegmentedControl extends HTMLElement {
   #control: HTMLElement | null = null;
   #indicator: HTMLElement | null = null;
   #resizeObserver: ResizeObserver | null = null;
+  #mutationObserver: MutationObserver | null = null;
 
   #onClick = (event: MouseEvent): void => {
     const target = event.target;
@@ -130,6 +131,10 @@ export class SegmentedControl extends HTMLElement {
         this.#resizeObserver = new ResizeObserver(() => this.#positionIndicator());
         this.#resizeObserver.observe(this);
       }
+      if (typeof MutationObserver !== "undefined") {
+        this.#mutationObserver = new MutationObserver(() => this.#sync());
+        this.#mutationObserver.observe(this, { childList: true });
+      }
     }
 
     this.#sync(true);
@@ -139,6 +144,8 @@ export class SegmentedControl extends HTMLElement {
     window.removeEventListener("resize", this.#onResize);
     this.#resizeObserver?.disconnect();
     this.#resizeObserver = null;
+    this.#mutationObserver?.disconnect();
+    this.#mutationObserver = null;
   }
 
   attributeChangedCallback(): void {
@@ -166,6 +173,7 @@ export class SegmentedControl extends HTMLElement {
       if (!option.hasAttribute("role")) option.setAttribute("role", "tab");
     }
 
+    this.#positionIndicator();
     requestAnimationFrame(() => this.#positionIndicator());
   }
 
