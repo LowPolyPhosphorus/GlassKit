@@ -4,6 +4,8 @@ Date: 2026-11-22
 
 Revision 2 note: the first pass removed too much marketing structure and became a quiet spec sheet. After review, the final direction deliberately borrows Apple.com's web composition — hero, pill calls to action, frosted chrome, large section headings, and an original rounded-stroke icon set — while staying Windows-native.
 
+Revision 3 note: decorative multi-stop gradients were removed in favour of flat fills and hairlines. The supplied original GlassKit light/dark logo PNGs are now the brand mark. Font stacks prefer Apple system fonts where available without bundling or redistributing Apple font binaries.
+
 ## Scope
 
 This review covers the Apple design corpus as a **reference for visual qualities only**. GlassKit remains a Windows design system: the taskbar, tray, right-click menus, keyboard shortcuts, snapping, and native DWM material are preserved.
@@ -49,20 +51,21 @@ The [Apple Design](https://developer.apple.com/design/) and [Design Resources](h
 ## Visual direction
 
 - **Shell:** frosted global navigation, a sticky icon chapter bar, a centred product-style page column, and a quiet "On this page" rail on wide screens. All three navigation surfaces share one `aria-current` state.
-- **Type:** `Segoe UI Variable` / `Segoe UI` / `system-ui` for UI and prose, one monospace stack for code and token names. Weights 400/500/600/700 only; no thin weights. Hero 52–82 px, section headings 38–56 px, lede 19 px, body 16 px, metadata 11–12 px.
-- **Color:** Apple web palette translated to semantic tokens: `#0071e3` in light, `#2997ff` in dark, neutral greys `#1d1d1f`, `#6e6e73`, `#f5f5f7`, and authored dark surfaces. One blue means selection, links, focus, and the single primary action.
+- **Type:** system-font stacks, not bundled font files. Prose prefers `-apple-system`, `BlinkMacSystemFont`, `SF Pro Text`, `SF Pro Display`, then `Segoe UI Variable` / `Segoe UI` on Windows. Code prefers `SFMono-Regular`, then `ui-monospace` / Consolas. Small chrome uses `SF Compact` where available. The hero lede uses `New York` with a Georgia fallback. Script-specific stacks cover SF Arabic, SF Armenian, SF Georgian, and SF Hebrew via `:lang()`. Weights 400/500/600/700 only; no thin weights. Hero 52–82 px, section headings 38–56 px, lede 19 px, body 16 px, metadata 11–12 px.
+- **Color:** Apple web palette translated to semantic tokens: `#0071e3` in light, `#2997ff` in dark, neutral greys `#1d1d1f`, `#6e6e73`, `#f5f5f7`, and authored dark surfaces. One blue means selection, links, focus, and the single primary action. All decorative gradients are gone; blue is a flat fill.
+- **Brand:** the supplied original GlassKit logo PNGs live in `apps/docs/public/assets/` and swap with the authored light/dark theme.
 - **Icons:** an original rounded-stroke SVG sprite in `apps/docs/public/icons.svg`, drawn on a 24 px grid with consistent caps and joins. It follows the SF Symbols visual language without copying any SF Symbol.
-- **Depth:** hairline borders, flat article surfaces, concentric radii, and one soft product shadow on the hero window. Translucency is limited to functional chrome and explicit material samples.
+- **Depth:** hairline borders, flat article surfaces, concentric radii, and one soft product shadow on the hero window. Translucency is limited to functional chrome and explicit material samples. Glass-panel specular gradients are disabled in the docs theme.
 - **Motion:** state changes only, 120–220 ms, no entrance choreography, no parallax, no blur transitions. The motion section remains a deliberate interactive demonstration.
 - **Voice:** short, literal, and useful. Copy says what each package or control does and when to use it. No "revolutionary", "seamless", or similar filler ([Writing](https://developer.apple.com/design/human-interface-guidelines/writing), [Inclusion](https://developer.apple.com/design/human-interface-guidelines/inclusion)).
 
 ## Explicitly excluded
 
-No Apple logos, product imagery, SF Pro, SF Mono, New York, SF Symbols, traffic-light controls, menu bar, Dock, edge-swipe gestures, sheets with grabbers, or Apple-only service patterns. The icon sprite is original work in a similar visual idiom. Apple material is used only to inform restraint, hierarchy, legibility, and craft.
+No Apple logos, product imagery, SF Symbols, traffic-light controls, menu bar, Dock, edge-swipe gestures, sheets with grabbers, or Apple-only service patterns. Apple font names are used only as local system fallbacks; no Apple font binaries are bundled or served. The icon sprite and the GlassKit logo PNGs are original work. Apple material is used only to inform restraint, hierarchy, legibility, and craft.
 
 ## Verification
 
 - `npm run build` and `npm run typecheck` must pass.
-- Browser smoke test must confirm all seven sections, 12 motion recipes, live controls, theme switching, icon sprite loading, and no console errors.
+- Browser smoke test must confirm all seven sections, 12 motion recipes, live controls, theme switching, icon sprite loading, both logo PNGs loading, and no console errors.
 - Lighthouse accessibility, best practices, and SEO must remain at 1.00 after the visual pass.
 - The native host command remains `cd apps/native-host/src-tauri && cargo tauri dev`.
