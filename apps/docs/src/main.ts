@@ -268,9 +268,12 @@ function configureNative(): void {
     "await setNativeCorners(true);",
     "await applyNativeGlass('blur');",
     "",
-    "// Rust side",
-    "// glasskit_material::register_commands(tauri::Builder::default())",
-    "//   .setup(|app| { /* apply blur + rounded corners */ Ok(()) })",
+    "",
+    "// apps/native-host/src-tauri",
+    "glasskit_material::register_commands(tauri::Builder::default())",
+    "  .setup(|app| { /* apply blur + rounded corners */ Ok(()) })",
+    "",
+    "// cd apps/native-host/src-tauri && cargo tauri dev",
   ].join("\n");
 }
 
@@ -300,9 +303,9 @@ heroNative.addEventListener("gk-activate", () =>
 );
 
 heroReplay.addEventListener("gk-activate", () => {
-  animateRecipe(must<HTMLElement>(".hero-copy"), "panel-in");
-  document.querySelectorAll<HTMLElement>(".stat-card").forEach((card, index) => {
-    window.setTimeout(() => animateRecipe(card, "popover-in"), index * 60);
+  animateRecipe(must<HTMLElement>(".overview-copy"), "panel-in");
+  document.querySelectorAll<HTMLElement>(".spec-strip > div").forEach((item, index) => {
+    window.setTimeout(() => animateRecipe(item, "popover-in"), index * 50);
   });
 });
 
@@ -339,7 +342,7 @@ configureNative();
 configureNav();
 replaySpring();
 
-animateRecipe(must<HTMLElement>(".hero-copy"), "panel-in");
-document.querySelectorAll<HTMLElement>(".stat-card").forEach((card, index) => {
-  window.setTimeout(() => animateRecipe(card, "popover-in"), index * 70);
+animateRecipe(must<HTMLElement>(".overview-copy"), "panel-in");
+document.querySelectorAll<HTMLElement>(".spec-strip > div").forEach((item, index) => {
+  window.setTimeout(() => animateRecipe(item, "popover-in"), index * 60);
 });
