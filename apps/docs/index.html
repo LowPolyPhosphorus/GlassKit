@@ -3,360 +3,447 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Glass Kit · Reference</title>
+    <meta
+      name="description"
+      content="GlassKit is an Apple-inspired design system for Windows apps: design tokens, native DWM material, shared motion physics, and Web Components."
+    />
+    <title>Glass Kit — Design system for Windows</title>
   </head>
   <body>
+    <a class="skip-link" href="#overview">Skip to content</a>
     <div class="app-shell">
       <aside class="sidebar">
-        <div class="brand">
+        <a class="brand" href="#overview">
           <span class="brand-mark" aria-hidden="true">G</span>
           <span class="brand-copy">
             <strong>Glass Kit</strong>
-            <small>Reference · 0.1</small>
+            <small>Design system</small>
           </span>
-        </div>
+        </a>
 
-        <nav class="side-nav" aria-label="Reference sections">
-          <p class="nav-label">Start</p>
+        <nav class="side-nav" aria-label="Documentation">
+          <p class="nav-group">Get started</p>
           <a href="#overview" class="is-active">Overview</a>
 
-          <p class="nav-label">Foundations</p>
+          <p class="nav-group">Foundations</p>
           <a href="#tokens">Tokens</a>
           <a href="#materials">Materials</a>
 
-          <p class="nav-label">Library</p>
+          <p class="nav-group">Libraries</p>
           <a href="#components">Components</a>
           <a href="#motion">Motion</a>
 
-          <p class="nav-label">Platform</p>
+          <p class="nav-group">Platform</p>
           <a href="#native">Native material</a>
-          <a href="#guidelines">Guidelines</a>
+          <a href="#guidelines">Best practices</a>
         </nav>
 
         <div class="sidebar-foot">
-          <gk-badge id="native-badge" tone="warning" dot>Browser</gk-badge>
+          <span class="version">Version 0.1</span>
           <gk-button id="theme-toggle" variant="quiet" size="small">Light</gk-button>
         </div>
       </aside>
 
-      <main class="main">
-        <div class="topbar">
-          <span>Reference</span>
-          <span>Windows · DWM · Web Components</span>
-        </div>
+      <div class="main-wrap">
+        <header class="topbar">
+          <span class="breadcrumb">Glass Kit <span>/</span> Reference</span>
+          <span class="platform">Windows · DWM · Web Components</span>
+        </header>
 
-        <section id="overview" class="doc-section overview" data-section>
-          <div class="overview-copy">
-            <p class="kicker">Glass Kit / 0.1</p>
-            <h1>Apple-level restraint, built for Windows.</h1>
-            <p class="lede">
-              Tokens, native DWM material, shared spring physics, and framework-agnostic
-              components. Every control below is the shipped implementation.
-            </p>
-            <div class="actions">
-              <gk-button id="hero-replay" variant="primary">Replay entrance</gk-button>
-              <gk-button id="hero-native">Apply native glass</gk-button>
-            </div>
-          </div>
+        <div class="content-layout">
+          <main class="doc-content">
+            <section id="overview" class="doc-section overview" data-section>
+              <p class="eyebrow">Glass Kit</p>
+              <h1>A quieter way to build glass interfaces on Windows.</h1>
+              <p class="lede">
+                Tokens, native desktop material, shared spring physics, and framework-agnostic
+                components — designed with Apple's clarity, deference, and depth, but built for
+                Windows behaviour.
+              </p>
 
-          <div class="spec-strip" aria-label="System summary">
-            <div><span>Packages</span><strong>5</strong></div>
-            <div><span>Components</span><strong>9</strong></div>
-            <div><span>Recipes</span><strong>12</strong></div>
-            <div><span>Variables</span><strong>62</strong></div>
-          </div>
-
-          <p class="note-line">
-            <span>Constraint</span>
-            CSS <code>backdrop-filter</code> cannot sample the desktop through a transparent
-            WebView2 window. The visible blur is applied to the HWND.
-          </p>
-        </section>
-
-        <section id="tokens" class="doc-section" data-section>
-          <header class="section-head">
-            <div>
-              <p class="kicker">Foundation 01</p>
-              <h2>Tokens</h2>
-              <p>One source of truth, consumed as CSS variables and typed exports.</p>
-            </div>
-            <span class="source">tokens.json → tokens.css → generated.ts</span>
-          </header>
-
-          <div class="panel-grid">
-            <gk-glass-panel class="panel">
-              <div class="panel-head"><h3>Accent</h3><span>color</span></div>
-              <div id="accent-swatches" class="swatches"></div>
-              <p class="hint">Select a swatch to retheme the reference.</p>
-            </gk-glass-panel>
-
-            <gk-glass-panel class="panel">
-              <div class="panel-head"><h3>Type scale</h3><span>font.size</span></div>
-              <div id="type-scale" class="type-scale"></div>
-            </gk-glass-panel>
-
-            <gk-glass-panel class="panel">
-              <div class="panel-head"><h3>Spacing</h3><span>space</span></div>
-              <div id="spacing-grid" class="spacing-grid"></div>
-            </gk-glass-panel>
-
-            <gk-glass-panel class="panel">
-              <div class="panel-head"><h3>Radius</h3><span>radius</span></div>
-              <div id="radius-grid" class="radius-grid"></div>
-            </gk-glass-panel>
-
-            <gk-glass-panel class="panel panel--wide">
-              <div class="panel-head"><h3>Motion</h3><span>motion</span></div>
-              <div id="motion-token-grid" class="motion-token-grid"></div>
-            </gk-glass-panel>
-          </div>
-        </section>
-
-        <section id="materials" class="doc-section" data-section>
-          <header class="section-head">
-            <div>
-              <p class="kicker">Foundation 02</p>
-              <h2>Materials</h2>
-              <p>Neutral veils layered over real desktop blur.</p>
-            </div>
-            <span class="source">DWM · SetWindowCompositionAttribute</span>
-          </header>
-
-          <div class="material-grid">
-            <gk-glass-panel tone="thin" elevation="flat" class="material-panel">
-              <span class="token-name">--gk-color-glass-thin</span>
-              <h3>Thin</h3>
-              <p>Grouped backgrounds and quiet containment.</p>
-            </gk-glass-panel>
-            <gk-glass-panel tone="regular" elevation="flat" class="material-panel">
-              <span class="token-name">--gk-color-glass-regular</span>
-              <h3>Regular</h3>
-              <p>Default surface for panels and sidebars.</p>
-            </gk-glass-panel>
-            <gk-glass-panel tone="thick" elevation="high" class="material-panel">
-              <span class="token-name">--gk-color-glass-thick</span>
-              <h3>Thick</h3>
-              <p>Popovers and transient overlays.</p>
-            </gk-glass-panel>
-          </div>
-
-          <p class="note-line">
-            <span>Why native</span>
-            The browser shows the veil only. Use <code>apps/native-host</code> to apply the
-            real material to the Tauri window.
-          </p>
-        </section>
-
-        <section id="components" class="doc-section" data-section>
-          <header class="section-head">
-            <div>
-              <p class="kicker">Library 03</p>
-              <h2>Components</h2>
-              <p>Nine Web Components, each wired to the shared token and motion layers.</p>
-            </div>
-            <span class="source">@glasskit/ui</span>
-          </header>
-
-          <div class="component-grid">
-            <gk-glass-panel class="panel component-panel">
-              <div class="panel-head"><h3>Button</h3><code>gk-activate</code></div>
-              <div class="preview">
-                <gk-button variant="primary">Primary</gk-button>
-                <gk-button>Secondary</gk-button>
-                <gk-button variant="quiet">Quiet</gk-button>
-                <gk-button size="small">Small</gk-button>
-                <gk-button size="large">Large</gk-button>
-                <gk-button disabled>Disabled</gk-button>
+              <div class="principles" aria-label="Design principles">
+                <article>
+                  <h2>Clarity</h2>
+                  <p>Content stays legible. Colour supports meaning instead of decorating surfaces.</p>
+                </article>
+                <article>
+                  <h2>Deference</h2>
+                  <p>Glass frames the app; it never competes with the window or the desktop behind it.</p>
+                </article>
+                <article>
+                  <h2>Depth</h2>
+                  <p>Layers come from real material, translucency, and restrained elevation.</p>
+                </article>
               </div>
-            </gk-glass-panel>
 
-            <gk-glass-panel class="panel component-panel">
-              <div class="panel-head"><h3>Toggle</h3><code>gk-change</code></div>
-              <div class="preview">
-                <label>On <gk-toggle checked label="On"></gk-toggle></label>
-                <label>Off <gk-toggle label="Off"></gk-toggle></label>
-                <label>Disabled <gk-toggle checked disabled label="Disabled"></gk-toggle></label>
+              <div class="callout">
+                <strong>Native material</strong>
+                <p>
+                  CSS <code>backdrop-filter</code> cannot sample the desktop through a transparent
+                  WebView2 window. GlassKit applies blur and rounded corners to the HWND, then layers
+                  neutral veils in the web content.
+                </p>
               </div>
-            </gk-glass-panel>
+            </section>
 
-            <gk-glass-panel class="panel component-panel">
-              <div class="panel-head"><h3>Segmented</h3><code>gk-change</code></div>
-              <gk-segmented id="gallery-segment" value="day">
-                <button value="day">Day</button>
-                <button value="week">Week</button>
-                <button value="month">Month</button>
-              </gk-segmented>
-            </gk-glass-panel>
+            <section id="tokens" class="doc-section" data-section>
+              <header class="section-head">
+                <p class="eyebrow">Foundations</p>
+                <h2>Tokens</h2>
+                <p>One source of truth, exposed as CSS variables and typed exports.</p>
+              </header>
 
-            <gk-glass-panel class="panel component-panel">
-              <div class="panel-head"><h3>Text field</h3><code>gk-input</code></div>
-              <gk-text-field id="gallery-text" label="Device name" placeholder="Name your buds" value="Living Room Buds"></gk-text-field>
-            </gk-glass-panel>
+              <div class="token-groups">
+                <article class="token-group">
+                  <div class="token-group-head">
+                    <h3>Accent</h3>
+                    <code>color</code>
+                  </div>
+                  <div id="accent-swatches" class="swatches"></div>
+                  <p class="token-help">Choose a swatch to preview the system with a different accent.</p>
+                </article>
 
-            <gk-glass-panel class="panel component-panel">
-              <div class="panel-head"><h3>Slider</h3><code>gk-input / gk-change</code></div>
-              <gk-slider id="gallery-slider" label="Volume" min="0" max="100" value="64" unit="%"></gk-slider>
-            </gk-glass-panel>
+                <article class="token-group">
+                  <div class="token-group-head">
+                    <h3>Type scale</h3>
+                    <code>font.size</code>
+                  </div>
+                  <div id="type-scale" class="type-scale"></div>
+                </article>
 
-            <gk-glass-panel class="panel component-panel">
-              <div class="panel-head"><h3>Badge & toolbar</h3><code>presentational</code></div>
-              <div class="preview badge-row">
-                <gk-badge>Neutral</gk-badge>
-                <gk-badge tone="accent" dot>Accent</gk-badge>
-                <gk-badge tone="success" dot>Success</gk-badge>
-                <gk-badge tone="warning" dot>Warning</gk-badge>
-                <gk-badge tone="danger" dot>Danger</gk-badge>
+                <article class="token-group">
+                  <div class="token-group-head">
+                    <h3>Spacing</h3>
+                    <code>space</code>
+                  </div>
+                  <div id="spacing-grid" class="spacing-grid"></div>
+                </article>
+
+                <article class="token-group">
+                  <div class="token-group-head">
+                    <h3>Radius</h3>
+                    <code>radius</code>
+                  </div>
+                  <div id="radius-grid" class="radius-grid"></div>
+                </article>
+
+                <article class="token-group token-group--wide">
+                  <div class="token-group-head">
+                    <h3>Motion</h3>
+                    <code>motion</code>
+                  </div>
+                  <div id="motion-token-grid" class="motion-token-grid"></div>
+                </article>
               </div>
-              <gk-toolbar>
-                <gk-button size="small" variant="quiet">Undo</gk-button>
-                <gk-button size="small" variant="quiet">Redo</gk-button>
-                <span class="toolbar-spacer"></span>
-                <gk-button size="small">Done</gk-button>
-              </gk-toolbar>
-            </gk-glass-panel>
+            </section>
 
-            <gk-glass-panel class="panel component-panel panel--wide">
-              <div class="panel-head"><h3>List row</h3><code>slot: leading / trailing</code></div>
-              <div class="list-stack">
-                <gk-list-row subtitle="Connected · 84%" interactive>
-                  <gk-badge slot="leading" tone="success" dot>Live</gk-badge>
-                  CMF Buds Pro 2
-                  <gk-button slot="trailing" size="small" variant="quiet">Details</gk-button>
-                </gk-list-row>
-                <gk-list-row subtitle="Adaptive noise cancellation" interactive>
-                  Noise control
-                  <gk-toggle slot="trailing" checked label="Noise control"></gk-toggle>
-                </gk-list-row>
-                <gk-list-row subtitle="Taskbar, tray, and snapping stay native" interactive>
-                  Native behaviour
-                  <gk-badge slot="trailing" tone="accent">Windows</gk-badge>
-                </gk-list-row>
-              </div>
-            </gk-glass-panel>
-          </div>
+            <section id="materials" class="doc-section" data-section>
+              <header class="section-head">
+                <p class="eyebrow">Foundations</p>
+                <h2>Materials</h2>
+                <p>Neutral veils layered over real desktop blur.</p>
+              </header>
 
-          <gk-glass-panel class="panel event-panel" elevation="flat">
-            <div class="panel-head">
-              <h3>Event stream</h3>
-              <gk-button id="clear-log" size="small" variant="quiet">Clear</gk-button>
-            </div>
-            <div id="event-log" class="event-log" role="log" aria-live="polite">
-              <div class="event-empty">Interact with any component above.</div>
-            </div>
-          </gk-glass-panel>
-        </section>
-
-        <section id="motion" class="doc-section" data-section>
-          <header class="section-head">
-            <div>
-              <p class="kicker">Library 04</p>
-              <h2>Motion</h2>
-              <p>One analytic spring model, exposed as presets and named recipes.</p>
-            </div>
-            <gk-badge id="motion-mode-badge">System motion</gk-badge>
-          </header>
-
-          <div class="motion-layout">
-            <gk-glass-panel class="panel recipe-panel">
-              <div class="panel-head"><h3>Recipes</h3><span>12 named</span></div>
-              <div id="recipe-grid" class="recipe-list"></div>
-            </gk-glass-panel>
-
-            <gk-glass-panel class="panel preview-panel">
-              <div class="panel-head"><h3>Preview</h3><code>animateRecipe(target, name)</code></div>
-              <div class="recipe-stage">
-                <gk-glass-panel id="recipe-target" class="recipe-target" tone="regular" elevation="high">
-                  <span class="token-name">preview surface</span>
-                  <strong>spring target</strong>
-                  <span>Shared across every Glass Kit app.</span>
+              <div class="material-grid">
+                <gk-glass-panel tone="thin" elevation="flat" class="material-sample">
+                  <h3>Thin</h3>
+                  <p>Grouped backgrounds and quiet containment.</p>
+                  <code>--gk-color-glass-thin</code>
+                </gk-glass-panel>
+                <gk-glass-panel tone="regular" elevation="flat" class="material-sample">
+                  <h3>Regular</h3>
+                  <p>The default surface for panels and sidebars.</p>
+                  <code>--gk-color-glass-regular</code>
+                </gk-glass-panel>
+                <gk-glass-panel tone="thick" elevation="flat" class="material-sample">
+                  <h3>Thick</h3>
+                  <p>Popovers and transient overlays.</p>
+                  <code>--gk-color-glass-thick</code>
                 </gk-glass-panel>
               </div>
-            </gk-glass-panel>
-          </div>
 
-          <gk-glass-panel class="panel spring-panel">
-            <div class="panel-head">
-              <h3>Spring lab</h3>
-              <label class="reduce-label"><gk-toggle id="reduced-toggle" label="Force reduced motion"></gk-toggle> Reduce motion</label>
-            </div>
-            <div class="spring-layout">
-              <div class="spring-controls">
-                <gk-slider id="spring-stiffness" label="Stiffness" min="80" max="600" value="420"></gk-slider>
-                <gk-slider id="spring-damping" label="Damping" min="5" max="80" value="34"></gk-slider>
-                <gk-slider id="spring-mass" label="Mass" min="0.5" max="2" step="0.1" value="0.9"></gk-slider>
-                <gk-button id="spring-replay" variant="primary">Replay spring</gk-button>
-              </div>
-              <div class="spring-stage">
-                <div class="spring-track"></div>
-                <div id="spring-ball" class="spring-ball"></div>
-              </div>
-            </div>
-          </gk-glass-panel>
-        </section>
-
-        <section id="native" class="doc-section" data-section>
-          <header class="section-head">
-            <div>
-              <p class="kicker">Platform 05</p>
-              <h2>Native material</h2>
-              <p>The bridge detects Tauri and calls the Rust commands.</p>
-            </div>
-            <gk-badge id="native-status-badge" tone="warning" dot>Browser preview</gk-badge>
-          </header>
-
-          <gk-glass-panel class="panel native-panel">
-            <div class="native-copy">
-              <h3 id="native-title">Running in browser preview</h3>
-              <p id="native-reason">Native DWM material needs a Tauri window.</p>
-              <div class="actions">
-                <gk-button id="native-blur" variant="primary">Apply blur</gk-button>
-                <gk-button id="native-acrylic">Apply acrylic</gk-button>
-                <gk-button id="native-round">Round corners</gk-button>
-                <gk-button id="native-clear" variant="quiet">Clear</gk-button>
-              </div>
-            </div>
-            <pre class="code-block"><code id="native-code"></code></pre>
-          </gk-glass-panel>
-        </section>
-
-        <section id="guidelines" class="doc-section" data-section>
-          <header class="section-head">
-            <div>
-              <p class="kicker">Platform 06</p>
-              <h2>Guidelines</h2>
-              <p>Apple-inspired visuals. Windows-native behaviour.</p>
-            </div>
-          </header>
-
-          <div class="rules-grid">
-            <section class="rules-panel">
-              <h3>Use</h3>
-              <ul>
-                <li>Real native blur and rounded HWND corners.</li>
-                <li>Neutral glass, with colour supplied by content.</li>
-                <li>Shared springs for open, close, and layout changes.</li>
-                <li>Reduced motion, keyboard focus, and UI Automation.</li>
-                <li>Taskbar, tray, right-click, snapping, and shortcuts.</li>
-              </ul>
+              <p class="body-note">
+                The samples show the web-side veil. Run <code>apps/native-host</code> to apply the real
+                material to the Tauri window.
+              </p>
             </section>
-            <section class="rules-panel">
-              <h3>Avoid</h3>
-              <ul>
-                <li>CSS <code>backdrop-filter</code> as the only material.</li>
-                <li><code>SetWindowRgn</code> on transparent WebView2 windows.</li>
-                <li>Clearing and reapplying material on focus events.</li>
-                <li>SF Pro, SF Symbols, Apple logos, Mac gestures.</li>
-                <li>Colour blobs and oversized shadows as fake depth.</li>
-              </ul>
-            </section>
-          </div>
-        </section>
 
-        <footer class="footer">
-          <span>Glass Kit · Reference</span>
-          <span>Visual inspiration only. No Apple assets or interactions.</span>
-        </footer>
-      </main>
+            <section id="components" class="doc-section" data-section>
+              <header class="section-head">
+                <p class="eyebrow">Libraries</p>
+                <h2>Components</h2>
+                <p>Nine Web Components built on the shared token and motion layers.</p>
+              </header>
+
+              <div class="specimens">
+                <article class="specimen">
+                  <div class="specimen-copy">
+                    <h3>Button</h3>
+                    <p>Primary, secondary, quiet, and size variants.</p>
+                    <code>gk-activate</code>
+                  </div>
+                  <div class="specimen-demo preview">
+                    <gk-button variant="primary">Primary</gk-button>
+                    <gk-button>Secondary</gk-button>
+                    <gk-button variant="quiet">Quiet</gk-button>
+                    <gk-button size="small">Small</gk-button>
+                    <gk-button disabled>Disabled</gk-button>
+                  </div>
+                </article>
+
+                <article class="specimen">
+                  <div class="specimen-copy">
+                    <h3>Toggle</h3>
+                    <p>Binary state with a clear on and off treatment.</p>
+                    <code>gk-change</code>
+                  </div>
+                  <div class="specimen-demo preview">
+                    <label>On <gk-toggle checked label="On"></gk-toggle></label>
+                    <label>Off <gk-toggle label="Off"></gk-toggle></label>
+                    <label>Disabled <gk-toggle checked disabled label="Disabled"></gk-toggle></label>
+                  </div>
+                </article>
+
+                <article class="specimen">
+                  <div class="specimen-copy">
+                    <h3>Segmented control</h3>
+                    <p>Switch between closely related views.</p>
+                    <code>gk-change</code>
+                  </div>
+                  <div class="specimen-demo">
+                    <gk-segmented id="gallery-segment" value="day">
+                      <button value="day">Day</button>
+                      <button value="week">Week</button>
+                      <button value="month">Month</button>
+                    </gk-segmented>
+                  </div>
+                </article>
+
+                <article class="specimen">
+                  <div class="specimen-copy">
+                    <h3>Text field</h3>
+                    <p>Persistent labels keep context while typing.</p>
+                    <code>gk-input</code>
+                  </div>
+                  <div class="specimen-demo">
+                    <gk-text-field
+                      id="gallery-text"
+                      label="Device name"
+                      placeholder="Name your buds"
+                      value="Living Room Buds"
+                    ></gk-text-field>
+                  </div>
+                </article>
+
+                <article class="specimen">
+                  <div class="specimen-copy">
+                    <h3>Slider</h3>
+                    <p>Continuous values with an optional unit.</p>
+                    <code>gk-input / gk-change</code>
+                  </div>
+                  <div class="specimen-demo">
+                    <gk-slider id="gallery-slider" label="Volume" min="0" max="100" value="64" unit="%"></gk-slider>
+                  </div>
+                </article>
+
+                <article class="specimen">
+                  <div class="specimen-copy">
+                    <h3>Badge and toolbar</h3>
+                    <p>Compact status and grouped actions.</p>
+                    <code>presentational</code>
+                  </div>
+                  <div class="specimen-demo">
+                    <div class="preview badge-row">
+                      <gk-badge>Neutral</gk-badge>
+                      <gk-badge tone="accent" dot>Accent</gk-badge>
+                      <gk-badge tone="success" dot>Success</gk-badge>
+                    </div>
+                    <gk-toolbar>
+                      <gk-button size="small" variant="quiet">Undo</gk-button>
+                      <gk-button size="small" variant="quiet">Redo</gk-button>
+                      <span class="toolbar-spacer"></span>
+                      <gk-button size="small">Done</gk-button>
+                    </gk-toolbar>
+                  </div>
+                </article>
+
+                <article class="specimen specimen--stacked">
+                  <div class="specimen-copy">
+                    <h3>List row</h3>
+                    <p>Leading and trailing slots for dense settings content.</p>
+                    <code>slot: leading / trailing</code>
+                  </div>
+                  <div class="specimen-demo list-stack">
+                    <gk-list-row subtitle="Connected · 84%" interactive>
+                      <gk-badge slot="leading" tone="success" dot>Live</gk-badge>
+                      CMF Buds Pro 2
+                      <gk-button slot="trailing" size="small" variant="quiet">Details</gk-button>
+                    </gk-list-row>
+                    <gk-list-row subtitle="Adaptive noise cancellation" interactive>
+                      Noise control
+                      <gk-toggle slot="trailing" checked label="Noise control"></gk-toggle>
+                    </gk-list-row>
+                    <gk-list-row subtitle="Taskbar, tray, and snapping stay native" interactive>
+                      Native behaviour
+                      <gk-badge slot="trailing" tone="accent">Windows</gk-badge>
+                    </gk-list-row>
+                  </div>
+                </article>
+              </div>
+
+              <details class="event-drawer">
+                <summary>
+                  <span>Component events</span>
+                  <span class="drawer-hint">Open the live event stream</span>
+                </summary>
+                <div id="event-log" class="event-log" role="log" aria-live="polite">
+                  <div class="event-empty">No events yet.</div>
+                </div>
+                <gk-button id="clear-log" size="small" variant="quiet">Clear</gk-button>
+              </details>
+            </section>
+
+            <section id="motion" class="doc-section" data-section>
+              <header class="section-head">
+                <p class="eyebrow">Libraries</p>
+                <h2>Motion</h2>
+                <p>One analytic spring model, exposed as presets and named recipes.</p>
+                <span id="motion-mode" class="status-text">System motion</span>
+              </header>
+
+              <div class="motion-grid">
+                <article class="surface">
+                  <div class="surface-head">
+                    <h3>Recipes</h3>
+                    <span>12 named transitions</span>
+                  </div>
+                  <div id="recipe-grid" class="recipe-list"></div>
+                  <div class="recipe-stage">
+                    <div id="recipe-target" class="recipe-target">
+                      <span>Preview surface</span>
+                      <strong>Spring target</strong>
+                      <p>Shared across every Glass Kit app.</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="surface">
+                  <div class="surface-head">
+                    <h3>Spring lab</h3>
+                    <label class="reduce-label"><gk-toggle id="reduced-toggle" label="Force reduced motion"></gk-toggle> Reduce motion</label>
+                  </div>
+                  <div class="spring-layout">
+                    <div class="spring-controls">
+                      <gk-slider id="spring-stiffness" label="Stiffness" min="80" max="600" value="420"></gk-slider>
+                      <gk-slider id="spring-damping" label="Damping" min="5" max="80" value="34"></gk-slider>
+                      <gk-slider id="spring-mass" label="Mass" min="0.5" max="2" step="0.1" value="0.9"></gk-slider>
+                      <gk-button id="spring-replay" variant="primary">Replay spring</gk-button>
+                    </div>
+                    <div class="spring-stage">
+                      <div class="spring-track"></div>
+                      <div id="spring-ball" class="spring-ball"></div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section id="native" class="doc-section" data-section>
+              <header class="section-head">
+                <p class="eyebrow">Platform</p>
+                <h2>Native material</h2>
+                <p>The browser bridge detects Tauri and calls the Rust commands.</p>
+                <span id="native-status" class="status-text">Browser preview</span>
+              </header>
+
+              <div class="platform-panel">
+                <div class="platform-copy">
+                  <h3 id="native-title">Running in browser preview</h3>
+                  <p id="native-reason">Native DWM material needs a Tauri window.</p>
+                  <div class="actions">
+                    <gk-button id="native-blur" variant="primary">Apply blur</gk-button>
+                    <gk-button id="native-acrylic">Apply acrylic</gk-button>
+                    <gk-button id="native-round">Round corners</gk-button>
+                    <gk-button id="native-clear" variant="quiet">Clear</gk-button>
+                  </div>
+                </div>
+                <pre class="code-block"><code id="native-code"></code></pre>
+              </div>
+            </section>
+
+            <section id="guidelines" class="doc-section" data-section>
+              <header class="section-head">
+                <p class="eyebrow">Platform</p>
+                <h2>Best practices</h2>
+                <p>Apple-inspired visuals. Windows-native behaviour.</p>
+              </header>
+
+              <div class="practice-list">
+                <article>
+                  <span class="practice-index">01</span>
+                  <div>
+                    <h3>Use real material</h3>
+                    <p>Apply native blur and rounded HWND corners instead of imitating them with CSS alone.</p>
+                  </div>
+                </article>
+                <article>
+                  <span class="practice-index">02</span>
+                  <div>
+                    <h3>Keep colour in the content</h3>
+                    <p>Neutral glass should carry the surface; let app content provide emphasis.</p>
+                  </div>
+                </article>
+                <article>
+                  <span class="practice-index">03</span>
+                  <div>
+                    <h3>Make motion meaningful</h3>
+                    <p>Use shared springs for state changes, and honour the Windows reduce-motion setting.</p>
+                  </div>
+                </article>
+                <article>
+                  <span class="practice-index">04</span>
+                  <div>
+                    <h3>Stay accessible</h3>
+                    <p>Maintain keyboard focus, UI Automation support, and readable contrast in both themes.</p>
+                  </div>
+                </article>
+                <article>
+                  <span class="practice-index">05</span>
+                  <div>
+                    <h3>Respect Windows</h3>
+                    <p>Preserve the taskbar, tray, right-click menus, shortcuts, and window snapping.</p>
+                  </div>
+                </article>
+              </div>
+
+              <div class="avoid-note">
+                <strong>Avoid</strong>
+                <p>
+                  Traffic lights, Mac gestures, Apple logos, SF Pro, SF Symbols,
+                  <code>SetWindowRgn</code> on transparent WebView2 windows, and focus handlers that clear
+                  and reapply material.
+                </p>
+              </div>
+            </section>
+
+            <footer class="footer">
+              <span>Glass Kit · Design system for Windows</span>
+              <span>Visual inspiration only. No Apple assets or interactions.</span>
+            </footer>
+          </main>
+
+          <aside class="toc" aria-label="On this page">
+            <p>On this page</p>
+            <a href="#overview" class="is-active">Overview</a>
+            <a href="#tokens">Tokens</a>
+            <a href="#materials">Materials</a>
+            <a href="#components">Components</a>
+            <a href="#motion">Motion</a>
+            <a href="#native">Native material</a>
+            <a href="#guidelines">Best practices</a>
+          </aside>
+        </div>
+      </div>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
