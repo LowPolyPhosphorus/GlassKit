@@ -42,6 +42,7 @@ function hexToRgba(hex: string, alpha: number): string {
 const root = document.documentElement;
 const logEl = must<HTMLElement>("#event-log");
 const themeToggle = must<HTMLElement>("#theme-toggle");
+const themeToggleLabel = must<HTMLElement>("#theme-toggle-label");
 const recipeGrid = must<HTMLElement>("#recipe-grid");
 const recipeTarget = must<HTMLElement>("#recipe-target");
 const springBall = must<HTMLElement>("#spring-ball");
@@ -65,7 +66,7 @@ function initialTheme(): "light" | "dark" {
 
 const startingTheme = initialTheme();
 root.dataset.gkTheme = startingTheme;
-themeToggle.textContent = startingTheme === "dark" ? "Light" : "Dark";
+themeToggleLabel.textContent = startingTheme === "dark" ? "Light" : "Dark";
 
 function log(kind: string, message: string): void {
   logEl.querySelector(".event-empty")?.remove();
@@ -111,7 +112,7 @@ must<HTMLElement>("#clear-log").addEventListener("gk-activate", () => {
 themeToggle.addEventListener("gk-activate", () => {
   const next = root.dataset.gkTheme === "light" ? "dark" : "light";
   root.dataset.gkTheme = next;
-  themeToggle.textContent = next === "dark" ? "Light" : "Dark";
+  themeToggleLabel.textContent = next === "dark" ? "Light" : "Dark";
   try {
     localStorage.setItem("gk-docs-theme", next);
   } catch {
@@ -314,7 +315,9 @@ must<HTMLElement>("#native-clear").addEventListener("gk-activate", () =>
 );
 function configureNav(): void {
   const links = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>(".side-nav a, .toc a"),
+    document.querySelectorAll<HTMLAnchorElement>(
+      ".top-nav a, .chapter-nav a, .toc a",
+    ),
   );
   const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-section]"));
 
