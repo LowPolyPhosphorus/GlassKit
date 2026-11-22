@@ -54,7 +54,8 @@ To run the Settings demo with real native glass:
 ```powershell
 $env:Path = "$env:USERPROFILE\.cargo\bin;$env:Path"
 cargo install tauri-cli --version "^2" --locked
-cargo tauri dev --manifest-path apps/native-host/src-tauri/Cargo.toml
+cd apps/native-host/src-tauri
+cargo tauri dev
 ```
 
 ## Status
