@@ -14,9 +14,16 @@
   --page-accent-strong: #0071e3;
   --page-accent-fill: rgba(41, 151, 255, 0.16);
   --page-shadow: rgba(0, 0, 0, 0.55);
-  --page-glow: rgba(41, 151, 255, 0.24);
-  --page-glow-two: rgba(175, 82, 222, 0.18);
   --nav-bg: rgba(0, 0, 0, 0.72);
+
+  --gk-font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --gk-font-compact: "SF Compact", "SF Compact Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --gk-font-mono: "SFMono-Regular", ui-monospace, "Cascadia Code", Consolas, "Liberation Mono", monospace;
+  --gk-font-serif: "New York", Georgia, "Times New Roman", serif;
+  --gk-font-arabic: "SF Arabic", "Segoe UI", Tahoma, sans-serif;
+  --gk-font-armenian: "SF Armenian", "Segoe UI", Arial, sans-serif;
+  --gk-font-georgian: "SF Georgian", "Segoe UI", sans-serif;
+  --gk-font-hebrew: "SF Hebrew", "Segoe UI", Arial, sans-serif;
 
   --gk-color-accent: #2997ff;
   --gk-color-accent-fill: rgba(41, 151, 255, 0.16);
@@ -25,7 +32,7 @@
   --gk-color-text-muted: #a1a1a6;
   --gk-color-text-dim: #86868b;
   --gk-color-hairline: rgba(255, 255, 255, 0.12);
-  --gk-color-specular: rgba(255, 255, 255, 0.1);
+  --gk-color-specular: transparent;
   --gk-color-shadow: rgba(0, 0, 0, 0.45);
 }
 
@@ -45,8 +52,6 @@ html[data-gk-theme="light"] {
   --page-accent-strong: #0066cc;
   --page-accent-fill: rgba(0, 113, 227, 0.1);
   --page-shadow: rgba(0, 0, 0, 0.14);
-  --page-glow: rgba(0, 113, 227, 0.14);
-  --page-glow-two: rgba(175, 82, 222, 0.1);
   --nav-bg: rgba(255, 255, 255, 0.72);
 
   --gk-color-accent: #0071e3;
@@ -56,7 +61,7 @@ html[data-gk-theme="light"] {
   --gk-color-text-muted: #6e6e73;
   --gk-color-text-dim: #86868b;
   --gk-color-hairline: rgba(0, 0, 0, 0.1);
-  --gk-color-specular: rgba(255, 255, 255, 0.8);
+  --gk-color-specular: transparent;
   --gk-color-shadow: rgba(0, 0, 0, 0.12);
 }
 
@@ -73,6 +78,11 @@ html[data-gk-theme="light"] {
     --page-line: rgba(0, 0, 0, 0.36);
   }
 }
+
+:lang(ar) { font-family: var(--gk-font-arabic); }
+:lang(hy) { font-family: var(--gk-font-armenian); }
+:lang(ka) { font-family: var(--gk-font-georgian); }
+:lang(he) { font-family: var(--gk-font-hebrew); }
 
 * {
   box-sizing: border-box;
@@ -99,7 +109,7 @@ body {
 
 code,
 pre {
-  font-family: "Cascadia Code", Consolas, "SFMono-Regular", monospace;
+  font-family: var(--gk-font-mono);
 }
 
 a {
@@ -115,6 +125,15 @@ a {
   stroke-width: 1.7;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.eyebrow,
+.chapter-shell a,
+.toc a,
+.status-text,
+.window-name,
+.drawer-hint {
+  font-family: var(--gk-font-compact);
 }
 
 .skip-link {
@@ -175,21 +194,16 @@ a {
   text-decoration: none;
 }
 
-.brand-icon {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 9px;
-  background: linear-gradient(145deg, var(--page-accent), #7d52e8);
-  color: #fff;
-  box-shadow: 0 4px 12px var(--page-accent-fill);
+.brand-logo {
+  display: none;
+  height: 26px;
+  width: auto;
+  object-fit: contain;
 }
 
-.brand-icon .icon {
-  width: 17px;
-  height: 17px;
-  stroke-width: 1.8;
+html[data-gk-theme="light"] .brand-logo--light,
+html[data-gk-theme="dark"] .brand-logo--dark {
+  display: block;
 }
 
 .top-nav {
@@ -395,6 +409,7 @@ gk-button[variant="primary"] {
   max-width: 500px;
   margin: 28px 0 0;
   color: var(--page-muted);
+  font-family: var(--gk-font-serif);
   font-size: 19px;
   line-height: 1.55;
 }
@@ -451,16 +466,6 @@ gk-button[variant="primary"] {
   display: grid;
   place-items: center;
   min-height: 500px;
-}
-
-.hero-glow {
-  position: absolute;
-  inset: 6% -8%;
-  background:
-    radial-gradient(circle at 65% 32%, var(--page-glow), transparent 58%),
-    radial-gradient(circle at 28% 72%, var(--page-glow-two), transparent 56%);
-  filter: blur(28px);
-  pointer-events: none;
 }
 
 .app-window {
@@ -571,8 +576,8 @@ gk-button[variant="primary"] {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: radial-gradient(circle at 32% 28%, #9fe6ff, var(--page-accent) 46%, #5a2fd6);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  background: var(--page-accent-strong);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
 }
 
 .window-device strong,
@@ -611,7 +616,7 @@ gk-button[variant="primary"] {
   width: 72%;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--page-accent), #af52de);
+  background: var(--page-accent);
 }
 
 .window-row {
@@ -866,7 +871,7 @@ gk-button[variant="primary"] {
 
 .type-meta {
   color: var(--page-faint);
-  font-family: "Cascadia Code", Consolas, monospace;
+  font-family: var(--gk-font-mono);
   font-size: 11px;
 }
 
@@ -875,7 +880,7 @@ gk-button[variant="primary"] {
   align-items: center;
   gap: 12px;
   color: var(--page-faint);
-  font-family: "Cascadia Code", Consolas, monospace;
+  font-family: var(--gk-font-mono);
   font-size: 11px;
 }
 
@@ -901,7 +906,7 @@ gk-button[variant="primary"] {
   border: 1px solid var(--page-line);
   background: var(--page-tint);
   color: var(--page-muted);
-  font-family: "Cascadia Code", Consolas, monospace;
+  font-family: var(--gk-font-mono);
   font-size: 11px;
 }
 
@@ -943,10 +948,7 @@ gk-button[variant="primary"] {
   padding: 36px;
   border: 1px solid var(--page-line);
   border-radius: 32px;
-  background:
-    radial-gradient(circle at 15% 15%, var(--page-glow), transparent 45%),
-    radial-gradient(circle at 85% 80%, var(--page-glow-two), transparent 48%),
-    var(--page-tint);
+  background: var(--page-tint);
 }
 
 gk-glass-panel.material-sample {
@@ -1144,7 +1146,7 @@ gk-glass-panel.material-sample {
   border: 1px solid var(--page-soft-line);
   border-radius: 12px;
   background: var(--page-bg);
-  font-family: "Cascadia Code", Consolas, monospace;
+  font-family: var(--gk-font-mono);
   font-size: 11px;
   line-height: 1.6;
 }
@@ -1213,7 +1215,7 @@ gk-glass-panel.material-sample {
 }
 
 .recipe-list gk-button {
-  font-family: "Cascadia Code", Consolas, monospace;
+  font-family: var(--gk-font-mono);
   font-size: 11px;
 }
 
@@ -1299,7 +1301,7 @@ gk-glass-panel.material-sample {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: linear-gradient(145deg, var(--page-accent), #af52de);
+  background: var(--page-accent-strong);
   box-shadow: 0 6px 18px var(--page-accent-fill);
   will-change: translate;
 }
@@ -1451,8 +1453,9 @@ gk-glass-panel.material-sample {
   align-content: start;
 }
 
-.footer-brand .brand-icon {
+.footer-brand .brand-logo {
   grid-row: 1 / 3;
+  height: 30px;
 }
 
 .footer-brand strong {
