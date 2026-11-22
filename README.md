@@ -26,6 +26,10 @@ Glass Kit is a monorepo for building Windows desktop apps that look and feel cal
 - Windows-native behaviour, Apple-inspired visuals.
 - Reduced motion is a first-class token.
 
+## Reference map
+
+[docs/APPLE_REFERENCE_MAP.md](docs/APPLE_REFERENCE_MAP.md) tracks which Apple frameworks and design docs inform each Glass Kit package, and which Apple-specific interactions we deliberately leave out.
+
 ## Status
 
 Early scaffold.

@@ -1,5 +1,7 @@
 # Glass Kit Design Language
 
+Apple documentation reference map: [docs/APPLE_REFERENCE_MAP.md](docs/APPLE_REFERENCE_MAP.md).
+
 ## Materials
 
 The visible blur comes from the native window, not from CSS. On Windows the WebView2 window is transparent, so CSS `backdrop-filter` samples transparent pixels and does nothing.
