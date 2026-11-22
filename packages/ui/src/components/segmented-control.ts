@@ -4,15 +4,40 @@ const styles = `
 :host { display: block; }
 
 .control {
+  position: relative;
   display: flex;
   gap: 2px;
   padding: 2px;
   border-radius: var(--gk-radius-sm);
   background: var(--gk-color-glass-thin);
   border: 1px solid var(--gk-color-hairline);
+  isolation: isolate;
 }
 
+.indicator {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 0;
+  width: 0;
+  z-index: 0;
+  border-radius: 6px;
+  background: var(--gk-color-card-hover);
+  box-shadow: 0 1px 3px var(--gk-color-shadow);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(0);
+  transition:
+    transform var(--gk-motion-duration-base) var(--gk-motion-ease-emphasized),
+    width var(--gk-motion-duration-base) var(--gk-motion-ease-emphasized),
+    opacity var(--gk-motion-duration-fast) var(--gk-motion-ease-standard);
+}
+
+.indicator.is-visible { opacity: 1; }
+
 ::slotted([value]) {
+  position: relative;
+  z-index: 1;
   appearance: none;
   flex: 1;
   min-width: 0;
@@ -26,17 +51,15 @@ const styles = `
   font-weight: var(--gk-font-weight-medium);
   padding: 6px 10px;
   cursor: pointer;
-  transition:
-    background var(--gk-motion-duration-fast) var(--gk-motion-ease-standard),
-    color var(--gk-motion-duration-fast) var(--gk-motion-ease-standard);
+  transition: color var(--gk-motion-duration-fast) var(--gk-motion-ease-standard);
 }
 
 ::slotted([value]:hover) { color: var(--gk-color-text); }
 
 ::slotted([value].is-active) {
-  background: var(--gk-color-card-hover);
+  background: transparent;
   color: var(--gk-color-text);
-  box-shadow: 0 1px 3px var(--gk-color-shadow);
+  box-shadow: none;
 }
 
 ::slotted([value]:focus-visible) {
@@ -49,6 +72,10 @@ export class SegmentedControl extends HTMLElement {
   static get observedAttributes(): string[] {
     return ["value"];
   }
+
+  #control: HTMLElement | null = null;
+  #indicator: HTMLElement | null = null;
+  #resizeObserver: ResizeObserver | null = null;
 
   #onClick = (event: MouseEvent): void => {
     const target = event.target;
@@ -75,6 +102,8 @@ export class SegmentedControl extends HTMLElement {
     this.#emit();
   };
 
+  #onResize = (): void => this.#positionIndicator();
+
   get value(): string {
     return this.getAttribute("value") ?? "";
   }
@@ -85,12 +114,31 @@ export class SegmentedControl extends HTMLElement {
 
   connectedCallback(): void {
     if (!this.shadowRoot) {
-      mountShadow(this, '<div class="control" role="tablist"><slot></slot></div>', styles);
+      mountShadow(
+        this,
+        '<div class="control" role="tablist"><span class="indicator" aria-hidden="true"></span><slot></slot></div>',
+        styles,
+      );
+      this.#control = this.shadowRoot!.querySelector<HTMLElement>(".control");
+      this.#indicator = this.shadowRoot!.querySelector<HTMLElement>(".indicator");
       this.addEventListener("click", this.#onClick);
       this.addEventListener("keydown", this.#onKeyDown);
+      window.addEventListener("resize", this.#onResize);
       this.shadowRoot!.querySelector("slot")!.addEventListener("slotchange", () => this.#sync());
+
+      if (typeof ResizeObserver !== "undefined") {
+        this.#resizeObserver = new ResizeObserver(() => this.#positionIndicator());
+        this.#resizeObserver.observe(this);
+      }
     }
-    this.#sync();
+
+    this.#sync(true);
+  }
+
+  disconnectedCallback(): void {
+    window.removeEventListener("resize", this.#onResize);
+    this.#resizeObserver?.disconnect();
+    this.#resizeObserver = null;
   }
 
   attributeChangedCallback(): void {
@@ -104,13 +152,37 @@ export class SegmentedControl extends HTMLElement {
     );
   }
 
-  #sync(): void {
-    for (const option of this.#options()) {
+  #sync(selectFirst = false): void {
+    const options = this.#options();
+    if (selectFirst && !this.value && options[0]) {
+      const first = options[0].getAttribute("value");
+      if (first !== null) this.setAttribute("value", first);
+    }
+
+    for (const option of options) {
       const active = option.getAttribute("value") === this.value;
       option.classList.toggle("is-active", active);
       option.setAttribute("aria-selected", String(active));
       if (!option.hasAttribute("role")) option.setAttribute("role", "tab");
     }
+
+    requestAnimationFrame(() => this.#positionIndicator());
+  }
+
+  #positionIndicator(): void {
+    if (!this.#control || !this.#indicator) return;
+    const active = this.#options().find((option) => option.getAttribute("value") === this.value);
+    if (!active) {
+      this.#indicator.classList.remove("is-visible");
+      this.#indicator.style.width = "0px";
+      return;
+    }
+
+    const controlRect = this.#control.getBoundingClientRect();
+    const optionRect = active.getBoundingClientRect();
+    this.#indicator.style.width = `${Math.max(0, optionRect.width)}px`;
+    this.#indicator.style.transform = `translateX(${optionRect.left - controlRect.left}px)`;
+    this.#indicator.classList.add("is-visible");
   }
 
   #emit(): void {
