@@ -1,0 +1,24 @@
+{
+  "name": "glass-kit-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Apple-inspired design system for Windows apps with native DWM glass.",
+  "workspaces": [
+    "packages/tokens",
+    "packages/motion",
+    "packages/ui",
+    "apps/docs",
+    "apps/example-settings"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "dev:docs": "npm run dev -w @glasskit/docs",
+    "dev:settings": "npm run dev -w @glasskit/example-settings",
+    "test": "npm test --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
+  }
+}

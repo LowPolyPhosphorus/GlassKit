@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-gk-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Glass Kit · Settings</title>
+  </head>
+  <body>
+    <div class="window">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">GK</span>
+          <span>Settings</span>
+        </div>
+        <nav class="nav">
+          <button class="nav-item is-active" data-page="personalization">Personalization</button>
+          <button class="nav-item" data-page="sound">Sound</button>
+          <button class="nav-item" data-page="network">Network</button>
+          <button class="nav-item" data-page="system">System</button>
+        </nav>
+        <gk-button id="theme-toggle" variant="quiet" size="small">Light</gk-button>
+      </aside>
+
+      <main class="content" id="content">
+        <header class="content-head">
+          <div>
+            <p class="eyebrow">Windows replacement concept</p>
+            <h1>Personalization</h1>
+            <p class="subtitle">Apple-inspired visuals. Windows-native behaviour.</p>
+          </div>
+        </header>
+
+        <gk-glass-panel class="settings-card" elevation="flat">
+          <h2>Appearance</h2>
+          <gk-list-row subtitle="Faint white glass over real desktop blur" interactive>
+            Native glass
+            <gk-toggle slot="trailing" checked label="Native glass"></gk-toggle>
+          </gk-list-row>
+          <gk-list-row subtitle="Honour system reduce-motion setting" interactive>
+            Motion
+            <gk-toggle slot="trailing" checked label="Motion"></gk-toggle>
+          </gk-list-row>
+          <div class="field">
+            <div>
+              <strong>Material thickness</strong>
+              <span class="field-subtitle">Applies to panels and popovers</span>
+            </div>
+            <gk-segmented id="thickness" value="regular">
+              <button value="thin">Thin</button>
+              <button value="regular">Regular</button>
+              <button value="thick">Thick</button>
+            </gk-segmented>
+          </div>
+        </gk-glass-panel>
+
+        <gk-glass-panel class="settings-card" elevation="flat">
+          <h2>Taskbar</h2>
+          <gk-list-row subtitle="Keep the Windows taskbar and tray behaviour" interactive>
+            Windows-native interactions
+            <gk-toggle slot="trailing" checked label="Windows interactions"></gk-toggle>
+          </gk-list-row>
+          <gk-list-row subtitle="No swipe gestures or traffic-light controls" interactive>
+            No macOS interactions
+            <gk-toggle slot="trailing" checked label="No Mac interactions"></gk-toggle>
+          </gk-list-row>
+        </gk-glass-panel>
+
+        <p class="status" id="status">Ready</p>
+      </main>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

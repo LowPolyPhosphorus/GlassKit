@@ -1,0 +1,114 @@
+/* Generated from tokens.json. Do not edit by hand. */
+export const tokens = {
+  "color": {
+    "accent": "#0a84ff",
+    "accentFill": "rgba(10, 132, 255, 0.16)",
+    "accentStroke": "rgba(10, 132, 255, 0.6)",
+    "success": "#30d158",
+    "warning": "#ff9f0a",
+    "danger": "#ff453a"
+  },
+  "theme": {
+    "dark": {
+      "text": "rgba(255, 255, 255, 0.96)",
+      "textMuted": "rgba(255, 255, 255, 0.68)",
+      "textDim": "rgba(255, 255, 255, 0.44)",
+      "glassThin": "rgba(255, 255, 255, 0.025)",
+      "glassRegular": "rgba(255, 255, 255, 0.04)",
+      "glassThick": "rgba(255, 255, 255, 0.07)",
+      "card": "rgba(255, 255, 255, 0.035)",
+      "cardHover": "rgba(255, 255, 255, 0.06)",
+      "hairline": "rgba(255, 255, 255, 0.08)",
+      "specular": "rgba(255, 255, 255, 0.14)",
+      "shadow": "rgba(0, 0, 0, 0.35)"
+    },
+    "light": {
+      "text": "rgba(20, 22, 26, 0.94)",
+      "textMuted": "rgba(20, 22, 26, 0.66)",
+      "textDim": "rgba(20, 22, 26, 0.44)",
+      "glassThin": "rgba(255, 255, 255, 0.22)",
+      "glassRegular": "rgba(255, 255, 255, 0.34)",
+      "glassThick": "rgba(255, 255, 255, 0.52)",
+      "card": "rgba(255, 255, 255, 0.28)",
+      "cardHover": "rgba(255, 255, 255, 0.42)",
+      "hairline": "rgba(20, 22, 26, 0.1)",
+      "specular": "rgba(255, 255, 255, 0.65)",
+      "shadow": "rgba(20, 22, 26, 0.16)"
+    }
+  },
+  "radius": {
+    "xs": "4px",
+    "sm": "8px",
+    "md": "12px",
+    "lg": "18px",
+    "xl": "26px",
+    "pill": "999px"
+  },
+  "space": {
+    "0": "0",
+    "1": "4px",
+    "2": "8px",
+    "3": "12px",
+    "4": "16px",
+    "5": "20px",
+    "6": "24px",
+    "8": "32px"
+  },
+  "font": {
+    "family": "\"Segoe UI Variable\", \"Segoe UI\", system-ui, sans-serif",
+    "size": {
+      "xs": "11px",
+      "sm": "12px",
+      "md": "13px",
+      "lg": "15px",
+      "xl": "18px",
+      "2xl": "24px"
+    },
+    "weight": {
+      "regular": "400",
+      "medium": "500",
+      "semibold": "600"
+    },
+    "tracking": {
+      "tight": "-0.01em",
+      "normal": "0",
+      "wide": "0.04em"
+    }
+  },
+  "material": {
+    "blurPx": "32px",
+    "saturate": "160%"
+  },
+  "motion": {
+    "duration": {
+      "instant": "80ms",
+      "fast": "140ms",
+      "base": "220ms",
+      "slow": "360ms"
+    },
+    "ease": {
+      "standard": "cubic-bezier(0.2, 0, 0, 1)",
+      "emphasized": "cubic-bezier(0.32, 0.72, 0, 1)",
+      "exit": "cubic-bezier(0.4, 0, 1, 1)"
+    },
+    "spring": {
+      "snappy": {
+        "stiffness": 420,
+        "damping": 34,
+        "mass": 0.9
+      },
+      "gentle": {
+        "stiffness": 260,
+        "damping": 30,
+        "mass": 1
+      },
+      "sheet": {
+        "stiffness": 320,
+        "damping": 38,
+        "mass": 1
+      }
+    }
+  }
+} as const;
+export type Tokens = typeof tokens;
+export default tokens;

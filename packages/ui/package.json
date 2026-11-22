@@ -1,0 +1,25 @@
+{
+  "name": "@glasskit/ui",
+  "version": "0.1.0",
+  "description": "Framework-agnostic Glass Kit Web Components for Windows desktop apps.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@glasskit/motion": "0.1.0",
+    "@glasskit/tokens": "0.1.0"
+  },
+  "license": "MIT"
+}

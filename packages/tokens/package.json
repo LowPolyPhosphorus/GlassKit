@@ -1,0 +1,25 @@
+{
+  "name": "@glasskit/tokens",
+  "version": "0.1.0",
+  "description": "Glass Kit design tokens: colour, typography, spacing, radius, material, and motion values.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./tokens.css": "./tokens.css",
+    "./tokens.json": "./tokens.json"
+  },
+  "files": [
+    "dist",
+    "tokens.css",
+    "tokens.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node scripts/generate.mjs && tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "license": "MIT"
+}

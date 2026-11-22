@@ -30,6 +30,28 @@ Glass Kit is a monorepo for building Windows desktop apps that look and feel cal
 
 [docs/APPLE_REFERENCE_MAP.md](docs/APPLE_REFERENCE_MAP.md) tracks which Apple frameworks and design docs inform each Glass Kit package, and which Apple-specific interactions we deliberately leave out.
 
+## Quick start
+
+```powershell
+npm install
+npm run build
+npm run dev:docs
+npm run dev:settings
+```
+
+The native material crate is tested separately:
+
+```powershell
+$env:Path = "$env:USERPROFILE\.cargo\bin;$env:Path"
+cargo test --manifest-path packages/material-tauri/Cargo.toml
+```
+
 ## Status
 
-Early scaffold.
+Working MVP:
+
+- `@glasskit/tokens` generates CSS variables and typed token exports from `tokens.json`.
+- `@glasskit/motion` has analytic springs, WAAPI keyframe sampling, named recipes, and reduced-motion handling.
+- `@glasskit/ui` provides Web Components: glass panel, button, toggle, segmented control, and list row.
+- `glasskit-material` applies real DWM blur and rounded corners without the focus/bevel regressions.
+- Docs and example Settings demos are wired to the local packages.

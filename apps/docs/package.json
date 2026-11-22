@@ -1,0 +1,16 @@
+{
+  "name": "@glasskit/docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@glasskit/motion": "0.1.0",
+    "@glasskit/tokens": "0.1.0",
+    "@glasskit/ui": "0.1.0"
+  }
+}
