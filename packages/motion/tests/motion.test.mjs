@@ -1,6 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { springValue, springs, springKeyframes } from "../dist/index.js";
+import {
+  springValue,
+  springs,
+  springKeyframes,
+  prefersReducedMotion,
+  setReducedMotionOverride,
+  clearReducedMotionOverride,
+} from "../dist/index.js";
 
 test("spring starts at the initial value and settles at the target", () => {
   const config = springs.snappy;
@@ -30,4 +37,14 @@ test("spring keyframes cover a full 0 to 1 timeline", () => {
   assert.equal(frames.at(-1).offset, 1);
   assert.equal(frames[0]["--x"], "10");
   assert.equal(frames.at(-1)["--x"], "20");
+});
+
+test("reduced motion can be overridden for docs and tests", () => {
+  clearReducedMotionOverride();
+  assert.equal(prefersReducedMotion(), false);
+  setReducedMotionOverride(true);
+  assert.equal(prefersReducedMotion(), true);
+  setReducedMotionOverride(false);
+  assert.equal(prefersReducedMotion(), false);
+  clearReducedMotionOverride();
 });

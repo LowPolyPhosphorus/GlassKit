@@ -18,7 +18,10 @@
           <button class="nav-item" data-page="network">Network</button>
           <button class="nav-item" data-page="system">System</button>
         </nav>
-        <gk-button id="theme-toggle" variant="quiet" size="small">Light</gk-button>
+        <div class="sidebar-foot">
+          <gk-badge id="native-badge" tone="warning" dot>Browser</gk-badge>
+          <gk-button id="theme-toggle" variant="quiet" size="small">Light</gk-button>
+        </div>
       </aside>
 
       <main class="content" id="content">
@@ -50,6 +53,10 @@
               <button value="regular">Regular</button>
               <button value="thick">Thick</button>
             </gk-segmented>
+          </div>
+          <div class="field-grid">
+            <gk-text-field label="Device name" value="Living Room Buds"></gk-text-field>
+            <gk-slider label="Glass tint" min="0" max="32" value="8" unit="%"></gk-slider>
           </div>
         </gk-glass-panel>
 

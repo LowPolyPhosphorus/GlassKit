@@ -13,6 +13,17 @@ set_rounded_corners(hwnd, true)?;
 apply_default_glass(hwnd)?;
 ```
 
+Enable the optional Tauri commands with `features = ["tauri"]`:
+
+```rust
+glasskit_material::register_commands(tauri::Builder::default())
+    .run(tauri::generate_context!())
+    .expect("failed to run app");
+```
+
+The commands are `glasskit_apply_glass`, `glasskit_set_corners`, and
+`glasskit_clear_glass`. See `apps/native-host` for a complete host.
+
 Rules learned in production:
 
 - Use `DWMWA_WINDOW_CORNER_PREFERENCE`, not `SetWindowRgn`.

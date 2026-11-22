@@ -1,0 +1,21 @@
+{
+  "name": "@glasskit/native",
+  "version": "0.1.0",
+  "description": "Browser-safe bridge to Glass Kit native Tauri material commands.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "license": "MIT"
+}

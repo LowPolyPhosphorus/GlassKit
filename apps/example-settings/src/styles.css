@@ -88,8 +88,22 @@ html[data-gk-theme="light"] body {
   color: var(--gk-color-text);
 }
 
-.sidebar gk-button {
+.sidebar-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gk-space-2);
   margin-top: auto;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gk-space-3);
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: var(--gk-radius-sm);
+  background: var(--gk-color-card);
 }
 
 .content {

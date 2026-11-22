@@ -24,7 +24,19 @@ export function ease(name: EaseName): string {
   return tokens.motion.ease[name];
 }
 
+let reducedMotionOverride: boolean | null = null;
+
+/** Force reduced motion on/off for testing and docs. `null` follows the OS. */
+export function setReducedMotionOverride(value: boolean | null): void {
+  reducedMotionOverride = value;
+}
+
+export function clearReducedMotionOverride(): void {
+  reducedMotionOverride = null;
+}
+
 export function prefersReducedMotion(): boolean {
+  if (reducedMotionOverride !== null) return reducedMotionOverride;
   return (
     typeof window !== "undefined" &&
     typeof window.matchMedia === "function" &&
@@ -79,6 +91,7 @@ export interface SpringKeyframeOptions {
   velocity?: number;
   unit?: string;
   preset?: SpringPresetName;
+  config?: SpringConfig;
   durationMs?: number;
   steps?: number;
 }
@@ -99,7 +112,7 @@ export function springKeyframes(options: SpringKeyframeOptions): Keyframe[] {
     durationMs = 420,
   } = options;
   const steps = Math.max(2, options.steps ?? 40);
-  const config = getSpring(preset);
+  const config = options.config ?? getSpring(preset);
 
   return Array.from({ length: steps + 1 }, (_, index) => {
     const offset = index / steps;

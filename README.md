@@ -9,14 +9,16 @@ Glass Kit is a monorepo for building Windows desktop apps that look and feel cal
 ## Packages
 
 - `@glasskit/tokens` — colours, typography, spacing, radii, materials, and motion tokens.
-- `@glasskit/ui` — reusable components: glass panel, sidebar, list row, segmented control, toggle, toolbar, inspector.
-- `@glasskit/motion` — shared easing curves, spring presets, and named motion recipes.
-- `glasskit-material` — Rust/Tauri helper for real native DWM glass and rounded corners.
+- `@glasskit/ui` — reusable Web Components: glass panel, button, toggle, segmented control, list row, text field, slider, badge, and toolbar.
+- `@glasskit/motion` — shared easing curves, analytic spring physics, WAAPI keyframes, and 12 named motion recipes.
+- `@glasskit/native` — browser-safe bridge to the native Tauri commands.
+- `glasskit-material` — Rust/Tauri helper for real native DWM glass, rounded corners, and Tauri commands.
 
 ## Apps
 
-- `apps/docs` — component gallery and design guidelines.
+- `apps/docs` — full interactive showcase and design guidelines.
 - `apps/example-settings` — example Windows Settings replacement built with Glass Kit.
+- `apps/native-host` — minimal Tauri 2 host that applies real DWM glass and registers the native commands.
 
 ## Principles
 
@@ -39,11 +41,20 @@ npm run dev:docs
 npm run dev:settings
 ```
 
-The native material crate is tested separately:
+The native material crate and Tauri host are tested separately:
 
 ```powershell
 $env:Path = "$env:USERPROFILE\.cargo\bin;$env:Path"
 cargo test --manifest-path packages/material-tauri/Cargo.toml
+cargo check --manifest-path apps/native-host/src-tauri/Cargo.toml
+```
+
+To run the Settings demo with real native glass:
+
+```powershell
+$env:Path = "$env:USERPROFILE\.cargo\bin;$env:Path"
+cargo install tauri-cli --version "^2" --locked
+cargo tauri dev --manifest-path apps/native-host/src-tauri/Cargo.toml
 ```
 
 ## Status
@@ -52,6 +63,8 @@ Working MVP:
 
 - `@glasskit/tokens` generates CSS variables and typed token exports from `tokens.json`.
 - `@glasskit/motion` has analytic springs, WAAPI keyframe sampling, named recipes, and reduced-motion handling.
-- `@glasskit/ui` provides Web Components: glass panel, button, toggle, segmented control, and list row.
-- `glasskit-material` applies real DWM blur and rounded corners without the focus/bevel regressions.
-- Docs and example Settings demos are wired to the local packages.
+- `@glasskit/ui` provides nine Web Components with every major state demoed live.
+- `@glasskit/native` plus the `tauri` feature of `glasskit-material` connect the page to real DWM material.
+- The docs app is a full interactive showcase: token explorer, material gallery, component gallery with event log, all 12 motion recipes, a spring physics lab, native material controls, and design rules.
+- `apps/example-settings` is a Windows Settings replacement concept built from the same packages.
+- `apps/native-host` wires the browser bridge to real DWM blur, acrylic, and rounded corners in Tauri.

@@ -10,6 +10,13 @@ repository = "https://github.com/LowPolyPhosphorus/GlassKit"
 name = "glasskit_material"
 path = "src/lib.rs"
 
+[features]
+default = []
+tauri = ["dep:tauri"]
+
+[dependencies]
+tauri = { version = "2", optional = true }
+
 [target.'cfg(windows)'.dependencies]
 windows = { version = "0.61", features = [
   "Win32_Foundation",

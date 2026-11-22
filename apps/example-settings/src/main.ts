@@ -2,6 +2,7 @@ import "@glasskit/tokens/tokens.css";
 import "./styles.css";
 
 import { animateRecipe } from "@glasskit/motion";
+import { applyNativeGlass, nativeStatus, setNativeCorners } from "@glasskit/native";
 import { installGlassKit } from "@glasskit/ui";
 
 installGlassKit();
@@ -41,3 +42,21 @@ for (const item of document.querySelectorAll<HTMLButtonElement>(".nav-item")) {
 }
 
 animateRecipe(content, "panel-in");
+
+const native = nativeStatus();
+const nativeBadge = must<HTMLElement>("#native-badge");
+nativeBadge.textContent = native.native ? "Native" : "Browser";
+nativeBadge.setAttribute("tone", native.native ? "success" : "warning");
+status.textContent = native.reason;
+
+if (native.native) {
+  void (async () => {
+    try {
+      await setNativeCorners(true);
+      await applyNativeGlass("blur");
+      status.textContent = "Native glass applied to this window";
+    } catch (error) {
+      status.textContent = error instanceof Error ? error.message : String(error);
+    }
+  })();
+}

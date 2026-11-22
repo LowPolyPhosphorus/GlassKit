@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@glasskit/motion": "0.1.0",
+    "@glasskit/native": "0.1.0",
     "@glasskit/tokens": "0.1.0",
     "@glasskit/ui": "0.1.0"
   }

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Glass Kit Native Host",
+  "version": "0.1.0",
+  "identifier": "dev.glasskit.native-host",
+  "build": {
+    "beforeDevCommand": {
+      "script": "npm run dev -w @glasskit/example-settings -- --port 5185",
+      "cwd": "../.."
+    },
+    "devUrl": "http://127.0.0.1:5185",
+    "beforeBuildCommand": {
+      "script": "npm run build -w @glasskit/example-settings",
+      "cwd": "../.."
+    },
+    "frontendDist": "../../example-settings/dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Glass Kit · Settings",
+        "width": 1100,
+        "height": 760,
+        "minWidth": 760,
+        "minHeight": 560,
+        "resizable": true,
+        "decorations": true,
+        "transparent": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": false
+  }
+}

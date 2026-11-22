@@ -221,6 +221,12 @@ mod windows_impl {
     }
 }
 
+#[cfg(feature = "tauri")]
+pub mod tauri_commands;
+
+#[cfg(feature = "tauri")]
+pub use tauri_commands::register_commands;
+
 #[cfg(test)]
 mod tests {
     use super::*;
