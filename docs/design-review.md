@@ -2,6 +2,8 @@
 
 Date: 2026-11-22
 
+Revision 2 note: the first pass removed too much marketing structure and became a quiet spec sheet. After review, the final direction deliberately borrows Apple.com's web composition — hero, pill calls to action, frosted chrome, large section headings, and an original rounded-stroke icon set — while staying Windows-native.
+
 ## Scope
 
 This review covers the Apple design corpus as a **reference for visual qualities only**. GlassKit remains a Windows design system: the taskbar, tray, right-click menus, keyboard shortcuts, snapping, and native DWM material are preserved.
@@ -32,7 +34,7 @@ The [Apple Design](https://developer.apple.com/design/) and [Design Resources](h
 
 | Previous pattern | HIG-grounded decision |
 | --- | --- |
-| Full-width marketing hero with two pill CTAs | Start with an H1, one-sentence abstract, and real content. Branding defers to content ([Branding](https://developer.apple.com/design/human-interface-guidelines/branding)). |
+| Generic full-width hero with fake product claims | Use a product-style hero with real copy, two honest anchors, and an original app-window illustration. Apple's own site uses strong composition; the problem was invented content, not the composition ([Branding](https://developer.apple.com/design/human-interface-guidelines/branding)). |
 | Fake system summary with large numbers | Remove it. Honest data belongs in a labelled specification, not a hero statistic ([Design principles](https://developer.apple.com/design/human-interface-guidelines/design-principles)). |
 | Numbered "Foundation 01 / Library 03" eyebrows | Use truthful group labels only. Numbers imply a sequence that does not exist ([Layout](https://developer.apple.com/design/human-interface-guidelines/layout)). |
 | Ten badges and repeated status chips | Reserve emphasis for real state. Badges lose meaning when used decoratively ([Tab bars](https://developer.apple.com/design/human-interface-guidelines/tab-bars)). |
@@ -46,20 +48,21 @@ The [Apple Design](https://developer.apple.com/design/) and [Design Resources](h
 
 ## Visual direction
 
-- **Shell:** persistent two-level sidebar, sticky 56 px top bar, centred article column, and an "On this page" rail on wide screens. The rail and sidebar both expose the current section with a visible selected state and `aria-current`.
-- **Type:** `Segoe UI Variable` / `Segoe UI` / `system-ui` for UI and prose, one monospace stack for code and token names. Weights 400/500/600 only; no thin weights. Heading sizes 52/30/17/15 px, body 16 px, metadata 11–12 px.
-- **Color:** neutral canvases with adaptive light/dark variables, one blue accent for selection, links, focus, and the single primary action. Status colors stay in the component gallery where they carry meaning.
-- **Depth:** hairline borders, flat article surfaces, concentric radii, and no layered shadows. The only translucent layer is functional chrome; article content is opaque.
-- **Motion:** state changes only, 120–180 ms, no entrance choreography, no parallax, no blur transitions. The motion section remains a deliberate interactive demonstration.
+- **Shell:** frosted global navigation, a sticky icon chapter bar, a centred product-style page column, and a quiet "On this page" rail on wide screens. All three navigation surfaces share one `aria-current` state.
+- **Type:** `Segoe UI Variable` / `Segoe UI` / `system-ui` for UI and prose, one monospace stack for code and token names. Weights 400/500/600/700 only; no thin weights. Hero 52–82 px, section headings 38–56 px, lede 19 px, body 16 px, metadata 11–12 px.
+- **Color:** Apple web palette translated to semantic tokens: `#0071e3` in light, `#2997ff` in dark, neutral greys `#1d1d1f`, `#6e6e73`, `#f5f5f7`, and authored dark surfaces. One blue means selection, links, focus, and the single primary action.
+- **Icons:** an original rounded-stroke SVG sprite in `apps/docs/public/icons.svg`, drawn on a 24 px grid with consistent caps and joins. It follows the SF Symbols visual language without copying any SF Symbol.
+- **Depth:** hairline borders, flat article surfaces, concentric radii, and one soft product shadow on the hero window. Translucency is limited to functional chrome and explicit material samples.
+- **Motion:** state changes only, 120–220 ms, no entrance choreography, no parallax, no blur transitions. The motion section remains a deliberate interactive demonstration.
 - **Voice:** short, literal, and useful. Copy says what each package or control does and when to use it. No "revolutionary", "seamless", or similar filler ([Writing](https://developer.apple.com/design/human-interface-guidelines/writing), [Inclusion](https://developer.apple.com/design/human-interface-guidelines/inclusion)).
 
 ## Explicitly excluded
 
-No Apple logos, product imagery, SF Pro, SF Mono, New York, SF Symbols, traffic-light controls, menu bar, Dock, edge-swipe gestures, sheets with grabbers, or Apple-only service patterns. Apple material is used only to inform restraint, hierarchy, legibility, and craft.
+No Apple logos, product imagery, SF Pro, SF Mono, New York, SF Symbols, traffic-light controls, menu bar, Dock, edge-swipe gestures, sheets with grabbers, or Apple-only service patterns. The icon sprite is original work in a similar visual idiom. Apple material is used only to inform restraint, hierarchy, legibility, and craft.
 
 ## Verification
 
 - `npm run build` and `npm run typecheck` must pass.
-- Browser smoke test must confirm all seven sections, 12 motion recipes, live controls, theme switching, and no console errors.
-- Lighthouse accessibility must improve from the previous 0.96, with the low-contrast findings removed.
+- Browser smoke test must confirm all seven sections, 12 motion recipes, live controls, theme switching, icon sprite loading, and no console errors.
+- Lighthouse accessibility, best practices, and SEO must remain at 1.00 after the visual pass.
 - The native host command remains `cd apps/native-host/src-tauri && cargo tauri dev`.
