@@ -1,0 +1,176 @@
+---
+import DocsLayout from "../layouts/DocsLayout.astro";
+import DesktopLab from "../components/DesktopLab.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<DocsLayout
+  title="Glass Kit — Design system for Windows"
+  description="Apple-inspired surfaces, Windows-native behaviour. Tokens, materials, components, motion, and real DWM glass for Tauri apps."
+>
+  <div class="page-shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><Icon name="glass" /> Glass Kit for Tauri</p>
+        <h1>Glass that feels at home.</h1>
+        <p class="lede">A design system for Windows apps that borrows the restraint of Apple interfaces without borrowing the platform. Real DWM material, shared motion, and components that behave where your users work.</p>
+        <div class="hero-actions">
+          <a class="pill pill--primary" href="#desktop-lab"><Icon name="window" /> Open the desktop lab</a>
+          <a class="pill" href="/native"><Icon name="arrow" /> See the native bridge</a>
+        </div>
+      </div>
+
+      <div class="code-card" aria-label="Glass Kit usage example">
+        <div class="code-card-bar"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span>App.tsx</span></div>
+        <pre><code><span class="code-key">import</span> &#123; installGlassKit &#125; <span class="code-key">from</span> <span class="code-value">'@glasskit/ui'</span>;
+<span class="code-key">import</span> <span class="code-value">'@glasskit/tokens/tokens.css'</span>;
+
+installGlassKit();
+
+<span class="code-key">&lt;gk-glass-panel</span> tone=<span class="code-value">"regular"</span><span class="code-key">&gt;</span>
+  &lt;gk-button variant=<span class="code-value">"primary"</span>&gt;Continue&lt;/gk-button&gt;
+  &lt;gk-slider label=<span class="code-value">"Volume"</span> value=<span class="code-value">"68"</span> /&gt;
+<span class="code-key">&lt;/gk-glass-panel&gt;</span></code></pre>
+      </div>
+    </section>
+
+    <section id="tokens" class="section">
+      <header class="section-heading">
+        <p class="eyebrow"><Icon name="palette" /> Tokens</p>
+        <h2>One system. Every surface.</h2>
+        <p class="lede">Colour, type, spacing, radius, and motion live in one generated token package. Change the source once and every app inherits it.</p>
+      </header>
+
+      <div class="token-panel">
+        <div class="token-block">
+          <h3>Accent</h3>
+          <div class="swatch-row">
+            <button class="swatch is-selected" type="button" data-accent="#0a84ff" data-accent-fill="rgba(10,132,255,0.16)" data-accent-stroke="rgba(10,132,255,0.42)"><span class="swatch-chip" style="background:#0a84ff"></span><span>Blue</span></button>
+            <button class="swatch" type="button" data-accent="#bf5af2" data-accent-fill="rgba(191,90,242,0.16)" data-accent-stroke="rgba(191,90,242,0.42)"><span class="swatch-chip" style="background:#bf5af2"></span><span>Purple</span></button>
+            <button class="swatch" type="button" data-accent="#ff375f" data-accent-fill="rgba(255,55,95,0.16)" data-accent-stroke="rgba(255,55,95,0.42)"><span class="swatch-chip" style="background:#ff375f"></span><span>Pink</span></button>
+            <button class="swatch" type="button" data-accent="#ff9f0a" data-accent-fill="rgba(255,159,10,0.16)" data-accent-stroke="rgba(255,159,10,0.42)"><span class="swatch-chip" style="background:#ff9f0a"></span><span>Orange</span></button>
+            <button class="swatch" type="button" data-accent="#30d158" data-accent-fill="rgba(48,209,88,0.16)" data-accent-stroke="rgba(48,209,88,0.42)"><span class="swatch-chip" style="background:#30d158"></span><span>Green</span></button>
+          </div>
+        </div>
+
+        <div class="token-block">
+          <h3>Type scale</h3>
+          <div class="type-row"><span style="font-size:24px">Title</span><span>24 / 600</span></div>
+          <div class="type-row"><span style="font-size:18px">Heading</span><span>18 / 600</span></div>
+          <div class="type-row"><span style="font-size:15px">Body</span><span>15 / 400</span></div>
+          <div class="type-row"><span style="font-size:12px">Caption</span><span>12 / 500</span></div>
+        </div>
+
+        <div class="token-block">
+          <h3>Spacing</h3>
+          <div class="scale-row"><span>4 px</span><div class="scale-bar" style="width:16px"></div></div>
+          <div class="scale-row"><span>8 px</span><div class="scale-bar" style="width:32px"></div></div>
+          <div class="scale-row"><span>12 px</span><div class="scale-bar" style="width:48px"></div></div>
+          <div class="scale-row"><span>16 px</span><div class="scale-bar" style="width:64px"></div></div>
+          <div class="scale-row"><span>24 px</span><div class="scale-bar" style="width:96px"></div></div>
+        </div>
+
+        <div class="token-block">
+          <h3>Radius</h3>
+          <div class="radius-row">
+            <div class="radius-tile"><div class="radius-shape" style="border-radius:4px"></div><span>4</span></div>
+            <div class="radius-tile"><div class="radius-shape" style="border-radius:8px"></div><span>8</span></div>
+            <div class="radius-tile"><div class="radius-shape" style="border-radius:12px"></div><span>12</span></div>
+            <div class="radius-tile"><div class="radius-shape" style="border-radius:18px"></div><span>18</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="materials" class="section section--tinted">
+      <header class="section-heading">
+        <p class="eyebrow"><Icon name="layers" /> Materials</p>
+        <h2>Real blur, not a picture of blur.</h2>
+        <p class="lede">The web layer uses flat fills and hairlines. In a Tauri window, the native bridge asks DWM for actual acrylic or blur and rounds the real window corners.</p>
+      </header>
+
+      <div class="material-stack">
+        <div class="material-sample material-sample--thin">
+          <h3>Thin</h3>
+          <p>For compact chrome: toolbars, popovers, and small panels.</p>
+        </div>
+        <div class="material-sample material-sample--regular">
+          <h3>Regular</h3>
+          <p>For primary surfaces: sidebars, content cards, and settings panes.</p>
+        </div>
+        <div class="material-sample material-sample--thick">
+          <h3>Thick</h3>
+          <p>For deliberate moments: sheets, launch surfaces, and hero panels.</p>
+        </div>
+      </div>
+
+      <div class="inline-demo">
+        <gk-button variant="primary">Primary</gk-button>
+        <gk-button>Secondary</gk-button>
+        <gk-toggle checked label="Demo toggle"></gk-toggle>
+        <gk-segmented value="one" label="Demo segmented">
+          <button value="one">One</button>
+          <button value="two">Two</button>
+          <button value="three">Three</button>
+        </gk-segmented>
+        <gk-slider label="Demo slider" min="0" max="100" value="62" unit="%"></gk-slider>
+      </div>
+      <div class="event-strip" data-event-strip aria-live="polite"><span>Interact with a component</span></div>
+    </section>
+
+    <section id="motion" class="section">
+      <header class="section-heading">
+        <p class="eyebrow"><Icon name="motion" /> Motion</p>
+        <h2>Motion with a reason.</h2>
+        <p class="lede">Twelve named recipes share the same spring physics. Press one to see its timing, then open the Motion page for the full model and controls.</p>
+      </header>
+
+      <div class="recipe-grid" id="recipe-grid"></div>
+      <div class="spring-lab">
+        <div class="spring-controls">
+          <gk-slider id="spring-stiffness" label="Stiffness" min="80" max="700" value="420"></gk-slider>
+          <gk-slider id="spring-damping" label="Damping" min="10" max="60" value="34"></gk-slider>
+          <gk-slider id="spring-mass" label="Mass" min="0.4" max="2" step="0.1" value="0.9"></gk-slider>
+          <div class="lab-status">Tune the spring and press replay.</div>
+        </div>
+        <div class="spring-stage"><div class="spring-target" id="spring-target"></div></div>
+      </div>
+      <div class="hero-actions">
+        <gk-button id="spring-replay" variant="primary">Replay spring</gk-button>
+        <a class="pill" href="/motion"><Icon name="arrow" /> Read the motion model</a>
+      </div>
+    </section>
+
+    <section id="components" class="section section--tinted">
+      <header class="section-heading">
+        <p class="eyebrow"><Icon name="components" /> Components</p>
+        <h2>Small set. Clear behaviour.</h2>
+        <p class="lede">Buttons, toggles, segmented controls, sliders, text fields, badges, toolbars, list rows, and glass panels. Every component emits the same three events and inherits the same tokens.</p>
+      </header>
+      <div class="card-grid">
+        <div class="card"><span class="card-icon"><Icon name="components" /></span><h3>Predictable events</h3><p><code>gk-activate</code>, <code>gk-change</code>, and <code>gk-input</code> bubble through shadow boundaries with a consistent detail object.</p></div>
+        <div class="card"><span class="card-icon"><Icon name="sliders" /></span><h3>Real controls</h3><p>Native inputs and buttons under the hood, with keyboard support, visible focus, and accessible roles.</p></div>
+        <div class="card"><span class="card-icon"><Icon name="palette" /></span><h3>Theme-aware</h3><p>Components read semantic CSS variables, so preview themes and app themes can change independently.</p></div>
+      </div>
+    </section>
+
+    <DesktopLab />
+
+    <section class="section section--tinted">
+      <div class="card-grid card-grid--two">
+        <div class="card">
+          <span class="card-icon"><Icon name="native" /></span>
+          <h3>Native where it matters</h3>
+          <p>DWM blur, acrylic, and corner rounding come from Rust. The browser preview degrades honestly instead of faking the material.</p>
+          <p class="hero-actions"><a class="pill" href="/native"><Icon name="arrow" /> Native bridge</a></p>
+        </div>
+        <div class="card">
+          <span class="card-icon"><Icon name="shield" /></span>
+          <h3>Windows-first by default</h3>
+          <p>Taskbar, tray, right-click menus, shortcuts, snapping, and window management stay native. Only the visual language is borrowed.</p>
+          <p class="hero-actions"><a class="pill" href="/practice"><Icon name="arrow" /> Practices</a></p>
+        </div>
+      </div>
+    </section>
+  </div>
+</DocsLayout>

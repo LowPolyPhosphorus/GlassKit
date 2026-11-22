@@ -1,0 +1,112 @@
+---
+import DocsLayout from "../layouts/DocsLayout.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<DocsLayout
+  title="Practices — Glass Kit"
+  description="How to use Glass Kit: Apple-inspired visual restraint with Windows-native interaction, accessibility, typography, colour, and release checks."
+>
+  <div class="page-shell">
+    <section class="section" style="border-top:0">
+      <header class="section-heading">
+        <p class="eyebrow"><Icon name="shield" /> Practices</p>
+        <h1 class="page-title">Apple-inspired. Windows-first.</h1>
+        <p class="page-intro">Borrow hierarchy, restraint, typography, and craft. Do not borrow the platform. Users should recognise the visual quality without ever feeling that the OS changed underneath them.</p>
+      </header>
+
+      <div class="card-grid">
+        <div class="card"><span class="card-icon"><Icon name="layers" /></span><h3>Real material</h3><p>Use DWM blur or acrylic in a native window. Use flat authored surfaces on the web.</p></div>
+        <div class="card"><span class="card-icon"><Icon name="window" /></span><h3>Native behaviour</h3><p>Taskbar, tray, menus, shortcuts, snapping, and focus stay exactly as Windows provides them.</p></div>
+        <div class="card"><span class="card-icon"><Icon name="sparkle" /></span><h3>Deliberate motion</h3><p>Move only what changed. Keep it brief, cancellable, and quiet under reduced motion.</p></div>
+      </div>
+    </section>
+
+    <section class="section section--tinted">
+      <div class="prose">
+        <h2>Principles</h2>
+        <p>These rules come from reading Apple's human interface guidance as a study in craft, then translating the useful parts into a Windows context. They are intentionally concrete so a reviewer can tell whether a screen follows them.</p>
+
+        <h3>Use real material where material matters</h3>
+        <p>Glass is for functional chrome: a title bar, a sidebar, a popover, a settings pane. It is not a decorative background for every card. If the material does not clarify layering or focus, use a flat surface.</p>
+
+        <h3>Keep colour in the content</h3>
+        <p>The shell is neutral. One accent colour means selection, focus, and primary action. Status colours mean status. Do not tint a whole interface to signal brand; let content and imagery carry personality.</p>
+
+        <h3>Make motion explain state</h3>
+        <p>A transition should answer “where did that come from?” or “what just changed?”. If it only demonstrates that animation is available, remove it. The motion page documents the twelve approved recipes.</p>
+
+        <h3>Stay accessible before staying beautiful</h3>
+        <p>Body text stays at least 15 px. Small chrome stays at least 11 px. Text and background meet 4.5:1 contrast. Focus is visible. Every control has a name. Reduced motion removes travel, not feedback.</p>
+
+        <h3>Respect Windows</h3>
+        <p>Do not draw a fake taskbar, menu bar, Dock, or traffic lights in a native Windows app. Do not replace system right-click menus or keyboard shortcuts. GlassKit changes surfaces, not the operating system contract.</p>
+      </div>
+
+      <div class="do-grid">
+        <div class="do-panel">
+          <h3>Do</h3>
+          <ul>
+            <li>Use the system font stack with Inter as the web fallback.</li>
+            <li>Group with whitespace and hairlines.</li>
+            <li>Use one accent and authored dark surfaces.</li>
+            <li>Keep controls keyboard reachable and named.</li>
+            <li>Let DWM own blur and corners in native windows.</li>
+          </ul>
+        </div>
+        <div class="do-panel">
+          <h3>Don't</h3>
+          <ul>
+            <li>Copy Apple logos, SF Symbols, or font binaries.</li>
+            <li>Draw macOS chrome in a Windows window.</li>
+            <li>Use gradients or glowing glass as decoration.</li>
+            <li>Ship a light theme that is an inverted dark theme.</li>
+            <li>Animate entrance choreography on page load.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="prose">
+        <h2>Typography</h2>
+        <p>The web docs use Inter, a neutral grotesque close to SF Pro in cadence and spacing. Native Windows apps keep Segoe UI Variable as the first system choice. Apple system font names remain only as local fallbacks; no Apple font files are bundled or served.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Role</th><th>Size</th><th>Weight</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Hero</td><td>44–76 px</td><td>680</td><td>Tight tracking, short lines</td></tr>
+              <tr><td>Section</td><td>32–48 px</td><td>660</td><td>One idea per heading</td></tr>
+              <tr><td>Body</td><td>15–16 px</td><td>400</td><td>1.5–1.6 line height</td></tr>
+              <tr><td>Lede</td><td>19 px</td><td>400</td><td>Maximum 640 px measure</td></tr>
+              <tr><td>Chrome</td><td>11–13 px</td><td>500–650</td><td>Labels, metadata, navigation</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Colour and dark mode</h2>
+        <p>Dark is the authored default for GlassKit because it is the natural context for translucent material. Light is a separate authored palette, not an inversion. Both palettes are checked for contrast. Status colours are semantic and never used purely for emphasis.</p>
+
+        <h2>Layout</h2>
+        <p>Use a centred content column with generous outer margins. Keep navigation to one surface. If a page is short, it does not need a section rail. Group related controls into cards or rows with consistent radius and hairline weight. A large interactive surface should earn its size by being genuinely interactive.</p>
+
+        <h2>Writing</h2>
+        <p>Write short, literal labels. Say what a control does and what happens when it is used. Avoid “seamless”, “revolutionary”, and “powerful”. Prefer “Apply blur”, “Connected”, “Last sync 4 minutes ago”.</p>
+
+        <h2 id="checklist">Release checklist</h2>
+        <div class="callout">
+          <p>Before a screen ships: check theme in light and dark, keyboard-only navigation, visible focus, reduced motion, 200% text scaling, status colour meaning without colour, native behaviour in the Tauri host, and honest fallback when native APIs are unavailable.</p>
+        </div>
+
+        <h2>Review questions</h2>
+        <ul>
+          <li>Could a user mistake this for a macOS app? If yes, remove platform-specific chrome.</li>
+          <li>Is every glass surface doing a layering job? If not, flatten it.</li>
+          <li>Does the transition survive being interrupted halfway?</li>
+          <li>Are the dark and light palettes authored rather than inverted?</li>
+          <li>Does the Windows taskbar, tray, and snap behaviour still work?</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</DocsLayout>

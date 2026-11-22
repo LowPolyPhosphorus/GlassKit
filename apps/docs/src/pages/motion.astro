@@ -1,0 +1,128 @@
+---
+import DocsLayout from "../layouts/DocsLayout.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<DocsLayout
+  title="Motion — Glass Kit"
+  description="The Glass Kit motion model: shared spring physics, twelve named recipes, reduced-motion behaviour, and native integration notes."
+>
+  <div class="page-shell">
+    <section class="section" style="border-top:0">
+      <header class="section-heading">
+        <p class="eyebrow"><Icon name="motion" /> Motion</p>
+        <h1 class="page-title">Motion with a reason.</h1>
+        <p class="page-intro">Glass Kit uses one small vocabulary of movements. Nothing enters just because a page loaded. Every animation clarifies a state change, preserves context, or confirms an action.</p>
+      </header>
+
+      <div class="prose">
+        <h2>The model</h2>
+        <p>A movement is either a <strong>spring</strong> or a <strong>duration</strong>. Springs carry physical continuity: a panel settling, a control snapping into place, a target overshooting gently. Durations carry precise, non-physical changes: opacity fades, colour transitions, and reduced-motion replacements.</p>
+        <p>The spring integrator is analytic rather than frame-stepped. Given stiffness, damping, mass, and time, it returns the current value directly. That means a paused or interrupted animation can resume from the correct position without accumulating drift.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
+            <tbody>
+              <tr><td><code>instant</code></td><td>80 ms</td><td>Hover, focus, pressed state</td></tr>
+              <tr><td><code>fast</code></td><td>140 ms</td><td>Toggle thumb, small colour change</td></tr>
+              <tr><td><code>base</code></td><td>220 ms</td><td>Segmented indicator, list row state</td></tr>
+              <tr><td><code>slow</code></td><td>360 ms</td><td>Large panel reposition only</td></tr>
+              <tr><td><code>standard</code></td><td>cubic-bezier(0.2, 0, 0, 1)</td><td>Default CSS transitions</td></tr>
+              <tr><td><code>emphasized</code></td><td>cubic-bezier(0.32, 0.72, 0, 1)</td><td>State changes that need weight</td></tr>
+              <tr><td><code>exit</code></td><td>cubic-bezier(0.4, 0, 1, 1)</td><td>Removal, dismissal</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Spring presets</h2>
+        <p>Three presets cover nearly every interaction. They differ only in constants, so a product can tune one preset globally without rewriting recipes.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Preset</th><th>Stiffness</th><th>Damping</th><th>Mass</th><th>Feel</th></tr></thead>
+            <tbody>
+              <tr><td><code>snappy</code></td><td>420</td><td>34</td><td>0.9</td><td>Quick, slight overshoot</td></tr>
+              <tr><td><code>gentle</code></td><td>260</td><td>30</td><td>1.0</td><td>Soft settle, no bounce</td></tr>
+              <tr><td><code>sheet</code></td><td>320</td><td>38</td><td>1.0</td><td>Heavy, controlled travel</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout">
+          <p><strong>Do not animate layout for its own sake.</strong> If a movement does not explain where something came from or what changed, remove it. The best GlassKit screens are mostly still.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tinted">
+      <header class="section-heading">
+        <p class="eyebrow"><Icon name="sparkle" /> Recipes</p>
+        <h2>Twelve named movements.</h2>
+        <p class="lede">Each recipe is a tested pair of keyframes plus a preset and duration. Press one to replay it on the target.</p>
+      </header>
+      <div class="recipe-grid" id="recipe-grid"></div>
+      <div class="spring-lab" style="margin-top:28px">
+        <div class="spring-controls">
+          <gk-slider id="spring-stiffness" label="Stiffness" min="80" max="700" value="420"></gk-slider>
+          <gk-slider id="spring-damping" label="Damping" min="10" max="60" value="34"></gk-slider>
+          <gk-slider id="spring-mass" label="Mass" min="0.4" max="2" step="0.1" value="0.9"></gk-slider>
+          <gk-toggle id="reduced-toggle" label="Force reduced motion"></gk-toggle>
+          <span class="lab-status">Reduced motion removes travel and keeps a short opacity change.</span>
+        </div>
+        <div class="spring-stage"><div class="spring-target" id="spring-target"></div></div>
+      </div>
+      <div class="hero-actions"><gk-button id="spring-replay" variant="primary">Replay spring</gk-button></div>
+    </section>
+
+    <section class="section">
+      <div class="prose">
+        <h2>Recipes in detail</h2>
+        <p>Recipes fall into four families. Each family has an <code>-in</code> and <code>-out</code> pair so entering and leaving feel related.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Family</th><th>Recipes</th><th>Context</th></tr></thead>
+            <tbody>
+              <tr><td>Panel</td><td><code>panel-in</code>, <code>panel-out</code></td><td>Content regions that replace other content</td></tr>
+              <tr><td>Sheet</td><td><code>sheet-in</code>, <code>sheet-out</code></td><td>Large transient surfaces and drawers</td></tr>
+              <tr><td>Popover</td><td><code>popover-in</code>, <code>popover-out</code></td><td>Menus, tooltips, smallanchored content</td></tr>
+              <tr><td>Toggle</td><td><code>toggle-on</code>, <code>toggle-off</code></td><td>Switch state changes</td></tr>
+              <tr><td>List</td><td><code>row-insert</code>, <code>row-remove</code></td><td>Adding or deleting list items</td></tr>
+              <tr><td>Control</td><td><code>tab-switch</code>, <code>hover-lift</code></td><td>Segmented tabs and subtle affordance</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Reduced motion</h2>
+        <p>Reduced motion is not “no feedback”. It removes travel, scale, and bounce while preserving a brief opacity change so the state change remains legible. The <code>setReducedMotionOverride()</code> helper exists for docs and automated tests; production apps should follow the operating-system setting.</p>
+        <pre><code>import &#123; animateRecipe &#125; from '@glasskit/motion';
+
+animateRecipe(panel, 'sheet-in');
+// prefers-reduced-motion: opacity only, 1 ms duration</code></pre>
+
+        <h2>Native motion</h2>
+        <p>DWM material changes are deliberately not animated. A blur transition would require cross-fading two window snapshots and would fight the compositor. Apply the material change once, then let the window content animate with the shared recipes.</p>
+
+        <div class="do-grid">
+          <div class="do-panel">
+            <h3>Do</h3>
+            <ul>
+              <li>Animate the element that changed.</li>
+              <li>Keep travel under 24 px for small controls.</li>
+              <li>Cancel and reverse from the current value.</li>
+              <li>Respect the system reduced-motion setting.</li>
+            </ul>
+          </div>
+          <div class="do-panel">
+            <h3>Don't</h3>
+            <ul>
+              <li>Animate entrance on every page load.</li>
+              <li>Stack three recipes on one interaction.</li>
+              <li>Use bounce for errors or destructive actions.</li>
+              <li>Animate the native glass material itself.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</DocsLayout>

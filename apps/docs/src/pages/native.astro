@@ -1,0 +1,120 @@
+---
+import DocsLayout from "../layouts/DocsLayout.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<DocsLayout
+  title="Native material — Glass Kit"
+  description="How Glass Kit asks DWM for real blur, acrylic, and rounded window corners through the Tauri bridge."
+>
+  <div class="page-shell">
+    <section class="section" style="border-top:0">
+      <header class="section-heading">
+        <p class="eyebrow"><Icon name="native" /> Native bridge</p>
+        <h1 class="page-title">Native material, from Rust.</h1>
+        <p class="page-intro">CSS can imitate a translucent rectangle. It cannot produce DWM backdrop material or round the actual window. Glass Kit keeps those operations in Rust and exposes a small browser-safe API.</p>
+      </header>
+
+      <div class="status-card">
+        <div class="status-line"><span class="status-dot" id="native-dot" data-state="browser"></span><strong id="native-status">Checking host…</strong></div>
+        <span class="lab-status" id="native-output" aria-live="polite">No material applied</span>
+      </div>
+    </section>
+
+    <section class="section section--tinted">
+      <div class="prose">
+        <h2 id="tauri">What the host actually does</h2>
+        <p>The Tauri command layer lives in <code>packages/material-tauri</code>. It resolves the current Win32 window handle and calls the Desktop Window Manager APIs for the selected material. The browser package never guesses whether it is native: it checks for the Tauri IPC global first and returns a readable reason when it is absent.</p>
+
+        <div class="callout">
+          <p><strong id="native-title">Browser preview, native-ready</strong><br /><span id="native-reason">Native DWM material needs a Tauri window.</span></p>
+        </div>
+
+        <p>Apply a material from any web view. The call is a no-op in a browser and reports why, so a web preview never appears to work when it cannot.</p>
+        <pre><code id="native-code"></code></pre>
+
+        <h2>API surface</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Function</th><th>Tauri command</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td><code>applyNativeGlass('blur')</code></td><td><code>glasskit_apply_glass</code></td><td>Applies DWM blur behind the window</td></tr>
+              <tr><td><code>applyNativeGlass('acrylic')</code></td><td><code>glasskit_apply_glass</code></td><td>Applies the acrylic material</td></tr>
+              <tr><td><code>applyNativeGlass('none')</code></td><td><code>glasskit_apply_glass</code></td><td>Removes the material</td></tr>
+              <tr><td><code>setNativeCorners(true)</code></td><td><code>glasskit_set_corners</code></td><td>Rounds the real window corners</td></tr>
+              <tr><td><code>clearNativeGlass()</code></td><td><code>glasskit_clear_glass</code></td><td>Resets material and corners</td></tr>
+              <tr><td><code>nativeStatus()</code></td><td>—</td><td>Reports host availability and reason</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Windows behaviour we keep</h2>
+        <p>The material is only one layer. GlassKit does not replace the taskbar, tray, right-click menus, keyboard shortcuts, snapping, focus rules, or window management. A Tauri window remains a Windows window; the design system changes its surface language, not its interaction contract.</p>
+
+        <h2>Platform notes</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Platform</th><th>Behaviour</th></tr></thead>
+            <tbody>
+              <tr><td>Windows 11</td><td>Mica, acrylic, and rounded corners follow the current DWM composition rules.</td></tr>
+              <tr><td>Windows 10</td><td>Blur and acrylic are available where supported; corner rounding falls back to a rectangular window.</td></tr>
+              <tr><td>Transparency disabled</td><td>The material request is accepted but DWM renders an opaque surface. Keep foreground text readable.</td></tr>
+              <tr><td>Browser</td><td>No native call is made. The docs use authored flat fills and hairlines.</td></tr>
+              <tr><td>Non-Windows</td><td>Commands resolve without effect and report the platform reason.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="inline-demo">
+        <gk-button id="native-blur" variant="primary">Apply blur</gk-button>
+        <gk-button id="native-acrylic">Apply acrylic</gk-button>
+        <gk-button id="native-round">Round corners</gk-button>
+        <gk-button id="native-clear" variant="quiet">Clear</gk-button>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="prose">
+        <h2>Run the native host</h2>
+        <p>The web docs cannot demonstrate the real material. To see it, run the Tauri host from the native app directory. It loads the same packages and applies the material to a real Win32 window.</p>
+        <pre><code>cd apps/native-host/src-tauri
+cargo tauri dev</code></pre>
+
+        <h2>Troubleshooting</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Symptom</th><th>Check</th></tr></thead>
+            <tbody>
+              <tr><td>Status says browser preview</td><td>Launch through <code>cargo tauri dev</code>, not a plain browser.</td></tr>
+              <tr><td>Material looks opaque</td><td>Windows transparency effects may be disabled in system settings.</td></tr>
+              <tr><td>Corners stay square</td><td>Older Windows builds do not support DWM window corner preference.</td></tr>
+              <tr><td>Command rejects</td><td>Confirm the capability file grants the GlassKit commands to the webview.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="do-grid">
+          <div class="do-panel">
+            <h3>Ship checklist</h3>
+            <ul>
+              <li>Check <code>nativeStatus()</code> before showing material controls.</li>
+              <li>Keep a readable opaque fallback palette.</li>
+              <li>Apply material changes once, not on every frame.</li>
+              <li>Grant only the three GlassKit commands in Tauri capabilities.</li>
+            </ul>
+          </div>
+          <div class="do-panel">
+            <h3>Avoid</h3>
+            <ul>
+              <li>CSS <code>backdrop-filter</code> as a substitute for DWM material.</li>
+              <li>Fake window shadows in a native host.</li>
+              <li>Animating the material transition.</li>
+              <li>Hiding the reason when native calls are unavailable.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</DocsLayout>

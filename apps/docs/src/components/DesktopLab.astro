@@ -1,0 +1,251 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<section id="desktop-lab" class="section">
+  <header class="section-heading">
+    <p class="eyebrow"><Icon name="window" /> Desktop lab</p>
+    <h2>A real app surface, not a mockup.</h2>
+    <p class="lede">Drag the title bar, resize from the corner, and use the controls. This is a smart-home controller built from the same Glass Kit components you ship in Tauri.</p>
+  </header>
+
+  <div class="desktop-lab" data-desktop-lab>
+    <span class="desktop-hint"><Icon name="window" /> Drag the title bar · resize from the corner</span>
+
+    <div class="lab-window" data-lab-window>
+      <div class="lab-titlebar" data-drag-handle>
+        <div class="window-controls" aria-label="Window controls">
+          <button type="button" data-window-action="close" aria-label="Close window"></button>
+          <button type="button" data-window-action="minimize" aria-label="Minimize window"></button>
+          <button type="button" data-window-action="maximize" aria-label="Maximize window"></button>
+        </div>
+        <div class="window-title"><strong>Home Control</strong> · Glass Kit Studio</div>
+      </div>
+
+      <div class="lab-body">
+        <aside class="lab-sidebar">
+          <p>Rooms</p>
+          <div class="lab-nav" role="navigation" aria-label="Rooms">
+            <button type="button" data-room="living" aria-current="true"><Icon name="home" /> Living Room</button>
+            <button type="button" data-room="kitchen" aria-current="false"><Icon name="light" /> Kitchen</button>
+            <button type="button" data-room="climate" aria-current="false"><Icon name="thermostat" /> Climate</button>
+            <button type="button" data-room="security" aria-current="false"><Icon name="lock" /> Security</button>
+          </div>
+          <p>Views</p>
+          <div class="lab-nav" role="navigation" aria-label="Views">
+            <button type="button"><Icon name="sparkle" /> Scenes</button>
+            <button type="button"><Icon name="layers" /> Materials</button>
+            <button type="button"><Icon name="sliders" /> Automations</button>
+          </div>
+        </aside>
+
+        <div class="lab-main">
+          <header class="lab-header">
+            <div>
+              <h3 data-room-title>Living Room</h3>
+              <p data-room-subtitle>6 devices · 3 active</p>
+            </div>
+            <gk-segmented data-scene value="home" label="Scene">
+              <button value="home">Home</button>
+              <button value="away">Away</button>
+              <button value="night">Night</button>
+            </gk-segmented>
+          </header>
+
+          <div class="room-grid" data-room-panel="living">
+            <div class="device-card">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="light" /></span>
+                <div><strong>Main lights</strong><small>Warm white</small></div>
+                <gk-toggle checked label="Main lights"></gk-toggle>
+              </div>
+              <div class="device-metric">72%</div>
+              <gk-slider label="Brightness" min="0" max="100" value="72" unit="%"></gk-slider>
+              <gk-segmented value="warm" label="Light temperature">
+                <button value="warm">Warm</button>
+                <button value="neutral">Neutral</button>
+                <button value="cool">Cool</button>
+              </gk-segmented>
+            </div>
+
+            <div class="device-card">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="speaker" /></span>
+                <div><strong>Room speaker</strong><small>Connected</small></div>
+                <gk-toggle checked label="Room speaker"></gk-toggle>
+              </div>
+              <div class="device-metric">38%</div>
+              <gk-slider label="Volume" min="0" max="100" value="38" unit="%"></gk-slider>
+              <gk-segmented value="noise" label="Audio mode">
+                <button value="noise">Noise</button>
+                <button value="transparency">Transparency</button>
+                <button value="off">Off</button>
+              </gk-segmented>
+            </div>
+
+            <div class="device-card device-card--wide">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="thermostat" /></span>
+                <div><strong>Thermostat</strong><small>Auto · Heating to target</small></div>
+                <gk-badge tone="success" dot>Comfortable</gk-badge>
+              </div>
+              <div class="device-metric">21.5°C</div>
+              <gk-slider label="Target temperature" min="16" max="30" value="21.5" step="0.5" unit="°C"></gk-slider>
+              <gk-segmented value="auto" label="Climate mode">
+                <button value="auto">Auto</button>
+                <button value="heat">Heat</button>
+                <button value="cool">Cool</button>
+              </gk-segmented>
+            </div>
+
+            <div class="device-card">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="blinds" /></span>
+                <div><strong>Smart blinds</strong><small>Front window</small></div>
+                <gk-toggle label="Smart blinds"></gk-toggle>
+              </div>
+              <gk-slider label="Open" min="0" max="100" value="60" unit="%"></gk-slider>
+            </div>
+
+            <div class="device-card">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="fan" /></span>
+                <div><strong>Air purifier</strong><small>PM2.5 · 4 µg/m³</small></div>
+                <gk-toggle checked label="Air purifier"></gk-toggle>
+              </div>
+              <gk-slider label="Fan speed" min="0" max="5" value="2"></gk-slider>
+              <gk-segmented value="auto" label="Fan mode">
+                <button value="auto">Auto</button>
+                <button value="sleep">Sleep</button>
+                <button value="boost">Boost</button>
+              </gk-segmented>
+            </div>
+          </div>
+
+          <div class="room-grid" data-room-panel="kitchen" hidden>
+            <div class="device-card">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="light" /></span>
+                <div><strong>Counter lights</strong><small>Task lighting</small></div>
+                <gk-toggle checked label="Counter lights"></gk-toggle>
+              </div>
+              <gk-slider label="Brightness" min="0" max="100" value="84" unit="%"></gk-slider>
+            </div>
+            <div class="device-card">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="power" /></span>
+                <div><strong>Oven</strong><small>Preheating</small></div>
+                <gk-badge tone="warning" dot>Active</gk-badge>
+              </div>
+              <gk-slider label="Temperature" min="50" max="250" value="180" unit="°C"></gk-slider>
+            </div>
+            <div class="device-card">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="battery" /></span>
+                <div><strong>Fridge</strong><small>Eco mode</small></div>
+                <gk-badge tone="success">4°C</gk-badge>
+              </div>
+              <gk-segmented value="eco" label="Fridge mode">
+                <button value="eco">Eco</button>
+                <button value="normal">Normal</button>
+                <button value="boost">Boost</button>
+              </gk-segmented>
+            </div>
+            <div class="device-card">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="camera" /></span>
+                <div><strong>Motion sensor</strong><small>Hallway entry</small></div>
+                <gk-toggle checked label="Motion sensor"></gk-toggle>
+              </div>
+              <p class="lab-status">Last movement 4 minutes ago</p>
+            </div>
+          </div>
+
+          <div class="room-grid" data-room-panel="climate" hidden>
+            <gk-glass-panel tone="regular" class="device-card device-card--wide">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="thermostat" /></span>
+                <div><strong>Whole-home comfort</strong><small>Balanced across 5 rooms</small></div>
+                <gk-badge tone="accent">Auto</gk-badge>
+              </div>
+              <gk-slider label="Target temperature" min="16" max="30" value="21" step="0.5" unit="°C"></gk-slider>
+              <gk-slider label="Humidity target" min="20" max="70" value="45" unit="%"></gk-slider>
+            </gk-glass-panel>
+            <div class="device-card">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="fan" /></span>
+                <div><strong>Ventilation</strong><small>Whole-home fan</small></div>
+                <gk-toggle checked label="Ventilation"></gk-toggle>
+              </div>
+              <gk-segmented value="auto" label="Ventilation mode">
+                <button value="auto">Auto</button>
+                <button value="low">Low</button>
+                <button value="high">High</button>
+              </gk-segmented>
+            </div>
+            <div class="device-card">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="sliders" /></span>
+                <div><strong>Schedule</strong><small>Weekdays</small></div>
+              </div>
+              <gk-text-field label="Comfort starts" value="07:00" type="time"></gk-text-field>
+              <gk-text-field label="Eco starts" value="22:00" type="time"></gk-text-field>
+            </div>
+          </div>
+
+          <div class="room-grid" data-room-panel="security" hidden>
+            <div class="device-card">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="lock" /></span>
+                <div><strong>Front door</strong><small>Smart lock</small></div>
+                <gk-badge tone="success" dot>Locked</gk-badge>
+              </div>
+              <gk-toggle checked label="Front door lock"></gk-toggle>
+            </div>
+            <div class="device-card">
+              <div class="device-head">
+                <span class="device-icon"><Icon name="camera" /></span>
+                <div><strong>Doorbell camera</strong><small>1080p · Live</small></div>
+                <gk-toggle checked label="Doorbell camera"></gk-toggle>
+              </div>
+              <gk-badge tone="success" dot>Streaming</gk-badge>
+            </div>
+            <div class="device-card device-card--wide">
+              <gk-list-row subtitle="All zones" interactive>
+                Security zones
+                <gk-toggle slot="trailing" checked label="Security zones"></gk-toggle>
+              </gk-list-row>
+              <gk-list-row subtitle="Notify on movement" interactive>
+                Motion alerts
+                <gk-toggle slot="trailing" checked label="Motion alerts"></gk-toggle>
+              </gk-list-row>
+              <gk-segmented value="home" label="Arming mode">
+                <button value="home">Arm home</button>
+                <button value="away">Arm away</button>
+                <button value="off">Disarm</button>
+              </gk-segmented>
+            </div>
+          </div>
+
+          <div class="lab-footer">
+            <gk-toolbar>
+              <gk-button variant="primary" size="small">Run scene</gk-button>
+              <gk-button size="small">Automations</gk-button>
+              <gk-button variant="quiet" size="small">Diagnostics</gk-button>
+            </gk-toolbar>
+            <span class="lab-status" data-lab-status aria-live="polite">Ready</span>
+          </div>
+
+          <div class="lab-footer">
+            <gk-text-field label="Add a device" value="Hallway lamp" data-new-device></gk-text-field>
+            <gk-button variant="primary" size="small" data-add-device>Add device</gk-button>
+          </div>
+        </div>
+      </div>
+
+      <div class="resize-handle" data-resize-handle aria-hidden="true"></div>
+    </div>
+
+    <button class="pill desktop-restore" type="button" data-restore hidden><Icon name="window" /> Reopen Home Control</button>
+  </div>
+</section>
