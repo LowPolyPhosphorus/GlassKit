@@ -16,8 +16,8 @@ Glass Kit is a monorepo for building Windows desktop apps that look and feel cal
 
 ## Apps
 
-- `apps/docs` — full interactive showcase and design guidelines.
-- `apps/example-settings` — example Windows Settings replacement built with Glass Kit.
+- `apps/docs` — Astro + TypeScript docs with homepage overviews, three deep pages, and an interactive Windows desktop lab.
+- `apps/example-settings` — standalone macOS Settings fidelity study built with the same Glass Kit packages.
 - `apps/native-host` — minimal Tauri 2 host that applies real DWM glass and registers the native commands.
 
 ## Principles
@@ -66,6 +66,6 @@ Working MVP:
 - `@glasskit/motion` has analytic springs, WAAPI keyframe sampling, named recipes, and reduced-motion handling.
 - `@glasskit/ui` provides nine Web Components with every major state demoed live.
 - `@glasskit/native` plus the `tauri` feature of `glasskit-material` connect the page to real DWM material.
-- The docs app is a full interactive showcase: token explorer, material gallery, component gallery with event log, all 12 motion recipes, a spring physics lab, native material controls, and design rules.
-- `apps/example-settings` is a Windows Settings replacement concept built from the same packages.
+- The docs app is an Astro site with token, material, and motion overviews on the homepage; detailed Motion, Native, and Practice pages; all 12 motion recipes; a spring physics lab; native material controls; and a draggable smart-home desktop lab.
+- `apps/example-settings` is a macOS Settings fidelity study with grouped panes, search, appearance controls, and original icons.
 - `apps/native-host` wires the browser bridge to real DWM blur, acrylic, and rounded corners in Tauri.

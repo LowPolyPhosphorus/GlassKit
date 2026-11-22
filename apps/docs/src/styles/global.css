@@ -12,7 +12,8 @@
   --page-line: rgba(255, 255, 255, 0.12);
   --page-soft-line: rgba(255, 255, 255, 0.07);
   --page-accent: #0a84ff;
-  --page-accent-strong: #409cff;
+  --page-accent-solid: #0066cc;
+  --page-accent-solid-hover: #005bb5;
   --page-accent-fill: rgba(10, 132, 255, 0.16);
   --page-green: #30d158;
   --page-orange: #ff9f0a;
@@ -38,7 +39,8 @@
   --page-line: rgba(0, 0, 0, 0.12);
   --page-soft-line: rgba(0, 0, 0, 0.07);
   --page-accent: #0066cc;
-  --page-accent-strong: #005bb5;
+  --page-accent-solid: #0066cc;
+  --page-accent-solid-hover: #005bb5;
   --page-accent-fill: rgba(0, 102, 204, 0.1);
   --page-green: #1a7f37;
   --page-orange: #a85b00;
@@ -49,6 +51,9 @@
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.14);
   --window-shadow: 0 30px 80px rgba(0, 0, 0, 0.18);
   --gk-color-specular: transparent;
+  --gk-color-success: #1a7f37;
+  --gk-color-warning: #a85b00;
+  --gk-color-danger: #c62828;
 }
 
 * {
@@ -89,7 +94,7 @@ button {
 }
 
 ::selection {
-  background: var(--page-accent);
+  background: var(--page-accent-solid);
   color: #fff;
 }
 
@@ -116,7 +121,7 @@ pre {
   z-index: 200;
   padding: 10px 14px;
   border-radius: 10px;
-  background: var(--page-accent);
+  background: var(--page-accent-solid);
   color: #fff;
   text-decoration: none;
 }
@@ -303,12 +308,12 @@ main {
 
 .pill--primary {
   border-color: transparent;
-  background: var(--page-accent);
+  background: var(--page-accent-solid);
   color: #fff;
 }
 
 .pill--primary:hover {
-  background: var(--page-accent-strong);
+  background: var(--page-accent-solid-hover);
 }
 
 .code-card {
@@ -525,7 +530,7 @@ main {
   height: 64px;
   border: 1px solid var(--page-line);
   background: var(--page-surface-2);
-  color: var(--page-faint);
+  color: var(--page-muted);
   font-size: 11px;
 }
 
@@ -612,7 +617,7 @@ main {
   gap: 8px;
   min-height: 34px;
   margin-top: 14px;
-  color: var(--page-faint);
+  color: var(--page-muted);
   font-size: 12px;
 }
 
@@ -906,22 +911,31 @@ tr:last-child td {
 
 .window-controls {
   display: flex;
-  gap: 7px;
+  gap: 2px;
 }
 
 .window-controls button {
   display: grid;
   place-items: center;
-  width: 13px;
-  height: 13px;
+  width: 24px;
+  height: 24px;
   padding: 0;
-  border: 1px solid var(--page-line);
+  border: 0;
   border-radius: 50%;
-  background: var(--page-surface-2);
+  background: transparent;
   cursor: pointer;
 }
 
-.window-controls button:hover {
+.window-controls button::before {
+  content: "";
+  width: 13px;
+  height: 13px;
+  border: 1px solid var(--page-line);
+  border-radius: 50%;
+  background: var(--page-surface-2);
+}
+
+.window-controls button:hover::before {
   background: var(--page-accent);
   border-color: var(--page-accent);
 }
@@ -953,7 +967,7 @@ tr:last-child td {
 
 .lab-sidebar p {
   margin: 0 0 10px 10px;
-  color: var(--page-faint);
+  color: var(--page-muted);
   font-size: 10px;
   font-weight: 650;
   letter-spacing: 0.08em;

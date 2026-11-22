@@ -53,7 +53,11 @@ export function initDesktopLab(): void {
       top: parseFloat(win.style.top) || 0,
     };
     win.classList.add("is-dragging");
-    dragHandle.setPointerCapture(event.pointerId);
+    try {
+      dragHandle.setPointerCapture(event.pointerId);
+    } catch {
+      // Pointer capture is an enhancement; pointermove still works without it.
+    }
   });
 
   dragHandle.addEventListener("pointermove", (event) => {
@@ -81,7 +85,11 @@ export function initDesktopLab(): void {
       height: win.offsetHeight,
     };
     win.classList.add("is-resizing");
-    resizeHandle.setPointerCapture(event.pointerId);
+    try {
+      resizeHandle.setPointerCapture(event.pointerId);
+    } catch {
+      // Pointer capture is an enhancement; pointermove still works without it.
+    }
   });
 
   resizeHandle.addEventListener("pointermove", (event) => {
