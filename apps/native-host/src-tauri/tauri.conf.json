@@ -4,15 +4,9 @@
   "version": "0.1.0",
   "identifier": "dev.glasskit.native-host",
   "build": {
-    "beforeDevCommand": {
-      "script": "npm run dev -w @glasskit/example-settings -- --port 5185",
-      "cwd": "../.."
-    },
+    "beforeDevCommand": "npm run dev -w @glasskit/example-settings -- --port 5185",
     "devUrl": "http://127.0.0.1:5185",
-    "beforeBuildCommand": {
-      "script": "npm run build -w @glasskit/example-settings",
-      "cwd": "../.."
-    },
+    "beforeBuildCommand": "npm run build -w @glasskit/example-settings",
     "frontendDist": "../../example-settings/dist"
   },
   "app": {
