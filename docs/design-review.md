@@ -2,7 +2,9 @@
 
 Date: 2026-11-22
 
-Revision 5 note: the docs are now an Astro + TypeScript site with a content-rich homepage and three deep pages. Tokens, materials, and motion are overview sections on the homepage; Practice, Native, and Motion carry the detailed material. The right “On this page” rail and the phone preview were removed. The Playground became a large draggable/resizable Windows smart-home desktop lab, and Inter is self-hosted as the primary typeface. The separate settings sample on port 5185 is a macOS Settings fidelity study and is no longer mentioned in the docs.
+Revision 6 note: the settings sample was corrected from a macOS-fidelity study to a Windows-native Settings app. The visual language stays calm and layered, but the shell now uses Windows window controls, a draggable/resizable window, a taskbar, right-click menus, and keyboard shortcuts. No macOS chrome remains in the sample.
+
+Revision 5 note: the docs are now an Astro + TypeScript site with a content-rich homepage and three deep pages. Tokens, materials, and motion are overview sections on the homepage; Practice, Native, and Motion carry the detailed material. The right “On this page” rail and the phone preview were removed. The Playground became a large draggable/resizable Windows smart-home desktop lab, and Inter is self-hosted as the primary typeface. The separate settings sample on port 5185 is a Windows app that uses Apple-inspired visual craft with native window behaviour and is no longer mentioned in the docs.
 
 Revision 4 note: the long single page was split into eight pages with one top-level navigation surface. That split was superseded by Revision 5.
 
@@ -12,7 +14,7 @@ Revision 3 note: decorative multi-stop gradients were removed in favour of flat 
 
 This review covers the Apple design corpus as a **reference for visual qualities only**. GlassKit remains a Windows design system: the taskbar, tray, right-click menus, keyboard shortcuts, snapping, and native DWM material are preserved.
 
-The one exception is the separate `apps/example-settings` sample. It is a deliberately macOS-fidelity visual study used to explore Settings navigation, grouped controls, and appearance behaviour. It is not linked from the docs and is not presented as Windows behaviour.
+The separate `apps/example-settings` sample applies the same visual qualities to a Windows-native shell. It explores Settings navigation, grouped controls, and appearance behaviour while keeping Windows window controls, a taskbar, right-click menus, and keyboard shortcuts. It is not linked from the docs.
 
 Apple's Human Interface Guidelines were enumerated through Apple's own machine-readable mirrors:
 
@@ -70,7 +72,7 @@ The homepage lab is a Windows desktop canvas with a draggable, resizable Home Co
 
 ## Settings sample boundary
 
-`apps/example-settings` is a standalone Vite sample on port 5185. It intentionally imitates macOS System Settings: traffic-light controls, a menu bar, a coloured icon sidebar, grouped inset rows, search, and light/dark/auto appearance. It uses the same GlassKit tokens and components plus original rounded-stroke icons. It contains no Apple logo, no SF Symbols, no Apple font binaries, and no product imagery. The docs do not link to it or describe it.
+`apps/example-settings` is a standalone Vite sample on port 5185. It is a Windows Settings app with Apple-inspired visual craft: a real title bar with minimise/maximise/close controls, a draggable and resizable window, a taskbar, right-click menus, keyboard shortcuts, grouped inset rows, search, and light/dark/auto appearance. It uses the same GlassKit tokens and components plus original rounded-stroke icons. It contains no Apple logo, no SF Symbols, no Apple font binaries, no product imagery, no traffic-light buttons, and no macOS menu bar or Dock. The docs do not link to it or describe it.
 
 ## Explicitly excluded from GlassKit docs and components
 
@@ -80,6 +82,6 @@ No Apple logos, product imagery, SF Symbols, traffic-light controls, menu bar, D
 
 - `npm run build` and `npm run typecheck` must pass.
 - Browser smoke test must confirm four pages, one active top-nav item, twelve motion recipes, live controls, theme switching without a light flash, the draggable/resizable desktop lab, responsive navigation, icon sprite loading, both logo PNGs loading, and no console errors.
-- The settings sample must be reachable only on port 5185, with working sidebar navigation, search filtering, theme modes, accent colours, wallpaper switching, slider readouts, traffic-light controls, and native status.
+- The settings sample must be reachable only on port 5185, with working sidebar navigation, search filtering, theme modes, accent colours, wallpaper switching, slider readouts, Windows window controls, window dragging/resizing, a taskbar, right-click menus, keyboard shortcuts, and native status.
 - Lighthouse accessibility, best practices, and SEO must remain at 1.00 on all four pages in both light and dark themes.
 - The native host command remains `cd apps/native-host/src-tauri && cargo tauri dev`.

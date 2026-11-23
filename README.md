@@ -1,6 +1,6 @@
 # Glass Kit
 
-**Apple-inspired design system for Windows apps. Tauri components, design tokens, shared motion physics, and real DWM glass — macOS-style visuals with native Windows behaviour.**
+**Apple-inspired design system for Windows apps. Tauri components, design tokens, shared motion physics, and real DWM glass — considered visual craft with native Windows behaviour.**
 
 Glass Kit is a monorepo for building Windows desktop apps that look and feel calm, layered, and Apple-inspired while keeping normal Windows interactions: taskbar, tray, right-click menus, keyboard shortcuts, window snapping, and no Mac gestures.
 
@@ -17,7 +17,7 @@ Glass Kit is a monorepo for building Windows desktop apps that look and feel cal
 ## Apps
 
 - `apps/docs` — Astro + TypeScript docs with homepage overviews, three deep pages, and an interactive Windows desktop lab.
-- `apps/example-settings` — standalone macOS Settings fidelity study built with the same Glass Kit packages.
+- `apps/example-settings` — standalone Windows Settings sample that applies Apple-inspired visual craft with native window chrome, taskbar, right-click menus, and keyboard shortcuts.
 - `apps/native-host` — minimal Tauri 2 host that applies real DWM glass and registers the native commands.
 
 ## Principles
@@ -67,5 +67,5 @@ Working MVP:
 - `@glasskit/ui` provides nine Web Components with every major state demoed live.
 - `@glasskit/native` plus the `tauri` feature of `glasskit-material` connect the page to real DWM material.
 - The docs app is an Astro site with token, material, and motion overviews on the homepage; detailed Motion, Native, and Practice pages; all 12 motion recipes; a spring physics lab; native material controls; and a draggable smart-home desktop lab.
-- `apps/example-settings` is a macOS Settings fidelity study with grouped panes, search, appearance controls, and original icons.
+- `apps/example-settings` is a Windows-native Settings sample with grouped panes, search, appearance controls, draggable/resizable window chrome, a taskbar, right-click menus, and original icons.
 - `apps/native-host` wires the browser bridge to real DWM blur, acrylic, and rounded corners in Tauri.
