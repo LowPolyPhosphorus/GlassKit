@@ -5,6 +5,7 @@ const ROOM_COPY: Record<string, { title: string; subtitle: string }> = {
   kitchen: { title: "Kitchen", subtitle: "4 devices · 2 active" },
   climate: { title: "Climate", subtitle: "Whole home · Comfort mode" },
   security: { title: "Security", subtitle: "3 zones · Armed home" },
+  patterns: { title: "HIG patterns", subtitle: "Layout, navigation, status, and media" },
 };
 
 function clamp(value: number, min: number, max: number): number {
@@ -14,7 +15,7 @@ function clamp(value: number, min: number, max: number): number {
 function eventValue(event: Event): unknown {
   if (!(event instanceof CustomEvent) || !event.detail || typeof event.detail !== "object") return undefined;
   const detail = event.detail as Record<string, unknown>;
-  return detail.value ?? detail.checked;
+  return detail.value ?? detail.checked ?? detail.scope ?? detail.state ?? detail.token ?? detail.label ?? detail.id;
 }
 
 export function initDesktopLab(): void {
@@ -172,10 +173,32 @@ export function initDesktopLab(): void {
     });
   }
 
-  for (const name of ["gk-activate", "gk-change", "gk-input"]) {
+  for (const name of [
+    "gk-activate",
+    "gk-change",
+    "gk-input",
+    "gk-select",
+    "gk-navigate",
+    "gk-scope-change",
+    "gk-token-change",
+    "gk-toggle",
+    "gk-state-change",
+    "gk-dismiss",
+    "gk-expand-change",
+    "gk-confirm",
+    "gk-cancel",
+    "gk-snippet-action",
+    "gk-point-select",
+    "gk-load",
+  ]) {
     canvas.addEventListener(name, (event) => {
       const target = event.target as HTMLElement;
-      const label = target.getAttribute("label") ?? target.textContent?.trim() ?? target.tagName.toLowerCase();
+      const detail = event instanceof CustomEvent && event.detail ? (event.detail as Record<string, unknown>) : {};
+      const label =
+        target.getAttribute("label") ||
+        target.textContent?.trim() ||
+        (typeof detail.label === "string" ? detail.label : "") ||
+        target.tagName.toLowerCase();
       const value = eventValue(event);
       setStatus(`${name.replace("gk-", "")} · ${label}${value === undefined ? "" : ` · ${value}`}`);
     });

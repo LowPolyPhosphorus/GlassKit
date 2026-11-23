@@ -30,6 +30,7 @@ import Icon from "./Icon.astro";
             <button type="button" data-room="kitchen" aria-current="false"><Icon name="light" /> Kitchen</button>
             <button type="button" data-room="climate" aria-current="false"><Icon name="thermostat" /> Climate</button>
             <button type="button" data-room="security" aria-current="false"><Icon name="lock" /> Security</button>
+            <button type="button" data-room="patterns" aria-current="false"><Icon name="components" /> HIG patterns</button>
           </div>
           <p>Views</p>
           <div class="lab-nav" role="navigation" aria-label="Views">
@@ -225,6 +226,86 @@ import Icon from "./Icon.astro";
                 <button value="off">Disarm</button>
               </gk-segmented>
             </div>
+          </div>
+
+          <div class="room-grid" data-room-panel="patterns" hidden>
+            <gk-status-bar class="device-card device-card--wide" label="Home Control" status="All systems normal" network="Wi-Fi" battery="82%" time="09:41"></gk-status-bar>
+
+            <gk-glass-panel class="device-card" tone="thin">
+              <div class="device-head"><strong>Navigation</strong><gk-badge tone="accent">HIG</gk-badge></div>
+              <gk-search-field label="Search devices" placeholder="Search rooms" scopes='["All","Lights","Climate"]' scope="All"></gk-search-field>
+              <gk-path-control items='["Home","Living Room","Lights"]'></gk-path-control>
+              <gk-tab-bar tabs='[{"id":"overview","label":"Overview"},{"id":"activity","label":"Activity","badge":"3"},{"id":"settings","label":"Settings"}]' active="overview"></gk-tab-bar>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card" tone="thin">
+              <div class="device-head"><strong>Grouping</strong></div>
+              <gk-box title="Recent activity" subtitle="Last 24 hours">
+                <gk-label text="Motion detected at 08:42" variant="caption"></gk-label>
+                <gk-disclosure label="Advanced details" open>
+                  <span slot="meta">2 items</span>
+                  <gk-label text="Sensors are calibrated." variant="caption"></gk-label>
+                </gk-disclosure>
+              </gk-box>
+              <gk-collection columns="2" gap="8px">
+                <gk-label variant="caption" tone="muted">Zones</gk-label>
+                <gk-label variant="caption" tone="muted">States</gk-label>
+              </gk-collection>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card device-card--wide" tone="thin">
+              <div class="device-head"><strong>Quick controls</strong><gk-badge tone="success">Live</gk-badge></div>
+              <gk-collection columns="3" gap="8px">
+                <gk-control-tile label="Wi-Fi" state="on" mode="toggle"></gk-control-tile>
+                <gk-control-tile label="Focus" state="off" mode="toggle"></gk-control-tile>
+                <gk-control-tile label="Refresh" mode="button"></gk-control-tile>
+              </gk-collection>
+              <gk-token-field label="Rooms" placeholder="Add a room" tokens='["Kitchen","Hallway"]'></gk-token-field>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card" tone="thin">
+              <div class="device-head"><strong>Column view</strong></div>
+              <gk-column-view columns='[{"title":"Library","selected":"Living Room","items":["Living Room","Kitchen","Climate"]},{"title":"Devices","items":[{"label":"Lights","subtitle":"6 devices"},{"label":"Sensors","subtitle":"4 devices"}]}]'></gk-column-view>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card" tone="thin">
+              <div class="device-head"><strong>Sidebar</strong></div>
+              <gk-sidebar label="Example sections" active="general">
+                <span slot="header">Sections</span>
+                <gk-sidebar-item value="general" label="General" selected></gk-sidebar-item>
+                <gk-sidebar-item value="privacy" label="Privacy" badge="2"></gk-sidebar-item>
+                <gk-sidebar-item value="about" label="About"></gk-sidebar-item>
+                <span slot="footer">3 sections</span>
+              </gk-sidebar>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card" tone="thin">
+              <div class="device-head"><strong>Notifications</strong></div>
+              <gk-notification title="Automation ready" message="Night scene is available." tone="info"></gk-notification>
+              <gk-snippet kind="confirmation" title="Run night scene?" message="This dims the lights and locks the door."></gk-snippet>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card" tone="thin">
+              <div class="device-head"><strong>Live activity</strong></div>
+              <gk-live-activity title="Air purifier" status="Filter at 82%" progress="82" action-label="Pause" expanded>
+                <span slot="detail">Estimated 6 days remaining</span>
+              </gk-live-activity>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card" tone="thin">
+              <div class="device-head"><strong>Chart</strong></div>
+              <gk-chart title="Energy use" values="12,18,14,24,20,9" labels="Mon,Tue,Wed,Thu,Fri,Sat"></gk-chart>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card" tone="thin">
+              <div class="device-head"><strong>Image view</strong></div>
+              <gk-image-view src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%231f2430'/%3E%3Ccircle cx='160' cy='90' r='42' fill='none' stroke='%230a84ff' stroke-width='4'/%3E%3C/svg%3E" alt="Camera preview" ratio="16 / 9" fit="contain"></gk-image-view>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card device-card--wide" tone="thin">
+              <div class="device-head"><strong>Web view</strong></div>
+              <gk-web-view title="Inline note" height="150" srcdoc='<h3>Sandboxed content</h3><p>Rich HTML stays inside the app.</p>'></gk-web-view>
+            </gk-glass-panel>
           </div>
 
           <div class="lab-footer">
