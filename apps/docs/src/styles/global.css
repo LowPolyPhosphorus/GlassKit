@@ -371,6 +371,7 @@ main {
 }
 
 .section--tinted {
+  padding-inline: clamp(20px, 4vw, 56px);
   border-top: 0;
 }
 
