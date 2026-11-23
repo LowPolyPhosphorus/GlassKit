@@ -1,13 +1,11 @@
 :root {
   --gk-font-family: "Inter Variable", Inter, "Segoe UI Variable", "Segoe UI",
     "SF Pro Text", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --gk-color-specular: transparent;
-
-  --app-accent: #0866e6;
-  --app-accent-fill: rgba(8, 102, 230, 0.12);
-  --app-accent-soft: #e8f3ff;
-  --app-accent-stroke: rgba(8, 102, 230, 0.4);
-  --app-highlight: rgba(8, 102, 230, 0.2);
+  --app-accent: var(--gk-color-accent);
+  --app-accent-fill: var(--gk-color-accent-fill);
+  --app-accent-soft: var(--gk-color-selected-content-background);
+  --app-accent-stroke: var(--gk-color-accent-stroke);
+  --app-highlight: var(--gk-color-accent-fill);
   --nav-icon-size: 18px;
   --nav-row-height: 32px;
 }
@@ -25,71 +23,39 @@ html[data-sidebar-size="large"] {
 html[data-gk-theme="dark"] {
   color-scheme: dark;
   --app-desktop: #24262b;
-  --app-window: #16181d;
-  --app-titlebar: #1a1c21;
-  --app-sidebar: #121419;
-  --app-card: #1e2127;
-  --app-card-hover: #272a31;
-  --app-row: #1e2127;
-  --app-row-hover: #272a31;
-  --app-field: #25282f;
-  --app-text: #f4f5f7;
-  --app-muted: #b6bbc4;
-  --app-faint: #9299a4;
-  --app-line: rgba(255, 255, 255, 0.1);
-  --app-soft-line: rgba(255, 255, 255, 0.055);
-  --app-shadow: rgba(0, 0, 0, 0.52);
-  --app-accent: #4d9bff;
-  --app-accent-fill: rgba(77, 155, 255, 0.16);
-  --app-accent-soft: rgba(77, 155, 255, 0.13);
-  --app-accent-stroke: rgba(77, 155, 255, 0.45);
-  --app-highlight: rgba(77, 155, 255, 0.28);
-  --gk-color-success: #30d158;
-  --gk-color-warning: #ff9f0a;
-  --gk-color-danger: #ff453a;
+  --app-window: var(--gk-color-window-background);
+  --app-titlebar: var(--gk-color-secondary-system-background);
+  --app-sidebar: var(--gk-color-secondary-grouped-background);
+  --app-card: var(--gk-color-card);
+  --app-card-hover: var(--gk-color-card-hover);
+  --app-row: var(--gk-color-card);
+  --app-row-hover: var(--gk-color-card-hover);
+  --app-field: var(--gk-color-control-background);
+  --app-text: var(--gk-color-text);
+  --app-muted: var(--gk-color-text-muted);
+  --app-faint: var(--gk-color-text-dim);
+  --app-line: var(--gk-color-hairline);
+  --app-soft-line: var(--gk-color-soft-hairline);
+  --app-shadow: var(--gk-color-shadow);
 }
 
 html[data-gk-theme="light"] {
   color-scheme: light;
   --app-desktop: #dfe3e9;
-  --app-window: #f9fafb;
-  --app-titlebar: #f6f7f9;
-  --app-sidebar: #f2f5f8;
-  --app-card: #fcfcfd;
-  --app-card-hover: #f3f7fb;
-  --app-row: #fcfcfd;
-  --app-row-hover: #f3f7fb;
-  --app-field: #ffffff;
-  --app-text: #17191e;
-  --app-muted: #5c6570;
-  --app-faint: #7a838f;
-  --app-line: rgba(15, 23, 42, 0.1);
-  --app-soft-line: rgba(15, 23, 42, 0.055);
-  --app-shadow: rgba(15, 23, 42, 0.16);
-  --app-accent: #0866e6;
-  --app-accent-fill: rgba(8, 102, 230, 0.1);
-  --app-accent-soft: #e8f3ff;
-  --app-accent-stroke: rgba(8, 102, 230, 0.36);
-  --app-highlight: rgba(8, 102, 230, 0.18);
-  --gk-color-success: #1a7f37;
-  --gk-color-warning: #a85b00;
-  --gk-color-danger: #c62828;
-}
-
-:root {
-  --gk-color-text: var(--app-text);
-  --gk-color-text-muted: var(--app-muted);
-  --gk-color-text-dim: var(--app-faint);
-  --gk-color-glass-thin: var(--app-card);
-  --gk-color-glass-regular: var(--app-card);
-  --gk-color-glass-thick: var(--app-card);
-  --gk-color-card: var(--app-row);
-  --gk-color-card-hover: var(--app-row-hover);
-  --gk-color-hairline: var(--app-line);
-  --gk-color-shadow: var(--app-shadow);
-  --gk-color-accent: var(--app-accent);
-  --gk-color-accent-fill: var(--app-accent-fill);
-  --gk-color-accent-stroke: var(--app-accent-stroke);
+  --app-window: var(--gk-color-window-background);
+  --app-titlebar: var(--gk-color-secondary-system-background);
+  --app-sidebar: var(--gk-color-secondary-grouped-background);
+  --app-card: var(--gk-color-card);
+  --app-card-hover: var(--gk-color-card-hover);
+  --app-row: var(--gk-color-card);
+  --app-row-hover: var(--gk-color-card-hover);
+  --app-field: var(--gk-color-control-background);
+  --app-text: var(--gk-color-text);
+  --app-muted: var(--gk-color-text-muted);
+  --app-faint: var(--gk-color-text-dim);
+  --app-line: var(--gk-color-hairline);
+  --app-soft-line: var(--gk-color-soft-hairline);
+  --app-shadow: var(--gk-color-shadow);
 }
 
 * {
@@ -1279,6 +1245,124 @@ gk-toolbar.kit-toolbar {
   align-items: center;
   gap: 10px;
   padding: 6px 0;
+}
+
+.kit-coverage-details {
+  margin: 0 16px 16px;
+  border: 1px solid var(--app-soft-line);
+  border-radius: 10px;
+  background: var(--app-field);
+}
+
+.kit-coverage-details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  color: var(--app-text);
+  font-size: 11px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.kit-coverage-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.kit-coverage-details > summary span {
+  color: var(--app-muted);
+}
+
+.kit-coverage-details .kit-coverage {
+  padding: 0 12px 12px;
+}
+
+.kit-input-recipes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 16px 14px;
+}
+
+.kit-input-card {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--app-soft-line);
+  border-radius: 10px;
+  background: var(--app-field);
+}
+
+.kit-input-card--wide {
+  grid-column: span 2;
+}
+
+.kit-input-card > strong {
+  font-size: 11px;
+}
+
+.atlas-picker-label {
+  display: grid;
+  gap: 4px;
+  color: var(--app-muted);
+  font-size: 10px;
+}
+
+.atlas-picker {
+  min-width: 150px;
+  min-height: 30px;
+  padding: 5px 8px;
+  border: 1px solid var(--app-line);
+  border-radius: 7px;
+  background: var(--app-field);
+  color: var(--app-text);
+  font: inherit;
+  font-size: 11px;
+}
+
+.atlas-picker:focus-visible {
+  outline: 2px solid var(--app-accent);
+  outline-offset: 2px;
+}
+
+.kit-atlas-group {
+  border: 1px solid var(--app-soft-line);
+  border-radius: 10px;
+  background: var(--app-field);
+  overflow: hidden;
+}
+
+.kit-atlas-group > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.kit-atlas-group > summary::-webkit-details-marker {
+  display: none;
+}
+
+.kit-atlas-group > summary strong {
+  font-size: 11px;
+}
+
+.kit-atlas-group > summary span {
+  color: var(--app-muted);
+  font-size: 10px;
+}
+
+.kit-atlas-group__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+  padding: 0 10px 10px;
 }
 
 .kit-atlas {

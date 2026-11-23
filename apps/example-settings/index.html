@@ -25,6 +25,14 @@
             : preference;
         document.documentElement.dataset.gkTheme = resolved;
         document.documentElement.dataset.gkThemePreference = preference;
+
+        let material = null;
+        try {
+          material = localStorage.getItem("gk-settings-material");
+        } catch {
+          material = null;
+        }
+        if (material === "liquid") document.documentElement.dataset.gkMaterial = "liquid";
       })();
     </script>
   </head>
@@ -70,9 +78,9 @@
         <div class="window-body">
           <aside class="sidebar">
             <div class="profile">
-              <span class="avatar" aria-hidden="true">K</span>
+              <span class="avatar" aria-hidden="true">L</span>
               <span class="profile-copy">
-                <strong>Kelten Wright</strong>
+                <strong>Local User</strong>
                 <small>Local account · Administrator</small>
               </span>
             </div>
@@ -271,6 +279,10 @@
                   <div class="setting-row">
                     <div class="row-copy"><strong>Choose your mode</strong><span>Light, dark, or follow the system</span></div>
                     <gk-segmented id="theme-mode" value="dark" label="Appearance"><button value="light">Light</button><button value="dark">Dark</button><button value="auto">Auto</button></gk-segmented>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Surface counterpart</strong><span>Flat system fills or restrained liquid glass</span></div>
+                    <gk-segmented id="surface-mode" value="flat" label="Surface counterpart"><button value="flat">Flat</button><button value="liquid">Liquid</button></gk-segmented>
                   </div>
                   <div class="setting-row">
                     <div class="row-copy"><strong>Accent color</strong><span>Used for selection, focus, and primary actions</span></div>
@@ -475,9 +487,9 @@
               <section class="page" data-page-panel="users" hidden>
                 <gk-glass-panel class="settings-group" elevation="flat">
                   <h2>Users</h2>
-                  <div class="device-row"><span class="user-avatar">K</span><div><strong>Kelten Wright</strong><span>Administrator · Current user</span></div><gk-badge tone="success">Signed in</gk-badge></div>
+                  <div class="device-row"><span class="user-avatar">L</span><div><strong>Local User</strong><span>Administrator · Current user</span></div><gk-badge tone="success">Signed in</gk-badge></div>
                   <div class="device-row"><span class="user-avatar user-avatar--alt">G</span><div><strong>Guest</strong><span>Guest account</span></div><gk-toggle label="Guest account"></gk-toggle></div>
-                  <div class="setting-row"><div class="row-copy"><strong>Automatic login</strong><span>Log in as Kelten after startup</span></div><gk-toggle label="Automatic login"></gk-toggle></div>
+                  <div class="setting-row"><div class="row-copy"><strong>Automatic login</strong><span>Log in as Local User after startup</span></div><gk-toggle label="Automatic login"></gk-toggle></div>
                 </gk-glass-panel>
                 <gk-glass-panel class="settings-group" elevation="flat">
                   <h2>Startup apps</h2>
@@ -596,7 +608,10 @@
                     <div class="row-copy"><strong>Reinstall components</strong><span>installGlassKit is idempotent</span></div>
                     <gk-button id="kit-reinstall" variant="secondary" size="small" data-kit-action="reinstall">Reinstall kit</gk-button>
                   </div>
-                  <div class="kit-coverage" id="kit-coverage"></div>
+                  <details class="kit-coverage-details">
+                    <summary>Registration status <span>81 elements</span></summary>
+                    <div class="kit-coverage" id="kit-coverage"></div>
+                  </details>
                 </gk-glass-panel>
 
                 <gk-glass-panel class="settings-group" elevation="flat">
@@ -666,6 +681,35 @@
                       <gk-toggle variant="radio" checked label="Radio"></gk-toggle>
                     </div>
                   </div>
+                  <div class="kit-input-recipes" aria-label="Input recipes">
+                    <div class="kit-input-card">
+                      <strong>Find a device</strong>
+                      <gk-search-field label="Find a device" placeholder="Search rooms" scopes='["All","Lights","Climate"]' scope="All"></gk-search-field>
+                      <gk-combo-box></gk-combo-box>
+                    </div>
+                    <div class="kit-input-card">
+                      <strong>Scene details</strong>
+                      <gk-text-field label="Scene name" placeholder="Name this scene" clearable></gk-text-field>
+                      <gk-segmented value="home" label="Start mode">
+                        <button value="home">Home</button>
+                        <button value="away">Away</button>
+                        <button value="night">Night</button>
+                      </gk-segmented>
+                      <gk-picker></gk-picker>
+                    </div>
+                    <div class="kit-input-card">
+                      <strong>Schedule</strong>
+                      <gk-stepper value="2" min="0" max="8"></gk-stepper>
+                      <gk-slider label="Fade" min="0" max="60" value="12" unit="s"></gk-slider>
+                      <gk-toggle checked label="Enabled"></gk-toggle>
+                    </div>
+                    <div class="kit-input-card kit-input-card--wide">
+                      <strong>Access &amp; artwork</strong>
+                      <gk-digit-entry-view></gk-digit-entry-view>
+                      <gk-image-well></gk-image-well>
+                      <gk-virtual-keyboard></gk-virtual-keyboard>
+                    </div>
+                  </div>
                   <p class="kit-hint" id="kit-hig-readout" aria-live="polite">Interact with a HIG pattern to see its event here.</p>
                 </gk-glass-panel>
 
@@ -674,6 +718,12 @@
                   <div class="kit-atlas">
                     <div class="kit-atlas__toolbar">
                       <gk-text-field id="kit-atlas-search" label="Filter atlas" placeholder="Search all components" clearable></gk-text-field>
+                      <label class="atlas-picker-label">Group
+                        <select class="atlas-picker" id="kit-atlas-group" aria-label="Filter atlas by group"></select>
+                      </label>
+                      <label class="atlas-picker-label">Component
+                        <select class="atlas-picker" id="kit-atlas-component" aria-label="Jump to a component"></select>
+                      </label>
                       <gk-badge id="kit-atlas-count" tone="success">81 components</gk-badge>
                     </div>
                     <div class="kit-atlas__grid" id="kit-atlas"></div>

@@ -108,6 +108,7 @@ const media = window.matchMedia("(prefers-color-scheme: light)");
 const reduceMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
 const KIT_CONTROL_IDS = new Set([
   "kit-material-mode",
+  "surface-mode",
   "kit-tint",
   "kit-corners",
   "kit-clear-glass",
@@ -298,6 +299,35 @@ function configureTheme(): void {
   });
 }
 
+function configureSurfaceMode(): void {
+  const mode = must<HTMLElement & { value: string }>("#surface-mode");
+  let stored: string | null = null;
+  try {
+    stored = localStorage.getItem("gk-settings-material");
+  } catch {
+    stored = null;
+  }
+  const initial = stored === "liquid" || stored === "flat" ? stored : "flat";
+
+  const apply = (value: "flat" | "liquid", announce = true): void => {
+    mode.value = value;
+    if (value === "liquid") root.dataset.gkMaterial = "liquid";
+    else delete root.dataset.gkMaterial;
+    try {
+      localStorage.setItem("gk-settings-material", value);
+    } catch {
+      // Ignore private-mode storage failures.
+    }
+    if (announce) setStatus(`Surface counterpart: ${value}`);
+  };
+
+  apply(initial, false);
+  mode.addEventListener("gk-change", (event) => {
+    const value = stringValue(detailValue(event));
+    if (value === "flat" || value === "liquid") apply(value);
+  });
+}
+
 function configureAccents(): void {
   const accents = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-accent]"));
   for (const swatch of accents) {
@@ -305,6 +335,9 @@ function configureAccents(): void {
       root.style.setProperty("--app-accent", swatch.dataset.accent!);
       root.style.setProperty("--app-accent-fill", swatch.dataset.accentFill!);
       root.style.setProperty("--app-accent-stroke", swatch.dataset.accentStroke!);
+      root.style.setProperty("--gk-color-accent", swatch.dataset.accent!);
+      root.style.setProperty("--gk-color-accent-fill", swatch.dataset.accentFill!);
+      root.style.setProperty("--gk-color-accent-stroke", swatch.dataset.accentStroke!);
       for (const other of accents) other.classList.toggle("is-selected", other === swatch);
       setStatus(`Accent color: ${swatch.getAttribute("aria-label") ?? "custom"}`);
     });
@@ -585,6 +618,20 @@ function configureKitCoverage(): void {
   }
 }
 
+const GROUP_ORDER = [
+  "Core",
+  "Material",
+  "Layout",
+  "Content",
+  "Navigation and search",
+  "Selection and input",
+  "Menus and actions",
+  "Presentation",
+  "Status",
+  "System experiences",
+  "Inputs",
+];
+
 const ATLAS_ATTRIBUTES: Record<string, Record<string, string>> = {
   "gk-badge": { tone: "accent", dot: "" },
   "gk-button": { variant: "primary" },
@@ -596,27 +643,34 @@ const ATLAS_ATTRIBUTES: Record<string, Record<string, string>> = {
   "gk-text-field": { label: "Name", placeholder: "Enter a value", clearable: "" },
   "gk-box": { title: "Grouped content", subtitle: "Title and subtitle" },
   "gk-chart": { title: "Trend", values: "12,18,14,24,20,9", labels: "Mon,Tue,Wed,Thu,Fri,Sat" },
+  "gk-color-well": { value: "#0a84ff" },
+  "gk-combo-box": {},
   "gk-collection": { columns: "2", gap: "8px" },
   "gk-column-view": {
     columns: '[{"title":"Library","selected":"Living Room","items":["Living Room","Kitchen"]},{"title":"Devices","items":[{"label":"Lights","subtitle":"6 devices"}]}]',
   },
   "gk-control-tile": { label: "Wi-Fi", state: "on" },
+  "gk-digit-entry-view": {},
   "gk-disclosure": { label: "Details", open: "" },
   "gk-image-view": {
     src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='120'%3E%3Crect width='240' height='120' fill='%231f2430'/%3E%3Ccircle cx='120' cy='60' r='26' fill='none' stroke='%230a84ff' stroke-width='3'/%3E%3C/svg%3E",
     alt: "Abstract preview",
     ratio: "16 / 9",
   },
+  "gk-image-well": {},
   "gk-label": { text: "Selectable static text", variant: "caption" },
   "gk-live-activity": { title: "Air purifier", status: "Filter at 82%", progress: "82", "action-label": "Pause", expanded: "" },
   "gk-notification": { title: "Automation ready", message: "Your scene is available.", tone: "info" },
   "gk-path-control": { items: '["Home","Living Room","Lights"]' },
+  "gk-picker": {},
   "gk-search-field": { label: "Search", placeholder: "Search components", scopes: '["All","Core","HIG"]', scope: "All" },
   "gk-sidebar": { label: "Sections", active: "general" },
   "gk-snippet": { kind: "confirmation", title: "Run scene?", message: "This dims the lights." },
   "gk-status-bar": { label: "Home", status: "All systems normal", network: "Wi-Fi", battery: "82%", time: "09:41" },
+  "gk-stepper": { value: "2", min: "0", max: "8" },
   "gk-tab-bar": { tabs: '[{"id":"all","label":"All"},{"id":"core","label":"Core"},{"id":"hig","label":"HIG"}]', active: "all" },
   "gk-token-field": { label: "Rooms", placeholder: "Add a room", tokens: '["Kitchen","Hallway"]' },
+  "gk-virtual-keyboard": {},
   "gk-web-view": { title: "Inline content", height: "90", srcdoc: "<p>Sandboxed content stays inside the app.</p>" },
 };
 
@@ -641,35 +695,103 @@ function createAtlasPreview(component: GlassKitComponent): HTMLElement {
   return element;
 }
 
-function renderKitAtlas(query: string): number {
-  const host = must<HTMLElement>("#kit-atlas");
-  const needle = query.trim().toLowerCase();
-  const matches = COMPONENT_REGISTRY.filter((component) =>
-    `${component.title} ${component.tag} ${component.group} ${component.description}`.toLowerCase().includes(needle),
+function atlasGroupRank(group: string): number {
+  const index = GROUP_ORDER.indexOf(group);
+  return index === -1 ? GROUP_ORDER.length : index;
+}
+
+function populateAtlasPickers(): { group: HTMLSelectElement; component: HTMLSelectElement } {
+  const group = must<HTMLSelectElement>("#kit-atlas-group");
+  const component = must<HTMLSelectElement>("#kit-atlas-component");
+  const groupValues = Array.from(new Set(COMPONENT_REGISTRY.map((item) => item.group))).sort(
+    (left, right) => atlasGroupRank(left) - atlasGroupRank(right) || left.localeCompare(right),
   );
 
-  host.replaceChildren();
+  for (const select of [group, component]) select.replaceChildren();
+  const allGroups = document.createElement("option");
+  allGroups.value = "all";
+  allGroups.textContent = "All groups";
+  group.append(allGroups);
+  for (const value of groupValues) {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value;
+    group.append(option);
+  }
+
+  const allComponents = document.createElement("option");
+  allComponents.value = "all";
+  allComponents.textContent = "All components";
+  component.append(allComponents);
+  for (const item of COMPONENT_REGISTRY) {
+    const option = document.createElement("option");
+    option.value = item.tag;
+    option.textContent = `${item.title} · ${item.tag}`;
+    component.append(option);
+  }
+  return { group, component };
+}
+
+function renderKitAtlas(query: string, group: string, componentId: string): number {
+  const host = must<HTMLElement>("#kit-atlas");
+  const needle = query.trim().toLowerCase();
+  const matches = COMPONENT_REGISTRY.filter((component) => {
+    const text = `${component.title} ${component.tag} ${component.group} ${component.description}`.toLowerCase();
+    return text.includes(needle) && (group === "all" || component.group === group) && (componentId === "all" || component.tag === componentId);
+  });
+
+  const grouped = new Map<string, GlassKitComponent[]>();
   for (const component of matches) {
-    const card = document.createElement("article");
-    card.className = "kit-atlas-card";
+    const list = grouped.get(component.group) ?? [];
+    list.push(component);
+    grouped.set(component.group, list);
+  }
+  const names = Array.from(grouped.keys()).sort(
+    (left, right) => atlasGroupRank(left) - atlasGroupRank(right) || left.localeCompare(right),
+  );
+  const focused = Boolean(needle || group !== "all" || componentId !== "all");
 
-    const head = document.createElement("div");
-    head.className = "kit-atlas-card__head";
+  host.replaceChildren();
+  for (const [index, name] of names.entries()) {
+    const items = grouped.get(name)!;
+    const section = document.createElement("details");
+    section.className = "kit-atlas-group";
+    section.open = focused || index === 0 || items.length <= 6;
+
+    const summary = document.createElement("summary");
     const title = document.createElement("strong");
-    title.textContent = component.title;
-    const tag = document.createElement("code");
-    tag.textContent = component.tag;
-    head.append(title, tag);
+    title.textContent = name;
+    const count = document.createElement("span");
+    count.textContent = `${items.length}`;
+    summary.append(title, count);
 
-    const body = document.createElement("div");
-    body.className = "kit-atlas-card__body";
-    body.append(createAtlasPreview(component));
+    const grid = document.createElement("div");
+    grid.className = "kit-atlas-group__grid";
+    for (const component of items) {
+      const card = document.createElement("article");
+      card.className = "kit-atlas-card";
 
-    const meta = document.createElement("span");
-    meta.textContent = component.group;
+      const head = document.createElement("div");
+      head.className = "kit-atlas-card__head";
+      const componentTitle = document.createElement("strong");
+      componentTitle.textContent = component.title;
+      const tag = document.createElement("code");
+      tag.textContent = component.tag;
+      head.append(componentTitle, tag);
 
-    card.append(head, body, meta);
-    host.append(card);
+      const body = document.createElement("div");
+      body.className = "kit-atlas-card__body";
+      body.append(createAtlasPreview(component));
+
+      const meta = document.createElement("span");
+      meta.textContent = component.group;
+
+      card.append(head, body, meta);
+      grid.append(card);
+    }
+
+    section.append(summary, grid);
+    host.append(section);
   }
 
   return matches.length;
@@ -679,9 +801,10 @@ function configureKitAtlas(): void {
   const search = must<HTMLElement & { value: string }>("#kit-atlas-search");
   const count = must<HTMLElement>("#kit-atlas-count");
   const readout = must<HTMLElement>("#kit-atlas-readout");
+  const pickers = populateAtlasPickers();
 
   const paint = (): void => {
-    const total = renderKitAtlas(search.value);
+    const total = renderKitAtlas(search.value, pickers.group.value, pickers.component.value);
     count.textContent = `${total} / ${COMPONENT_REGISTRY.length} shown`;
     readout.textContent =
       total === COMPONENT_REGISTRY.length
@@ -689,8 +812,11 @@ function configureKitAtlas(): void {
         : `${total} components match the filter.`;
   };
 
-  search.addEventListener("gk-input", paint);
-  search.addEventListener("gk-change", paint);
+  for (const control of [search, pickers.group, pickers.component]) {
+    control.addEventListener("gk-input", paint);
+    control.addEventListener("gk-change", paint);
+    control.addEventListener("change", paint);
+  }
   paint();
 }
 
@@ -1054,6 +1180,7 @@ async function configureNative(): Promise<void> {
 configureNavigation();
 configureSearch();
 configureTheme();
+configureSurfaceMode();
 configureAccents();
 configureWallpaper();
 configureReadouts();
