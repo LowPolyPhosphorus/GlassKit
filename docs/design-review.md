@@ -2,6 +2,8 @@
 
 Date: 2026-11-22
 
+Revision 8 note: the settings sample now follows Apple's Human Interface Guidelines at the visual-pattern level: a leading sidebar split view, a search field in the toolbar, compact icon-and-label navigation, pale-blue selection, grouped boxes and lists with inset separators and trailing controls, and text-style secondary buttons. The shell remains Windows-native with Windows window controls, a taskbar, right-click menus, keyboard shortcuts, and real DWM material; no Apple chrome, symbols, fonts, or assets were imported.
+
 Revision 7 note: the settings sample now exercises the full GlassKit surface through a dedicated Glass Kit pane: all nine Web Components, typed token exports and CSS variables, all 12 motion recipes, spring physics helpers, reduced-motion overrides, component events, and every native material command. Segment labels now provide accessible names, and list-row subtitles render from the `subtitle` attribute or the `subtitle` slot.
 
 Revision 6 note: the settings sample was corrected from a macOS-fidelity study to a Windows-native Settings app. The visual language stays calm and layered, but the shell now uses Windows window controls, a draggable/resizable window, a taskbar, right-click menus, and keyboard shortcuts. No macOS chrome remains in the sample.
