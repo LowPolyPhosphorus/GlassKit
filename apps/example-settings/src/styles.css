@@ -3,41 +3,47 @@
     "SF Pro Text", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --gk-color-specular: transparent;
 
-  --app-accent: #0a84ff;
-  --app-accent-fill: rgba(10, 132, 255, 0.16);
-  --app-accent-stroke: rgba(10, 132, 255, 0.55);
-  --app-highlight: rgba(10, 132, 255, 0.34);
+  --app-accent: #0866e6;
+  --app-accent-fill: rgba(8, 102, 230, 0.12);
+  --app-accent-soft: #e8f3ff;
+  --app-accent-stroke: rgba(8, 102, 230, 0.4);
+  --app-highlight: rgba(8, 102, 230, 0.2);
   --nav-icon-size: 18px;
-  --nav-row-height: 36px;
+  --nav-row-height: 32px;
 }
 
 html[data-sidebar-size="small"] {
   --nav-icon-size: 16px;
-  --nav-row-height: 32px;
+  --nav-row-height: 29px;
 }
 
 html[data-sidebar-size="large"] {
   --nav-icon-size: 22px;
-  --nav-row-height: 42px;
+  --nav-row-height: 38px;
 }
 
 html[data-gk-theme="dark"] {
   color-scheme: dark;
-  --app-desktop: #2c2c30;
-  --app-window: #1b1c20;
-  --app-titlebar: #202126;
-  --app-sidebar: #17181c;
-  --app-card: #232429;
-  --app-card-hover: #2b2c32;
-  --app-row: #232429;
-  --app-row-hover: #2c2d34;
-  --app-field: #2a2b31;
+  --app-desktop: #24262b;
+  --app-window: #16181d;
+  --app-titlebar: #1a1c21;
+  --app-sidebar: #121419;
+  --app-card: #1e2127;
+  --app-card-hover: #272a31;
+  --app-row: #1e2127;
+  --app-row-hover: #272a31;
+  --app-field: #25282f;
   --app-text: #f4f5f7;
   --app-muted: #b6bbc4;
-  --app-faint: #9aa0a9;
-  --app-line: rgba(255, 255, 255, 0.11);
-  --app-soft-line: rgba(255, 255, 255, 0.06);
+  --app-faint: #9299a4;
+  --app-line: rgba(255, 255, 255, 0.1);
+  --app-soft-line: rgba(255, 255, 255, 0.055);
   --app-shadow: rgba(0, 0, 0, 0.52);
+  --app-accent: #4d9bff;
+  --app-accent-fill: rgba(77, 155, 255, 0.16);
+  --app-accent-soft: rgba(77, 155, 255, 0.13);
+  --app-accent-stroke: rgba(77, 155, 255, 0.45);
+  --app-highlight: rgba(77, 155, 255, 0.28);
   --gk-color-success: #30d158;
   --gk-color-warning: #ff9f0a;
   --gk-color-danger: #ff453a;
@@ -45,25 +51,26 @@ html[data-gk-theme="dark"] {
 
 html[data-gk-theme="light"] {
   color-scheme: light;
-  --app-desktop: #d9dae0;
-  --app-window: #f7f7f9;
-  --app-titlebar: #f2f2f5;
-  --app-sidebar: #eeeef2;
-  --app-card: #ffffff;
-  --app-card-hover: #f5f5f8;
-  --app-row: #ffffff;
-  --app-row-hover: #f3f4f7;
+  --app-desktop: #dfe3e9;
+  --app-window: #f9fafb;
+  --app-titlebar: #f6f7f9;
+  --app-sidebar: #f2f5f8;
+  --app-card: #fcfcfd;
+  --app-card-hover: #f3f7fb;
+  --app-row: #fcfcfd;
+  --app-row-hover: #f3f7fb;
   --app-field: #ffffff;
-  --app-text: #1b1b1f;
-  --app-muted: #5d626a;
-  --app-faint: #6f747d;
-  --app-line: rgba(0, 0, 0, 0.11);
-  --app-soft-line: rgba(0, 0, 0, 0.06);
-  --app-shadow: rgba(0, 0, 0, 0.18);
-  --app-accent: #0066cc;
-  --app-accent-fill: rgba(0, 102, 204, 0.1);
-  --app-accent-stroke: rgba(0, 102, 204, 0.45);
-  --app-highlight: rgba(0, 102, 204, 0.24);
+  --app-text: #17191e;
+  --app-muted: #5c6570;
+  --app-faint: #7a838f;
+  --app-line: rgba(15, 23, 42, 0.1);
+  --app-soft-line: rgba(15, 23, 42, 0.055);
+  --app-shadow: rgba(15, 23, 42, 0.16);
+  --app-accent: #0866e6;
+  --app-accent-fill: rgba(8, 102, 230, 0.1);
+  --app-accent-soft: #e8f3ff;
+  --app-accent-stroke: rgba(8, 102, 230, 0.36);
+  --app-highlight: rgba(8, 102, 230, 0.18);
   --gk-color-success: #1a7f37;
   --gk-color-warning: #a85b00;
   --gk-color-danger: #c62828;
@@ -220,8 +227,8 @@ gk-slider:focus-visible {
   justify-content: space-between;
   gap: 16px;
   min-width: 0;
-  padding: 0 0 0 14px;
-  border-bottom: 1px solid var(--app-line);
+  padding: 0 0 0 12px;
+  border-bottom: 1px solid var(--app-soft-line);
   background: var(--app-titlebar);
   cursor: move;
 }
@@ -241,31 +248,31 @@ gk-slider:focus-visible {
 .app-icon {
   display: grid;
   place-items: center;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border: 1px solid var(--app-accent-stroke);
-  border-radius: 7px;
-  background: var(--app-accent-fill);
+  border-radius: 6px;
+  background: var(--app-accent-soft);
   color: var(--app-accent);
 }
 
 .app-icon svg {
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
 }
 
 .app-title {
-  font-size: 13px;
-  font-weight: 620;
+  font-size: 12.5px;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 
 .back-button {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
-  margin-left: 8px;
+  width: 30px;
+  height: 30px;
+  margin-left: 4px;
   padding: 0;
   border: 1px solid transparent;
   border-radius: 8px;
@@ -289,12 +296,12 @@ gk-slider:focus-visible {
   display: flex;
   align-items: center;
   gap: 9px;
-  width: min(360px, 38vw);
+  width: min(380px, 42vw);
   min-width: 200px;
-  height: 32px;
+  height: 30px;
   padding: 0 10px;
   border: 1px solid var(--app-line);
-  border-radius: 8px;
+  border-radius: 9px;
   background: var(--app-field);
   color: var(--app-faint);
 }
@@ -337,7 +344,7 @@ gk-slider:focus-visible {
 .window-controls button {
   display: grid;
   place-items: center;
-  width: 46px;
+  width: 44px;
   height: 48px;
   padding: 0;
   border: 0;
@@ -362,9 +369,10 @@ gk-slider:focus-visible {
   stroke-width: 1.6;
 }
 
+/* HIG-informed split view: a leading sidebar for navigation and a quiet detail pane. */
 .window-body {
   display: grid;
-  grid-template-columns: 264px minmax(0, 1fr);
+  grid-template-columns: 296px minmax(0, 1fr);
   min-height: 0;
 }
 
@@ -372,8 +380,8 @@ gk-slider:focus-visible {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  padding: 18px 12px 12px;
-  border-right: 1px solid var(--app-line);
+  padding: 14px 10px 10px;
+  border-right: 1px solid var(--app-soft-line);
   background: var(--app-sidebar);
   overflow-y: auto;
 }
@@ -382,9 +390,9 @@ gk-slider:focus-visible {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 46px;
-  margin: 0 4px 16px;
-  padding: 0 6px 14px;
+  min-height: 40px;
+  margin: 0 4px 10px;
+  padding: 0 6px 12px;
   border-bottom: 1px solid var(--app-soft-line);
 }
 
@@ -392,14 +400,14 @@ gk-slider:focus-visible {
 .user-avatar {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   flex: none;
   border: 1px solid var(--app-accent-stroke);
   border-radius: 50%;
-  background: var(--app-accent-fill);
+  background: var(--app-accent-soft);
   color: var(--app-accent);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 650;
 }
 
@@ -434,28 +442,28 @@ gk-slider:focus-visible {
 }
 
 .nav-heading {
-  margin: 12px 10px 5px;
+  margin: 14px 10px 4px;
   color: var(--app-faint);
-  font-size: 10px;
-  font-weight: 650;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .nav-heading:first-child {
-  margin-top: 0;
+  margin-top: 2px;
 }
 
 .nav-item {
   display: grid;
-  grid-template-columns: var(--nav-icon-size) minmax(0, 1fr) 12px;
+  grid-template-columns: var(--nav-icon-size) minmax(0, 1fr);
   align-items: center;
   gap: 10px;
   width: 100%;
   min-height: var(--nav-row-height);
-  padding: 6px 9px;
+  padding: 5px 10px;
   border: 1px solid transparent;
-  border-radius: 9px;
+  border-radius: 7px;
   background: transparent;
   color: var(--app-muted);
   text-align: left;
@@ -471,9 +479,8 @@ gk-slider:focus-visible {
 }
 
 .nav-item.is-active {
-  border-color: var(--app-accent-stroke);
-  background: var(--app-accent-fill);
-  color: var(--app-text);
+  background: var(--app-accent-soft);
+  color: var(--app-accent);
 }
 
 .nav-icon {
@@ -481,10 +488,17 @@ gk-slider:focus-visible {
   place-items: center;
   width: var(--nav-icon-size);
   height: var(--nav-icon-size);
-  border: 1px solid var(--app-line);
-  border-radius: 6px;
-  background: var(--app-card);
+  color: var(--app-faint);
+}
+
+.nav-item.is-active .nav-icon,
+.nav-item:hover .nav-icon {
   color: var(--app-accent);
+}
+
+.nav-icon svg {
+  width: var(--nav-icon-size);
+  height: var(--nav-icon-size);
 }
 
 .nav-copy {
@@ -495,29 +509,17 @@ gk-slider:focus-visible {
 .nav-copy strong {
   overflow: hidden;
   font-size: 12px;
-  font-weight: 570;
+  font-weight: 560;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .nav-copy small {
-  overflow: hidden;
-  color: var(--app-faint);
-  font-size: 10px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: none;
 }
 
 .nav-chevron {
-  width: 12px;
-  height: 12px;
-  color: var(--app-faint);
-  opacity: 0;
-}
-
-.nav-item:hover .nav-chevron,
-.nav-item.is-active .nav-chevron {
-  opacity: 1;
+  display: none;
 }
 
 .sidebar-footer {
@@ -539,43 +541,39 @@ gk-slider:focus-visible {
 }
 
 .detail-head {
-  padding: 24px 30px 18px;
+  padding: 22px 34px 14px;
   border-bottom: 1px solid var(--app-soft-line);
 }
 
 .breadcrumb {
-  margin: 0 0 5px;
-  color: var(--app-faint);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  display: none;
 }
 
 .detail-head h1 {
   margin: 0;
-  font-size: 28px;
-  font-weight: 640;
-  letter-spacing: -0.035em;
-  line-height: 1.1;
+  font-size: 24px;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
 .detail-scroll {
   min-height: 0;
-  padding: 22px 30px 30px;
+  padding: 20px 34px 30px;
   overflow-y: auto;
 }
 
 .page {
   display: grid;
-  gap: 16px;
+  max-width: 760px;
+  gap: 14px;
 }
 
 .settings-group {
   display: block !important;
-  padding: 4px 0 !important;
+  padding: 2px 0 !important;
   border: 1px solid var(--app-line) !important;
-  border-radius: 14px !important;
+  border-radius: 12px !important;
   background: var(--app-card) !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
@@ -583,11 +581,11 @@ gk-slider:focus-visible {
 
 .settings-group h2 {
   margin: 0;
-  padding: 14px 18px 10px;
-  color: var(--app-text);
-  font-size: 14px;
-  font-weight: 640;
-  letter-spacing: -0.015em;
+  padding: 12px 16px 8px;
+  color: var(--app-muted);
+  font-size: 12px;
+  font-weight: 620;
+  letter-spacing: -0.005em;
 }
 
 .setting-row,
@@ -596,8 +594,8 @@ gk-slider:focus-visible {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 52px;
-  padding: 10px 18px;
+  min-height: 48px;
+  padding: 9px 16px;
   border-top: 1px solid var(--app-soft-line);
 }
 
@@ -617,8 +615,8 @@ gk-slider:focus-visible {
 .row-copy strong,
 .network-copy strong,
 .device-row > div strong {
-  font-size: 12px;
-  font-weight: 580;
+  font-size: 12.5px;
+  font-weight: 600;
 }
 
 .row-copy span,
@@ -655,19 +653,20 @@ gk-slider:focus-visible {
 }
 
 .mini-button {
-  min-height: 30px;
-  padding: 0 12px;
-  border: 1px solid var(--app-line);
-  border-radius: 8px;
-  background: var(--app-card-hover);
-  color: var(--app-text);
+  min-height: 28px;
+  padding: 0 9px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--app-accent);
   font-size: 11px;
-  font-weight: 550;
+  font-weight: 600;
   cursor: pointer;
 }
 
 .mini-button:hover {
-  border-color: var(--app-accent-stroke);
+  border-color: transparent;
+  background: var(--app-accent-soft);
   color: var(--app-accent);
 }
 
@@ -675,6 +674,21 @@ gk-list-row {
   --gk-color-card: transparent;
   --gk-color-card-hover: var(--app-row-hover);
   border-top: 1px solid var(--app-soft-line) !important;
+}
+
+gk-list-row::part(row) {
+  min-height: 48px;
+  padding: 8px 16px;
+  border-radius: 0;
+  background: transparent;
+}
+
+gk-list-row[interactive]:hover::part(row) {
+  background: var(--app-row-hover);
+}
+
+gk-list-row[interactive]:hover::part(row) .subtitle {
+  color: var(--app-muted);
 }
 
 .row-icon,
@@ -736,8 +750,9 @@ gk-list-row {
 }
 
 .choice.is-selected {
-  border-color: var(--app-accent-stroke);
-  background: var(--app-accent-fill);
+  border-color: transparent;
+  background: var(--app-accent-soft);
+  color: var(--app-accent);
 }
 
 .choice > svg:first-child {
@@ -1242,7 +1257,7 @@ gk-toolbar.kit-toolbar {
 
 @media (max-width: 900px) {
   .window-body {
-    grid-template-columns: 224px minmax(0, 1fr);
+    grid-template-columns: 248px minmax(0, 1fr);
   }
 
   .search-field {
@@ -1251,8 +1266,8 @@ gk-toolbar.kit-toolbar {
 
   .detail-head,
   .detail-scroll {
-    padding-left: 22px;
-    padding-right: 22px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 }
 

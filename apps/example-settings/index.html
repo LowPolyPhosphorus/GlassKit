@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-gk-theme="dark" data-gk-theme-preference="auto">
+<html lang="en" data-gk-theme="light" data-gk-theme-preference="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,14 +8,14 @@
     <script>
       (() => {
         const key = "gk-settings-theme";
-        let preference = "auto";
+        let preference = "light";
         try {
-          preference = localStorage.getItem(key) || "auto";
+          preference = localStorage.getItem(key) || "light";
         } catch {
-          preference = "auto";
+          preference = "light";
         }
         if (preference !== "light" && preference !== "dark" && preference !== "auto") {
-          preference = "auto";
+          preference = "light";
         }
         const resolved =
           preference === "auto"

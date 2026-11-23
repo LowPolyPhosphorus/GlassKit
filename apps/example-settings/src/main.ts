@@ -171,7 +171,7 @@ function readPreference(): ThemePreference {
   } catch {
     stored = null;
   }
-  const value = stored ?? root.dataset.gkThemePreference ?? "auto";
+  const value = stored ?? root.dataset.gkThemePreference ?? "light";
   return value === "light" || value === "dark" ? value : "auto";
 }
 
