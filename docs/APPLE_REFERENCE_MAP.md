@@ -13,6 +13,7 @@ These directly define the look and feel Glass Kit needs.
 | Apple reference | What to extract | Glass Kit home |
 |---|---|---|
 | Human Interface Guidelines | Clarity, deference, depth, hierarchy, calm surfaces | `DESIGN.md` |
+| HIG Components index | Every component topic, its terminology, state cues, and layout guidance | `@glasskit/ui` (`COMPONENT_REGISTRY`) |
 | Adopting Liquid Glass | Material layers, specular edges, adaptable glass, continuity | `DESIGN.md`, `@glasskit/tokens`, `glasskit-material` |
 | Interface fundamentals | Windows, views, controls, layout vocabulary | `@glasskit/ui` |
 | Animation and motion | Meaningful motion, continuity, reduced motion | `@glasskit/motion` |
@@ -55,6 +56,34 @@ These are relevant to Apple's ecosystem but low priority for a Windows desktop U
 - GameplayKit — game logic, not UI.
 - visionOS, watchOS, tvOS, ClockKit — study the design language, not the interactions or APIs.
 
+## HIG Components index coverage
+
+The Components index has 77 topic pages. All 77 are represented in Glass Kit by 81 registered tags: 28 original core elements plus 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
+
+Each `COMPONENT_REGISTRY` entry carries its HIG source page. The same registry renders the docs homepage atlas, the smart-home lab atlas, and the 5185 Settings Glass Kit pane, so coverage is exercised in all three surfaces.
+
+| Glass Kit family | Representative HIG topics | Tags |
+|---|---|---|
+| Core and material | Glass surfaces, buttons, badges, toolbars, segmented controls | `gk-glass-panel`, `gk-button`, `gk-badge`, `gk-toolbar`, `gk-segmented` |
+| Content | Text views, image views, charts, web views | `gk-text-view`, `gk-image-view`, `gk-chart`, `gk-web-view` |
+| Layout | Boxes, collections, column views, disclosures, labels, lists and tables, split views, outlines | `gk-box`, `gk-collection`, `gk-column-view`, `gk-disclosure`, `gk-label`, `gk-list-row`, `gk-split-view`, `gk-outline-view` |
+| Navigation and search | Sidebars, tab bars, path controls, search fields, token fields | `gk-sidebar`, `gk-sidebar-item`, `gk-tab-bar`, `gk-path-control`, `gk-search-field`, `gk-token-field` |
+| Menus and actions | Buttons, menus, context menus, edit menus, pull-down and pop-up buttons, activity views | `gk-menu`, `gk-context-menu`, `gk-edit-menu`, `gk-pull-down-button`, `gk-pop-up-button`, `gk-activity-view` |
+| Presentation | Windows, sheets, scroll views, popovers, panels, alerts, action sheets | `gk-window`, `gk-sheet`, `gk-scroll-view`, `gk-popover`, `gk-panel`, `gk-alert`, `gk-action-sheet` |
+| Selection and input | Toggles, sliders, text fields, color wells, steppers, pickers, combo boxes, digit entry | `gk-toggle`, `gk-slider`, `gk-text-field`, `gk-color-well`, `gk-stepper`, `gk-picker`, `gk-combo-box`, `gk-digit-entry-view` |
+| Status | Progress indicators, gauges, activity rings, rating indicators, notifications, status bars | `gk-progress-indicator`, `gk-gauge`, `gk-activity-ring`, `gk-rating-indicator`, `gk-notification`, `gk-status-bar` |
+| System experiences | Widgets, live activities, snippets, top shelf, app shortcuts, watch and TV surfaces | `gk-widget`, `gk-live-activity`, `gk-snippet`, `gk-top-shelf`, `gk-app-shortcut`, `gk-watch-face` |
+| Inputs | Keyboards, pointing devices, gestures, focus and selection, camera control, remotes | `gk-keyboard`, `gk-pointing-device`, `gk-gesture`, `gk-focus-and-selection`, `gk-camera-control`, `gk-remote` |
+
+Four topics received closer fidelity work:
+
+- **Sliders** — filled min-to-thumb track, narrow lozenge thumb, optional tick marks and labels, leading/trailing min/max icons, linear and circular variants, paired units, and live `gk-input`/`gk-change`.
+- **Text fields** — separate label and placeholder, trailing clear action, leading and trailing slots, secure input types, captions, invalid state, and sensible validation timing.
+- **Color wells** — active swatch, native color input, highlight on interaction, value sync, and drag/drop of `#rrggbb` strings.
+- **Toggles** — switch, mini switch, checkbox with mixed state, and radio variants; state is carried by shape, position, and text, not colour alone.
+
+These are visual and informational translations. No Apple logos, SF Symbols, SF Pro binaries, traffic lights, menu bar, Dock, or platform gestures are shipped, and the Windows-native shell remains unchanged.
+
 ## Mapping Apple ideas to Windows implementations
 
 | Apple concept | Glass Kit implementation |
@@ -62,7 +91,7 @@ These are relevant to Apple's ecosystem but low priority for a Windows desktop U
 | SwiftUI modifiers | CSS custom properties and component props |
 | UIKit `UIViewPropertyAnimator` | JS motion controller using spring physics |
 | AppKit window chrome | Tauri window configuration + DWM material helper |
-| HIG | Written rules in `DESIGN.md` |
+| HIG | Written rules in `DESIGN.md`; live topic patterns in `COMPONENT_REGISTRY` |
 | Liquid Glass | Native DWM blur, subtle gradients, hairlines, rounded corners |
 | `matchedGeometryEffect` | Shared-layout transition recipe |
 | `PhaseAnimator` / `KeyframeAnimator` | Named keyframe recipes in `@glasskit/motion` |
