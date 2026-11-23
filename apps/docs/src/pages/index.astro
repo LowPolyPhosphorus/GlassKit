@@ -53,6 +53,19 @@ installGlassKit();
           </div>
         </div>
 
+        <div class="token-block token-block--wide">
+          <h3>Semantic light / dark</h3>
+          <p class="token-note">Default pairs are derived from system colours, not hard-coded per component. Derived fills use alpha composition; for example, black at 50% over <code>#C83B41</code> resolves to <code>#641D20</code>.</p>
+          <div class="semantic-grid">
+            <div class="semantic-pair"><span class="semantic-chip" style="background:#ffffff"></span><span class="semantic-label">Label</span><span class="semantic-values"><code>#FFF</code><code>#000</code></span></div>
+            <div class="semantic-pair"><span class="semantic-chip" style="background:#f2f2f7"></span><span class="semantic-label">Grouped background</span><span class="semantic-values"><code>#F2F2F7</code><code>#000</code></span></div>
+            <div class="semantic-pair"><span class="semantic-chip" style="background:#007aff"></span><span class="semantic-label">Accent</span><span class="semantic-values"><code>#007AFF</code><code>#0A84FF</code></span></div>
+            <div class="semantic-pair"><span class="semantic-chip" style="background:#248a3d"></span><span class="semantic-label">Success</span><span class="semantic-values"><code>#248A3D</code><code>#30D158</code></span></div>
+            <div class="semantic-pair"><span class="semantic-chip" style="background:#c58400"></span><span class="semantic-label">Warning</span><span class="semantic-values"><code>#C58400</code><code>#FF9F0A</code></span></div>
+            <div class="semantic-pair"><span class="semantic-chip" style="background:#d70015"></span><span class="semantic-label">Danger</span><span class="semantic-values"><code>#D70015</code><code>#FF453A</code></span></div>
+          </div>
+        </div>
+
         <div class="token-block">
           <h3>Type scale</h3>
           <div class="type-row"><span style="font-size:24px">Title</span><span>24 / 600</span></div>
@@ -116,6 +129,40 @@ installGlassKit();
         <gk-slider label="Demo slider" min="0" max="100" value="62" unit="%"></gk-slider>
       </div>
       <div class="event-strip" data-event-strip aria-live="polite"><span>Interact with a component</span></div>
+
+      <div class="input-recipes" aria-label="Input recipes">
+        <div class="input-recipe">
+          <h3>Find a device</h3>
+          <gk-search-field label="Find a device" placeholder="Search rooms" scopes='["All","Lights","Climate"]' scope="All"></gk-search-field>
+          <gk-combo-box></gk-combo-box>
+        </div>
+        <div class="input-recipe">
+          <h3>Scene details</h3>
+          <gk-text-field label="Scene name" placeholder="Name this scene" clearable></gk-text-field>
+          <gk-segmented value="home" label="Start mode">
+            <button value="home">Home</button>
+            <button value="away">Away</button>
+            <button value="night">Night</button>
+          </gk-segmented>
+          <gk-picker></gk-picker>
+        </div>
+        <div class="input-recipe">
+          <h3>Scene timing</h3>
+          <gk-stepper value="2" min="0" max="8"></gk-stepper>
+          <gk-slider label="Duration" min="5" max="60" value="20" unit="s"></gk-slider>
+          <gk-toggle checked label="Run on schedule"></gk-toggle>
+        </div>
+        <div class="input-recipe input-recipe--wide">
+          <h3>Access code</h3>
+          <gk-digit-entry-view></gk-digit-entry-view>
+          <gk-virtual-keyboard></gk-virtual-keyboard>
+        </div>
+        <div class="input-recipe">
+          <h3>Scene artwork</h3>
+          <gk-image-well></gk-image-well>
+          <gk-color-well value="#0a84ff"></gk-color-well>
+        </div>
+      </div>
     </section>
 
     <section id="motion" class="section">
@@ -169,6 +216,12 @@ installGlassKit();
             <button value="core">Core</button>
             <button value="hig">HIG</button>
           </gk-segmented>
+          <label class="atlas-picker-label">Group
+            <select class="atlas-picker" id="atlas-group-picker" aria-label="Filter atlas by group"></select>
+          </label>
+          <label class="atlas-picker-label">Component
+            <select class="atlas-picker" id="atlas-component-picker" aria-label="Jump to a component"></select>
+          </label>
           <gk-badge id="atlas-count" tone="success">81 components</gk-badge>
         </div>
         <div class="atlas-grid" data-component-atlas></div>

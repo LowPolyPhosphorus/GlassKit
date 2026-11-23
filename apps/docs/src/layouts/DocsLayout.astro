@@ -38,6 +38,14 @@ const interFontCss = `@font-face{font-family:"Inter Variable";font-style:normal;
           theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
         }
         document.documentElement.dataset.gkTheme = theme;
+
+        let material = null;
+        try {
+          material = localStorage.getItem("gk-docs-material");
+        } catch {
+          material = null;
+        }
+        if (material === "liquid") document.documentElement.dataset.gkMaterial = "liquid";
       })();
     </script>
   </head>

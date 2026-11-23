@@ -31,6 +31,7 @@ import Icon from "./Icon.astro";
             <button type="button" data-room="climate" aria-current="false"><Icon name="thermostat" /> Climate</button>
             <button type="button" data-room="security" aria-current="false"><Icon name="lock" /> Security</button>
             <button type="button" data-room="patterns" aria-current="false"><Icon name="components" /> HIG patterns</button>
+            <button type="button" data-room="recipes" aria-current="false"><Icon name="sparkle" /> Recipes</button>
             <button type="button" data-room="atlas" aria-current="false"><Icon name="components" /> All components</button>
           </div>
           <p>Views</p>
@@ -318,6 +319,44 @@ import Icon from "./Icon.astro";
             </gk-glass-panel>
           </div>
 
+          <div class="room-grid" data-room-panel="recipes" hidden>
+            <gk-glass-panel class="device-card" tone="thin">
+              <div class="device-head"><strong>New recipe</strong><gk-badge tone="accent" dot>Input set</gk-badge></div>
+              <gk-search-field label="Find a device" placeholder="Search rooms" scopes='["All","Lights","Climate"]' scope="All"></gk-search-field>
+              <gk-text-field label="Recipe name" placeholder="e.g. Movie night" clearable></gk-text-field>
+              <gk-combo-box></gk-combo-box>
+              <gk-segmented value="home" label="Start mode">
+                <button value="home">Home</button>
+                <button value="away">Away</button>
+                <button value="night">Night</button>
+              </gk-segmented>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card" tone="thin">
+              <div class="device-head"><strong>Schedule</strong></div>
+              <gk-picker></gk-picker>
+              <gk-stepper value="2" min="0" max="8"></gk-stepper>
+              <gk-slider label="Fade duration" min="0" max="60" value="12" unit="s"></gk-slider>
+              <gk-toggle checked label="Enabled"></gk-toggle>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card device-card--wide" tone="thin">
+              <div class="device-head"><strong>Access &amp; artwork</strong></div>
+              <gk-digit-entry-view></gk-digit-entry-view>
+              <gk-image-well></gk-image-well>
+              <gk-color-well value="#0a84ff"></gk-color-well>
+              <gk-virtual-keyboard></gk-virtual-keyboard>
+            </gk-glass-panel>
+
+            <div class="device-card device-card--wide">
+              <gk-toolbar>
+                <gk-button variant="primary" size="small" data-save-recipe>Save recipe</gk-button>
+                <gk-button size="small" data-reset-recipe>Reset</gk-button>
+              </gk-toolbar>
+              <p class="lab-status" data-recipe-status aria-live="polite">Set the controls above, then save a recipe.</p>
+            </div>
+          </div>
+
           <div class="room-grid" data-room-panel="atlas" hidden>
             <gk-glass-panel class="device-card device-card--wide" tone="thin">
               <div class="device-head">
@@ -327,6 +366,12 @@ import Icon from "./Icon.astro";
               <div class="lab-atlas">
                 <div class="lab-atlas__toolbar">
                   <gk-text-field id="lab-atlas-search" label="Filter components" placeholder="Search by name or group" clearable></gk-text-field>
+                  <label class="atlas-picker-label">Group
+                    <select class="atlas-picker" id="lab-atlas-group-picker" aria-label="Filter lab atlas by group"></select>
+                  </label>
+                  <label class="atlas-picker-label">Component
+                    <select class="atlas-picker" id="lab-atlas-component-picker" aria-label="Jump to a component"></select>
+                  </label>
                   <gk-badge id="lab-atlas-count" tone="success">Ready</gk-badge>
                 </div>
                 <div class="lab-atlas__grid" data-lab-atlas></div>

@@ -29,9 +29,15 @@ function isActive(href: string): boolean {
       ))}
     </nav>
 
-    <button class="theme-toggle" type="button" data-theme-toggle>
-      <Icon name="moon" />
-      <span data-theme-label>Theme</span>
-    </button>
+    <div class="header-actions">
+      <button class="material-toggle" type="button" data-material-toggle aria-pressed="false" aria-label="Toggle liquid material">
+        <Icon name="glass" />
+        <span data-material-label>Liquid</span>
+      </button>
+      <button class="theme-toggle" type="button" data-theme-toggle>
+        <Icon name="moon" />
+        <span data-theme-label>Theme</span>
+      </button>
+    </div>
   </div>
 </header>

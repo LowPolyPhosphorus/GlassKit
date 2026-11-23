@@ -6,6 +6,7 @@ const ROOM_COPY: Record<string, { title: string; subtitle: string }> = {
   climate: { title: "Climate", subtitle: "Whole home · Comfort mode" },
   security: { title: "Security", subtitle: "3 zones · Armed home" },
   patterns: { title: "HIG patterns", subtitle: "Layout, navigation, status, and media" },
+  recipes: { title: "Recipes", subtitle: "Every input pattern in one workflow" },
   atlas: { title: "All components", subtitle: "Every element in the Glass Kit registry" },
 };
 
@@ -241,5 +242,26 @@ export function initDesktopLab(): void {
     panel.append(card);
     animateRecipe(card, "panel-in");
     setStatus(`Added · ${name}`);
+  });
+
+  const recipePanel = canvas.querySelector<HTMLElement>('[data-room-panel="recipes"]');
+  const recipeStatus = recipePanel?.querySelector<HTMLElement>("[data-recipe-status]");
+  const setRecipeStatus = (text: string): void => {
+    if (recipeStatus) recipeStatus.textContent = text;
+    setStatus(text);
+  };
+
+  recipePanel?.querySelector<HTMLElement>("[data-save-recipe]")?.addEventListener("gk-activate", () => {
+    const nameField = recipePanel.querySelector<HTMLElement & { value?: string }>("gk-text-field");
+    const name = (nameField?.value || nameField?.getAttribute("value") || "Untitled recipe").trim();
+    setRecipeStatus(`Saved · ${name}`);
+  });
+
+  recipePanel?.querySelector<HTMLElement>("[data-reset-recipe]")?.addEventListener("gk-activate", () => {
+    for (const field of recipePanel.querySelectorAll<HTMLElement & { value?: string }>("gk-text-field")) {
+      field.setAttribute("value", "");
+      if (field.value !== undefined) field.value = "";
+    }
+    setRecipeStatus("Recipe reset");
   });
 }
