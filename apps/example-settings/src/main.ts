@@ -2,19 +2,83 @@ import "@fontsource-variable/inter/wght.css";
 import "@glasskit/tokens/tokens.css";
 import "./styles.css";
 
-import { animateRecipe } from "@glasskit/motion";
-import { applyNativeGlass, nativeStatus, setNativeCorners } from "@glasskit/native";
-import { installGlassKit } from "@glasskit/ui";
+import tokens from "@glasskit/tokens";
+import {
+  animateRecipe,
+  animateSpring,
+  clearReducedMotionOverride,
+  duration,
+  ease,
+  getSpring,
+  prefersReducedMotion,
+  recipeOptions,
+  recipes,
+  setReducedMotionOverride,
+  springKeyframes,
+  springValue,
+  springs,
+  type RecipeName,
+  type SpringPresetName,
+} from "@glasskit/motion";
+import {
+  applyNativeGlass,
+  clearNativeGlass,
+  isTauriHost,
+  nativeStatus,
+  setNativeCorners,
+  type GlassMode,
+  type NativeStatus,
+} from "@glasskit/native";
+import {
+  BADGE_TAG,
+  GLASS_BUTTON_TAG,
+  GLASS_PANEL_TAG,
+  GLASS_TOGGLE_TAG,
+  LIST_ROW_TAG,
+  SEGMENTED_CONTROL_TAG,
+  SLIDER_TAG,
+  TEXT_FIELD_TAG,
+  TOOLBAR_TAG,
+  Badge,
+  GlassButton,
+  GlassPanel,
+  GlassToggle,
+  ListRow,
+  SegmentedControl,
+  Slider,
+  TextField,
+  Toolbar,
+  installGlassKit,
+} from "@glasskit/ui";
 
 installGlassKit();
 
 type ThemePreference = "light" | "dark" | "auto";
 type DetailValue = string | number | boolean | undefined;
+type KitSlider = HTMLElement & { value: number };
+type KitSegmented = HTMLElement & { value: string };
+type KitToggle = HTMLElement & { checked: boolean; disabled: boolean };
+type KitButton = HTMLElement & { disabled: boolean };
 
 interface PageMeta {
   title: string;
   group: string;
 }
+
+const COMPONENTS = [
+  { tag: BADGE_TAG, ctor: Badge },
+  { tag: GLASS_BUTTON_TAG, ctor: GlassButton },
+  { tag: GLASS_PANEL_TAG, ctor: GlassPanel },
+  { tag: GLASS_TOGGLE_TAG, ctor: GlassToggle },
+  { tag: LIST_ROW_TAG, ctor: ListRow },
+  { tag: SEGMENTED_CONTROL_TAG, ctor: SegmentedControl },
+  { tag: SLIDER_TAG, ctor: Slider },
+  { tag: TEXT_FIELD_TAG, ctor: TextField },
+  { tag: TOOLBAR_TAG, ctor: Toolbar },
+] as const;
+
+const RECIPE_NAMES = Object.keys(recipes) as RecipeName[];
+const SPRING_NAMES = Object.keys(springs) as SpringPresetName[];
 
 const PAGES: Record<string, PageMeta> = {
   wifi: { title: "Wi-Fi", group: "Network & internet" },
@@ -29,6 +93,7 @@ const PAGES: Record<string, PageMeta> = {
   battery: { title: "Power & battery", group: "System" },
   general: { title: "About", group: "System" },
   users: { title: "Accounts", group: "System" },
+  kit: { title: "Glass Kit", group: "Glass Kit" },
 };
 
 const THEME_KEY = "gk-settings-theme";
@@ -43,7 +108,10 @@ function must<T extends Element>(selector: string): T {
 function detailValue(event: Event): DetailValue {
   if (!(event instanceof CustomEvent) || !event.detail || typeof event.detail !== "object") return undefined;
   const detail = event.detail as Record<string, unknown>;
-  return (detail.value ?? detail.checked) as DetailValue;
+  const value = detail.value ?? detail.checked;
+  return typeof value === "string" || typeof value === "number" || typeof value === "boolean"
+    ? value
+    : undefined;
 }
 
 function stringValue(value: DetailValue): string {
@@ -69,6 +137,18 @@ const nativeBadgeDetail = must<HTMLElement>("#native-badge-detail");
 const taskbarSettings = must<HTMLButtonElement>("#taskbar-settings");
 const titlebar = must<HTMLElement>(".titlebar");
 const media = window.matchMedia("(prefers-color-scheme: light)");
+const reduceMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
+const KIT_CONTROL_IDS = new Set([
+  "kit-material-mode",
+  "kit-tint",
+  "kit-corners",
+  "kit-clear-glass",
+  "kit-spring-preset",
+  "kit-spring-time",
+  "kit-reduced-motion",
+  "kit-recipe-filter",
+  "kit-note-field",
+]);
 
 const navItems = Array.from(nav.querySelectorAll<HTMLButtonElement>(".nav-item"));
 const panels = Array.from(pageHost.querySelectorAll<HTMLElement>("[data-page-panel]"));
@@ -352,7 +432,15 @@ function configureActions(): void {
   for (const name of ["gk-activate", "gk-change", "gk-input"]) {
     document.addEventListener(name, (event) => {
       const target = event.target as HTMLElement;
-      if (target === themeMode || target === themeToggle || target === must<HTMLElement>("#sidebar-size")) return;
+      if (
+        target === themeMode ||
+        target === themeToggle ||
+        target === must<HTMLElement>("#sidebar-size") ||
+        KIT_CONTROL_IDS.has(target.id) ||
+        target.dataset.kitAction !== undefined
+      ) {
+        return;
+      }
       const label = target.getAttribute("label") ?? target.textContent?.trim() ?? target.tagName.toLowerCase();
       const value = detailValue(event);
       if (value === undefined) return;
@@ -498,6 +586,332 @@ function configureClock(): void {
   window.setInterval(update, 30_000);
 }
 
+function tokenRows(value: unknown, path: string[] = []): Array<[string, string]> {
+  if (typeof value === "object" && value !== null) {
+    return Object.entries(value).flatMap(([key, child]) => tokenRows(child, [...path, key]));
+  }
+  return [[path.join("."), String(value)]];
+}
+
+function configureKitCoverage(): void {
+  installGlassKit();
+  const host = must<HTMLElement>("#kit-coverage");
+  host.replaceChildren();
+
+  for (const { tag, ctor } of COMPONENTS) {
+    const row = document.createElement("div");
+    row.className = "kit-coverage-row";
+    const name = document.createElement("code");
+    name.textContent = tag;
+    const badge = document.createElement("gk-badge");
+    const registered = customElements.get(tag) === ctor;
+    badge.setAttribute("tone", registered ? "success" : "danger");
+    badge.textContent = registered ? "registered" : "missing";
+    row.append(name, badge);
+    host.append(row);
+  }
+}
+
+function configureKitTokens(): void {
+  const summary = must<HTMLElement>("#kit-token-summary");
+  const grid = must<HTMLElement>("#kit-token-grid");
+  const vars = must<HTMLElement>("#kit-token-vars");
+  const tones = ["accent", "success", "warning", "danger", ""];
+
+  summary.replaceChildren();
+  Object.entries(tokens).forEach(([group, values], index) => {
+    const badge = document.createElement("gk-badge");
+    if (tones[index]) badge.setAttribute("tone", tones[index]!);
+    badge.textContent = `${group} · ${Object.keys(values as object).length}`;
+    summary.append(badge);
+  });
+
+  grid.replaceChildren();
+  for (const [path, value] of tokenRows(tokens)) {
+    const row = document.createElement("div");
+    row.className = "kit-token-row";
+    const name = document.createElement("code");
+    name.textContent = path;
+    const tokenValue = document.createElement("span");
+    tokenValue.textContent = value;
+    row.append(name, tokenValue);
+    grid.append(row);
+  }
+
+  const cssVars = [
+    "--gk-color-accent",
+    "--gk-radius-md",
+    "--gk-space-3",
+    "--gk-font-size-md",
+    "--gk-font-weight-medium",
+    "--gk-font-tracking-tight",
+    "--gk-material-blur-px",
+    "--gk-material-saturate",
+    "--gk-motion-duration-base",
+    "--gk-motion-ease-emphasized",
+  ];
+  vars.replaceChildren();
+  for (const name of cssVars) {
+    const row = document.createElement("div");
+    row.className = "kit-token-row";
+    const label = document.createElement("code");
+    label.textContent = name;
+    const value = document.createElement("span");
+    value.textContent = getComputedStyle(root).getPropertyValue(name).trim();
+    row.append(label, value);
+    vars.append(row);
+  }
+}
+
+let kitAnimation: Animation | null = null;
+let kitSequence = 0;
+
+function setKitMotionState(text: string): void {
+  must<HTMLElement>("#kit-motion-state").textContent = text;
+}
+
+function stopMotionSequence(): void {
+  kitSequence += 1;
+  kitAnimation?.cancel();
+  kitAnimation = null;
+  setKitMotionState("Idle");
+}
+
+function runRecipe(name: RecipeName): Animation {
+  const preview = must<HTMLElement>("#kit-motion-preview");
+  const recipe = recipes[name];
+  const reduced = prefersReducedMotion();
+  const frames: Keyframe[] = reduced
+    ? [recipe.reducedFrom, recipe.reducedTo]
+    : [recipe.from, recipe.to];
+
+  kitAnimation?.cancel();
+  preview.style.left = "0px";
+  kitAnimation = animateRecipe(preview, name, frames, { fill: "both" });
+  setKitMotionState(name);
+  return kitAnimation;
+}
+
+function playRecipe(name: RecipeName): void {
+  stopMotionSequence();
+  runRecipe(name);
+  setStatus(`Motion recipe: ${name}`);
+}
+
+async function playAllRecipes(): Promise<void> {
+  stopMotionSequence();
+  const token = kitSequence;
+  for (const name of RECIPE_NAMES) {
+    if (token !== kitSequence) return;
+    const animation = runRecipe(name);
+    try {
+      await animation.finished;
+    } catch {
+      return;
+    }
+  }
+  if (token === kitSequence) {
+    setKitMotionState("Complete");
+    setStatus(`Played all ${RECIPE_NAMES.length} motion recipes`);
+  }
+}
+
+function playSpring(): void {
+  stopMotionSequence();
+  const preset = (must<HTMLElement>("#kit-spring-preset") as KitSegmented).value as SpringPresetName;
+  const time = (must<HTMLElement>("#kit-spring-time") as KitSlider).value || 420;
+  kitAnimation = animateSpring(must<HTMLElement>("#kit-motion-preview"), "left", {
+    preset,
+    from: 0,
+    to: 48,
+    unit: "px",
+    durationMs: time,
+    fill: "both",
+  });
+  setKitMotionState(`spring · ${preset}`);
+  setStatus(`Spring preview: ${preset}`);
+}
+
+function updateSpringMetrics(): void {
+  const preset = (must<HTMLElement>("#kit-spring-preset") as KitSegmented).value as SpringPresetName;
+  const time = (must<HTMLElement>("#kit-spring-time") as KitSlider).value;
+  const config = getSpring(preset);
+  const sample = springValue(config, time);
+  const frames = springKeyframes({
+    property: "opacity",
+    preset,
+    durationMs: Math.max(time, 80),
+    steps: 12,
+  });
+  const options = recipeOptions("panel-in");
+
+  must<HTMLElement>("#kit-spring-readout").textContent = `${time} ms`;
+  must<HTMLElement>("#kit-metrics").textContent =
+    `${preset}: k=${config.stiffness} c=${config.damping} m=${config.mass} · ` +
+    `sample ${sample.toFixed(3)} · ${frames.length} keyframes · ${SPRING_NAMES.length} presets · ` +
+    `${duration("fast")} / ${ease("standard")} · ${options.fill} · ` +
+    `reduced ${prefersReducedMotion() ? "on" : "off"}`;
+}
+
+function applyReducedPreference(value: string): void {
+  if (value === "reduced") setReducedMotionOverride(true);
+  else if (value === "full") setReducedMotionOverride(false);
+  else clearReducedMotionOverride();
+  updateSpringMetrics();
+  setStatus(`Reduced motion: ${value}`);
+}
+
+function renderRecipeRows(filter = ""): void {
+  const host = must<HTMLElement>("#kit-recipe-list");
+  const term = filter.trim().toLowerCase();
+  const names = RECIPE_NAMES.filter((name) => name.includes(term));
+  host.replaceChildren();
+
+  for (const name of names) {
+    const recipe = recipes[name];
+    const row = document.createElement("gk-list-row");
+    row.setAttribute("subtitle", "");
+    row.setAttribute("interactive", "");
+    row.dataset.recipe = name;
+    row.innerHTML = `
+      <svg slot="leading" class="row-icon"><use href="/icons.svg#icon-sparkle" /></svg>
+      ${name}
+      <span slot="subtitle">${recipe.preset} · ${recipe.durationMs}ms · ${ease("standard")}</span>
+      <svg slot="trailing" class="row-chevron"><use href="/icons.svg#icon-arrow-right" /></svg>`;
+    row.addEventListener("click", () => playRecipe(name));
+    host.append(row);
+  }
+
+  if (names.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "kit-empty";
+    empty.textContent = `No recipes match “${filter}”`;
+    host.append(empty);
+  }
+}
+
+function configureKitActions(): void {
+  const note = must<HTMLElement>("#kit-note-field");
+  const noteReadout = must<HTMLElement>("#kit-note-readout");
+  const updateNote = (event?: Event): void => {
+    const value = event ? stringValue(detailValue(event)) : note.getAttribute("value") ?? "";
+    noteReadout.textContent = value ? `Value: ${value}` : "Type a note to see gk-input and gk-change";
+    if (event?.type === "gk-change") setStatus(`Text field committed: ${value || "empty"}`);
+  };
+  note.addEventListener("gk-input", updateNote);
+  note.addEventListener("gk-change", updateNote);
+  updateNote();
+
+  document.addEventListener("gk-activate", (event) => {
+    const source = (event as CustomEvent<{ source?: HTMLElement }>).detail?.source;
+    if (!(source instanceof HTMLElement)) return;
+    const action = source.dataset.kitAction;
+    if (!action) return;
+
+    if (action === "play-recipes") void playAllRecipes();
+    else if (action === "stop-motion") stopMotionSequence();
+    else if (action === "play-spring") playSpring();
+    else if (action === "reinstall") {
+      installGlassKit();
+      configureKitCoverage();
+      setStatus("Glass Kit components re-registered");
+    } else {
+      setStatus(`Kit button: ${action}`);
+    }
+  });
+}
+
+function configureKitMotion(): void {
+  renderRecipeRows();
+  updateSpringMetrics();
+
+  const filter = must<HTMLElement>("#kit-recipe-filter");
+  filter.addEventListener("gk-input", (event) => renderRecipeRows(stringValue(detailValue(event))));
+  filter.addEventListener("gk-change", (event) => renderRecipeRows(stringValue(detailValue(event))));
+
+  const preset = must<HTMLElement>("#kit-spring-preset");
+  const time = must<HTMLElement>("#kit-spring-time");
+  const reduced = must<HTMLElement>("#kit-reduced-motion");
+
+  preset.addEventListener("gk-change", () => {
+    updateSpringMetrics();
+    playSpring();
+  });
+  time.addEventListener("gk-input", updateSpringMetrics);
+  time.addEventListener("gk-change", playSpring);
+  reduced.addEventListener("gk-change", (event) => applyReducedPreference(stringValue(detailValue(event))));
+  reduceMedia.addEventListener("change", () => {
+    if ((reduced as KitSegmented).value === "system") updateSpringMetrics();
+  });
+}
+
+function configureKitMaterial(native: NativeStatus): void {
+  const ready = native.native && isTauriHost();
+  const mode = must<HTMLElement>("#kit-material-mode") as KitSegmented;
+  const tint = must<HTMLElement>("#kit-tint") as KitSlider;
+  const corners = must<HTMLElement>("#kit-corners") as KitToggle;
+  const clear = must<HTMLElement>("#kit-clear-glass") as KitButton;
+  const badge = must<HTMLElement>("#kit-native-badge");
+  const reason = must<HTMLElement>("#kit-native-reason");
+  const readout = must<HTMLElement>("#kit-tint-readout");
+
+  badge.textContent = ready ? "Native" : "Browser";
+  badge.setAttribute("tone", ready ? "success" : "warning");
+  reason.textContent = native.reason;
+  clear.disabled = !ready;
+  corners.disabled = !ready;
+
+  const updateTint = (): void => {
+    const alpha = Math.round(tint.value);
+    const progress = getComputedStyle(tint).getPropertyValue("--gk-slider-progress").trim();
+    readout.textContent = `${alpha} · ${progress}`;
+  };
+
+  const apply = async (announce = true): Promise<void> => {
+    updateTint();
+    if (!ready) {
+      if (announce) setStatus(native.reason);
+      return;
+    }
+    const selected = mode.value as GlassMode;
+    const alpha = Math.round(tint.value);
+    try {
+      await applyNativeGlass(selected, (alpha << 24) | 0x00ffffff);
+      if (announce) setStatus(`Native material: ${selected} · alpha ${alpha}`);
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : String(error));
+    }
+  };
+
+  mode.addEventListener("gk-change", () => void apply());
+  tint.addEventListener("gk-input", updateTint);
+  tint.addEventListener("gk-change", () => void apply());
+  corners.addEventListener("gk-change", (event) => {
+    const checked = Boolean(detailValue(event));
+    if (!ready) return;
+    void setNativeCorners(checked)
+      .then(() => setStatus(`Rounded corners: ${checked ? "on" : "off"}`))
+      .catch((error: unknown) => setStatus(error instanceof Error ? error.message : String(error)));
+  });
+  clear.addEventListener("gk-activate", () => {
+    if (!ready) return;
+    void clearNativeGlass()
+      .then(() => setStatus("Native glass cleared"))
+      .catch((error: unknown) => setStatus(error instanceof Error ? error.message : String(error)));
+  });
+
+  updateTint();
+}
+
+function configureKit(): void {
+  const native = nativeStatus();
+  configureKitCoverage();
+  configureKitTokens();
+  configureKitMotion();
+  configureKitMaterial(native);
+  configureKitActions();
+}
+
 async function configureNative(): Promise<void> {
   const native = nativeStatus();
   const label = native.native ? "Native" : "Browser";
@@ -529,4 +943,5 @@ configureWindowDrag();
 configureTaskbar();
 configureContextMenu();
 configureClock();
+configureKit();
 void configureNative();

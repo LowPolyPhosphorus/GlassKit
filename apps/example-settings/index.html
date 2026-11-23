@@ -143,6 +143,13 @@
                 <span class="nav-copy"><strong>Accounts</strong></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
+
+              <p class="nav-heading">Glass Kit</p>
+              <button class="nav-item" type="button" data-page="kit" data-search="glass kit tokens motion native components material design system lab">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-sparkle" /></svg></span>
+                <span class="nav-copy"><strong>Glass Kit</strong><small>Materials, motion, tokens</small></span>
+                <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
+              </button>
             </nav>
 
             <div class="sidebar-footer">
@@ -476,6 +483,127 @@
                   <h2>Startup apps</h2>
                   <div class="setting-row"><div class="row-copy"><strong>Open at login</strong><span>3 items configured</span></div><button class="mini-button" type="button" data-action="Startup apps">Edit…</button></div>
                   <div class="setting-row"><div class="row-copy"><strong>Allow apps to configure startup</strong><span>Show a prompt when an app requests access</span></div><gk-toggle checked label="Startup app prompts"></gk-toggle></div>
+                </gk-glass-panel>
+              </section>
+
+              <section class="page kit-page" data-page-panel="kit" hidden>
+                <gk-glass-panel class="settings-group kit-hero" elevation="high" tone="thick">
+                  <h2>Glass Kit coverage</h2>
+                  <div class="kit-hero-body">
+                    <p class="kit-lede">Every package in the kit is wired into this app: tokens, motion, native material, and all nine Web Components.</p>
+                    <div class="kit-badges">
+                      <gk-badge tone="accent" dot>9 components</gk-badge>
+                      <gk-badge tone="success" dot>12 recipes</gk-badge>
+                      <gk-badge tone="warning" dot>3 springs</gk-badge>
+                      <gk-badge tone="danger" dot>1 native bridge</gk-badge>
+                      <gk-badge>Live</gk-badge>
+                    </div>
+                  </div>
+                </gk-glass-panel>
+
+                <gk-glass-panel class="settings-group" elevation="flat">
+                  <h2>Material</h2>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Native material</strong><span>Real DWM blur, acrylic, or no effect</span></div>
+                    <gk-segmented id="kit-material-mode" value="blur" label="Native material"><button value="blur">Blur</button><button value="acrylic">Acrylic</button><button value="none">Off</button></gk-segmented>
+                  </div>
+                  <div class="stacked-control">
+                    <div class="control-label"><strong>Tint alpha</strong><span id="kit-tint-readout">8</span></div>
+                    <gk-slider id="kit-tint" label="Tint alpha" min="0" max="32" value="8" step="1" unit=""></gk-slider>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Rounded window corners</strong><span>Native corners when hosted by Tauri</span></div>
+                    <gk-toggle id="kit-corners" checked label="Rounded corners"></gk-toggle>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Clear native material</strong><span>Remove the effect from this window</span></div>
+                    <gk-button id="kit-clear-glass" variant="secondary" size="small">Clear glass</gk-button>
+                  </div>
+                  <div class="kit-material-stack" aria-label="Material tone preview">
+                    <gk-glass-panel class="kit-material-panel kit-panel-thick" elevation="high" tone="thick">
+                      <span>Thick · high</span>
+                      <gk-glass-panel class="kit-material-panel kit-panel-thin" elevation="flat" tone="thin">
+                        <span>Thin · flat</span>
+                      </gk-glass-panel>
+                    </gk-glass-panel>
+                  </div>
+                  <div class="kit-native-status"><gk-badge id="kit-native-badge" tone="warning" dot>Browser preview</gk-badge><span id="kit-native-reason">Native DWM material needs the Tauri host</span></div>
+                </gk-glass-panel>
+
+                <gk-glass-panel class="settings-group" elevation="flat">
+                  <h2>Motion</h2>
+                  <div class="kit-preview" id="kit-motion-preview"><span>Recipe preview</span></div>
+                  <gk-toolbar class="kit-toolbar">
+                    <gk-button id="kit-play-recipes" variant="primary" size="small" data-kit-action="play-recipes">Play all recipes</gk-button>
+                    <gk-button id="kit-stop-motion" variant="secondary" size="small" data-kit-action="stop-motion">Stop</gk-button>
+                    <gk-button id="kit-play-spring" variant="quiet" size="small" data-kit-action="play-spring">Play spring</gk-button>
+                    <span class="kit-toolbar-spacer"></span>
+                    <gk-badge id="kit-motion-state" tone="accent">Idle</gk-badge>
+                  </gk-toolbar>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Spring preset</strong><span>Physics from the motion tokens</span></div>
+                    <gk-segmented id="kit-spring-preset" value="snappy" label="Spring preset"><button value="snappy">Snappy</button><button value="gentle">Gentle</button><button value="sheet">Sheet</button></gk-segmented>
+                  </div>
+                  <div class="stacked-control">
+                    <div class="control-label"><strong>Spring sample time</strong><span id="kit-spring-readout">240 ms</span></div>
+                    <gk-slider id="kit-spring-time" label="Spring sample time" min="0" max="800" value="240" step="10" unit=" ms"></gk-slider>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Reduced motion</strong><span>Override the system preference for this preview</span></div>
+                    <gk-segmented id="kit-reduced-motion" value="system" label="Reduced motion"><button value="system">System</button><button value="reduced">Reduced</button><button value="full">Full</button></gk-segmented>
+                  </div>
+                  <div class="kit-metrics" id="kit-metrics"></div>
+                  <div class="kit-field-wrap">
+                    <gk-text-field id="kit-recipe-filter" label="Filter recipes" placeholder="Try panel, row, or sheet" value=""></gk-text-field>
+                  </div>
+                  <div class="kit-recipe-list" id="kit-recipe-list"></div>
+                </gk-glass-panel>
+
+                <gk-glass-panel class="settings-group" elevation="flat">
+                  <h2>Components</h2>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Text field</strong><span id="kit-note-readout">Label, value, and gk-input/gk-change events</span></div>
+                    <gk-text-field id="kit-note-field" label="Note" placeholder="Type a note" value="GlassKit"></gk-text-field>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Disabled text field</strong><span>Managed field state</span></div>
+                    <gk-text-field label="Managed by policy" placeholder="Locked" value="Read-only" disabled></gk-text-field>
+                  </div>
+                  <div class="kit-button-row">
+                    <gk-button variant="primary" size="small" data-kit-action="primary">Primary</gk-button>
+                    <gk-button size="small" data-kit-action="secondary">Secondary</gk-button>
+                    <gk-button variant="quiet" size="small" data-kit-action="quiet">Quiet</gk-button>
+                    <gk-button size="large" data-kit-action="large">Large</gk-button>
+                    <gk-button disabled data-kit-action="disabled">Disabled</gk-button>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Disabled toggle</strong><span>Locked by policy</span></div>
+                    <gk-toggle checked disabled label="Managed toggle"></gk-toggle>
+                  </div>
+                  <div class="stacked-control">
+                    <div class="control-label"><strong>Disabled slider</strong><span>Reserved</span></div>
+                    <gk-slider label="Reserved range" min="0" max="100" value="40" disabled></gk-slider>
+                  </div>
+                  <div class="kit-list-rows">
+                    <gk-list-row subtitle interactive>
+                      <svg slot="leading" class="row-icon"><use href="/icons.svg#icon-sliders" /></svg>
+                      List row slots
+                      <span slot="subtitle">Leading, subtitle, and trailing slots</span>
+                      <svg slot="trailing" class="row-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
+                    </gk-list-row>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Reinstall components</strong><span>installGlassKit is idempotent</span></div>
+                    <gk-button id="kit-reinstall" variant="secondary" size="small" data-kit-action="reinstall">Reinstall kit</gk-button>
+                  </div>
+                  <div class="kit-coverage" id="kit-coverage"></div>
+                </gk-glass-panel>
+
+                <gk-glass-panel class="settings-group" elevation="flat">
+                  <h2>Tokens</h2>
+                  <div class="kit-token-summary" id="kit-token-summary"></div>
+                  <div class="kit-token-grid" id="kit-token-grid"></div>
+                  <div class="kit-token-vars" id="kit-token-vars"></div>
                 </gk-glass-panel>
               </section>
             </div>

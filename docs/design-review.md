@@ -2,6 +2,8 @@
 
 Date: 2026-11-22
 
+Revision 7 note: the settings sample now exercises the full GlassKit surface through a dedicated Glass Kit pane: all nine Web Components, typed token exports and CSS variables, all 12 motion recipes, spring physics helpers, reduced-motion overrides, component events, and every native material command. Segment labels now provide accessible names, and list-row subtitles render from the `subtitle` attribute or the `subtitle` slot.
+
 Revision 6 note: the settings sample was corrected from a macOS-fidelity study to a Windows-native Settings app. The visual language stays calm and layered, but the shell now uses Windows window controls, a draggable/resizable window, a taskbar, right-click menus, and keyboard shortcuts. No macOS chrome remains in the sample.
 
 Revision 5 note: the docs are now an Astro + TypeScript site with a content-rich homepage and three deep pages. Tokens, materials, and motion are overview sections on the homepage; Practice, Native, and Motion carry the detailed material. The right “On this page” rail and the phone preview were removed. The Playground became a large draggable/resizable Windows smart-home desktop lab, and Inter is self-hosted as the primary typeface. The separate settings sample on port 5185 is a Windows app that uses Apple-inspired visual craft with native window behaviour and is no longer mentioned in the docs.
