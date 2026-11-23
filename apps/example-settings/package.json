@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1 --port 5185",
+    "dev": "vite --host 127.0.0.1 --port 5185 --strictPort",
     "build": "tsc -p tsconfig.json --noEmit && vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1 --port 5185 --strictPort"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
