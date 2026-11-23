@@ -36,10 +36,14 @@ const styles = `
   font-size: var(--gk-font-size-xs);
 }
 
-:host(:not([subtitle])) .subtitle { display: none; }
+.subtitle[hidden] { display: none; }
 `;
 
 export class ListRow extends HTMLElement {
+  static get observedAttributes(): string[] {
+    return ["subtitle"];
+  }
+
   connectedCallback(): void {
     if (!this.shadowRoot) {
       const html = `
@@ -47,12 +51,31 @@ export class ListRow extends HTMLElement {
           <span class="leading"><slot name="leading"></slot></span>
           <span class="content">
             <slot></slot>
-            <span class="subtitle"><slot name="subtitle"></slot></span>
+            <span class="subtitle" part="subtitle"><span class="fallback"></span><slot name="subtitle"></slot></span>
           </span>
           <span class="trailing"><slot name="trailing"></slot></span>
         </div>`;
       mountShadow(this, html, styles);
+      this.shadowRoot!.querySelector('slot[name="subtitle"]')!.addEventListener("slotchange", () => this.#sync());
     }
+    this.#sync();
+  }
+
+  attributeChangedCallback(): void {
+    this.#sync();
+  }
+
+  #sync(): void {
+    const root = this.shadowRoot;
+    if (!root) return;
+    const subtitle = root.querySelector<HTMLElement>(".subtitle");
+    const fallback = root.querySelector<HTMLElement>(".fallback");
+    const slot = root.querySelector<HTMLSlotElement>('slot[name="subtitle"]');
+    if (!subtitle || !fallback || !slot) return;
+
+    const hasSlotted = slot.assignedElements().length > 0;
+    fallback.textContent = hasSlotted ? "" : this.getAttribute("subtitle") ?? "";
+    subtitle.hidden = !hasSlotted && !fallback.textContent;
   }
 }
 

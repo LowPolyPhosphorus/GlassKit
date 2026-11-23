@@ -70,7 +70,7 @@ const styles = `
 
 export class SegmentedControl extends HTMLElement {
   static get observedAttributes(): string[] {
-    return ["value"];
+    return ["value", "label"];
   }
 
   #control: HTMLElement | null = null;
@@ -137,6 +137,7 @@ export class SegmentedControl extends HTMLElement {
       }
     }
 
+    this.#syncLabel();
     this.#sync(true);
   }
 
@@ -148,8 +149,19 @@ export class SegmentedControl extends HTMLElement {
     this.#mutationObserver = null;
   }
 
-  attributeChangedCallback(): void {
+  attributeChangedCallback(name: string): void {
+    if (name === "label") {
+      this.#syncLabel();
+      return;
+    }
     this.#sync();
+  }
+
+  #syncLabel(): void {
+    if (!this.#control) return;
+    const label = this.getAttribute("label");
+    if (label) this.#control.setAttribute("aria-label", label);
+    else this.#control.removeAttribute("aria-label");
   }
 
   #options(): HTMLElement[] {
