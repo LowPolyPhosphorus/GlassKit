@@ -2,6 +2,8 @@
 
 Date: 2026-11-22
 
+Revision 9 note: `@glasskit/ui` expanded from nine to 28 Web Components using the HIG patterns for status bars, snippets, notifications, live activities, controls, image views, charts, web views, boxes, disclosures, labels, collections, column views, path controls, search fields, sidebars, tab bars, and token fields. The docs desktop lab gained a "HIG patterns" room, and the 5185 settings sample gained a matching exercise pane. All new components keep Windows-native behavior, shadow-DOM encapsulation, semantic tokens, and `gk-*` events; no Apple assets or chrome were imported.
+
 Revision 8 note: the settings sample now follows Apple's Human Interface Guidelines at the visual-pattern level: a leading sidebar split view, a search field in the toolbar, compact icon-and-label navigation, pale-blue selection, grouped boxes and lists with inset separators and trailing controls, and text-style secondary buttons. The shell remains Windows-native with Windows window controls, a taskbar, right-click menus, keyboard shortcuts, and real DWM material; no Apple chrome, symbols, fonts, or assets were imported.
 
 Revision 7 note: the settings sample now exercises the full GlassKit surface through a dedicated Glass Kit pane: all nine Web Components, typed token exports and CSS variables, all 12 motion recipes, spring physics helpers, reduced-motion overrides, component events, and every native material command. Segment labels now provide accessible names, and list-row subtitles render from the `subtitle` attribute or the `subtitle` slot.
@@ -38,7 +40,7 @@ The `topicSections` indices resolve to **158 individual guideline articles** plu
 | Technologies | 29 |
 | **Total** | **158** |
 
-All groups were enumerated; the pages most relevant to a web-based design-system reference were read in full: design principles, accessibility, typography, color, dark mode, layout, materials, motion, writing, branding, sidebars, split views, toolbars, buttons, lists and tables, scroll views, boxes, labels, and path controls.
+All groups were enumerated; the pages most relevant to a web-based design-system reference were read in full: design principles, accessibility, typography, color, dark mode, layout, materials, motion, writing, branding, sidebars, split views, toolbars, buttons, lists and tables, scroll views, boxes, labels, path controls, search fields, tab bars, token fields, disclosure controls, collections, column views, status bars, snippets, notifications, live activities, controls, image views, charts, and web views.
 
 The [Apple Design](https://developer.apple.com/design/) and [Design Resources](https://developer.apple.com/design/resources/) hubs were also reviewed. `dickwu/apple-design-skill` was cloned into a temporary directory for read-only inspection. It contains a useful review rubric and offline HIG snapshots, but **no assets, fonts, or symbols**, no license grant, and agent-instruction files that must be treated as untrusted data. No scripts or installs from that repository were run, and no Apple text or assets were copied into GlassKit.
 
@@ -72,7 +74,7 @@ The [Apple Design](https://developer.apple.com/design/) and [Design Resources](h
 
 ## Interactive desktop lab
 
-The homepage lab is a Windows desktop canvas with a draggable, resizable Home Control window. It has no taskbar yet, by design: the docs demonstrate the visual layer, while the native host owns real Windows chrome. Inside the window, the user can switch rooms, change scenes, toggle devices, move sliders, use segmented controls, add a device, and read the resulting component events. It exercises `gk-button`, `gk-toggle`, `gk-slider`, `gk-segmented`, `gk-text-field`, `gk-badge`, `gk-list-row`, `gk-toolbar`, and `gk-glass-panel`.
+The homepage lab is a Windows desktop canvas with a draggable, resizable Home Control window. It has no taskbar yet, by design: the docs demonstrate the visual layer, while the native host owns real Windows chrome. Inside the window, the user can switch rooms, change scenes, toggle devices, move sliders, use segmented controls, add a device, and read the resulting component events. It exercises `gk-button`, `gk-toggle`, `gk-slider`, `gk-segmented`, `gk-text-field`, `gk-badge`, `gk-list-row`, `gk-toolbar`, and `gk-glass-panel`, plus a "HIG patterns" room covering the expanded layout, navigation, status, notification, live-activity, image, chart, and web-view components.
 
 ## Settings sample boundary
 
@@ -85,7 +87,7 @@ No Apple logos, product imagery, SF Symbols, traffic-light controls, menu bar, D
 ## Verification
 
 - `npm run build` and `npm run typecheck` must pass.
-- Browser smoke test must confirm four pages, one active top-nav item, twelve motion recipes, live controls, theme switching without a light flash, the draggable/resizable desktop lab, responsive navigation, icon sprite loading, both logo PNGs loading, and no console errors.
+- Browser smoke test must confirm four pages, one active top-nav item, twelve motion recipes, live controls, theme switching without a light flash, the draggable/resizable desktop lab, the HIG patterns room, responsive navigation, icon sprite loading, both logo PNGs loading, and no console errors.
 - The settings sample must be reachable only on port 5185, with working sidebar navigation, search filtering, theme modes, accent colours, wallpaper switching, slider readouts, Windows window controls, window dragging/resizing, a taskbar, right-click menus, keyboard shortcuts, and native status.
 - Lighthouse accessibility, best practices, and SEO must remain at 1.00 on all four pages in both light and dark themes.
 - The native host command remains `cd apps/native-host/src-tauri && cargo tauri dev`.

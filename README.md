@@ -9,7 +9,7 @@ Glass Kit is a monorepo for building Windows desktop apps that look and feel cal
 ## Packages
 
 - `@glasskit/tokens` — colours, typography, spacing, radii, materials, and motion tokens.
-- `@glasskit/ui` — reusable Web Components: glass panel, button, toggle, segmented control, list row, text field, slider, badge, and toolbar.
+- `@glasskit/ui` — 28 reusable Web Components for core controls, layout, navigation, status, notifications, live activities, media, charts, and sandboxed web content.
 - `@glasskit/motion` — shared easing curves, analytic spring physics, WAAPI keyframes, and 12 named motion recipes.
 - `@glasskit/native` — browser-safe bridge to the native Tauri commands.
 - `glasskit-material` — Rust/Tauri helper for real native DWM glass, rounded corners, and Tauri commands.
@@ -64,8 +64,8 @@ Working MVP:
 
 - `@glasskit/tokens` generates CSS variables and typed token exports from `tokens.json`.
 - `@glasskit/motion` has analytic springs, WAAPI keyframe sampling, named recipes, and reduced-motion handling.
-- `@glasskit/ui` provides nine Web Components with every major state demoed live.
+- `@glasskit/ui` provides 28 Web Components — from buttons and sliders to boxes, sidebars, notifications, live activities, charts, and web views — with every major state demoed live.
 - `@glasskit/native` plus the `tauri` feature of `glasskit-material` connect the page to real DWM material.
 - The docs app is an Astro site with token, material, and motion overviews on the homepage; detailed Motion, Native, and Practice pages; all 12 motion recipes; a spring physics lab; native material controls; and a draggable smart-home desktop lab.
-- `apps/example-settings` is a Windows-native Settings sample with an HIG-informed sidebar split view, compact icon-and-label navigation, grouped boxes and lists with trailing controls, search, appearance controls, draggable/resizable window chrome, a taskbar, right-click menus, original icons, and a Glass Kit page that exercises all nine components, typed tokens, all 12 motion recipes, spring physics, reduced-motion overrides, and every native material command.
+- `apps/example-settings` is a Windows-native Settings sample with an HIG-informed sidebar split view, compact icon-and-label navigation, grouped boxes and lists with trailing controls, search, appearance controls, draggable/resizable window chrome, a taskbar, right-click menus, original icons, and a Glass Kit page that exercises all 28 components, typed tokens, all 12 motion recipes, spring physics, reduced-motion overrides, HIG pattern events, and every native material command.
 - `apps/native-host` wires the browser bridge to real DWM blur, acrylic, and rounded corners in Tauri.
