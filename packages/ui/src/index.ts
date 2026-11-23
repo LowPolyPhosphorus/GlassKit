@@ -27,6 +27,40 @@ import { SNIPPET_TAG, Snippet } from "./components/snippet.js";
 import { IMAGE_VIEW_TAG, ImageView } from "./components/image-view.js";
 import { CHART_TAG, Chart } from "./components/chart.js";
 import { WEB_VIEW_TAG, WebView } from "./components/web-view.js";
+import { HIG_PATTERN_MAP, HIG_PATTERNS } from "./components/hig-atlas.js";
+
+export * from "./components/hig-atlas.js";
+
+const CORE_TAGS = [
+  BADGE_TAG,
+  BOX_TAG,
+  CHART_TAG,
+  COLLECTION_TAG,
+  COLUMN_VIEW_TAG,
+  CONTROL_TILE_TAG,
+  DISCLOSURE_TAG,
+  GLASS_BUTTON_TAG,
+  GLASS_PANEL_TAG,
+  GLASS_TOGGLE_TAG,
+  IMAGE_VIEW_TAG,
+  LABEL_TAG,
+  LIVE_ACTIVITY_TAG,
+  LIST_ROW_TAG,
+  NOTIFICATION_TAG,
+  PATH_CONTROL_TAG,
+  SEARCH_FIELD_TAG,
+  SEGMENTED_CONTROL_TAG,
+  SIDEBAR_ITEM_TAG,
+  SIDEBAR_TAG,
+  SLIDER_TAG,
+  SNIPPET_TAG,
+  STATUS_BAR_TAG,
+  TAB_BAR_TAG,
+  TEXT_FIELD_TAG,
+  TOKEN_FIELD_TAG,
+  TOOLBAR_TAG,
+  WEB_VIEW_TAG,
+] as const;
 
 export {
   BADGE_TAG,
@@ -77,8 +111,8 @@ export {
   PathControl,
   SearchField,
   SegmentedControl,
-  Sidebar,
   SidebarItem,
+  Sidebar,
   Slider,
   Snippet,
   StatusBar,
@@ -89,38 +123,97 @@ export {
   WebView,
 };
 
+const CORE_CLASSES: CustomElementConstructor[] = [
+  Badge,
+  Box,
+  Chart,
+  Collection,
+  ColumnView,
+  ControlTile,
+  Disclosure,
+  GlassButton,
+  GlassPanel,
+  GlassToggle,
+  ImageView,
+  Label,
+  LiveActivity,
+  ListRow,
+  NotificationCard,
+  PathControl,
+  SearchField,
+  SegmentedControl,
+  SidebarItem,
+  Sidebar,
+  Slider,
+  Snippet,
+  StatusBar,
+  TabBar,
+  TextField,
+  TokenField,
+  Toolbar,
+  WebView,
+];
+
+const hig = (page: string): string => `https://developer.apple.com/design/human-interface-guidelines/${page}`;
+
+export interface GlassKitComponent {
+  tag: string;
+  ctor: CustomElementConstructor;
+  title: string;
+  group: string;
+  description: string;
+  higPage: string;
+}
+
+const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description" | "higPage">> = [
+  { title: "Badge", group: "Core", description: "Compact status and count label.", higPage: "" },
+  { title: "Box", group: "Layout", description: "Grouped content with title and subtitle.", higPage: hig("boxes") },
+  { title: "Chart", group: "Content", description: "Compact bar chart for glanceable data.", higPage: hig("charts") },
+  { title: "Collection", group: "Layout", description: "Responsive grid of same-size items.", higPage: hig("collections") },
+  { title: "Column view", group: "Layout", description: "Multi-column browser with hierarchical selection.", higPage: hig("column-views") },
+  { title: "Control tile", group: "System experiences", description: "Toggle or action tile for quick controls.", higPage: hig("controls") },
+  { title: "Disclosure control", group: "Layout", description: "Expandable section with a visible triangle.", higPage: hig("disclosure-controls") },
+  { title: "Button", group: "Menus and actions", description: "Primary, secondary, and quiet actions.", higPage: hig("buttons") },
+  { title: "Glass panel", group: "Material", description: "Semantic surface with flat fills and hairlines.", higPage: "" },
+  { title: "Toggle", group: "Selection and input", description: "Switch, checkbox, and radio states with labels.", higPage: hig("toggles") },
+  { title: "Image view", group: "Content", description: "Aspect-aware image with accessible alt text.", higPage: hig("image-views") },
+  { title: "Label", group: "Layout", description: "Selectable static text with type variants.", higPage: hig("labels") },
+  { title: "Live activity", group: "System experiences", description: "Ongoing task with progress and action.", higPage: hig("live-activities") },
+  { title: "List row", group: "Layout", description: "Aligned row with trailing control slot.", higPage: hig("lists-and-tables") },
+  { title: "Notification", group: "System experiences", description: "Dismissible status message with tone.", higPage: hig("notifications") },
+  { title: "Path control", group: "Navigation and search", description: "Breadcrumb navigation with separators.", higPage: hig("path-controls") },
+  { title: "Search field", group: "Navigation and search", description: "Search input with scopes and clear action.", higPage: hig("search-fields") },
+  { title: "Segmented control", group: "Selection and input", description: "Mutually exclusive choices in one control.", higPage: hig("segmented-controls") },
+  { title: "Sidebar item", group: "Navigation and search", description: "Selectable sidebar row with badge support.", higPage: hig("sidebars") },
+  { title: "Sidebar", group: "Navigation and search", description: "Leading navigation pane with header and footer.", higPage: hig("sidebars") },
+  { title: "Slider", group: "Selection and input", description: "Linear and circular sliders with ticks and icons.", higPage: hig("sliders") },
+  { title: "Snippet", group: "System experiences", description: "Compact confirmation or notice card.", higPage: hig("snippets") },
+  { title: "Status bar", group: "System experiences", description: "Window-level status summary.", higPage: hig("status-bars") },
+  { title: "Tab bar", group: "Navigation and search", description: "Top-level tab switcher with badge support.", higPage: hig("tab-bars") },
+  { title: "Text field", group: "Selection and input", description: "Single-line input with clear, caption, and slots.", higPage: hig("text-fields") },
+  { title: "Token field", group: "Navigation and search", description: "Editable token list with add and remove events.", higPage: hig("token-fields") },
+  { title: "Toolbar", group: "Menus and actions", description: "Horizontal action strip with slotted controls.", higPage: hig("toolbars") },
+  { title: "Web view", group: "Content", description: "Sandboxed inline HTML surface.", higPage: hig("web-views") },
+];
+
+/** Every registered Glass Kit element, with HIG provenance where applicable. */
+export const COMPONENT_REGISTRY: GlassKitComponent[] = [
+  ...CORE_TAGS.map((tag, index) => ({ tag, ctor: CORE_CLASSES[index], ...CORE_META[index] })),
+  ...HIG_PATTERNS.map((pattern) => ({
+    tag: pattern.tag,
+    ctor: HIG_PATTERN_MAP.get(pattern.tag)!.ctor,
+    title: pattern.title,
+    group: pattern.group,
+    description: pattern.description,
+    higPage: pattern.higPage,
+  })),
+];
+
 let installed = false;
 
 /** Register every Glass Kit element. Safe to call more than once. */
 export function installGlassKit(): void {
   if (installed) return;
   installed = true;
-  defineElement(GLASS_PANEL_TAG, GlassPanel);
-  defineElement(GLASS_BUTTON_TAG, GlassButton);
-  defineElement(GLASS_TOGGLE_TAG, GlassToggle);
-  defineElement(SEGMENTED_CONTROL_TAG, SegmentedControl);
-  defineElement(LIST_ROW_TAG, ListRow);
-  defineElement(TEXT_FIELD_TAG, TextField);
-  defineElement(SLIDER_TAG, Slider);
-  defineElement(BADGE_TAG, Badge);
-  defineElement(TOOLBAR_TAG, Toolbar);
-  defineElement(BOX_TAG, Box);
-  defineElement(DISCLOSURE_TAG, Disclosure);
-  defineElement(LABEL_TAG, Label);
-  defineElement(COLLECTION_TAG, Collection);
-  defineElement(COLUMN_VIEW_TAG, ColumnView);
-  defineElement(SEARCH_FIELD_TAG, SearchField);
-  defineElement(PATH_CONTROL_TAG, PathControl);
-  defineElement(TAB_BAR_TAG, TabBar);
-  defineElement(TOKEN_FIELD_TAG, TokenField);
-  defineElement(SIDEBAR_ITEM_TAG, SidebarItem);
-  defineElement(SIDEBAR_TAG, Sidebar);
-  defineElement(STATUS_BAR_TAG, StatusBar);
-  defineElement(CONTROL_TILE_TAG, ControlTile);
-  defineElement(NOTIFICATION_TAG, NotificationCard);
-  defineElement(LIVE_ACTIVITY_TAG, LiveActivity);
-  defineElement(SNIPPET_TAG, Snippet);
-  defineElement(IMAGE_VIEW_TAG, ImageView);
-  defineElement(CHART_TAG, Chart);
-  defineElement(WEB_VIEW_TAG, WebView);
+  for (const component of COMPONENT_REGISTRY) defineElement(component.tag, component.ctor);
 }
