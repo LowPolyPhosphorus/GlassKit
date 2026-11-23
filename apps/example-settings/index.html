@@ -490,9 +490,9 @@
                 <gk-glass-panel class="settings-group kit-hero" elevation="high" tone="thick">
                   <h2>Glass Kit coverage</h2>
                   <div class="kit-hero-body">
-                    <p class="kit-lede">Every package in the kit is wired into this app: tokens, motion, native material, and all nine Web Components.</p>
+                    <p class="kit-lede">Every package in the kit is wired into this app: tokens, motion, native material, and all 28 Web Components.</p>
                     <div class="kit-badges">
-                      <gk-badge tone="accent" dot>9 components</gk-badge>
+                      <gk-badge tone="accent" dot>28 components</gk-badge>
                       <gk-badge tone="success" dot>12 recipes</gk-badge>
                       <gk-badge tone="warning" dot>3 springs</gk-badge>
                       <gk-badge tone="danger" dot>1 native bridge</gk-badge>
@@ -597,6 +597,55 @@
                     <gk-button id="kit-reinstall" variant="secondary" size="small" data-kit-action="reinstall">Reinstall kit</gk-button>
                   </div>
                   <div class="kit-coverage" id="kit-coverage"></div>
+                </gk-glass-panel>
+
+                <gk-glass-panel class="settings-group" elevation="flat">
+                  <h2>HIG patterns</h2>
+                  <gk-status-bar label="Glass Kit" status="All systems normal" network="Wi-Fi" battery="82%" time="09:41"></gk-status-bar>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Search field</strong><span>Scopes and clear action</span></div>
+                    <gk-search-field id="kit-hig-search" label="Search components" placeholder="Search components" scopes='["All","Controls","Layout"]' scope="All"></gk-search-field>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Path control</strong><span>Breadcrumb navigation</span></div>
+                    <gk-path-control items='["Glass Kit","Components","HIG patterns"]'></gk-path-control>
+                  </div>
+                  <gk-tab-bar id="kit-hig-tabs" tabs='[{"id":"overview","label":"Overview"},{"id":"activity","label":"Activity","badge":"3"},{"id":"details","label":"Details"}]' active="overview"></gk-tab-bar>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Token field</strong><span>Enter or comma to add a token</span></div>
+                    <gk-token-field id="kit-hig-tokens" label="Categories" placeholder="Add category" tokens='["Layout","Navigation"]'></gk-token-field>
+                  </div>
+                  <gk-box title="Grouped detail" subtitle="Box, label, and disclosure">
+                    <gk-label text="Static copy is selectable but not editable." variant="caption"></gk-label>
+                    <gk-disclosure label="Show advanced options" open>
+                      <span slot="meta">2 items</span>
+                      <gk-label text="Options stay hidden until needed." variant="caption"></gk-label>
+                    </gk-disclosure>
+                  </gk-box>
+                  <gk-collection columns="2" gap="8px">
+                    <gk-column-view columns='[{"title":"Library","selected":"Controls","items":["Controls","Layout","Status"]},{"title":"Items","items":[{"label":"Buttons","subtitle":"Actions"},{"label":"Boxes","subtitle":"Grouping"}]}]'></gk-column-view>
+                    <gk-sidebar id="kit-hig-sidebar" label="Example sections" active="general">
+                      <span slot="header">Sections</span>
+                      <gk-sidebar-item value="general" label="General" selected></gk-sidebar-item>
+                      <gk-sidebar-item value="privacy" label="Privacy" badge="2"></gk-sidebar-item>
+                      <gk-sidebar-item value="about" label="About"></gk-sidebar-item>
+                      <span slot="footer">3 sections</span>
+                    </gk-sidebar>
+                  </gk-collection>
+                  <gk-collection columns="3" gap="8px">
+                    <gk-control-tile label="Wi-Fi" state="on"></gk-control-tile>
+                    <gk-control-tile label="Focus" state="off"></gk-control-tile>
+                    <gk-control-tile label="Refresh" mode="button"></gk-control-tile>
+                  </gk-collection>
+                  <gk-notification title="Automation ready" message="Night scene is available." tone="success"></gk-notification>
+                  <gk-snippet kind="confirmation" title="Run night scene?" message="Dims lights and locks the door."></gk-snippet>
+                  <gk-live-activity title="Air purifier" status="Filter at 82%" progress="82" action-label="Pause" expanded>
+                    <span slot="detail">Estimated 6 days remaining</span>
+                  </gk-live-activity>
+                  <gk-chart title="Energy use" values="12,18,14,24,20,9" labels="Mon,Tue,Wed,Thu,Fri,Sat"></gk-chart>
+                  <gk-image-view src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%231f2430'/%3E%3Ccircle cx='160' cy='90' r='42' fill='none' stroke='%230a84ff' stroke-width='4'/%3E%3C/svg%3E" alt="Camera preview" ratio="16 / 9" fit="contain"></gk-image-view>
+                  <gk-web-view title="Inline note" height="120" srcdoc='<p>Rich content stays inside a sandboxed frame.</p>'></gk-web-view>
+                  <p class="kit-hint" id="kit-hig-readout" aria-live="polite">Interact with a HIG pattern to see its event here.</p>
                 </gk-glass-panel>
 
                 <gk-glass-panel class="settings-group" elevation="flat">

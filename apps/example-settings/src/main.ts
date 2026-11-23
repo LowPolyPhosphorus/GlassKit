@@ -31,23 +31,61 @@ import {
 } from "@glasskit/native";
 import {
   BADGE_TAG,
+  BOX_TAG,
+  CHART_TAG,
+  COLLECTION_TAG,
+  COLUMN_VIEW_TAG,
+  CONTROL_TILE_TAG,
+  DISCLOSURE_TAG,
   GLASS_BUTTON_TAG,
   GLASS_PANEL_TAG,
   GLASS_TOGGLE_TAG,
+  IMAGE_VIEW_TAG,
+  LABEL_TAG,
+  LIVE_ACTIVITY_TAG,
   LIST_ROW_TAG,
+  NOTIFICATION_TAG,
+  PATH_CONTROL_TAG,
+  SEARCH_FIELD_TAG,
   SEGMENTED_CONTROL_TAG,
+  SIDEBAR_ITEM_TAG,
+  SIDEBAR_TAG,
   SLIDER_TAG,
+  SNIPPET_TAG,
+  STATUS_BAR_TAG,
+  TAB_BAR_TAG,
   TEXT_FIELD_TAG,
+  TOKEN_FIELD_TAG,
   TOOLBAR_TAG,
+  WEB_VIEW_TAG,
   Badge,
+  Box,
+  Chart,
+  Collection,
+  ColumnView,
+  ControlTile,
+  Disclosure,
   GlassButton,
   GlassPanel,
   GlassToggle,
+  ImageView,
+  Label,
+  LiveActivity,
   ListRow,
+  NotificationCard,
+  PathControl,
+  SearchField,
   SegmentedControl,
+  Sidebar,
+  SidebarItem,
   Slider,
+  Snippet,
+  StatusBar,
+  TabBar,
   TextField,
+  TokenField,
   Toolbar,
+  WebView,
   installGlassKit,
 } from "@glasskit/ui";
 
@@ -67,14 +105,33 @@ interface PageMeta {
 
 const COMPONENTS = [
   { tag: BADGE_TAG, ctor: Badge },
+  { tag: BOX_TAG, ctor: Box },
+  { tag: CHART_TAG, ctor: Chart },
+  { tag: COLLECTION_TAG, ctor: Collection },
+  { tag: COLUMN_VIEW_TAG, ctor: ColumnView },
+  { tag: CONTROL_TILE_TAG, ctor: ControlTile },
+  { tag: DISCLOSURE_TAG, ctor: Disclosure },
   { tag: GLASS_BUTTON_TAG, ctor: GlassButton },
   { tag: GLASS_PANEL_TAG, ctor: GlassPanel },
   { tag: GLASS_TOGGLE_TAG, ctor: GlassToggle },
+  { tag: IMAGE_VIEW_TAG, ctor: ImageView },
+  { tag: LABEL_TAG, ctor: Label },
+  { tag: LIVE_ACTIVITY_TAG, ctor: LiveActivity },
   { tag: LIST_ROW_TAG, ctor: ListRow },
+  { tag: NOTIFICATION_TAG, ctor: NotificationCard },
+  { tag: PATH_CONTROL_TAG, ctor: PathControl },
+  { tag: SEARCH_FIELD_TAG, ctor: SearchField },
   { tag: SEGMENTED_CONTROL_TAG, ctor: SegmentedControl },
+  { tag: SIDEBAR_ITEM_TAG, ctor: SidebarItem },
+  { tag: SIDEBAR_TAG, ctor: Sidebar },
   { tag: SLIDER_TAG, ctor: Slider },
+  { tag: SNIPPET_TAG, ctor: Snippet },
+  { tag: STATUS_BAR_TAG, ctor: StatusBar },
+  { tag: TAB_BAR_TAG, ctor: TabBar },
   { tag: TEXT_FIELD_TAG, ctor: TextField },
+  { tag: TOKEN_FIELD_TAG, ctor: TokenField },
   { tag: TOOLBAR_TAG, ctor: Toolbar },
+  { tag: WEB_VIEW_TAG, ctor: WebView },
 ] as const;
 
 const RECIPE_NAMES = Object.keys(recipes) as RecipeName[];
@@ -148,6 +205,10 @@ const KIT_CONTROL_IDS = new Set([
   "kit-reduced-motion",
   "kit-recipe-filter",
   "kit-note-field",
+  "kit-hig-search",
+  "kit-hig-tabs",
+  "kit-hig-tokens",
+  "kit-hig-sidebar",
 ]);
 
 const navItems = Array.from(nav.querySelectorAll<HTMLButtonElement>(".nav-item"));
@@ -612,6 +673,40 @@ function configureKitCoverage(): void {
   }
 }
 
+function configureKitHig(): void {
+  const readout = must<HTMLElement>("#kit-hig-readout");
+  const names = [
+    "gk-select",
+    "gk-navigate",
+    "gk-tab-change",
+    "gk-scope-change",
+    "gk-clear",
+    "gk-token-add",
+    "gk-token-remove",
+    "gk-token-change",
+    "gk-toggle",
+    "gk-state-change",
+    "gk-dismiss",
+    "gk-expand-change",
+    "gk-confirm",
+    "gk-cancel",
+    "gk-point-select",
+    "gk-load",
+  ];
+
+  for (const name of names) {
+    document.addEventListener(name, (event) => {
+      const detail = (event as CustomEvent<Record<string, unknown>>).detail ?? {};
+      const info = Object.entries(detail)
+        .filter(([key, value]) => key !== "source" && value !== null && typeof value !== "object")
+        .map(([key, value]) => `${key}=${String(value)}`)
+        .join(" ");
+      readout.textContent = `${name}${info ? ` · ${info}` : ""}`;
+      setStatus(`HIG pattern: ${name}`);
+    });
+  }
+}
+
 function configureKitTokens(): void {
   const summary = must<HTMLElement>("#kit-token-summary");
   const grid = must<HTMLElement>("#kit-token-grid");
@@ -906,6 +1001,7 @@ function configureKitMaterial(native: NativeStatus): void {
 function configureKit(): void {
   const native = nativeStatus();
   configureKitCoverage();
+  configureKitHig();
   configureKitTokens();
   configureKitMotion();
   configureKitMaterial(native);

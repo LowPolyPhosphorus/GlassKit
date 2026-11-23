@@ -1196,6 +1196,33 @@ gk-toolbar.kit-toolbar {
   padding: 0 8px 8px;
 }
 
+.setting-row > gk-search-field,
+.setting-row > gk-token-field {
+  flex: 0 0 280px;
+  max-width: 100%;
+}
+
+.settings-group > gk-status-bar,
+.settings-group > gk-tab-bar,
+.settings-group > gk-box,
+.settings-group > gk-collection,
+.settings-group > gk-notification,
+.settings-group > gk-snippet,
+.settings-group > gk-live-activity,
+.settings-group > gk-chart,
+.settings-group > gk-image-view,
+.settings-group > gk-web-view {
+  display: block;
+  margin: 0 16px 12px;
+}
+
+.kit-hint {
+  margin: 0;
+  padding: 0 16px 16px;
+  color: var(--app-muted);
+  font-size: 11px;
+}
+
 .kit-coverage,
 .kit-token-grid,
 .kit-token-vars {
