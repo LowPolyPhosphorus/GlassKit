@@ -12,7 +12,8 @@
   <symbol id="icon-sound" viewBox="0 0 24 24"><path d="M5 10v4h3l4 3V7L8 10zM16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></symbol>
   <symbol id="icon-appearance" viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h13"/><circle cx="18" cy="12" r="2"/><circle cx="15" cy="17" r="2"/></symbol>
   <symbol id="icon-wallpaper" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m3 16 5-5 4 4 3-3 6 6M16 8h2.5v2.5"/></symbol>
-  <symbol id="icon-dock" viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="6" rx="2"/><rect x="6" y="4" width="4" height="5" rx="1"/><rect x="14" y="4" width="4" height="5" rx="1"/></symbol>
+  <symbol id="icon-taskbar" viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="6" rx="2"/><rect x="6" y="4" width="4" height="5" rx="1"/><rect x="14" y="4" width="4" height="5" rx="1"/></symbol>
+  <symbol id="icon-start" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></symbol>
   <symbol id="icon-display" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M9 21h6M12 17v4"/></symbol>
   <symbol id="icon-battery" viewBox="0 0 24 24"><rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 10v4M6 10h8"/></symbol>
   <symbol id="icon-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"/></symbol>

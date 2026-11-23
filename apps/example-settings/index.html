@@ -34,22 +34,6 @@
     </svg>
 
     <div class="desktop" id="desktop">
-      <div class="menu-bar" aria-hidden="true">
-        <div class="menu-group">
-          <span class="menu-item menu-item--strong">Settings</span>
-          <span class="menu-item">File</span>
-          <span class="menu-item">Edit</span>
-          <span class="menu-item">View</span>
-          <span class="menu-item">Window</span>
-          <span class="menu-item">Help</span>
-        </div>
-        <div class="menu-group menu-group--right">
-          <svg class="menu-icon"><use href="/icons.svg#icon-wifi" /></svg>
-          <svg class="menu-icon"><use href="/icons.svg#icon-battery" /></svg>
-          <span class="menu-clock" id="clock">9:41</span>
-        </div>
-      </div>
-
       <button class="reopen-button" id="reopen-window" type="button" hidden>
         <svg class="icon"><use href="/icons.svg#icon-gear" /></svg>
         Open Settings
@@ -57,27 +41,29 @@
 
       <section class="settings-window" id="settings-window" aria-label="Settings window">
         <header class="titlebar">
-          <div class="traffic-lights" role="group" aria-label="Window controls">
-            <button class="traffic traffic--close" type="button" data-window-action="close" aria-label="Close window">
-              <svg><use href="/icons.svg#icon-close" /></svg>
-            </button>
-            <button class="traffic traffic--minimize" type="button" data-window-action="minimize" aria-label="Minimize window">
-              <svg><use href="/icons.svg#icon-minimize" /></svg>
-            </button>
-            <button class="traffic traffic--maximize" type="button" data-window-action="maximize" aria-label="Zoom window">
-              <svg><use href="/icons.svg#icon-maximize" /></svg>
-            </button>
-          </div>
-
-          <div class="titlebar-center">
+          <div class="titlebar-left">
+            <span class="app-icon" aria-hidden="true"><svg><use href="/icons.svg#icon-gear" /></svg></span>
+            <span class="app-title">Settings</span>
             <button class="back-button" id="back-button" type="button" aria-label="Back" disabled>
               <svg class="icon"><use href="/icons.svg#icon-chevron-left" /></svg>
             </button>
             <div class="search-field">
               <svg class="icon"><use href="/icons.svg#icon-search" /></svg>
-              <input id="settings-search" type="search" placeholder="Search" autocomplete="off" aria-label="Search settings" />
-              <kbd>⌘F</kbd>
+              <input id="settings-search" type="search" placeholder="Find a setting" autocomplete="off" aria-label="Search settings" />
+              <kbd>Ctrl F</kbd>
             </div>
+          </div>
+
+          <div class="window-controls" role="group" aria-label="Window controls">
+            <button type="button" data-window-action="minimize" aria-label="Minimize window">
+              <svg><use href="/icons.svg#icon-minimize" /></svg>
+            </button>
+            <button type="button" data-window-action="maximize" aria-label="Maximize window">
+              <svg><use href="/icons.svg#icon-maximize" /></svg>
+            </button>
+            <button type="button" data-window-action="close" aria-label="Close window">
+              <svg><use href="/icons.svg#icon-close" /></svg>
+            </button>
           </div>
         </header>
 
@@ -87,74 +73,74 @@
               <span class="avatar" aria-hidden="true">K</span>
               <span class="profile-copy">
                 <strong>Kelten Wright</strong>
-                <small>Account</small>
+                <small>Local account · Administrator</small>
               </span>
             </div>
 
             <nav class="sidebar-nav" id="sidebar-nav" aria-label="Settings pages">
-              <p class="nav-heading">Connectivity</p>
-              <button class="nav-item is-active" type="button" data-page="wifi" data-search="wi-fi wireless internet network">
-                <span class="nav-icon tile--blue"><svg><use href="/icons.svg#icon-wifi" /></svg></span>
+              <p class="nav-heading">Network &amp; internet</p>
+              <button class="nav-item is-active" type="button" data-page="wifi" data-search="wi-fi wireless internet network adapter">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-wifi" /></svg></span>
                 <span class="nav-copy"><strong>Wi-Fi</strong><small>Studio 5G</small></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
-              <button class="nav-item" type="button" data-page="bluetooth" data-search="bluetooth devices keyboard mouse">
-                <span class="nav-icon tile--blue"><svg><use href="/icons.svg#icon-bluetooth" /></svg></span>
+              <button class="nav-item" type="button" data-page="bluetooth" data-search="bluetooth devices keyboard mouse radio">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-bluetooth" /></svg></span>
                 <span class="nav-copy"><strong>Bluetooth</strong><small>On</small></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
-              <button class="nav-item" type="button" data-page="network" data-search="network ethernet vpn proxy">
-                <span class="nav-icon tile--blue"><svg><use href="/icons.svg#icon-network" /></svg></span>
+              <button class="nav-item" type="button" data-page="network" data-search="network ethernet vpn proxy adapter">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-network" /></svg></span>
                 <span class="nav-copy"><strong>Network</strong></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
 
-              <p class="nav-heading">Personal</p>
-              <button class="nav-item" type="button" data-page="notifications" data-search="notifications alerts badges">
-                <span class="nav-icon tile--red"><svg><use href="/icons.svg#icon-bell" /></svg></span>
-                <span class="nav-copy"><strong>Notifications</strong><small>3 apps</small></span>
+              <p class="nav-heading">Personalization</p>
+              <button class="nav-item" type="button" data-page="appearance" data-search="appearance colors theme light dark accent transparency">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-appearance" /></svg></span>
+                <span class="nav-copy"><strong>Colors</strong><small>Auto · dark</small></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
-              <button class="nav-item" type="button" data-page="sound" data-search="sound audio volume output">
-                <span class="nav-icon tile--red"><svg><use href="/icons.svg#icon-sound" /></svg></span>
-                <span class="nav-copy"><strong>Sound</strong></span>
+              <button class="nav-item" type="button" data-page="wallpaper" data-search="wallpaper background desktop picture personalization">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-wallpaper" /></svg></span>
+                <span class="nav-copy"><strong>Background</strong></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
-              <button class="nav-item" type="button" data-page="appearance" data-search="appearance theme light dark accent">
-                <span class="nav-icon tile--purple"><svg><use href="/icons.svg#icon-appearance" /></svg></span>
-                <span class="nav-copy"><strong>Appearance</strong><small>Dark</small></span>
-                <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
-              </button>
-              <button class="nav-item" type="button" data-page="wallpaper" data-search="wallpaper background desktop picture">
-                <span class="nav-icon tile--purple"><svg><use href="/icons.svg#icon-wallpaper" /></svg></span>
-                <span class="nav-copy"><strong>Wallpaper</strong></span>
+              <button class="nav-item" type="button" data-page="taskbar" data-search="taskbar start menu desktop tray personalization">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-taskbar" /></svg></span>
+                <span class="nav-copy"><strong>Taskbar</strong></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
 
               <p class="nav-heading">System</p>
-              <button class="nav-item" type="button" data-page="dock" data-search="desktop dock menubar mission control">
-                <span class="nav-icon tile--green"><svg><use href="/icons.svg#icon-dock" /></svg></span>
-                <span class="nav-copy"><strong>Desktop &amp; Dock</strong></span>
+              <button class="nav-item" type="button" data-page="notifications" data-search="notifications alerts badges action center">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-bell" /></svg></span>
+                <span class="nav-copy"><strong>Notifications</strong><small>3 apps</small></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
-              <button class="nav-item" type="button" data-page="displays" data-search="displays brightness resolution refresh">
-                <span class="nav-icon tile--green"><svg><use href="/icons.svg#icon-display" /></svg></span>
-                <span class="nav-copy"><strong>Displays</strong></span>
+              <button class="nav-item" type="button" data-page="sound" data-search="sound audio volume output speakers">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-sound" /></svg></span>
+                <span class="nav-copy"><strong>Sound</strong></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
-              <button class="nav-item" type="button" data-page="battery" data-search="battery power low power mode health">
-                <span class="nav-icon tile--green"><svg><use href="/icons.svg#icon-battery" /></svg></span>
-                <span class="nav-copy"><strong>Battery</strong><small>82%</small></span>
+              <button class="nav-item" type="button" data-page="displays" data-search="display monitor brightness resolution refresh night light">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-display" /></svg></span>
+                <span class="nav-copy"><strong>Display</strong></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
-              <button class="nav-item" type="button" data-page="general" data-search="general about storage software update sharing">
-                <span class="nav-icon tile--gray"><svg><use href="/icons.svg#icon-gear" /></svg></span>
-                <span class="nav-copy"><strong>General</strong></span>
+              <button class="nav-item" type="button" data-page="battery" data-search="battery power saver health">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-battery" /></svg></span>
+                <span class="nav-copy"><strong>Power &amp; battery</strong><small>82%</small></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
-              <button class="nav-item" type="button" data-page="users" data-search="users groups login account family">
-                <span class="nav-icon tile--gray"><svg><use href="/icons.svg#icon-users" /></svg></span>
-                <span class="nav-copy"><strong>Users &amp; Groups</strong></span>
+              <button class="nav-item" type="button" data-page="general" data-search="general about storage windows update sharing system">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-gear" /></svg></span>
+                <span class="nav-copy"><strong>About</strong></span>
+                <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
+              </button>
+              <button class="nav-item" type="button" data-page="users" data-search="accounts users login family startup">
+                <span class="nav-icon"><svg><use href="/icons.svg#icon-users" /></svg></span>
+                <span class="nav-copy"><strong>Accounts</strong></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
             </nav>
@@ -167,7 +153,7 @@
 
           <main class="detail" id="detail">
             <header class="detail-head">
-              <p class="breadcrumb" id="breadcrumb">Settings / Connectivity</p>
+              <p class="breadcrumb" id="breadcrumb">Settings / Network &amp; internet</p>
               <h1 id="page-title">Wi-Fi</h1>
             </header>
 
@@ -191,23 +177,23 @@
                     <svg class="network-signal"><use href="/icons.svg#icon-wifi" /></svg>
                     <div class="network-copy"><strong>Studio 5G</strong><span>Connected · 802.11ax · 6 GHz</span></div>
                     <svg class="network-check"><use href="/icons.svg#icon-check" /></svg>
-                    <button class="mini-button" type="button" data-detail="Studio 5G">Details</button>
+                    <button class="mini-button" type="button" data-detail="Studio 5G">Properties</button>
                   </div>
                   <div class="network-row">
                     <svg class="network-signal"><use href="/icons.svg#icon-wifi" /></svg>
                     <div class="network-copy"><strong>Living Room</strong><span>Known network</span></div>
-                    <button class="mini-button" type="button" data-detail="Living Room">Join</button>
+                    <button class="mini-button" type="button" data-detail="Living Room">Connect</button>
                   </div>
                   <div class="network-row">
                     <svg class="network-signal"><use href="/icons.svg#icon-wifi" /></svg>
                     <div class="network-copy"><strong>Coffee Shop</strong><span>Public network</span></div>
-                    <button class="mini-button" type="button" data-detail="Coffee Shop">Join</button>
+                    <button class="mini-button" type="button" data-detail="Coffee Shop">Connect</button>
                   </div>
                 </gk-glass-panel>
 
                 <gk-glass-panel class="settings-group" elevation="flat">
                   <h2>Advanced</h2>
-                  <gk-list-row subtitle="View IP address, routers, and DNS servers" interactive>
+                  <gk-list-row subtitle="View IP address, gateways, and DNS servers" interactive>
                     TCP/IP
                     <svg slot="leading" class="row-icon"><use href="/icons.svg#icon-network" /></svg>
                     <svg slot="trailing" class="row-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
@@ -272,6 +258,96 @@
                 </gk-glass-panel>
               </section>
 
+              <section class="page" data-page-panel="appearance" hidden>
+                <gk-glass-panel class="settings-group" elevation="flat">
+                  <h2>Appearance</h2>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Choose your mode</strong><span>Light, dark, or follow the system</span></div>
+                    <gk-segmented id="theme-mode" value="dark" label="Appearance"><button value="light">Light</button><button value="dark">Dark</button><button value="auto">Auto</button></gk-segmented>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Accent color</strong><span>Used for selection, focus, and primary actions</span></div>
+                    <div class="accent-row" id="accent-row">
+                      <button class="accent-swatch is-selected" type="button" data-accent="#0a84ff" data-accent-fill="rgba(10,132,255,0.18)" data-accent-stroke="rgba(10,132,255,0.6)" style="--swatch:#0a84ff" aria-label="Blue accent"></button>
+                      <button class="accent-swatch" type="button" data-accent="#bf5af2" data-accent-fill="rgba(191,90,242,0.18)" data-accent-stroke="rgba(191,90,242,0.6)" style="--swatch:#bf5af2" aria-label="Purple accent"></button>
+                      <button class="accent-swatch" type="button" data-accent="#ff375f" data-accent-fill="rgba(255,55,95,0.18)" data-accent-stroke="rgba(255,55,95,0.6)" style="--swatch:#ff375f" aria-label="Pink accent"></button>
+                      <button class="accent-swatch" type="button" data-accent="#ff9f0a" data-accent-fill="rgba(255,159,10,0.18)" data-accent-stroke="rgba(255,159,10,0.6)" style="--swatch:#ff9f0a" aria-label="Orange accent"></button>
+                      <button class="accent-swatch" type="button" data-accent="#30d158" data-accent-fill="rgba(48,209,88,0.18)" data-accent-stroke="rgba(48,209,88,0.6)" style="--swatch:#30d158" aria-label="Green accent"></button>
+                    </div>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Highlight color</strong><span>Used for selected text</span></div>
+                    <div class="accent-row" id="highlight-row">
+                      <button class="accent-swatch is-selected" type="button" data-highlight="rgba(10,132,255,0.34)" style="--swatch:#0a84ff" aria-label="Blue highlight"></button>
+                      <button class="accent-swatch" type="button" data-highlight="rgba(191,90,242,0.34)" style="--swatch:#bf5af2" aria-label="Purple highlight"></button>
+                      <button class="accent-swatch" type="button" data-highlight="rgba(255,159,10,0.34)" style="--swatch:#ff9f0a" aria-label="Orange highlight"></button>
+                    </div>
+                  </div>
+                </gk-glass-panel>
+                <gk-glass-panel class="settings-group" elevation="flat">
+                  <h2>Details</h2>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Navigation icon size</strong><span>Change the size of sidebar icons</span></div>
+                    <gk-segmented id="sidebar-size" value="medium" label="Navigation icon size"><button value="small">Small</button><button value="medium">Medium</button><button value="large">Large</button></gk-segmented>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Reduce transparency</strong><span>Use more opaque surfaces</span></div>
+                    <gk-toggle label="Reduce transparency"></gk-toggle>
+                  </div>
+                </gk-glass-panel>
+              </section>
+
+              <section class="page" data-page-panel="wallpaper" hidden>
+                <gk-glass-panel class="settings-group" elevation="flat">
+                  <h2>Current background</h2>
+                  <div class="wallpaper-preview" id="wallpaper-preview"><span>Studio Flat</span></div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Automatic rotation</strong><span>Change picture every day</span></div>
+                    <gk-toggle label="Automatic wallpaper rotation"></gk-toggle>
+                  </div>
+                </gk-glass-panel>
+                <gk-glass-panel class="settings-group" elevation="flat">
+                  <h2>Flat colors</h2>
+                  <div class="wallpaper-grid" id="wallpaper-grid">
+                    <button class="wallpaper-tile is-selected" type="button" data-wallpaper="#2c2c30" data-name="Studio Flat"><span></span><strong>Studio Flat</strong></button>
+                    <button class="wallpaper-tile" type="button" data-wallpaper="#233a4d" data-name="Slate"><span></span><strong>Slate</strong></button>
+                    <button class="wallpaper-tile" type="button" data-wallpaper="#3d2f45" data-name="Plum"><span></span><strong>Plum</strong></button>
+                    <button class="wallpaper-tile" type="button" data-wallpaper="#2f4038" data-name="Moss"><span></span><strong>Moss</strong></button>
+                    <button class="wallpaper-tile" type="button" data-wallpaper="#4a3b2d" data-name="Umber"><span></span><strong>Umber</strong></button>
+                    <button class="wallpaper-tile" type="button" data-wallpaper="#d9dae0" data-name="Paper"><span></span><strong>Paper</strong></button>
+                  </div>
+                </gk-glass-panel>
+              </section>
+
+              <section class="page" data-page-panel="taskbar" hidden>
+                <gk-glass-panel class="settings-group" elevation="flat">
+                  <h2>Desktop</h2>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Show icons on desktop</strong><span>Display files and folders</span></div>
+                    <gk-toggle checked label="Desktop icons"></gk-toggle>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Minimize windows using</strong><span>Choose the minimize effect</span></div>
+                    <gk-segmented value="scale" label="Minimize effect"><button value="scale">Scale</button><button value="slide">Slide</button></gk-segmented>
+                  </div>
+                </gk-glass-panel>
+                <gk-glass-panel class="settings-group" elevation="flat">
+                  <h2>Taskbar</h2>
+                  <div class="stacked-control">
+                    <div class="control-label"><strong>Size</strong><span id="taskbar-size-readout">48 px</span></div>
+                    <gk-slider id="taskbar-size" label="Taskbar size" min="32" max="72" value="48" unit=" px"></gk-slider>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Alignment</strong><span>Where taskbar buttons appear</span></div>
+                    <gk-segmented value="center" label="Taskbar alignment"><button value="left">Left</button><button value="center">Center</button></gk-segmented>
+                  </div>
+                  <div class="setting-row">
+                    <div class="row-copy"><strong>Automatically hide the taskbar</strong><span>Reveal it by moving the pointer to the bottom edge</span></div>
+                    <gk-toggle label="Auto-hide taskbar"></gk-toggle>
+                  </div>
+                </gk-glass-panel>
+              </section>
+
               <section class="page" data-page-panel="notifications" hidden>
                 <gk-glass-panel class="settings-group" elevation="flat">
                   <h2>Notification style</h2>
@@ -280,7 +356,7 @@
                     <gk-segmented id="notification-style" value="stack" label="Notification style"><button value="none">None</button><button value="stack">Stack</button><button value="list">List</button></gk-segmented>
                   </div>
                   <div class="setting-row">
-                    <div class="row-copy"><strong>Show previews</strong><span>Show message content on locked screen</span></div>
+                    <div class="row-copy"><strong>Show previews</strong><span>Show message content on the locked screen</span></div>
                     <gk-segmented value="when-unlocked" label="Show previews"><button value="always">Always</button><button value="when-unlocked">When unlocked</button><button value="never">Never</button></gk-segmented>
                   </div>
                 </gk-glass-panel>
@@ -314,100 +390,6 @@
                 </gk-glass-panel>
               </section>
 
-              <section class="page" data-page-panel="appearance" hidden>
-                <gk-glass-panel class="settings-group" elevation="flat">
-                  <h2>Appearance</h2>
-                  <div class="setting-row">
-                    <div class="row-copy"><strong>Appearance</strong><span>Choose light, dark, or follow the system</span></div>
-                    <gk-segmented id="theme-mode" value="dark" label="Appearance"><button value="light">Light</button><button value="dark">Dark</button><button value="auto">Auto</button></gk-segmented>
-                  </div>
-                  <div class="setting-row">
-                    <div class="row-copy"><strong>Accent color</strong><span>Used for selection and focus</span></div>
-                    <div class="accent-row" id="accent-row">
-                      <button class="accent-swatch is-selected" type="button" data-accent="#0a84ff" data-accent-fill="rgba(10,132,255,0.18)" data-accent-stroke="rgba(10,132,255,0.6)" style="--swatch:#0a84ff" aria-label="Blue accent"></button>
-                      <button class="accent-swatch" type="button" data-accent="#bf5af2" data-accent-fill="rgba(191,90,242,0.18)" data-accent-stroke="rgba(191,90,242,0.6)" style="--swatch:#bf5af2" aria-label="Purple accent"></button>
-                      <button class="accent-swatch" type="button" data-accent="#ff375f" data-accent-fill="rgba(255,55,95,0.18)" data-accent-stroke="rgba(255,55,95,0.6)" style="--swatch:#ff375f" aria-label="Pink accent"></button>
-                      <button class="accent-swatch" type="button" data-accent="#ff9f0a" data-accent-fill="rgba(255,159,10,0.18)" data-accent-stroke="rgba(255,159,10,0.6)" style="--swatch:#ff9f0a" aria-label="Orange accent"></button>
-                      <button class="accent-swatch" type="button" data-accent="#30d158" data-accent-fill="rgba(48,209,88,0.18)" data-accent-stroke="rgba(48,209,88,0.6)" style="--swatch:#30d158" aria-label="Green accent"></button>
-                    </div>
-                  </div>
-                  <div class="setting-row">
-                    <div class="row-copy"><strong>Highlight color</strong><span>Used for selected text</span></div>
-                    <div class="accent-row" id="highlight-row">
-                      <button class="accent-swatch is-selected" type="button" data-highlight="rgba(10,132,255,0.34)" style="--swatch:#0a84ff" aria-label="Blue highlight"></button>
-                      <button class="accent-swatch" type="button" data-highlight="rgba(191,90,242,0.34)" style="--swatch:#bf5af2" aria-label="Purple highlight"></button>
-                      <button class="accent-swatch" type="button" data-highlight="rgba(255,159,10,0.34)" style="--swatch:#ff9f0a" aria-label="Orange highlight"></button>
-                    </div>
-                  </div>
-                </gk-glass-panel>
-                <gk-glass-panel class="settings-group" elevation="flat">
-                  <h2>Details</h2>
-                  <div class="setting-row">
-                    <div class="row-copy"><strong>Sidebar icon size</strong><span>Change the size of sidebar icons</span></div>
-                    <gk-segmented id="sidebar-size" value="medium" label="Sidebar icon size"><button value="small">Small</button><button value="medium">Medium</button><button value="large">Large</button></gk-segmented>
-                  </div>
-                  <div class="setting-row">
-                    <div class="row-copy"><strong>Reduce transparency</strong><span>Use more opaque surfaces</span></div>
-                    <gk-toggle label="Reduce transparency"></gk-toggle>
-                  </div>
-                  <div class="setting-row">
-                    <div class="row-copy"><strong>Auto-hide menu bar</strong><span>Hide the menu bar when not in use</span></div>
-                    <gk-toggle label="Auto-hide menu bar"></gk-toggle>
-                  </div>
-                </gk-glass-panel>
-              </section>
-
-              <section class="page" data-page-panel="wallpaper" hidden>
-                <gk-glass-panel class="settings-group" elevation="flat">
-                  <h2>Current wallpaper</h2>
-                  <div class="wallpaper-preview" id="wallpaper-preview"><span>Studio Flat</span></div>
-                  <div class="setting-row">
-                    <div class="row-copy"><strong>Automatic rotation</strong><span>Change picture every day</span></div>
-                    <gk-toggle label="Automatic wallpaper rotation"></gk-toggle>
-                  </div>
-                </gk-glass-panel>
-                <gk-glass-panel class="settings-group" elevation="flat">
-                  <h2>Flat colors</h2>
-                  <div class="wallpaper-grid" id="wallpaper-grid">
-                    <button class="wallpaper-tile is-selected" type="button" data-wallpaper="#2c2c30" data-name="Studio Flat"><span></span><strong>Studio Flat</strong></button>
-                    <button class="wallpaper-tile" type="button" data-wallpaper="#233a4d" data-name="Slate"><span></span><strong>Slate</strong></button>
-                    <button class="wallpaper-tile" type="button" data-wallpaper="#3d2f45" data-name="Plum"><span></span><strong>Plum</strong></button>
-                    <button class="wallpaper-tile" type="button" data-wallpaper="#2f4038" data-name="Moss"><span></span><strong>Moss</strong></button>
-                    <button class="wallpaper-tile" type="button" data-wallpaper="#4a3b2d" data-name="Umber"><span></span><strong>Umber</strong></button>
-                    <button class="wallpaper-tile" type="button" data-wallpaper="#d9dae0" data-name="Paper"><span></span><strong>Paper</strong></button>
-                  </div>
-                </gk-glass-panel>
-              </section>
-
-              <section class="page" data-page-panel="dock" hidden>
-                <gk-glass-panel class="settings-group" elevation="flat">
-                  <h2>Desktop</h2>
-                  <div class="setting-row">
-                    <div class="row-copy"><strong>Show icons on desktop</strong><span>Display files and folders</span></div>
-                    <gk-toggle checked label="Desktop icons"></gk-toggle>
-                  </div>
-                  <div class="setting-row">
-                    <div class="row-copy"><strong>Minimize windows using</strong><span>Choose the minimize effect</span></div>
-                    <gk-segmented value="scale" label="Minimize effect"><button value="scale">Scale</button><button value="genie">Genie</button></gk-segmented>
-                  </div>
-                </gk-glass-panel>
-                <gk-glass-panel class="settings-group" elevation="flat">
-                  <h2>Dock</h2>
-                  <div class="stacked-control">
-                    <div class="control-label"><strong>Size</strong><span id="dock-size-readout">48 px</span></div>
-                    <gk-slider id="dock-size" label="Dock size" min="32" max="72" value="48" unit=" px"></gk-slider>
-                  </div>
-                  <div class="setting-row">
-                    <div class="row-copy"><strong>Position on screen</strong><span>Where the Dock appears</span></div>
-                    <gk-segmented value="bottom" label="Dock position"><button value="bottom">Bottom</button><button value="left">Left</button><button value="right">Right</button></gk-segmented>
-                  </div>
-                  <div class="setting-row">
-                    <div class="row-copy"><strong>Automatically hide and show the Dock</strong><span>Reveal it by moving the pointer to the edge</span></div>
-                    <gk-toggle label="Auto-hide Dock"></gk-toggle>
-                  </div>
-                </gk-glass-panel>
-              </section>
-
               <section class="page" data-page-panel="displays" hidden>
                 <gk-glass-panel class="settings-group" elevation="flat">
                   <h2>Display</h2>
@@ -426,8 +408,8 @@
                 </gk-glass-panel>
                 <gk-glass-panel class="settings-group" elevation="flat">
                   <h2>Color</h2>
-                  <div class="setting-row"><div class="row-copy"><strong>Night Shift</strong><span>Warm the display after sunset</span></div><gk-toggle label="Night Shift"></gk-toggle></div>
-                  <div class="setting-row"><div class="row-copy"><strong>True Tone</strong><span>Adapt to ambient light</span></div><gk-toggle checked label="True Tone"></gk-toggle></div>
+                  <div class="setting-row"><div class="row-copy"><strong>Night light</strong><span>Warm the display after sunset</span></div><gk-toggle label="Night light"></gk-toggle></div>
+                  <div class="setting-row"><div class="row-copy"><strong>Adaptive brightness</strong><span>Adjust to ambient light</span></div><gk-toggle checked label="Adaptive brightness"></gk-toggle></div>
                 </gk-glass-panel>
               </section>
 
@@ -439,7 +421,7 @@
                     <div><strong>7h 24m remaining</strong><span>Charged · 82%</span></div>
                     <gk-badge tone="success" dot>Normal</gk-badge>
                   </div>
-                  <div class="setting-row"><div class="row-copy"><strong>Low Power Mode</strong><span>Reduce background activity</span></div><gk-toggle label="Low Power Mode"></gk-toggle></div>
+                  <div class="setting-row"><div class="row-copy"><strong>Battery saver</strong><span>Reduce background activity</span></div><gk-toggle label="Battery saver"></gk-toggle></div>
                   <div class="setting-row"><div class="row-copy"><strong>Optimized charging</strong><span>Learn daily charging routine</span></div><gk-toggle checked label="Optimized charging"></gk-toggle></div>
                 </gk-glass-panel>
                 <gk-glass-panel class="settings-group" elevation="flat">
@@ -466,18 +448,18 @@
                 <gk-glass-panel class="settings-group" elevation="flat">
                   <h2>System</h2>
                   <gk-list-row subtitle="No updates available" interactive>
-                    Software Update
-                    <svg slot="leading" class="row-icon tile--blue"><use href="/icons.svg#icon-gear" /></svg>
+                    Windows Update
+                    <svg slot="leading" class="row-icon"><use href="/icons.svg#icon-gear" /></svg>
                     <svg slot="trailing" class="row-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
                   </gk-list-row>
                   <gk-list-row subtitle="128 GB available of 512 GB" interactive>
                     Storage
-                    <svg slot="leading" class="row-icon tile--gray"><use href="/icons.svg#icon-desktop" /></svg>
+                    <svg slot="leading" class="row-icon"><use href="/icons.svg#icon-desktop" /></svg>
                     <svg slot="trailing" class="row-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
                   </gk-list-row>
-                  <gk-list-row subtitle="File Sharing off · Remote Login off" interactive>
+                  <gk-list-row subtitle="File sharing off · Remote Desktop off" interactive>
                     Sharing
-                    <svg slot="leading" class="row-icon tile--blue"><use href="/icons.svg#icon-network" /></svg>
+                    <svg slot="leading" class="row-icon"><use href="/icons.svg#icon-network" /></svg>
                     <svg slot="trailing" class="row-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
                   </gk-list-row>
                 </gk-glass-panel>
@@ -486,14 +468,14 @@
               <section class="page" data-page-panel="users" hidden>
                 <gk-glass-panel class="settings-group" elevation="flat">
                   <h2>Users</h2>
-                  <div class="device-row"><span class="user-avatar">K</span><div><strong>Kelten Wright</strong><span>Admin · Current user</span></div><gk-badge tone="success">Signed in</gk-badge></div>
+                  <div class="device-row"><span class="user-avatar">K</span><div><strong>Kelten Wright</strong><span>Administrator · Current user</span></div><gk-badge tone="success">Signed in</gk-badge></div>
                   <div class="device-row"><span class="user-avatar user-avatar--alt">G</span><div><strong>Guest</strong><span>Guest account</span></div><gk-toggle label="Guest account"></gk-toggle></div>
                   <div class="setting-row"><div class="row-copy"><strong>Automatic login</strong><span>Log in as Kelten after startup</span></div><gk-toggle label="Automatic login"></gk-toggle></div>
                 </gk-glass-panel>
                 <gk-glass-panel class="settings-group" elevation="flat">
-                  <h2>Login items</h2>
-                  <div class="setting-row"><div class="row-copy"><strong>Open at login</strong><span>3 items configured</span></div><button class="mini-button" type="button" data-action="Login items">Edit…</button></div>
-                  <div class="setting-row"><div class="row-copy"><strong>Allow apps to add login items</strong><span>Show a prompt when an app requests access</span></div><gk-toggle checked label="Login item prompts"></gk-toggle></div>
+                  <h2>Startup apps</h2>
+                  <div class="setting-row"><div class="row-copy"><strong>Open at login</strong><span>3 items configured</span></div><button class="mini-button" type="button" data-action="Startup apps">Edit…</button></div>
+                  <div class="setting-row"><div class="row-copy"><strong>Allow apps to configure startup</strong><span>Show a prompt when an app requests access</span></div><gk-toggle checked label="Startup app prompts"></gk-toggle></div>
                 </gk-glass-panel>
               </section>
             </div>
@@ -504,7 +486,39 @@
             </footer>
           </main>
         </div>
+
+        <div class="context-menu" id="context-menu" role="menu" aria-label="Settings context menu" hidden>
+          <button type="button" role="menuitem" data-context-action="Copy">Copy</button>
+          <button type="button" role="menuitem" data-context-action="Paste">Paste</button>
+          <div class="context-separator" role="separator"></div>
+          <button type="button" role="menuitem" data-context-action="Properties">Properties</button>
+          <button type="button" role="menuitem" data-context-action="Native material status">Native material status</button>
+        </div>
       </section>
+
+      <footer class="taskbar" aria-label="Windows-style taskbar">
+        <div class="taskbar-group">
+          <button class="taskbar-button" id="start-button" type="button" aria-label="Start">
+            <svg class="icon"><use href="/icons.svg#icon-start" /></svg>
+          </button>
+          <button class="taskbar-button" id="taskbar-search" type="button" aria-label="Search settings">
+            <svg class="icon"><use href="/icons.svg#icon-search" /></svg>
+          </button>
+        </div>
+
+        <div class="taskbar-group taskbar-apps">
+          <button class="taskbar-app is-open" id="taskbar-settings" type="button" aria-label="Settings">
+            <svg class="icon"><use href="/icons.svg#icon-gear" /></svg>
+            <span class="taskbar-pip" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="taskbar-tray">
+          <svg class="icon"><use href="/icons.svg#icon-wifi" /></svg>
+          <svg class="icon"><use href="/icons.svg#icon-sound" /></svg>
+          <time id="clock"></time>
+        </div>
+      </footer>
     </div>
 
     <script type="module" src="/src/main.ts"></script>

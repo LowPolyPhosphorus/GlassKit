@@ -17,18 +17,18 @@ interface PageMeta {
 }
 
 const PAGES: Record<string, PageMeta> = {
-  wifi: { title: "Wi-Fi", group: "Connectivity" },
-  bluetooth: { title: "Bluetooth", group: "Connectivity" },
-  network: { title: "Network", group: "Connectivity" },
-  notifications: { title: "Notifications", group: "Personal" },
-  sound: { title: "Sound", group: "Personal" },
-  appearance: { title: "Appearance", group: "Personal" },
-  wallpaper: { title: "Wallpaper", group: "Personal" },
-  dock: { title: "Desktop & Dock", group: "System" },
-  displays: { title: "Displays", group: "System" },
-  battery: { title: "Battery", group: "System" },
-  general: { title: "General", group: "System" },
-  users: { title: "Users & Groups", group: "System" },
+  wifi: { title: "Wi-Fi", group: "Network & internet" },
+  bluetooth: { title: "Bluetooth", group: "Network & internet" },
+  network: { title: "Network", group: "Network & internet" },
+  appearance: { title: "Colors", group: "Personalization" },
+  wallpaper: { title: "Background", group: "Personalization" },
+  taskbar: { title: "Taskbar", group: "Personalization" },
+  notifications: { title: "Notifications", group: "System" },
+  sound: { title: "Sound", group: "System" },
+  displays: { title: "Display", group: "System" },
+  battery: { title: "Power & battery", group: "System" },
+  general: { title: "About", group: "System" },
+  users: { title: "Accounts", group: "System" },
 };
 
 const THEME_KEY = "gk-settings-theme";
@@ -66,6 +66,8 @@ const themeMode = must<HTMLElement>("#theme-mode");
 const themeSegmented = themeMode as HTMLElement & { value: string };
 const nativeBadge = must<HTMLElement>("#native-badge");
 const nativeBadgeDetail = must<HTMLElement>("#native-badge-detail");
+const taskbarSettings = must<HTMLButtonElement>("#taskbar-settings");
+const titlebar = must<HTMLElement>(".titlebar");
 const media = window.matchMedia("(prefers-color-scheme: light)");
 
 const navItems = Array.from(nav.querySelectorAll<HTMLButtonElement>(".nav-item"));
@@ -219,6 +221,10 @@ function configureSearch(): void {
       search.focus();
       search.select();
     }
+    if (event.altKey && event.key === "ArrowLeft") {
+      event.preventDefault();
+      navigateBack();
+    }
   });
 }
 
@@ -243,9 +249,9 @@ function configureAccents(): void {
   const accents = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-accent]"));
   for (const swatch of accents) {
     swatch.addEventListener("click", () => {
-      root.style.setProperty("--gk-color-accent", swatch.dataset.accent!);
-      root.style.setProperty("--gk-color-accent-fill", swatch.dataset.accentFill!);
-      root.style.setProperty("--gk-color-accent-stroke", swatch.dataset.accentStroke!);
+      root.style.setProperty("--app-accent", swatch.dataset.accent!);
+      root.style.setProperty("--app-accent-fill", swatch.dataset.accentFill!);
+      root.style.setProperty("--app-accent-stroke", swatch.dataset.accentStroke!);
       for (const other of accents) other.classList.toggle("is-selected", other === swatch);
       setStatus(`Accent color: ${swatch.getAttribute("aria-label") ?? "custom"}`);
     });
@@ -254,7 +260,7 @@ function configureAccents(): void {
   const highlights = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-highlight]"));
   for (const swatch of highlights) {
     swatch.addEventListener("click", () => {
-      root.style.setProperty("--mac-highlight", swatch.dataset.highlight!);
+      root.style.setProperty("--app-highlight", swatch.dataset.highlight!);
       for (const other of highlights) other.classList.toggle("is-selected", other === swatch);
       setStatus(`Highlight color: ${swatch.getAttribute("aria-label") ?? "custom"}`);
     });
@@ -282,8 +288,8 @@ function configureWallpaper(): void {
   const select = (tile: HTMLButtonElement, announce = true): void => {
     const color = tile.dataset.wallpaper!;
     const name = tile.dataset.name ?? "Wallpaper";
-    root.style.setProperty("--mac-wallpaper", color);
-    preview.style.setProperty("--mac-wallpaper", color);
+    root.style.setProperty("--app-desktop", color);
+    preview.style.setProperty("--app-desktop", color);
     label.textContent = name;
     for (const other of tiles) other.classList.toggle("is-selected", other === tile);
     try {
@@ -309,7 +315,7 @@ function configureWallpaper(): void {
 function configureReadouts(): void {
   const bindings: Array<[string, string, (value: number) => string]> = [
     ["#volume-slider", "#volume-readout", (value) => `${value}%`],
-    ["#dock-size", "#dock-size-readout", (value) => `${value} px`],
+    ["#taskbar-size", "#taskbar-size-readout", (value) => `${value} px`],
     ["#brightness-slider", "#brightness-readout", (value) => `${value}%`],
   ];
 
@@ -355,31 +361,131 @@ function configureActions(): void {
   }
 }
 
+let restoreOffset: { left: string; top: string } | null = null;
+
+function setWindowVisible(visible: boolean, message: string): void {
+  windowElement.hidden = !visible;
+  reopenButton.hidden = visible;
+  taskbarSettings.classList.toggle("is-open", visible);
+  document.querySelector<HTMLElement>("#context-menu")?.setAttribute("hidden", "");
+  setStatus(message);
+}
+
+function toggleMaximize(): void {
+  const maximized = windowElement.classList.toggle("is-maximized");
+  if (maximized) {
+    restoreOffset = { left: windowElement.style.left, top: windowElement.style.top };
+    windowElement.style.left = "";
+    windowElement.style.top = "";
+  } else if (restoreOffset) {
+    windowElement.style.left = restoreOffset.left;
+    windowElement.style.top = restoreOffset.top;
+    restoreOffset = null;
+  }
+  setStatus(maximized ? "Window maximized" : "Window restored");
+}
+
 function configureWindow(): void {
   for (const button of document.querySelectorAll<HTMLButtonElement>("[data-window-action]")) {
     button.addEventListener("click", () => {
       const action = button.dataset.windowAction;
-      if (action === "close") {
-        windowElement.hidden = true;
-        reopenButton.hidden = false;
-        setStatus("Window closed");
-      }
-      if (action === "minimize") {
-        windowElement.hidden = true;
-        reopenButton.hidden = false;
-        setStatus("Window minimized");
-      }
-      if (action === "maximize") {
-        windowElement.classList.toggle("is-maximized");
-        setStatus(windowElement.classList.contains("is-maximized") ? "Window zoomed" : "Window restored");
-      }
+      if (action === "close") setWindowVisible(false, "Window closed");
+      if (action === "minimize") setWindowVisible(false, "Window minimized");
+      if (action === "maximize") toggleMaximize();
     });
   }
 
-  reopenButton.addEventListener("click", () => {
-    windowElement.hidden = false;
-    reopenButton.hidden = true;
-    setStatus("Window reopened");
+  reopenButton.addEventListener("click", () => setWindowVisible(true, "Window reopened"));
+}
+
+function configureWindowDrag(): void {
+  let dragging = false;
+  let origin = { x: 0, y: 0, left: 0, top: 0 };
+
+  const isControl = (target: EventTarget | null): boolean =>
+    target instanceof Element && Boolean(target.closest("button, input, .search-field"));
+
+  titlebar.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0 || isControl(event.target) || windowElement.classList.contains("is-maximized")) return;
+    dragging = true;
+    origin = {
+      x: event.clientX,
+      y: event.clientY,
+      left: Number.parseFloat(windowElement.style.left) || 0,
+      top: Number.parseFloat(windowElement.style.top) || 0,
+    };
+    titlebar.classList.add("is-dragging");
+    try {
+      titlebar.setPointerCapture(event.pointerId);
+    } catch {
+      // Pointer capture is best-effort; the drag still works with window listeners.
+    }
+  });
+
+  titlebar.addEventListener("pointermove", (event) => {
+    if (!dragging) return;
+    windowElement.style.left = `${origin.left + event.clientX - origin.x}px`;
+    windowElement.style.top = `${origin.top + event.clientY - origin.y}px`;
+  });
+
+  const stopDrag = (event: PointerEvent): void => {
+    if (!dragging) return;
+    dragging = false;
+    titlebar.classList.remove("is-dragging");
+    try {
+      titlebar.releasePointerCapture(event.pointerId);
+    } catch {
+      // Ignore capture-release failures when the pointer was never captured.
+    }
+  };
+
+  titlebar.addEventListener("pointerup", stopDrag);
+  titlebar.addEventListener("pointercancel", stopDrag);
+  titlebar.addEventListener("dblclick", (event) => {
+    if (!isControl(event.target)) toggleMaximize();
+  });
+}
+
+function configureTaskbar(): void {
+  must<HTMLButtonElement>("#start-button").addEventListener("click", () => {
+    setStatus("Start is native Windows chrome in the Tauri host");
+  });
+
+  must<HTMLButtonElement>("#taskbar-search").addEventListener("click", () => {
+    if (windowElement.hidden) setWindowVisible(true, "Settings restored from taskbar");
+    search.focus();
+  });
+
+  taskbarSettings.addEventListener("click", () => {
+    if (windowElement.hidden) setWindowVisible(true, "Settings restored from taskbar");
+    else setWindowVisible(false, "Settings minimized to taskbar");
+  });
+}
+
+function configureContextMenu(): void {
+  const menu = must<HTMLElement>("#context-menu");
+
+  windowElement.addEventListener("contextmenu", (event) => {
+    if (!(event.target instanceof Element) || event.target.closest("input, textarea")) return;
+    event.preventDefault();
+    menu.hidden = false;
+    const width = menu.offsetWidth || 210;
+    const height = menu.offsetHeight || 168;
+    menu.style.left = `${Math.max(8, Math.min(event.clientX, window.innerWidth - width - 8))}px`;
+    menu.style.top = `${Math.max(8, Math.min(event.clientY, window.innerHeight - height - 8))}px`;
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!menu.contains(event.target as Node)) menu.hidden = true;
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") menu.hidden = true;
+  });
+  menu.querySelectorAll<HTMLButtonElement>("[data-context-action]").forEach((button) => {
+    button.addEventListener("click", () => {
+      setStatus(`${button.dataset.contextAction ?? "Action"} selected`);
+      menu.hidden = true;
+    });
   });
 }
 
@@ -419,5 +525,8 @@ configureWallpaper();
 configureReadouts();
 configureActions();
 configureWindow();
+configureWindowDrag();
+configureTaskbar();
+configureContextMenu();
 configureClock();
 void configureNative();
