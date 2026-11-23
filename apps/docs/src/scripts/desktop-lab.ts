@@ -6,6 +6,7 @@ const ROOM_COPY: Record<string, { title: string; subtitle: string }> = {
   climate: { title: "Climate", subtitle: "Whole home · Comfort mode" },
   security: { title: "Security", subtitle: "3 zones · Armed home" },
   patterns: { title: "HIG patterns", subtitle: "Layout, navigation, status, and media" },
+  atlas: { title: "All components", subtitle: "Every element in the Glass Kit registry" },
 };
 
 function clamp(value: number, min: number, max: number): number {
@@ -177,6 +178,8 @@ export function initDesktopLab(): void {
     "gk-activate",
     "gk-change",
     "gk-input",
+    "gk-open",
+    "gk-close",
     "gk-select",
     "gk-navigate",
     "gk-scope-change",

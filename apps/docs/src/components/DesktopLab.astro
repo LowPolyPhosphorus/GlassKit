@@ -31,6 +31,7 @@ import Icon from "./Icon.astro";
             <button type="button" data-room="climate" aria-current="false"><Icon name="thermostat" /> Climate</button>
             <button type="button" data-room="security" aria-current="false"><Icon name="lock" /> Security</button>
             <button type="button" data-room="patterns" aria-current="false"><Icon name="components" /> HIG patterns</button>
+            <button type="button" data-room="atlas" aria-current="false"><Icon name="components" /> All components</button>
           </div>
           <p>Views</p>
           <div class="lab-nav" role="navigation" aria-label="Views">
@@ -305,6 +306,32 @@ import Icon from "./Icon.astro";
             <gk-glass-panel class="device-card device-card--wide" tone="thin">
               <div class="device-head"><strong>Web view</strong></div>
               <gk-web-view title="Inline note" height="150" srcdoc='<h3>Sandboxed content</h3><p>Rich HTML stays inside the app.</p>'></gk-web-view>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card" tone="thin">
+              <div class="device-head"><strong>Selection &amp; input</strong><gk-badge tone="accent">HIG</gk-badge></div>
+              <gk-text-field label="Device name" placeholder="Name this device" clearable caption="Separate label and placeholder."></gk-text-field>
+              <gk-color-well value="#0a84ff"></gk-color-well>
+              <gk-stepper value="2" min="0" max="8"></gk-stepper>
+              <gk-toggle variant="checkbox" checked label="Enable scene"></gk-toggle>
+              <gk-toggle variant="radio" checked label="Primary hub"></gk-toggle>
+            </gk-glass-panel>
+          </div>
+
+          <div class="room-grid" data-room-panel="atlas" hidden>
+            <gk-glass-panel class="device-card device-card--wide" tone="thin">
+              <div class="device-head">
+                <strong>Complete HIG atlas</strong>
+                <gk-badge tone="accent" dot>Every topic</gk-badge>
+              </div>
+              <div class="lab-atlas">
+                <div class="lab-atlas__toolbar">
+                  <gk-text-field id="lab-atlas-search" label="Filter components" placeholder="Search by name or group" clearable></gk-text-field>
+                  <gk-badge id="lab-atlas-count" tone="success">Ready</gk-badge>
+                </div>
+                <div class="lab-atlas__grid" data-lab-atlas></div>
+                <p class="lab-status" data-lab-atlas-status aria-live="polite">All registered Glass Kit components appear here.</p>
+              </div>
             </gk-glass-panel>
           </div>
 

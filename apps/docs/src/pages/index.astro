@@ -145,12 +145,34 @@ installGlassKit();
       <header class="section-heading">
         <p class="eyebrow"><Icon name="components" /> Components</p>
         <h2>One kit. Every app surface.</h2>
-        <p class="lede">Twenty-eight components span core controls, layout, navigation, status, notifications, live activities, charts, image views, and sandboxed web content. They share one token system and one event vocabulary.</p>
+        <p class="lede">Eighty-one components cover every topic in Apple’s HIG Components index: core controls, layout, menus, navigation, presentation, selection, status, system experiences, and input. They share one token system and one event vocabulary.</p>
       </header>
       <div class="card-grid">
         <div class="card"><span class="card-icon"><Icon name="components" /></span><h3>Predictable events</h3><p>Core controls use <code>gk-activate</code>, <code>gk-change</code>, and <code>gk-input</code>; richer patterns add focused events such as <code>gk-select</code>, <code>gk-dismiss</code>, and <code>gk-point-select</code>.</p></div>
         <div class="card"><span class="card-icon"><Icon name="sliders" /></span><h3>Real controls</h3><p>Native inputs, buttons, and iframes under the hood, with keyboard support, visible focus, accessible roles, and safe shadow boundaries.</p></div>
         <div class="card"><span class="card-icon"><Icon name="palette" /></span><h3>Theme-aware</h3><p>Components read semantic CSS variables, so preview themes and app themes can change independently — including light, dark, and high-contrast accents.</p></div>
+      </div>
+    </section>
+
+    <section id="atlas" class="section">
+      <header class="section-heading">
+        <p class="eyebrow"><Icon name="components" /> Component atlas</p>
+        <h2>Every HIG topic, translated.</h2>
+        <p class="lede">The complete registry renders on demand. Search by name, tag, group, or guidance, then switch between the original kit and the HIG topic patterns. Every card is a live component, not a picture.</p>
+      </header>
+
+      <div class="component-atlas">
+        <div class="atlas-toolbar">
+          <gk-text-field id="atlas-search" label="Search the atlas" placeholder="Try slider, popover, or gesture" clearable></gk-text-field>
+          <gk-segmented id="atlas-group" value="all" label="Atlas scope">
+            <button value="all">All</button>
+            <button value="core">Core</button>
+            <button value="hig">HIG</button>
+          </gk-segmented>
+          <gk-badge id="atlas-count" tone="success">81 components</gk-badge>
+        </div>
+        <div class="atlas-grid" data-component-atlas></div>
+        <p class="atlas-status" data-atlas-status aria-live="polite">Interact with any component to see its event here.</p>
       </div>
     </section>
 
