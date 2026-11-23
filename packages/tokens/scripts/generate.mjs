@@ -24,13 +24,31 @@ function flatten(value, prefix = "", out = {}) {
   return out;
 }
 
+function channel(hex, index) {
+  return Number.parseInt(hex.slice(index, index + 2), 16);
+}
+
+/** Alpha-compose a foreground colour over a background; returns #rrggbb. */
+function composite(background, foreground, alpha) {
+  const bg = background.replace("#", "");
+  const fg = foreground.replace("#", "");
+  const mix = (index) =>
+    Math.floor(channel(fg, index) * alpha + channel(bg, index) * (1 - alpha))
+      .toString(16)
+      .padStart(2, "0");
+  return `#${mix(0)}${mix(2)}${mix(4)}`;
+}
+
 const common = { ...tokens };
 delete common.theme;
 const variables = {
   ...flatten(common),
   ...flatten(tokens.theme.dark, "color"),
+  "--gk-color-composite-example": composite("#c83b41", "#000000", 0.5),
 };
 const lightVariables = flatten(tokens.theme.light, "color");
+const liquidDark = flatten(tokens.theme.liquid.dark, "color");
+const liquidLight = flatten(tokens.theme.liquid.light, "color");
 
 function block(selector, values, indent = "  ") {
   const lines = Object.entries(values).map(([name, value]) => `${indent}${name}: ${value};`);
@@ -41,10 +59,15 @@ const css = [
   "/* Generated from tokens.json. Do not edit by hand. */",
   ":root {",
   "  color-scheme: dark;",
+  "  --gk-material-filter: var(--gk-material-filter-flat);",
   ...Object.entries(variables).map(([name, value]) => `  ${name}: ${value};`),
   "}",
   "",
   block('[data-gk-theme="light"]', { "color-scheme": "light", ...lightVariables }),
+  "",
+  block('[data-gk-material="liquid"]', { "--gk-material-filter": "var(--gk-material-filter-liquid)", ...liquidDark }),
+  "",
+  block('[data-gk-theme="light"][data-gk-material="liquid"]', liquidLight),
   "",
 ].join("\n");
 
