@@ -1273,6 +1273,94 @@ gk-toolbar.kit-toolbar {
   white-space: nowrap;
 }
 
+.kit-toggle-states {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+}
+
+.kit-atlas {
+  display: grid;
+  gap: 12px;
+  padding: 0 16px 16px;
+}
+
+.kit-atlas__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--app-soft-line);
+  border-radius: 10px;
+  background: var(--app-field);
+}
+
+.kit-atlas__toolbar gk-text-field {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.kit-atlas__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+  max-height: 520px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.kit-atlas-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--app-soft-line);
+  border-radius: 10px;
+  background: var(--app-field);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 230px;
+}
+
+.kit-atlas-card__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.kit-atlas-card__head strong {
+  overflow: hidden;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kit-atlas-card__head code {
+  overflow: hidden;
+  color: var(--app-accent);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kit-atlas-card__body {
+  min-width: 0;
+  padding: 8px;
+  overflow: hidden;
+  border: 1px solid var(--app-soft-line);
+  border-radius: 8px;
+  background: var(--app-card);
+}
+
+.kit-atlas-card > span {
+  color: var(--app-muted);
+  font-size: 10px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

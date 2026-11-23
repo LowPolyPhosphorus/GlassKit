@@ -29,65 +29,7 @@ import {
   type GlassMode,
   type NativeStatus,
 } from "@glasskit/native";
-import {
-  BADGE_TAG,
-  BOX_TAG,
-  CHART_TAG,
-  COLLECTION_TAG,
-  COLUMN_VIEW_TAG,
-  CONTROL_TILE_TAG,
-  DISCLOSURE_TAG,
-  GLASS_BUTTON_TAG,
-  GLASS_PANEL_TAG,
-  GLASS_TOGGLE_TAG,
-  IMAGE_VIEW_TAG,
-  LABEL_TAG,
-  LIVE_ACTIVITY_TAG,
-  LIST_ROW_TAG,
-  NOTIFICATION_TAG,
-  PATH_CONTROL_TAG,
-  SEARCH_FIELD_TAG,
-  SEGMENTED_CONTROL_TAG,
-  SIDEBAR_ITEM_TAG,
-  SIDEBAR_TAG,
-  SLIDER_TAG,
-  SNIPPET_TAG,
-  STATUS_BAR_TAG,
-  TAB_BAR_TAG,
-  TEXT_FIELD_TAG,
-  TOKEN_FIELD_TAG,
-  TOOLBAR_TAG,
-  WEB_VIEW_TAG,
-  Badge,
-  Box,
-  Chart,
-  Collection,
-  ColumnView,
-  ControlTile,
-  Disclosure,
-  GlassButton,
-  GlassPanel,
-  GlassToggle,
-  ImageView,
-  Label,
-  LiveActivity,
-  ListRow,
-  NotificationCard,
-  PathControl,
-  SearchField,
-  SegmentedControl,
-  Sidebar,
-  SidebarItem,
-  Slider,
-  Snippet,
-  StatusBar,
-  TabBar,
-  TextField,
-  TokenField,
-  Toolbar,
-  WebView,
-  installGlassKit,
-} from "@glasskit/ui";
+import { COMPONENT_REGISTRY, installGlassKit, type GlassKitComponent } from "@glasskit/ui";
 
 installGlassKit();
 
@@ -102,37 +44,6 @@ interface PageMeta {
   title: string;
   group: string;
 }
-
-const COMPONENTS = [
-  { tag: BADGE_TAG, ctor: Badge },
-  { tag: BOX_TAG, ctor: Box },
-  { tag: CHART_TAG, ctor: Chart },
-  { tag: COLLECTION_TAG, ctor: Collection },
-  { tag: COLUMN_VIEW_TAG, ctor: ColumnView },
-  { tag: CONTROL_TILE_TAG, ctor: ControlTile },
-  { tag: DISCLOSURE_TAG, ctor: Disclosure },
-  { tag: GLASS_BUTTON_TAG, ctor: GlassButton },
-  { tag: GLASS_PANEL_TAG, ctor: GlassPanel },
-  { tag: GLASS_TOGGLE_TAG, ctor: GlassToggle },
-  { tag: IMAGE_VIEW_TAG, ctor: ImageView },
-  { tag: LABEL_TAG, ctor: Label },
-  { tag: LIVE_ACTIVITY_TAG, ctor: LiveActivity },
-  { tag: LIST_ROW_TAG, ctor: ListRow },
-  { tag: NOTIFICATION_TAG, ctor: NotificationCard },
-  { tag: PATH_CONTROL_TAG, ctor: PathControl },
-  { tag: SEARCH_FIELD_TAG, ctor: SearchField },
-  { tag: SEGMENTED_CONTROL_TAG, ctor: SegmentedControl },
-  { tag: SIDEBAR_ITEM_TAG, ctor: SidebarItem },
-  { tag: SIDEBAR_TAG, ctor: Sidebar },
-  { tag: SLIDER_TAG, ctor: Slider },
-  { tag: SNIPPET_TAG, ctor: Snippet },
-  { tag: STATUS_BAR_TAG, ctor: StatusBar },
-  { tag: TAB_BAR_TAG, ctor: TabBar },
-  { tag: TEXT_FIELD_TAG, ctor: TextField },
-  { tag: TOKEN_FIELD_TAG, ctor: TokenField },
-  { tag: TOOLBAR_TAG, ctor: Toolbar },
-  { tag: WEB_VIEW_TAG, ctor: WebView },
-] as const;
 
 const RECIPE_NAMES = Object.keys(recipes) as RecipeName[];
 const SPRING_NAMES = Object.keys(springs) as SpringPresetName[];
@@ -209,6 +120,7 @@ const KIT_CONTROL_IDS = new Set([
   "kit-hig-tabs",
   "kit-hig-tokens",
   "kit-hig-sidebar",
+  "kit-atlas-search",
 ]);
 
 const navItems = Array.from(nav.querySelectorAll<HTMLButtonElement>(".nav-item"));
@@ -659,7 +571,7 @@ function configureKitCoverage(): void {
   const host = must<HTMLElement>("#kit-coverage");
   host.replaceChildren();
 
-  for (const { tag, ctor } of COMPONENTS) {
+  for (const { tag, ctor } of COMPONENT_REGISTRY) {
     const row = document.createElement("div");
     row.className = "kit-coverage-row";
     const name = document.createElement("code");
@@ -673,10 +585,121 @@ function configureKitCoverage(): void {
   }
 }
 
+const ATLAS_ATTRIBUTES: Record<string, Record<string, string>> = {
+  "gk-badge": { tone: "accent", dot: "" },
+  "gk-button": { variant: "primary" },
+  "gk-glass-panel": { tone: "thin" },
+  "gk-toggle": { checked: "", label: "Enabled" },
+  "gk-list-row": { subtitle: "Aligned detail row" },
+  "gk-segmented": { value: "one", label: "Choices" },
+  "gk-slider": { label: "Brightness", min: "0", max: "100", value: "68", unit: "%" },
+  "gk-text-field": { label: "Name", placeholder: "Enter a value", clearable: "" },
+  "gk-box": { title: "Grouped content", subtitle: "Title and subtitle" },
+  "gk-chart": { title: "Trend", values: "12,18,14,24,20,9", labels: "Mon,Tue,Wed,Thu,Fri,Sat" },
+  "gk-collection": { columns: "2", gap: "8px" },
+  "gk-column-view": {
+    columns: '[{"title":"Library","selected":"Living Room","items":["Living Room","Kitchen"]},{"title":"Devices","items":[{"label":"Lights","subtitle":"6 devices"}]}]',
+  },
+  "gk-control-tile": { label: "Wi-Fi", state: "on" },
+  "gk-disclosure": { label: "Details", open: "" },
+  "gk-image-view": {
+    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='120'%3E%3Crect width='240' height='120' fill='%231f2430'/%3E%3Ccircle cx='120' cy='60' r='26' fill='none' stroke='%230a84ff' stroke-width='3'/%3E%3C/svg%3E",
+    alt: "Abstract preview",
+    ratio: "16 / 9",
+  },
+  "gk-label": { text: "Selectable static text", variant: "caption" },
+  "gk-live-activity": { title: "Air purifier", status: "Filter at 82%", progress: "82", "action-label": "Pause", expanded: "" },
+  "gk-notification": { title: "Automation ready", message: "Your scene is available.", tone: "info" },
+  "gk-path-control": { items: '["Home","Living Room","Lights"]' },
+  "gk-search-field": { label: "Search", placeholder: "Search components", scopes: '["All","Core","HIG"]', scope: "All" },
+  "gk-sidebar": { label: "Sections", active: "general" },
+  "gk-snippet": { kind: "confirmation", title: "Run scene?", message: "This dims the lights." },
+  "gk-status-bar": { label: "Home", status: "All systems normal", network: "Wi-Fi", battery: "82%", time: "09:41" },
+  "gk-tab-bar": { tabs: '[{"id":"all","label":"All"},{"id":"core","label":"Core"},{"id":"hig","label":"HIG"}]', active: "all" },
+  "gk-token-field": { label: "Rooms", placeholder: "Add a room", tokens: '["Kitchen","Hallway"]' },
+  "gk-web-view": { title: "Inline content", height: "90", srcdoc: "<p>Sandboxed content stays inside the app.</p>" },
+};
+
+const ATLAS_CHILDREN: Record<string, string> = {
+  "gk-button": "Action",
+  "gk-badge": "Status",
+  "gk-glass-panel": "Padded, rounded surface",
+  "gk-list-row": "List row",
+  "gk-segmented": '<button value="one">One</button><button value="two">Two</button>',
+  "gk-box": '<gk-label text="Shared token system" variant="caption"></gk-label>',
+  "gk-sidebar":
+    '<span slot="header">Sections</span><gk-sidebar-item value="general" label="General" selected></gk-sidebar-item><gk-sidebar-item value="about" label="About"></gk-sidebar-item>',
+};
+
+function createAtlasPreview(component: GlassKitComponent): HTMLElement {
+  const element = document.createElement(component.tag);
+  for (const [name, value] of Object.entries(ATLAS_ATTRIBUTES[component.tag] ?? {})) {
+    element.setAttribute(name, value);
+  }
+  if (ATLAS_CHILDREN[component.tag]) element.innerHTML = ATLAS_CHILDREN[component.tag];
+  element.setAttribute("aria-label", component.title);
+  return element;
+}
+
+function renderKitAtlas(query: string): number {
+  const host = must<HTMLElement>("#kit-atlas");
+  const needle = query.trim().toLowerCase();
+  const matches = COMPONENT_REGISTRY.filter((component) =>
+    `${component.title} ${component.tag} ${component.group} ${component.description}`.toLowerCase().includes(needle),
+  );
+
+  host.replaceChildren();
+  for (const component of matches) {
+    const card = document.createElement("article");
+    card.className = "kit-atlas-card";
+
+    const head = document.createElement("div");
+    head.className = "kit-atlas-card__head";
+    const title = document.createElement("strong");
+    title.textContent = component.title;
+    const tag = document.createElement("code");
+    tag.textContent = component.tag;
+    head.append(title, tag);
+
+    const body = document.createElement("div");
+    body.className = "kit-atlas-card__body";
+    body.append(createAtlasPreview(component));
+
+    const meta = document.createElement("span");
+    meta.textContent = component.group;
+
+    card.append(head, body, meta);
+    host.append(card);
+  }
+
+  return matches.length;
+}
+
+function configureKitAtlas(): void {
+  const search = must<HTMLElement & { value: string }>("#kit-atlas-search");
+  const count = must<HTMLElement>("#kit-atlas-count");
+  const readout = must<HTMLElement>("#kit-atlas-readout");
+
+  const paint = (): void => {
+    const total = renderKitAtlas(search.value);
+    count.textContent = `${total} / ${COMPONENT_REGISTRY.length} shown`;
+    readout.textContent =
+      total === COMPONENT_REGISTRY.length
+        ? "Every registered Glass Kit element is rendered here."
+        : `${total} components match the filter.`;
+  };
+
+  search.addEventListener("gk-input", paint);
+  search.addEventListener("gk-change", paint);
+  paint();
+}
+
 function configureKitHig(): void {
   const readout = must<HTMLElement>("#kit-hig-readout");
   const names = [
     "gk-select",
+    "gk-open",
+    "gk-close",
     "gk-navigate",
     "gk-tab-change",
     "gk-scope-change",
@@ -1001,6 +1024,7 @@ function configureKitMaterial(native: NativeStatus): void {
 function configureKit(): void {
   const native = nativeStatus();
   configureKitCoverage();
+  configureKitAtlas();
   configureKitHig();
   configureKitTokens();
   configureKitMotion();
