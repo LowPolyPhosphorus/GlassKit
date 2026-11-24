@@ -57,6 +57,9 @@ import { LAZY_STACK_TAG, LazyStack } from "./components/lazy-stack.js";
 import { DRAG_SURFACE_TAG, DragSurface } from "./components/drag-surface.js";
 import { TAP_COUNTER_TAG, TapCounter } from "./components/tap-counter.js";
 import { LAZY_GRID_TAG, LazyGrid } from "./components/lazy-grid.js";
+import { ROTATE_VIEW_TAG, RotateView } from "./components/rotate-view.js";
+import { LAZY_VGRID_TAG, LazyVGrid } from "./components/lazy-vgrid.js";
+import { LIST_VIEW_TAG, ListView } from "./components/list-view.js";
 import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
 import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
 import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
@@ -128,6 +131,9 @@ const CORE_TAGS = [
   DRAG_SURFACE_TAG,
   TAP_COUNTER_TAG,
   LAZY_GRID_TAG,
+  ROTATE_VIEW_TAG,
+  LAZY_VGRID_TAG,
+  LIST_VIEW_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -197,6 +203,9 @@ export {
   DRAG_SURFACE_TAG,
   TAP_COUNTER_TAG,
   LAZY_GRID_TAG,
+  ROTATE_VIEW_TAG,
+  LAZY_VGRID_TAG,
+  LIST_VIEW_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -265,6 +274,9 @@ export {
   DragSurface,
   TapCounter,
   LazyGrid,
+  RotateView,
+  LazyVGrid,
+  ListView,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -334,6 +346,9 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   DragSurface,
   TapCounter,
   LazyGrid,
+  RotateView,
+  LazyVGrid,
+  ListView,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -416,6 +431,9 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Drag surface", group: "Gestures", description: "Pointer drag with live coordinate readout, drag lifecycle, and reset.", higPage: swiftui("draggesture") },
   { title: "Tap counter", group: "Gestures", description: "Counted tap gesture with goal progress and completion events.", higPage: swiftui("tapgesture") },
   { title: "Lazy grid", group: "Layout", description: "Virtualized horizontal grid columns with rendered range and selection events.", higPage: swiftui("lazyhgrid") },
+  { title: "Rotate view", group: "Gestures", description: "Pointer rotation with angle readout, radians, and rotate lifecycle events.", higPage: swiftui("rotategesture") },
+  { title: "Lazy vertical grid", group: "Layout", description: "Virtualized vertical grid rows with rendered range and selection events.", higPage: swiftui("lazyvgrid") },
+  { title: "List view", group: "Collections", description: "Sectioned single or multiple selection list with list events.", higPage: swiftui("list") },
   { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
   { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
   { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
