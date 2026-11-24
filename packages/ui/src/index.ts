@@ -60,6 +60,9 @@ import { LAZY_GRID_TAG, LazyGrid } from "./components/lazy-grid.js";
 import { ROTATE_VIEW_TAG, RotateView } from "./components/rotate-view.js";
 import { LAZY_VGRID_TAG, LazyVGrid } from "./components/lazy-vgrid.js";
 import { LIST_VIEW_TAG, ListView } from "./components/list-view.js";
+import { RICH_TEXT_TAG, RichText } from "./components/rich-text.js";
+import { ICON_LABEL_TAG, IconLabel } from "./components/icon-label.js";
+import { GRID_LAYOUT_TAG, GridLayout } from "./components/grid-layout.js";
 import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
 import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
 import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
@@ -134,6 +137,9 @@ const CORE_TAGS = [
   ROTATE_VIEW_TAG,
   LAZY_VGRID_TAG,
   LIST_VIEW_TAG,
+  RICH_TEXT_TAG,
+  ICON_LABEL_TAG,
+  GRID_LAYOUT_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -206,6 +212,9 @@ export {
   ROTATE_VIEW_TAG,
   LAZY_VGRID_TAG,
   LIST_VIEW_TAG,
+  RICH_TEXT_TAG,
+  ICON_LABEL_TAG,
+  GRID_LAYOUT_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -277,6 +286,9 @@ export {
   RotateView,
   LazyVGrid,
   ListView,
+  RichText,
+  IconLabel,
+  GridLayout,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -349,6 +361,9 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   RotateView,
   LazyVGrid,
   ListView,
+  RichText,
+  IconLabel,
+  GridLayout,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -434,6 +449,9 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Rotate view", group: "Gestures", description: "Pointer rotation with angle readout, radians, and rotate lifecycle events.", higPage: swiftui("rotategesture") },
   { title: "Lazy vertical grid", group: "Layout", description: "Virtualized vertical grid rows with rendered range and selection events.", higPage: swiftui("lazyvgrid") },
   { title: "List view", group: "Collections", description: "Sectioned single or multiple selection list with list events.", higPage: swiftui("list") },
+  { title: "Rich text", group: "Text", description: "Styled text with scale, weight, italics, and copy feedback.", higPage: swiftui("text") },
+  { title: "Icon label", group: "Text", description: "Title and generic glyph with title-only and icon-only variants.", higPage: swiftui("label") },
+  { title: "Grid layout", group: "Layout", description: "Declarative grid cells with configurable columns, gap, and selection events.", higPage: swiftui("grid") },
   { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
   { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
   { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
