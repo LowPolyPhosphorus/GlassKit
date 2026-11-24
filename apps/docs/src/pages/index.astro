@@ -1582,6 +1582,88 @@ list.addEventListener('gk-list-select', (event) =&gt; &#123;
 &#125;);</code></pre>
           </div>
         </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Text</p><h3>Styled content</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/text" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-rich-text text="Hamlet" scale="title" weight="semibold" color="default"></gk-rich-text></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Text code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>Text("Hamlet")
+    .font(.title)</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-rich-text
+  text="Hamlet"
+  scale="title"
+  weight="semibold"&gt;
+&lt;/gk-rich-text&gt;
+
+text.addEventListener('gk-text-copy', (event) =&gt; &#123;
+  noteCopied(event.detail.text);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Label</p><h3>Title and glyph</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/label" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-icon-label label="Lightning" glyph="⚡" variant="title-icon"></gk-icon-label></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Label code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>Label("Lightning", systemImage: "bolt.fill")</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-icon-label
+  label="Lightning"
+  glyph="⚡"
+  variant="title-icon"&gt;
+&lt;/gk-icon-label&gt;
+
+label.addEventListener('gk-activate', (event) =&gt; &#123;
+  openDetail(event.detail.label);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Grid</p><h3>Declarative cells</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/grid" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-grid-layout label="Greetings" columns="2" items='[{"label":"Hello","value":"hello","glyph":"◇"},{"label":"World","value":"world","glyph":"◈"}]'></gk-grid-layout></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Grid code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>Grid &#123;
+    GridRow &#123;
+        Text("Hello")
+        Image(systemName: "globe")
+    &#125;
+    GridRow &#123;
+        Image(systemName: "hand.wave")
+        Text("World")
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-grid-layout
+  label="Greetings"
+  columns="2"
+  items='[&#123;"label":"Hello","value":"hello"&#125;,&#123;"label":"World","value":"world"&#125;]'&gt;
+&lt;/gk-grid-layout&gt;
+
+grid.addEventListener('gk-cell-select', (event) =&gt; &#123;
+  openCell(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 

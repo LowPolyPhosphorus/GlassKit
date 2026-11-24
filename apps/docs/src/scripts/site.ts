@@ -245,6 +245,14 @@ const PREVIEW_ATTRIBUTES: Record<string, Record<string, string>> = {
     items: '[{"label":"Pacific","value":"pacific","section":"Oceans","detail":"Largest"},{"label":"Atlantic","value":"atlantic","section":"Oceans","detail":"Second"},{"label":"Indian","value":"indian","section":"Oceans","detail":"Third"},{"label":"Southern","value":"southern","section":"Oceans","detail":"Fourth"},{"label":"Arctic","value":"arctic","section":"Oceans","detail":"Fifth"}]',
     height: "160",
   },
+  "gk-rich-text": { text: "Hamlet", scale: "title", weight: "semibold", color: "default" },
+  "gk-icon-label": { label: "Lightning", glyph: "⚡", variant: "title-icon" },
+  "gk-grid-layout": {
+    label: "Greetings",
+    columns: "2",
+    gap: "6",
+    items: '[{"label":"Hello","value":"hello","glyph":"◇","detail":"01"},{"label":"World","value":"world","glyph":"◈","detail":"02"},{"label":"Scene","value":"scene","glyph":"◉","detail":"03"},{"label":"Energy","value":"energy","glyph":"▣","detail":"04"}]',
+  },
 };
 
 const GROUP_ORDER = [

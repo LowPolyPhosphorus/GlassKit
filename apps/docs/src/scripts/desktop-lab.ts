@@ -235,6 +235,8 @@ export function initDesktopLab(): void {
     "gk-vgrid-range",
     "gk-list-select",
     "gk-list-toggle",
+    "gk-text-copy",
+    "gk-cell-select",
     "gk-error",
   ]) {
     canvas.addEventListener(name, (event) => {
