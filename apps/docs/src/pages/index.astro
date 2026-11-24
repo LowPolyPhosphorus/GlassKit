@@ -1256,6 +1256,98 @@ hold.addEventListener('gk-press-complete', (event) =&gt; &#123;
 &#125;);</code></pre>
           </div>
         </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">PasteButton</p><h3>Clipboard input</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/pastebutton" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-paste-button label="Paste a note" placeholder="Paste or type a note" sample="Living Room lights at 60%"></gk-paste-button></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="PasteButton code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>@State private var pastedText: String = ""
+
+var body: some View &#123;
+    HStack &#123;
+        PasteButton(payloadType: String.self) &#123; strings in
+            pastedText = strings[0]
+        &#125;
+        Divider()
+        Text(pastedText)
+        Spacer()
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-paste-button
+  label="Paste a note"
+  sample="Living Room lights at 60%"&gt;
+&lt;/gk-paste-button&gt;
+
+paste.addEventListener('gk-paste', (event) =&gt; &#123;
+  saveNote(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">MultiDatePicker</p><h3>Multiple dates</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/multidatepicker" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-multi-date-picker label="Availability" month="2026-11" value="[6,13,20]"></gk-multi-date-picker></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="MultiDatePicker code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>@State private var dates: Set&lt;DateComponents&gt; = []
+
+var body: some View &#123;
+    MultiDatePicker("Dates Available", selection: $dates)
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-multi-date-picker
+  label="Availability"
+  month="2026-11"
+  value="[6,13,20]"&gt;
+&lt;/gk-multi-date-picker&gt;
+
+calendar.addEventListener('gk-date-toggle', (event) =&gt; &#123;
+  updateDates(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">LazyVStack</p><h3>Virtualized rows</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/lazyvstack" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-lazy-stack label="Device activity" items='[{"label":"Lamp on","value":"event-1"},{"label":"Climate set to 21°C","value":"event-2"},{"label":"Door locked","value":"event-3"}]' height="150"></gk-lazy-stack></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="LazyVStack code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>ScrollView &#123;
+    LazyVStack(alignment: .leading) &#123;
+        ForEach(1...100, id: \.self) &#123;
+            Text("Row \($0)")
+        &#125;
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-lazy-stack
+  label="Device activity"
+  items='[&#123;"label":"Lamp on","value":"event-1"&#125;,&#123;"label":"Door locked","value":"event-2"&#125;]'
+  height="150"&gt;
+&lt;/gk-lazy-stack&gt;
+
+list.addEventListener('gk-range-change', (event) =&gt; &#123;
+  prefetch(event.detail.start, event.detail.end);
+&#125;);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 

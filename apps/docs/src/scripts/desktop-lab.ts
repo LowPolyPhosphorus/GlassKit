@@ -220,6 +220,9 @@ export function initDesktopLab(): void {
     "gk-press-progress",
     "gk-press-complete",
     "gk-press-cancel",
+    "gk-paste",
+    "gk-date-toggle",
+    "gk-range-change",
     "gk-error",
   ]) {
     canvas.addEventListener(name, (event) => {

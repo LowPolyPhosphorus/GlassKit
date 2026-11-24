@@ -209,6 +209,21 @@ const PREVIEW_ATTRIBUTES: Record<string, Record<string, string>> = {
     duration: "1200",
     value: "arm-scene",
   },
+  "gk-paste-button": {
+    label: "Paste a note",
+    placeholder: "Paste or type a note",
+    sample: "Living Room lights at 60%",
+  },
+  "gk-multi-date-picker": {
+    label: "Availability",
+    month: "2026-11",
+    value: "[6,13,20]",
+  },
+  "gk-lazy-stack": {
+    label: "Device activity",
+    items: '[{"label":"Lamp on","value":"event-1","detail":"09:12"},{"label":"Climate set to 21°C","value":"event-2","detail":"09:18"},{"label":"Door locked","value":"event-3","detail":"09:24"},{"label":"Scene started","value":"event-4","detail":"09:31"},{"label":"Sensor clear","value":"event-5","detail":"09:44"},{"label":"Lamp off","value":"event-6","detail":"10:02"},{"label":"Energy report","value":"event-7","detail":"10:15"},{"label":"Camera online","value":"event-8","detail":"10:22"},{"label":"Scene ended","value":"event-9","detail":"10:38"},{"label":"Climate auto","value":"event-10","detail":"10:51"},{"label":"Door unlocked","value":"event-11","detail":"11:04"},{"label":"Backup complete","value":"event-12","detail":"11:20"}]',
+    height: "150",
+  },
 };
 
 const GROUP_ORDER = [
