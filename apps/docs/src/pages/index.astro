@@ -414,6 +414,213 @@ editor.addEventListener('gk-input', (event) =&gt; &#123;
 image.addEventListener('gk-error', showFallback);</code></pre>
           </div>
         </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">ColorPicker</p><h3>Alignment guides</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/colorpicker" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-color-picker label="Alignment Guides" value="#fae633" swatches='["#0a84ff","#30d158","#ff453a"]'></gk-color-picker></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="ColorPicker code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct FormattingControls: View &#123;
+    @State private var bgColor =
+        Color(.sRGB, red: 0.98, green: 0.9, blue: 0.2)
+
+    var body: some View &#123;
+        VStack &#123;
+            ColorPicker("Alignment Guides", selection: $bgColor)
+        &#125;
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-color-picker
+  label="Alignment Guides"
+  value="#fae633"
+  swatches='["#0a84ff","#30d158"]'&gt;
+&lt;/gk-color-picker&gt;
+
+picker.addEventListener('gk-change', (event) =&gt; &#123;
+  updateAccent(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Stepper</p><h3>Bounded increments</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/stepper" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-stepper-control label="Current" value="10" min="1" max="50" step="5"></gk-stepper-control></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Stepper code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct StepperView: View &#123;
+    @State private var value = 0
+    let step = 5
+    let range = 1...50
+
+    var body: some View &#123;
+        Stepper(
+            value: $value,
+            in: range,
+            step: step
+        ) &#123;
+            Text("Current: \(value) in \(range.description) " +
+                 "stepping by \(step)")
+        &#125;
+        .padding(10)
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-stepper-control
+  label="Current"
+  value="10"
+  min="1"
+  max="50"
+  step="5"&gt;
+&lt;/gk-stepper-control&gt;
+
+stepper.addEventListener('gk-change', (event) =&gt; &#123;
+  value = event.detail.value;
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Picker</p><h3>Mutually exclusive values</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/picker" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-value-picker label="Flavor" value="chocolate" options='[{"label":"Chocolate","value":"chocolate"},{"label":"Vanilla","value":"vanilla"},{"label":"Strawberry","value":"strawberry"}]'></gk-value-picker></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Picker code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>enum Flavor: String, CaseIterable, Identifiable &#123;
+    case chocolate, vanilla, strawberry
+    var id: Self &#123; self &#125;
+&#125;
+
+@State private var selectedFlavor: Flavor = .chocolate
+
+List &#123;
+    Picker("Flavor", selection: $selectedFlavor) &#123;
+        Text("Chocolate").tag(Flavor.chocolate)
+        Text("Vanilla").tag(Flavor.vanilla)
+        Text("Strawberry").tag(Flavor.strawberry)
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-value-picker
+  label="Flavor"
+  value="chocolate"
+  options='[&#123;"label":"Chocolate","value":"chocolate"&#125;,&#123;"label":"Vanilla","value":"vanilla"&#125;]'&gt;
+&lt;/gk-value-picker&gt;
+
+picker.addEventListener('gk-change', (event) =&gt; &#123;
+  selectedFlavor = event.detail.value;
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Link</p><h3>Destination first</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/link" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-web-link label="View Our Terms of Service" href="https://www.example.com/TOS.html" detail="Example"></gk-web-link></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Link code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>Link("View Our Terms of Service",
+      destination: URL(string: "https://www.example.com/TOS.html")!)</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-web-link
+  label="View Our Terms of Service"
+  href="https://www.example.com/TOS.html"&gt;
+&lt;/gk-web-link&gt;
+
+link.addEventListener('gk-navigate', (event) =&gt; &#123;
+  analytics.track("link", event.detail.href);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Table</p><h3>Selectable rows</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/table" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-data-table caption="Devices" columns='[{"key":"name","title":"Device"},{"key":"room","title":"Room"},{"key":"state","title":"State","align":"end"}]' rows='[{"id":"lights","name":"Lights","room":"Living Room","state":"On"},{"id":"lock","name":"Front Lock","room":"Entry","state":"Locked"}]' row-key="id" value="lights"></gk-data-table></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Table code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct SelectableTable: View &#123;
+    @State private var selectedPeople = Set&lt;Person.ID&gt;()
+
+    var body: some View &#123;
+        Table(people, selection: $selectedPeople) &#123;
+            TableColumn("Given Name", value: \.givenName)
+            TableColumn("Family Name", value: \.familyName)
+            TableColumn("E-Mail Address", value: \.emailAddress)
+        &#125;
+        Text("\(selectedPeople.count) people selected")
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-data-table
+  caption="Devices"
+  columns='[&#123;"key":"name","title":"Device"&#125;]'
+  rows='[&#123;"id":"lights","name":"Lights"&#125;]'
+  row-key="id"&gt;
+&lt;/gk-data-table&gt;
+
+table.addEventListener('gk-select', (event) =&gt; &#123;
+  activeDevice = event.detail.value;
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Alert</p><h3>Clear confirmation</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/alert" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-alert-dialog trigger-label="Check location" title="Current Location Not Available" message="Your current location cannot be determined at this time." action-label="OK"></gk-alert-dialog></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Alert code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>@State private var showAlert = false
+var body: some View &#123;
+    Button("Tap to show alert") &#123;
+        showAlert = true
+    &#125;
+    .alert(isPresented: $showAlert) &#123;
+        Alert(
+            title: Text("Current Location Not Available"),
+            message: Text("Your current location can’t be " +
+                            "determined at this time.")
+        )
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-alert-dialog
+  trigger-label="Check location"
+  title="Current Location Not Available"
+  message="Your current location cannot be determined."
+  action-label="OK"&gt;
+&lt;/gk-alert-dialog&gt;
+
+dialog.addEventListener('gk-confirm', acknowledge);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 

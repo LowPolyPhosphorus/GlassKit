@@ -325,6 +325,9 @@ import Icon from "./Icon.astro";
               <gk-search-field label="Find a device" placeholder="Search rooms" scopes='["All","Lights","Climate"]' scope="All"></gk-search-field>
               <gk-text-field label="Recipe name" placeholder="e.g. Movie night" clearable></gk-text-field>
               <gk-combo-box></gk-combo-box>
+              <gk-color-picker label="Scene color" value="#0a84ff" swatches='["#0a84ff","#30d158","#ff9f0a"]'></gk-color-picker>
+              <gk-value-picker label="Notify about" value="mentions" options='[{"label":"Direct messages","value":"direct"},{"label":"Mentions","value":"mentions"},{"label":"Anything","value":"all"}]'></gk-value-picker>
+              <gk-web-link label="SwiftUI reference" href="https://developer.apple.com/documentation/swiftui/" detail="Source"></gk-web-link>
               <gk-segmented value="home" label="Start mode">
                 <button value="home">Home</button>
                 <button value="away">Away</button>
@@ -335,7 +338,10 @@ import Icon from "./Icon.astro";
             <gk-glass-panel class="device-card" tone="thin">
               <div class="device-head"><strong>Schedule</strong></div>
               <gk-picker></gk-picker>
+              <gk-date-picker label="Starts" value="2026-11-23T09:00" components="date,hourAndMinute"></gk-date-picker>
               <gk-stepper value="2" min="0" max="8"></gk-stepper>
+              <gk-stepper-control label="Repeat" value="2" min="0" max="8" step="1"></gk-stepper-control>
+              <gk-progress-view label="Syncing" value="68" total="100" current-value-label="68%"></gk-progress-view>
               <gk-slider label="Fade duration" min="0" max="60" value="12" unit="s"></gk-slider>
               <gk-toggle checked label="Enabled"></gk-toggle>
             </gk-glass-panel>
@@ -345,7 +351,19 @@ import Icon from "./Icon.astro";
               <gk-digit-entry-view></gk-digit-entry-view>
               <gk-image-well></gk-image-well>
               <gk-color-well value="#0a84ff"></gk-color-well>
+              <gk-async-image alt="Room preview" ratio="16 / 9" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%231c1c1e'/%3E%3Ccircle cx='160' cy='90' r='30' fill='none' stroke='%230a84ff' stroke-width='4'/%3E%3C/svg%3E"></gk-async-image>
+              <gk-text-editor label="Notes" value="Describe the scene you want to save." rows="3" max-length="120"></gk-text-editor>
               <gk-virtual-keyboard></gk-virtual-keyboard>
+            </gk-glass-panel>
+
+            <gk-glass-panel class="device-card device-card--wide" tone="thin">
+              <div class="device-head"><strong>Review &amp; actions</strong><gk-badge tone="success" dot>SwiftUI set</gk-badge></div>
+              <gk-data-table caption="Affected devices" columns='[{"key":"name","title":"Device"},{"key":"room","title":"Room"},{"key":"state","title":"State","align":"end"}]' rows='[{"id":"lights","name":"Lights","room":"Living Room","state":"On"},{"id":"thermostat","name":"Thermostat","room":"Hallway","state":"Auto"}]' row-key="id" value="lights"></gk-data-table>
+              <gk-value-gauge label="Comfort" value="68" min="0" max="100" current-value-label="68%"></gk-value-gauge>
+              <gk-navigation-link label="Living Room" detail="6 devices" value="living-room"></gk-navigation-link>
+              <gk-action-menu label="Actions" items='[{"label":"Duplicate","detail":"Ctrl+D"},{"label":"Rename"},{"separator":true},{"label":"Delete","value":"delete"}]'></gk-action-menu>
+              <gk-content-unavailable search action-label="Clear filter"></gk-content-unavailable>
+              <gk-alert-dialog trigger-label="Delete scene?" title="Delete this scene?" message="This removes the scene from every room." action-label="Delete" cancel-label="Cancel" tone="danger"></gk-alert-dialog>
             </gk-glass-panel>
 
             <div class="device-card device-card--wide">

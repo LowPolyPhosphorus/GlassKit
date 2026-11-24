@@ -17,7 +17,7 @@ function clamp(value: number, min: number, max: number): number {
 function eventValue(event: Event): unknown {
   if (!(event instanceof CustomEvent) || !event.detail || typeof event.detail !== "object") return undefined;
   const detail = event.detail as Record<string, unknown>;
-  return detail.value ?? detail.checked ?? detail.scope ?? detail.state ?? detail.token ?? detail.label ?? detail.id;
+  return detail.value ?? detail.checked ?? detail.scope ?? detail.state ?? detail.token ?? detail.label ?? detail.id ?? detail.key ?? detail.href ?? detail.action;
 }
 
 export function initDesktopLab(): void {
@@ -194,6 +194,8 @@ export function initDesktopLab(): void {
     "gk-snippet-action",
     "gk-point-select",
     "gk-load",
+    "gk-sort",
+    "gk-error",
   ]) {
     canvas.addEventListener(name, (event) => {
       const target = event.target as HTMLElement;
@@ -252,13 +254,17 @@ export function initDesktopLab(): void {
   };
 
   recipePanel?.querySelector<HTMLElement>("[data-save-recipe]")?.addEventListener("gk-activate", () => {
-    const nameField = recipePanel.querySelector<HTMLElement & { value?: string }>("gk-text-field");
+    const nameField =
+      recipePanel.querySelector<HTMLElement & { value?: string }>("gk-text-field") ??
+      recipePanel.querySelector<HTMLElement & { value?: string }>("gk-text-editor");
+    const date = recipePanel.querySelector<HTMLElement & { value?: string }>("gk-date-picker");
     const name = (nameField?.value || nameField?.getAttribute("value") || "Untitled recipe").trim();
-    setRecipeStatus(`Saved · ${name}`);
+    const starts = date?.value || date?.getAttribute("value") || "unscheduled";
+    setRecipeStatus(`Saved · ${name} · ${starts}`);
   });
 
   recipePanel?.querySelector<HTMLElement>("[data-reset-recipe]")?.addEventListener("gk-activate", () => {
-    for (const field of recipePanel.querySelectorAll<HTMLElement & { value?: string }>("gk-text-field")) {
+    for (const field of recipePanel.querySelectorAll<HTMLElement & { value?: string }>("gk-text-field, gk-text-editor")) {
       field.setAttribute("value", "");
       if (field.value !== undefined) field.value = "";
     }
