@@ -502,9 +502,9 @@
                 <gk-glass-panel class="settings-group kit-hero" elevation="high" tone="thick">
                   <h2>Glass Kit coverage</h2>
                   <div class="kit-hero-body">
-                    <p class="kit-lede">Every package in the kit is wired into this app: tokens, motion, native material, and all 81 Web Components across every HIG Components topic.</p>
+                    <p class="kit-lede">Every package in the kit is wired into this app: tokens, motion, native material, and the full Web Component registry across every HIG Components topic plus SwiftUI-derived views.</p>
                     <div class="kit-badges">
-                      <gk-badge tone="accent" dot>81 components</gk-badge>
+                      <gk-badge id="kit-hero-count" tone="accent" dot>Components</gk-badge>
                       <gk-badge tone="success" dot>12 recipes</gk-badge>
                       <gk-badge tone="warning" dot>3 springs</gk-badge>
                       <gk-badge tone="danger" dot>1 native bridge</gk-badge>
@@ -609,7 +609,7 @@
                     <gk-button id="kit-reinstall" variant="secondary" size="small" data-kit-action="reinstall">Reinstall kit</gk-button>
                   </div>
                   <details class="kit-coverage-details">
-                    <summary>Registration status <span>81 elements</span></summary>
+                    <summary>Registration status <span id="kit-registration-count">Elements</span></summary>
                     <div class="kit-coverage" id="kit-coverage"></div>
                   </details>
                 </gk-glass-panel>
@@ -724,7 +724,7 @@
                       <label class="atlas-picker-label">Component
                         <select class="atlas-picker" id="kit-atlas-component" aria-label="Jump to a component"></select>
                       </label>
-                      <gk-badge id="kit-atlas-count" tone="success">81 components</gk-badge>
+                      <gk-badge id="kit-atlas-count" tone="success">Components</gk-badge>
                     </div>
                     <div class="kit-atlas__grid" id="kit-atlas"></div>
                     <p class="kit-hint" id="kit-atlas-readout">Every registered Glass Kit element appears here.</p>

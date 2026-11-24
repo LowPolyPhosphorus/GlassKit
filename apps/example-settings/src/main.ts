@@ -603,6 +603,8 @@ function configureKitCoverage(): void {
   installGlassKit();
   const host = must<HTMLElement>("#kit-coverage");
   host.replaceChildren();
+  must<HTMLElement>("#kit-hero-count").textContent = `${COMPONENT_REGISTRY.length} components`;
+  must<HTMLElement>("#kit-registration-count").textContent = `${COMPONENT_REGISTRY.length} elements`;
 
   for (const { tag, ctor } of COMPONENT_REGISTRY) {
     const row = document.createElement("div");
@@ -672,6 +674,26 @@ const ATLAS_ATTRIBUTES: Record<string, Record<string, string>> = {
   "gk-token-field": { label: "Rooms", placeholder: "Add a room", tokens: '["Kitchen","Hallway"]' },
   "gk-virtual-keyboard": {},
   "gk-web-view": { title: "Inline content", height: "90", srcdoc: "<p>Sandboxed content stays inside the app.</p>" },
+  "gk-action-menu": {
+    label: "Actions",
+    items: '[{"label":"Duplicate","detail":"⌘D"},{"label":"Rename"},{"separator":true},{"label":"Delete","value":"delete"}]',
+  },
+  "gk-async-image": {
+    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%231c1c1e'/%3E%3Ccircle cx='160' cy='90' r='30' fill='none' stroke='%230a84ff' stroke-width='4'/%3E%3C/svg%3E",
+    alt: "Abstract preview",
+    ratio: "16 / 9",
+  },
+  "gk-content-unavailable": {
+    title: "No results",
+    message: "Try a different room or clear the filter.",
+    "action-label": "Clear filter",
+    search: "",
+  },
+  "gk-date-picker": { label: "Start date", value: "2026-11-23T09:00", components: "date,hourAndMinute" },
+  "gk-navigation-link": { label: "Living Room", detail: "6 devices", value: "living-room" },
+  "gk-progress-view": { label: "Syncing", value: "68", total: "100", "current-value-label": "68%" },
+  "gk-text-editor": { label: "Notes", value: "Describe the scene you want to save.", rows: "3", "max-length": "120" },
+  "gk-value-gauge": { label: "Comfort", value: "68", min: "0", max: "100", "current-value-label": "68%" },
 };
 
 const ATLAS_CHILDREN: Record<string, string> = {
