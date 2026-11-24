@@ -447,8 +447,17 @@ const styles = `
     border-bottom: 1px solid var(--gk-color-hairline);
   }
 
-  .window-dots { display: flex; gap: 5px; }
-  .window-dots i { width: 7px; height: 7px; border: 1px solid var(--gk-color-hairline); border-radius: 50%; }
+  .window-controls { display: flex; gap: 2px; margin-left: auto; }
+  .window-controls span {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 18px;
+    border: 1px solid var(--gk-color-hairline);
+    color: var(--gk-color-text-muted);
+    font-size: 11px;
+    line-height: 1;
+  }
 
   .sheet-handle {
     width: 34px;
@@ -800,7 +809,7 @@ export const HIG_PATTERNS: HigPatternSpec[] = [
   spec("context-menu", "Context menus", "Menus and actions", "A menu revealed by a secondary click or long press.", ["Show only relevant commands", "Place near pointer", "Dismiss on outside click"], () => optionList(["Open", "Rename", "Move to…", "Delete"])),
   spec("activity-view", "Activity views", "Menus and actions", "Share and extension actions for the current content.", ["Group by destination", "Keep custom actions minimal", "Preview shared content"], () => `<div class="row">${["Copy", "Save", "Share"].map((item) => button(item, "activate", item)).join("")}</div>`),
 
-  spec("window", "Windows", "Presentation", "A resizable surface with title bar and content region.", ["Use native window controls", "Keep focus obvious", "Resize without clipping"], () => `<div class="window-card"><div class="window-bar"><div class="window-dots"><i></i><i></i><i></i></div><strong class="meta">Home Control</strong></div><div class="surface"><strong>Window content</strong><small>Native behaviour stays Windows-first.</small></div></div>`),
+  spec("window", "Windows", "Presentation", "A resizable surface with a native Windows title bar and content region.", ["Use native window controls", "Keep focus obvious", "Resize without clipping"], () => `<div class="window-card"><div class="window-bar"><strong class="meta">Home Control</strong><div class="window-controls" aria-hidden="true"><span>—</span><span>□</span><span>×</span></div></div><div class="surface"><strong>Window content</strong><small>Native behaviour stays Windows-first.</small></div></div>`),
   spec("sheet", "Sheets", "Presentation", "A modal surface that stays attached to its parent task.", ["Keep one clear purpose", "Use a cancel path", "Avoid nested sheets"], () => `<div class="sheet"><span class="sheet-handle"></span><strong>Add a room</strong><span class="meta">Name the space you want to control.</span><div class="row">${button("Cancel", "close")}${button("Add", "activate", "Add", "mini-button--primary")}</div></div>`),
   spec("scroll-view", "Scroll views", "Presentation", "A viewport that reveals content beyond its bounds.", ["Keep scroll direction natural", "Show scroll affordance", "Avoid nested scrolling"], () => `<div class="scroll-box"><p>Recent activity</p><p>Sensor updates</p><p>Automation history</p><p>Device status</p></div><div class="scroll-thumb"></div>`),
   spec("popover", "Popovers", "Presentation", "A transient card anchored to the control that opened it.", ["Anchor to the source", "Keep content compact", "Close on outside click"], () => `<div class="popover"><strong>Device details</strong><p class="meta">Lamp · Living Room · On</p>${button("Done", "close")}</div>`),
