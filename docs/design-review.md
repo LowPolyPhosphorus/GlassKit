@@ -2,6 +2,8 @@
 
 Date: 2026-11-23
 
+Revision 15 note: the registry grew from 101 to 104 tags. `gk-control-group`, `gk-navigation-split-view`, and `gk-confirmation-dialog` translate ControlGroup, NavigationSplitView, and ActionSheet into shadow-DOM components with grouped actions, column drill-down, and stacked contextual choices. The docs SwiftUI reference gallery now has 21 live examples, and the lab and 5185 panes exercise the same three elements. All counts remain registry-driven, and the flat-fill/hairline surface rule is unchanged.
+
 Revision 14 note: `gk-glass-panel` no longer paints a decorative gradient. Its specular cue is a one-pixel flat hairline, so every surface now uses flat fills and hairlines only; real blur remains the native HWND material in the Tauri host.
 
 Revision 13 note: the registry grew from 98 to 101 tags. `gk-form`, `gk-disclosure-group`, and `gk-editable-list` translate Form, DisclosureGroup, and EditButton into shadow-DOM components with grouped controls, nested expansion, and explicit edit mode. The docs SwiftUI reference gallery now has 18 live examples with copyable SwiftUI and GlassKit code; the smart-home lab and 5185 Glass Kit pane gained a dedicated SwiftUI containers group for the new elements. The registry remains the source for all displayed counts, and no Apple assets or platform chrome were introduced.
@@ -78,7 +80,7 @@ The [Apple Design](https://developer.apple.com/design/) and [Design Resources](h
 - **Color:** authored semantic tokens: `#0066cc` in light, `#0a84ff` in dark, neutral greys `#1d1d1f`, `#6e6e73`, `#f5f5f7`, and authored dark surfaces. One accent means selection, focus, and primary action. All decorative gradients are gone; blue is a flat fill.
 - **Brand:** the supplied original GlassKit logo PNGs live in `apps/docs/public/assets/` and swap with the authored light/dark theme.
 - **Icons:** an original rounded-stroke SVG sprite in `apps/docs/public/icons.svg`, drawn on a 24 px grid with consistent caps and joins. It follows the SF Symbols visual language without copying any SF Symbol.
-- **Depth:** hairline borders, flat article surfaces, concentric radii, and one soft product shadow on the desktop lab. Translucency is limited to functional chrome and explicit material samples. Glass-panel specular gradients are disabled in the docs theme.
+- **Depth:** hairline borders, flat article surfaces, concentric radii, and one soft product shadow on the desktop lab. Translucency is limited to functional chrome and explicit material samples. Glass-panel specular cues are flat one-pixel hairlines in every theme.
 - **Motion:** state changes only, 80–360 ms, no entrance choreography, no parallax, no blur transitions. The motion section and page are deliberate interactive demonstrations with the same shared recipes.
 - **Voice:** short, literal, and useful. Copy says what each package or control does and when to use it. No "revolutionary", "seamless", or similar filler ([Writing](https://developer.apple.com/design/human-interface-guidelines/writing), [Inclusion](https://developer.apple.com/design/human-interface-guidelines/inclusion)).
 
