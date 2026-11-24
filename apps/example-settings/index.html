@@ -690,6 +690,7 @@
                     <div class="kit-input-card">
                       <strong>Scene details</strong>
                       <gk-text-field label="Scene name" placeholder="Name this scene" clearable></gk-text-field>
+                      <gk-secure-field label="Hub PIN" value="2468" caption="Masked until revealed." autocomplete="off"></gk-secure-field>
                       <gk-segmented value="home" label="Start mode">
                         <button value="home">Home</button>
                         <button value="away">Away</button>
@@ -719,6 +720,10 @@
                     <div class="kit-input-card kit-input-card--wide">
                       <strong>Review &amp; actions</strong>
                       <gk-data-table caption="Affected devices" columns='[{"key":"name","title":"Device"},{"key":"room","title":"Room"},{"key":"state","title":"State","align":"end"}]' rows='[{"id":"lights","name":"Lights","room":"Living Room","state":"On"},{"id":"lock","name":"Front Lock","room":"Entry","state":"Locked"}]' row-key="id" value="lights"></gk-data-table>
+                      <gk-grid-view caption="Rooms" columns="3" items='[{"label":"Living Room","value":"living","detail":"6 devices","badge":"Active"},{"label":"Kitchen","value":"kitchen","detail":"4 devices"},{"label":"Entry","value":"entry","detail":"2 devices","badge":"Away"}]' value="living"></gk-grid-view>
+                      <gk-navigation-stack title="Destinations" items='[{"label":"Living Room","value":"living","detail":"6 devices","description":"Lights, climate, and media in the main living space."},{"label":"Kitchen","value":"kitchen","detail":"4 devices","description":"Counter lights, kettle, and fridge sensors."}]' value="living">
+                        <gk-text-field label="Room note" value="Scene uses the main hub."></gk-text-field>
+                      </gk-navigation-stack>
                       <gk-value-gauge label="Comfort" value="68" min="0" max="100" current-value-label="68%"></gk-value-gauge>
                       <gk-navigation-link label="Living Room" detail="6 devices" value="living-room"></gk-navigation-link>
                       <gk-action-menu label="Actions" items='[{"label":"Duplicate","detail":"Ctrl+D"},{"label":"Rename"},{"separator":true},{"label":"Delete","value":"delete"}]'></gk-action-menu>

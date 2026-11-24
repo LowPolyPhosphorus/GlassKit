@@ -721,6 +721,23 @@ const ATLAS_ATTRIBUTES: Record<string, Record<string, string>> = {
     options: '[{"label":"Direct messages","value":"direct","detail":"Only people you follow"},{"label":"Mentions","value":"mentions","detail":"When your name appears"},{"label":"Anything","value":"all","detail":"Every update"}]',
   },
   "gk-web-link": { label: "SwiftUI documentation", href: "https://developer.apple.com/documentation/swiftui/", detail: "Source" },
+  "gk-grid-view": {
+    caption: "Rooms",
+    columns: "3",
+    items: '[{"label":"Living Room","value":"living","detail":"6 devices","badge":"Active"},{"label":"Kitchen","value":"kitchen","detail":"4 devices"},{"label":"Entry","value":"entry","detail":"2 devices","badge":"Away"}]',
+    value: "living",
+  },
+  "gk-navigation-stack": {
+    title: "Destinations",
+    items: '[{"label":"Living Room","value":"living","detail":"6 devices","description":"Lights, climate, and media in the main living space."},{"label":"Kitchen","value":"kitchen","detail":"4 devices","description":"Counter lights, kettle, and fridge sensors."}]',
+  },
+  "gk-secure-field": {
+    label: "Password",
+    value: "glasskit-preview",
+    placeholder: "Enter a password",
+    caption: "Private text stays masked until revealed.",
+    autocomplete: "current-password",
+  },
 };
 
 const ATLAS_CHILDREN: Record<string, string> = {
@@ -891,6 +908,7 @@ function configureKitHig(): void {
     "gk-point-select",
     "gk-load",
     "gk-sort",
+    "gk-reveal-change",
     "gk-error",
   ];
 
