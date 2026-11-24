@@ -854,6 +854,15 @@ const ATLAS_ATTRIBUTES: Record<string, Record<string, string>> = {
     gap: "6",
     items: '[{"label":"Hello","value":"hello","glyph":"◇","detail":"01"},{"label":"World","value":"world","glyph":"◈","detail":"02"},{"label":"Scene","value":"scene","glyph":"◉","detail":"03"},{"label":"Energy","value":"energy","glyph":"▣","detail":"04"}]',
   },
+  "gk-push-button": { label: "Sign In", glyph: "↗", variant: "filled" },
+  "gk-nav-pane": {
+    label: "Notes",
+    items: '[{"label":"Welcome","value":"welcome","detail":"Draft"},{"label":"Scenes","value":"scenes","detail":"Shared"},{"label":"Energy","value":"energy","detail":"Report"}]',
+    value: "welcome",
+    "detail-title": "Welcome",
+    "detail-body": "A master and detail pane keeps navigation local while preserving context.",
+  },
+  "gk-check-row": { label: "Checklist row", checked: "", position: "leading" },
 };
 
 const ATLAS_CHILDREN: Record<string, string> = {
@@ -1066,6 +1075,7 @@ function configureKitHig(): void {
     "gk-list-toggle",
     "gk-text-copy",
     "gk-cell-select",
+    "gk-check",
     "gk-error",
   ];
 
