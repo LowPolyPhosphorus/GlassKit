@@ -48,6 +48,9 @@ import { LABELED_CONTENT_TAG, LabeledContent } from "./components/labeled-conten
 import { ADAPTIVE_VIEW_TAG, AdaptiveView } from "./components/adaptive-view.js";
 import { TIMELINE_VIEW_TAG, TimelineView } from "./components/timeline-view.js";
 import { CANVAS_VIEW_TAG, CanvasView } from "./components/canvas-view.js";
+import { SCROLL_NAVIGATOR_TAG, ScrollNavigator } from "./components/scroll-navigator.js";
+import { SHARE_ACTION_TAG, ShareAction } from "./components/share-action.js";
+import { LONG_PRESS_TAG, LongPress } from "./components/long-press.js";
 import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
 import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
 import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
@@ -110,6 +113,9 @@ const CORE_TAGS = [
   ADAPTIVE_VIEW_TAG,
   TIMELINE_VIEW_TAG,
   CANVAS_VIEW_TAG,
+  SCROLL_NAVIGATOR_TAG,
+  SHARE_ACTION_TAG,
+  LONG_PRESS_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -170,6 +176,9 @@ export {
   ADAPTIVE_VIEW_TAG,
   TIMELINE_VIEW_TAG,
   CANVAS_VIEW_TAG,
+  SCROLL_NAVIGATOR_TAG,
+  SHARE_ACTION_TAG,
+  LONG_PRESS_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -229,6 +238,9 @@ export {
   AdaptiveView,
   TimelineView,
   CanvasView,
+  ScrollNavigator,
+  ShareAction,
+  LongPress,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -289,6 +301,9 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   AdaptiveView,
   TimelineView,
   CanvasView,
+  ScrollNavigator,
+  ShareAction,
+  LongPress,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -362,6 +377,9 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Adaptive view", group: "Layout", description: "Chooses the first layout variant that fits the available width.", higPage: swiftui("viewthatfits") },
   { title: "Timeline view", group: "Status", description: "Periodic clock updates with elapsed time and tick events.", higPage: swiftui("timelineview") },
   { title: "Canvas view", group: "Content", description: "Pointer drawing surface with undo, clear, and stroke events.", higPage: swiftui("canvas") },
+  { title: "Scroll navigator", group: "Navigation", description: "Scroll-proxy target buttons with live position and scroll-to events.", higPage: swiftui("scrollviewreader") },
+  { title: "Share action", group: "Menus and actions", description: "Share sheet with copy, draft, and local destinations plus share events.", higPage: swiftui("sharelink") },
+  { title: "Long press", group: "Gestures", description: "Held action with progress feedback, completion, start, and cancel events.", higPage: swiftui("longpressgesture") },
   { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
   { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
   { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
