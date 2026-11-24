@@ -58,9 +58,30 @@ These are relevant to Apple's ecosystem but low priority for a Windows desktop U
 
 ## HIG Components index coverage
 
-The Components index has 77 topic pages. All 77 are represented in Glass Kit by 81 registered tags: 28 original core elements plus 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
+The Components index has 77 topic pages. All 77 are represented in Glass Kit by 95 registered tags: 42 core elements (28 original plus 14 SwiftUI-derived) and 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
 
 Each `COMPONENT_REGISTRY` entry carries its HIG source page. The same registry renders the docs homepage atlas, the smart-home lab atlas, and the 5185 Settings Glass Kit pane, so coverage is exercised in all three surfaces.
+
+## SwiftUI-derived component coverage
+
+The 14 SwiftUI-derived elements translate declarative view behaviour into shadow-DOM Web Components. Their code examples on the docs homepage come from Apple's DocC JSON for each linked page; the GlassKit half shows the equivalent markup and event. No Apple assets, symbols, or platform chrome are shipped.
+
+| SwiftUI source | Glass Kit element | Extracted behaviour |
+|---|---|---|
+| [DatePicker](https://developer.apple.com/documentation/swiftui/datepicker) | `gk-date-picker` | Bounds, displayed components, committed `gk-change` value |
+| [ProgressView](https://developer.apple.com/documentation/swiftui/progressview) | `gk-progress-view` | Determinate/indeterminate state, current and bound labels |
+| [ContentUnavailableView](https://developer.apple.com/documentation/swiftui/contentunavailableview) | `gk-content-unavailable` | Search/no-results copy with a next action |
+| [Menu](https://developer.apple.com/documentation/swiftui/menu) | `gk-action-menu` | Keyboard-ready commands, details, separators |
+| [TextEditor](https://developer.apple.com/documentation/swiftui/texteditor) | `gk-text-editor` | Long-form text with live character count |
+| [AsyncImage](https://developer.apple.com/documentation/swiftui/asyncimage) | `gk-async-image` | Explicit loading, success, and error states |
+| [Gauge](https://developer.apple.com/documentation/swiftui/gauge) | `gk-value-gauge` | Bounded value with circular or linear presentation |
+| [NavigationStack](https://developer.apple.com/documentation/swiftui/navigationstack) | `gk-navigation-link` | Route row emitting `gk-navigate` |
+| [Alert](https://developer.apple.com/documentation/swiftui/alert) | `gk-alert-dialog` | Modal confirmation with focus management |
+| [ColorPicker](https://developer.apple.com/documentation/swiftui/colorpicker) | `gk-color-picker` | Native color input, hex entry, suggested swatches |
+| [Table](https://developer.apple.com/documentation/swiftui/table) | `gk-data-table` | Sortable headers and selectable rows |
+| [Stepper](https://developer.apple.com/documentation/swiftui/stepper) | `gk-stepper-control` | Range, step, wrap, and disabled bounds |
+| [Picker](https://developer.apple.com/documentation/swiftui/picker) | `gk-value-picker` | Radio-style choices with detail and disabled options |
+| [Link](https://developer.apple.com/documentation/swiftui/link) | `gk-web-link` | Safe external destination with route event |
 
 | Glass Kit family | Representative HIG topics | Tags |
 |---|---|---|

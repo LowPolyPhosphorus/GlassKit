@@ -694,6 +694,33 @@ const ATLAS_ATTRIBUTES: Record<string, Record<string, string>> = {
   "gk-progress-view": { label: "Syncing", value: "68", total: "100", "current-value-label": "68%" },
   "gk-text-editor": { label: "Notes", value: "Describe the scene you want to save.", rows: "3", "max-length": "120" },
   "gk-value-gauge": { label: "Comfort", value: "68", min: "0", max: "100", "current-value-label": "68%" },
+  "gk-alert-dialog": {
+    title: "Discard scene?",
+    message: "This removes changes that have not been saved.",
+    "trigger-label": "Review",
+    "action-label": "Discard",
+    "cancel-label": "Keep editing",
+    tone: "danger",
+  },
+  "gk-color-picker": {
+    label: "Accent color",
+    value: "#0a84ff",
+    swatches: '["#0a84ff","#30d158","#ff9f0a","#ff453a"]',
+  },
+  "gk-data-table": {
+    caption: "Devices",
+    columns: '[{"key":"name","title":"Device"},{"key":"room","title":"Room"},{"key":"state","title":"State","align":"end"}]',
+    rows: '[{"id":"lights","name":"Lights","room":"Living Room","state":"On"},{"id":"thermostat","name":"Thermostat","room":"Hallway","state":"Auto"},{"id":"lock","name":"Front Lock","room":"Entry","state":"Locked"}]',
+    "row-key": "id",
+    value: "lights",
+  },
+  "gk-stepper-control": { label: "Brightness", value: "2", min: "0", max: "8", step: "1", unit: "×" },
+  "gk-value-picker": {
+    label: "Notify me about",
+    value: "mentions",
+    options: '[{"label":"Direct messages","value":"direct","detail":"Only people you follow"},{"label":"Mentions","value":"mentions","detail":"When your name appears"},{"label":"Anything","value":"all","detail":"Every update"}]',
+  },
+  "gk-web-link": { label: "SwiftUI documentation", href: "https://developer.apple.com/documentation/swiftui/", detail: "Source" },
 };
 
 const ATLAS_CHILDREN: Record<string, string> = {
@@ -863,6 +890,8 @@ function configureKitHig(): void {
     "gk-cancel",
     "gk-point-select",
     "gk-load",
+    "gk-sort",
+    "gk-error",
   ];
 
   for (const name of names) {
