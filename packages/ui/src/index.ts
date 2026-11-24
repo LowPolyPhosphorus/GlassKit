@@ -39,6 +39,9 @@ import { SECURE_FIELD_TAG, SecureField } from "./components/secure-field.js";
 import { DISCLOSURE_GROUP_TAG, DisclosureGroup } from "./components/disclosure-group.js";
 import { EDITABLE_LIST_TAG, EditableList } from "./components/editable-list.js";
 import { FORM_TAG, GlassForm } from "./components/form.js";
+import { CONTROL_GROUP_TAG, ControlGroup } from "./components/control-group.js";
+import { NAVIGATION_SPLIT_VIEW_TAG, NavigationSplitView } from "./components/navigation-split-view.js";
+import { CONFIRMATION_DIALOG_TAG, ConfirmationDialog } from "./components/confirmation-dialog.js";
 import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
 import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
 import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
@@ -92,6 +95,9 @@ const CORE_TAGS = [
   DISCLOSURE_GROUP_TAG,
   EDITABLE_LIST_TAG,
   FORM_TAG,
+  CONTROL_GROUP_TAG,
+  NAVIGATION_SPLIT_VIEW_TAG,
+  CONFIRMATION_DIALOG_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -143,6 +149,9 @@ export {
   DISCLOSURE_GROUP_TAG,
   EDITABLE_LIST_TAG,
   FORM_TAG,
+  CONTROL_GROUP_TAG,
+  NAVIGATION_SPLIT_VIEW_TAG,
+  CONFIRMATION_DIALOG_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -193,6 +202,9 @@ export {
   DisclosureGroup,
   EditableList,
   GlassForm,
+  ControlGroup,
+  NavigationSplitView,
+  ConfirmationDialog,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -244,6 +256,9 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   DisclosureGroup,
   EditableList,
   GlassForm,
+  ControlGroup,
+  NavigationSplitView,
+  ConfirmationDialog,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -308,6 +323,9 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Disclosure group", group: "Layout", description: "Nested expandable sections with single or multiple expansion.", higPage: swiftui("disclosuregroup") },
   { title: "Editable list", group: "Layout", description: "Reorderable and removable rows with an explicit edit mode.", higPage: swiftui("editbutton") },
   { title: "Form", group: "Layout", description: "Grouped data-entry sections with labelled controls and actions.", higPage: swiftui("form") },
+  { title: "Control group", group: "Menus and actions", description: "Related controls grouped horizontally or vertically with a single event.", higPage: swiftui("controlgroup") },
+  { title: "Navigation split view", group: "Navigation and search", description: "Two- or three-column drill-down with a live selection route.", higPage: swiftui("navigationsplitview") },
+  { title: "Confirmation dialog", group: "Presentation", description: "Stacked choices including cancel and destructive actions with focus management.", higPage: swiftui("actionsheet") },
   { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
   { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
   { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
