@@ -745,6 +745,9 @@
                       <gk-adaptive-view label="Upload status" variants='[{"label":"Uploading files","detail":"75% · 3 files remaining"},{"label":"Uploading","detail":"75% complete"},{"label":"75%","detail":"compact"}]'></gk-adaptive-view>
                       <gk-timeline-view label="Current time" interval="1000" show-seconds></gk-timeline-view>
                       <gk-canvas-view label="Annotation" hint="Draw a note" height="110"></gk-canvas-view>
+                      <gk-scroll-navigator label="Jump to section" targets='[{"label":"Overview","value":"overview"},{"label":"Devices","value":"devices"},{"label":"Scenes","value":"scenes"},{"label":"Energy","value":"energy"},{"label":"Diagnostics","value":"diagnostics"}]'></gk-scroll-navigator>
+                      <gk-share-action label="Share scene" title="Evening scene" url="glasskit://scene/evening"></gk-share-action>
+                      <gk-long-press label="Hold to arm" hint="1.2s" duration="1200" value="arm-scene"></gk-long-press>
                     </div>
                   </div>
                   <p class="kit-hint" id="kit-hig-readout" aria-live="polite">Interact with a HIG pattern to see its event here.</p>

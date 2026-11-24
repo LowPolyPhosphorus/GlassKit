@@ -795,6 +795,21 @@ const ATLAS_ATTRIBUTES: Record<string, Record<string, string>> = {
     hint: "Draw a note",
     height: "110",
   },
+  "gk-scroll-navigator": {
+    label: "Jump to section",
+    targets: '[{"label":"Overview","value":"overview"},{"label":"Devices","value":"devices"},{"label":"Scenes","value":"scenes"},{"label":"Energy","value":"energy"},{"label":"Diagnostics","value":"diagnostics"}]',
+  },
+  "gk-share-action": {
+    label: "Share scene",
+    title: "Evening scene",
+    url: "glasskit://scene/evening",
+  },
+  "gk-long-press": {
+    label: "Hold to arm",
+    hint: "1.2s",
+    duration: "1200",
+    value: "arm-scene",
+  },
 };
 
 const ATLAS_CHILDREN: Record<string, string> = {
@@ -982,6 +997,14 @@ function configureKitHig(): void {
     "gk-draw",
     "gk-clear",
     "gk-undo",
+    "gk-scroll-to",
+    "gk-scroll-position",
+    "gk-share",
+    "gk-share-copy",
+    "gk-press-start",
+    "gk-press-progress",
+    "gk-press-complete",
+    "gk-press-cancel",
     "gk-error",
   ];
 
