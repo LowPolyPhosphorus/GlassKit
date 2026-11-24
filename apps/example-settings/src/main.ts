@@ -752,6 +752,21 @@ const ATLAS_ATTRIBUTES: Record<string, Record<string, string>> = {
     label: "Oceans",
     items: '[{"label":"Living Room","value":"living","detail":"6 devices"},{"label":"Kitchen","value":"kitchen","detail":"4 devices"},{"label":"Entry","value":"entry","detail":"2 devices"}]',
   },
+  "gk-control-group": {
+    label: "Playback",
+    items: '[{"label":"Rewind","value":"rewind"},{"label":"Play","value":"play","variant":"primary"},{"label":"Forward","value":"forward"},{"label":"Share","value":"share","variant":"quiet","disabled":true}]',
+  },
+  "gk-navigation-split-view": {
+    title: "Library",
+    columns: "3",
+    sections: '[{"value":"living","label":"Living Room","detail":{"title":"Living Room","body":"Six responsive devices."},"children":[{"value":"lights","label":"Lights","detail":{"title":"Lights","body":"Three scenes available."}},{"value":"climate","label":"Climate","detail":{"title":"Climate","body":"21 °C, auto."}}]},{"value":"kitchen","label":"Kitchen","detail":{"title":"Kitchen","body":"Four devices."},"children":[{"value":"sensors","label":"Sensors","detail":{"title":"Sensors","body":"Occupancy and temperature."}}]}]',
+  },
+  "gk-confirmation-dialog": {
+    "trigger-label": "Choose destination",
+    title: "Resume workout recording",
+    message: "Choose a destination for workout data.",
+    actions: '[{"label":"Append to current workout","value":"append"},{"label":"Overwrite current workout","value":"overwrite","style":"destructive"},{"label":"Cancel","value":"cancel","style":"cancel"}]',
+  },
 };
 
 const ATLAS_CHILDREN: Record<string, string> = {
@@ -928,6 +943,7 @@ function configureKitHig(): void {
     "gk-delete",
     "gk-move",
     "gk-edit-change",
+    "gk-control",
     "gk-error",
   ];
 
