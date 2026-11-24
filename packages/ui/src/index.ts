@@ -36,6 +36,9 @@ import { WEB_LINK_TAG, WebLink } from "./components/web-link.js";
 import { GRID_VIEW_TAG, GridView } from "./components/grid-view.js";
 import { NAVIGATION_STACK_TAG, NavigationStack } from "./components/navigation-stack.js";
 import { SECURE_FIELD_TAG, SecureField } from "./components/secure-field.js";
+import { DISCLOSURE_GROUP_TAG, DisclosureGroup } from "./components/disclosure-group.js";
+import { EDITABLE_LIST_TAG, EditableList } from "./components/editable-list.js";
+import { FORM_TAG, GlassForm } from "./components/form.js";
 import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
 import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
 import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
@@ -86,6 +89,9 @@ const CORE_TAGS = [
   GRID_VIEW_TAG,
   NAVIGATION_STACK_TAG,
   SECURE_FIELD_TAG,
+  DISCLOSURE_GROUP_TAG,
+  EDITABLE_LIST_TAG,
+  FORM_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -134,6 +140,9 @@ export {
   GRID_VIEW_TAG,
   NAVIGATION_STACK_TAG,
   SECURE_FIELD_TAG,
+  DISCLOSURE_GROUP_TAG,
+  EDITABLE_LIST_TAG,
+  FORM_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -181,6 +190,9 @@ export {
   GridView,
   NavigationStack,
   SecureField,
+  DisclosureGroup,
+  EditableList,
+  GlassForm,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -229,6 +241,9 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   GridView,
   NavigationStack,
   SecureField,
+  DisclosureGroup,
+  EditableList,
+  GlassForm,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -290,6 +305,9 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Grid view", group: "Layout", description: "Responsive item grid with selectable cells and badges.", higPage: swiftui("lazyvgrid") },
   { title: "Navigation stack", group: "Navigation and search", description: "Root-to-detail navigation with a back route and slotted content.", higPage: swiftui("navigationstack") },
   { title: "Secure field", group: "Selection and input", description: "Private text entry with reveal, validation, and submit events.", higPage: swiftui("securefield") },
+  { title: "Disclosure group", group: "Layout", description: "Nested expandable sections with single or multiple expansion.", higPage: swiftui("disclosuregroup") },
+  { title: "Editable list", group: "Layout", description: "Reorderable and removable rows with an explicit edit mode.", higPage: swiftui("editbutton") },
+  { title: "Form", group: "Layout", description: "Grouped data-entry sections with labelled controls and actions.", higPage: swiftui("form") },
   { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
   { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
   { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
