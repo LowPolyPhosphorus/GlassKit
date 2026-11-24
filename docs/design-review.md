@@ -2,6 +2,8 @@
 
 Date: 2026-11-23
 
+Revision 20 note: the registry grew from 116 to 119 tags. `gk-drag-surface`, `gk-tap-counter`, and `gk-lazy-grid` translate DragGesture, TapGesture, and LazyHGrid into shadow-DOM components with pointer lifecycle events, counted goal progress, and virtualized horizontal grid columns. The docs SwiftUI reference gallery now has 36 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven, and the flat-fill/hairline material rule is unchanged.
+
 Revision 19 note: the registry grew from 113 to 116 tags. `gk-paste-button`, `gk-multi-date-picker`, and `gk-lazy-stack` translate PasteButton, MultiDatePicker, and LazyVStack into shadow-DOM components with clipboard fallback, multi-date month grids, and virtualized row rendering. The docs SwiftUI reference gallery now has 33 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven, and the flat-fill/hairline material rule is unchanged.
 
 Revision 18 note: the registry grew from 110 to 113 tags. `gk-scroll-navigator`, `gk-share-action`, and `gk-long-press` translate ScrollViewReader, ShareLink, and LongPressGesture into shadow-DOM components with scroll-proxy targets, a share sheet with copy status, and a held action with progress feedback. The docs SwiftUI reference gallery now has 30 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven, and the flat-fill/hairline material rule is unchanged.
