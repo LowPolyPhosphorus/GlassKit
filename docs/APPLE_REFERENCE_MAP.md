@@ -58,13 +58,13 @@ These are relevant to Apple's ecosystem but low priority for a Windows desktop U
 
 ## HIG Components index coverage
 
-The Components index has 77 topic pages. All 77 are represented in Glass Kit by 122 registered tags: 69 core elements (28 original plus 41 SwiftUI-derived) and 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
+The Components index has 77 topic pages. All 77 are represented in Glass Kit by 125 registered tags: 72 core elements (28 original plus 44 SwiftUI-derived) and 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
 
 Each `COMPONENT_REGISTRY` entry carries its HIG source page. The same registry renders the docs homepage atlas, the smart-home lab atlas, and the 5185 Settings Glass Kit pane, so coverage is exercised in all three surfaces.
 
 ## SwiftUI-derived component coverage
 
-The 41 SwiftUI-derived elements translate declarative view behaviour into shadow-DOM Web Components. Their code examples on the docs homepage come from Apple's DocC JSON for each linked page; the GlassKit half shows the equivalent markup and event. No Apple assets, symbols, or platform chrome are shipped.
+The 44 SwiftUI-derived elements translate declarative view behaviour into shadow-DOM Web Components. Their code examples on the docs homepage come from Apple's DocC JSON for each linked page; the GlassKit half shows the equivalent markup and event. No Apple assets, symbols, or platform chrome are shipped.
 
 | SwiftUI source | Glass Kit element | Extracted behaviour |
 |---|---|---|
@@ -108,6 +108,9 @@ The 41 SwiftUI-derived elements translate declarative view behaviour into shadow
 | [RotateGesture](https://developer.apple.com/documentation/swiftui/rotategesture) | `gk-rotate-view` | Pointer rotation with angle, radians, and lifecycle events |
 | [LazyVGrid](https://developer.apple.com/documentation/swiftui/lazyvgrid) | `gk-lazy-vgrid` | Virtualized vertical grid rows with rendered range and selection events |
 | [List](https://developer.apple.com/documentation/swiftui/list) | `gk-list-view` | Sectioned single or multiple selection with list events |
+| [Text](https://developer.apple.com/documentation/swiftui/text) | `gk-rich-text` | Styled text with scale, weight, italics, and copy feedback |
+| [Label](https://developer.apple.com/documentation/swiftui/label) | `gk-icon-label` | Title and generic glyph with title-only and icon-only variants |
+| [Grid](https://developer.apple.com/documentation/swiftui/grid) | `gk-grid-layout` | Declarative grid cells with columns, gap, and selection events |
 
 | Glass Kit family | Representative HIG topics | Tags |
 |---|---|---|

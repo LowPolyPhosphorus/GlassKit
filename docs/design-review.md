@@ -2,6 +2,8 @@
 
 Date: 2026-11-23
 
+Revision 22 note: the registry grew from 122 to 125 tags. `gk-rich-text`, `gk-icon-label`, and `gk-grid-layout` translate Text, Label, and Grid into shadow-DOM components with styled copyable text, generic glyph labels, and declarative grid cells. The docs SwiftUI reference gallery now has 42 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven, and the flat-fill/hairline material rule is unchanged.
+
 Revision 21 note: the registry grew from 119 to 122 tags. `gk-rotate-view`, `gk-lazy-vgrid`, and `gk-list-view` translate RotateGesture, LazyVGrid, and List into shadow-DOM components with pointer rotation feedback, virtualized vertical grid rows, and sectioned single or multiple selection. The docs SwiftUI reference gallery now has 39 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven, and the flat-fill/hairline material rule is unchanged.
 
 Revision 20 note: the registry grew from 116 to 119 tags. `gk-drag-surface`, `gk-tap-counter`, and `gk-lazy-grid` translate DragGesture, TapGesture, and LazyHGrid into shadow-DOM components with pointer lifecycle events, counted goal progress, and virtualized horizontal grid columns. The docs SwiftUI reference gallery now has 36 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven, and the flat-fill/hairline material rule is unchanged.
