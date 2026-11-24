@@ -27,15 +27,15 @@ const styles = `
 :host([tone="thin"]) { background: var(--gk-color-glass-thin); }
 :host([tone="thick"]) { background: var(--gk-color-glass-thick); }
 
-/* Specular edge only. Real blur comes from glasskit-material at the HWND level. */
+/* Flat specular hairline. Real blur comes from glasskit-material at the HWND level. */
 :host::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: 0 0 auto;
   z-index: 0;
+  height: 1px;
   pointer-events: none;
-  border-radius: inherit;
-  background: linear-gradient(180deg, var(--gk-color-specular), transparent 38%);
+  background: var(--gk-color-specular);
   opacity: 0.5;
 }
 

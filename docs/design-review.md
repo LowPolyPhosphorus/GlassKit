@@ -2,6 +2,8 @@
 
 Date: 2026-11-23
 
+Revision 14 note: `gk-glass-panel` no longer paints a decorative gradient. Its specular cue is a one-pixel flat hairline, so every surface now uses flat fills and hairlines only; real blur remains the native HWND material in the Tauri host.
+
 Revision 13 note: the registry grew from 98 to 101 tags. `gk-form`, `gk-disclosure-group`, and `gk-editable-list` translate Form, DisclosureGroup, and EditButton into shadow-DOM components with grouped controls, nested expansion, and explicit edit mode. The docs SwiftUI reference gallery now has 18 live examples with copyable SwiftUI and GlassKit code; the smart-home lab and 5185 Glass Kit pane gained a dedicated SwiftUI containers group for the new elements. The registry remains the source for all displayed counts, and no Apple assets or platform chrome were introduced.
 
 Revision 12 note: the registry grew from 95 to 98 tags. `gk-grid-view`, `gk-navigation-stack`, and `gk-secure-field` translate LazyVGrid, NavigationStack, and SecureField into shadow-DOM components with selectable cells, root-to-detail routes, and masked text with reveal state. The docs SwiftUI reference gallery now has 15 live examples, and the smart-home lab Recipes room and the 5185 Glass Kit pane exercise the new elements alongside the rest of the registry. The HIG atlas window pattern now shows Windows minimize, maximize, and close glyphs instead of neutral dots. The registry remains the single source for every displayed count; Windows-native chrome and the no-Apple-assets rule are unchanged.
