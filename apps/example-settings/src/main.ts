@@ -781,6 +781,20 @@ const ATLAS_ATTRIBUTES: Record<string, Record<string, string>> = {
     label: "Hub details",
     rows: '[{"label":"Name","value":"Living Room Hub","copy":true},{"label":"Status","value":"Online","detail":"updated just now"},{"label":"Firmware","value":"2.4.1","action":"Update"}]',
   },
+  "gk-adaptive-view": {
+    label: "Upload status",
+    variants: '[{"label":"Uploading files","detail":"75% · 3 files remaining"},{"label":"Uploading","detail":"75% complete"},{"label":"75%","detail":"compact"}]',
+  },
+  "gk-timeline-view": {
+    label: "Current time",
+    interval: "1000",
+    "show-seconds": "",
+  },
+  "gk-canvas-view": {
+    label: "Annotation",
+    hint: "Draw a note",
+    height: "110",
+  },
 };
 
 const ATLAS_CHILDREN: Record<string, string> = {
@@ -963,6 +977,11 @@ function configureKitHig(): void {
     "gk-group-action",
     "gk-copy",
     "gk-labeled-action",
+    "gk-adapt",
+    "gk-tick",
+    "gk-draw",
+    "gk-clear",
+    "gk-undo",
     "gk-error",
   ];
 
