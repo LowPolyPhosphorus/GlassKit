@@ -33,6 +33,9 @@ import { DATA_TABLE_TAG, DataTable } from "./components/data-table.js";
 import { STEPPER_TAG, Stepper } from "./components/stepper.js";
 import { VALUE_PICKER_TAG, ValuePicker } from "./components/value-picker.js";
 import { WEB_LINK_TAG, WebLink } from "./components/web-link.js";
+import { GRID_VIEW_TAG, GridView } from "./components/grid-view.js";
+import { NAVIGATION_STACK_TAG, NavigationStack } from "./components/navigation-stack.js";
+import { SECURE_FIELD_TAG, SecureField } from "./components/secure-field.js";
 import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
 import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
 import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
@@ -80,6 +83,9 @@ const CORE_TAGS = [
   STEPPER_TAG,
   VALUE_PICKER_TAG,
   WEB_LINK_TAG,
+  GRID_VIEW_TAG,
+  NAVIGATION_STACK_TAG,
+  SECURE_FIELD_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -125,6 +131,9 @@ export {
   STEPPER_TAG,
   VALUE_PICKER_TAG,
   WEB_LINK_TAG,
+  GRID_VIEW_TAG,
+  NAVIGATION_STACK_TAG,
+  SECURE_FIELD_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -169,6 +178,9 @@ export {
   Stepper,
   ValuePicker,
   WebLink,
+  GridView,
+  NavigationStack,
+  SecureField,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -214,6 +226,9 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   Stepper,
   ValuePicker,
   WebLink,
+  GridView,
+  NavigationStack,
+  SecureField,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -272,6 +287,9 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Stepper control", group: "Selection and input", description: "Bounded increment and decrement with wrap support.", higPage: swiftui("stepper") },
   { title: "Value picker", group: "Selection and input", description: "Radio-style selection with labels, details, and disabled options.", higPage: swiftui("picker") },
   { title: "Web link", group: "Navigation and search", description: "Safe external link with a route event and visible affordance.", higPage: swiftui("link") },
+  { title: "Grid view", group: "Layout", description: "Responsive item grid with selectable cells and badges.", higPage: swiftui("lazyvgrid") },
+  { title: "Navigation stack", group: "Navigation and search", description: "Root-to-detail navigation with a back route and slotted content.", higPage: swiftui("navigationstack") },
+  { title: "Secure field", group: "Selection and input", description: "Private text entry with reveal, validation, and submit events.", higPage: swiftui("securefield") },
   { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
   { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
   { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
