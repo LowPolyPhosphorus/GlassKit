@@ -58,13 +58,13 @@ These are relevant to Apple's ecosystem but low priority for a Windows desktop U
 
 ## HIG Components index coverage
 
-The Components index has 77 topic pages. All 77 are represented in Glass Kit by 98 registered tags: 45 core elements (28 original plus 17 SwiftUI-derived) and 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
+The Components index has 77 topic pages. All 77 are represented in Glass Kit by 101 registered tags: 48 core elements (28 original plus 20 SwiftUI-derived) and 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
 
 Each `COMPONENT_REGISTRY` entry carries its HIG source page. The same registry renders the docs homepage atlas, the smart-home lab atlas, and the 5185 Settings Glass Kit pane, so coverage is exercised in all three surfaces.
 
 ## SwiftUI-derived component coverage
 
-The 17 SwiftUI-derived elements translate declarative view behaviour into shadow-DOM Web Components. Their code examples on the docs homepage come from Apple's DocC JSON for each linked page; the GlassKit half shows the equivalent markup and event. No Apple assets, symbols, or platform chrome are shipped.
+The 20 SwiftUI-derived elements translate declarative view behaviour into shadow-DOM Web Components. Their code examples on the docs homepage come from Apple's DocC JSON for each linked page; the GlassKit half shows the equivalent markup and event. No Apple assets, symbols, or platform chrome are shipped.
 
 | SwiftUI source | Glass Kit element | Extracted behaviour |
 |---|---|---|
@@ -84,6 +84,9 @@ The 17 SwiftUI-derived elements translate declarative view behaviour into shadow
 | [Link](https://developer.apple.com/documentation/swiftui/link) | `gk-web-link` | Safe external destination with route event |
 | [LazyVGrid](https://developer.apple.com/documentation/swiftui/lazyvgrid) | `gk-grid-view` | Responsive columns, badges, and selected cell events |
 | [SecureField](https://developer.apple.com/documentation/swiftui/securefield) | `gk-secure-field` | Masked text with reveal, validation, and commit events |
+| [DisclosureGroup](https://developer.apple.com/documentation/swiftui/disclosuregroup) | `gk-disclosure-group` | Nested sections with expansion events |
+| [EditButton](https://developer.apple.com/documentation/swiftui/editbutton) | `gk-editable-list` | Edit mode with delete and move events |
+| [Form](https://developer.apple.com/documentation/swiftui/form) | `gk-form` | Grouped sections, labelled controls, and submit values |
 
 | Glass Kit family | Representative HIG topics | Tags |
 |---|---|---|
