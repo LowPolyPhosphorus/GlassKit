@@ -229,6 +229,12 @@ export function initDesktopLab(): void {
     "gk-tap",
     "gk-tap-complete",
     "gk-grid-range",
+    "gk-rotate-start",
+    "gk-rotate-change",
+    "gk-rotate-end",
+    "gk-vgrid-range",
+    "gk-list-select",
+    "gk-list-toggle",
     "gk-error",
   ]) {
     canvas.addEventListener(name, (event) => {

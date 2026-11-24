@@ -1467,6 +1467,121 @@ grid.addEventListener('gk-grid-range', (event) =&gt; &#123;
 &#125;);</code></pre>
           </div>
         </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">RotateGesture</p><h3>Pointer rotation</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/rotategesture" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-rotate-view label="Rotate sensor" angle="0" height="160"></gk-rotate-view></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="RotateGesture code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct RotateGestureView: View &#123;
+    @State private var angle = Angle(degrees: 0.0)
+
+    var rotation: some Gesture &#123;
+        RotateGesture()
+            .onChanged &#123; value in
+                angle = value.rotation
+            &#125;
+    &#125;
+
+    var body: some View &#123;
+        Rectangle()
+            .frame(width: 200, height: 200, alignment: .center)
+            .rotationEffect(angle)
+            .gesture(rotation)
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-rotate-view
+  label="Rotate sensor"
+  angle="0"
+  height="160"&gt;
+&lt;/gk-rotate-view&gt;
+
+view.addEventListener('gk-rotate-end', (event) =&gt; &#123;
+  saveAngle(event.detail.angle);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">LazyVGrid</p><h3>Virtualized columns</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/lazyvgrid" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-lazy-vgrid label="Metric tiles" items='[{"label":"Lamp","value":"metric-1"},{"label":"Climate","value":"metric-2"},{"label":"Door","value":"metric-3"},{"label":"Camera","value":"metric-4"},{"label":"Scene","value":"metric-5"},{"label":"Energy","value":"metric-6"}]' columns="3" height="140"></gk-lazy-vgrid></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="LazyVGrid code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct VerticalSmileys: View &#123;
+    let columns = [GridItem(.flexible()), GridItem(.flexible())]
+
+    var body: some View &#123;
+         ScrollView &#123;
+             LazyVGrid(columns: columns) &#123;
+                 ForEach(0x1f600...0x1f679, id: \.self) &#123; value in
+                     Text(String(format: "%x", value))
+                     Text(emoji(value))
+                         .font(.largeTitle)
+                 &#125;
+             &#125;
+         &#125;
+    &#125;
+
+    private func emoji(_ value: Int) -&gt; String &#123;
+        guard let scalar = UnicodeScalar(value) else &#123; return "?" &#125;
+        return String(Character(scalar))
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-lazy-vgrid
+  label="Metric tiles"
+  items='[&#123;"label":"Lamp","value":"metric-1"&#125;,&#123;"label":"Climate","value":"metric-2"&#125;]'
+  columns="3"
+  height="140"&gt;
+&lt;/gk-lazy-vgrid&gt;
+
+grid.addEventListener('gk-vgrid-range', (event) =&gt; &#123;
+  prefetchRows(event.detail.start, event.detail.end);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">List</p><h3>Selectable rows</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/list" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-list-view label="Oceans" mode="multiple" value='["pacific"]' items='[{"label":"Pacific","value":"pacific","section":"Oceans","detail":"Largest"},{"label":"Atlantic","value":"atlantic","section":"Oceans","detail":"Second"},{"label":"Indian","value":"indian","section":"Oceans","detail":"Third"}]' height="140"></gk-list-view></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="List code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>var body: some View &#123;
+    List &#123;
+        Text("A List Item")
+        Text("A Second List Item")
+        Text("A Third List Item")
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-list-view
+  label="Oceans"
+  mode="multiple"
+  items='[&#123;"label":"Pacific","value":"pacific"&#125;,&#123;"label":"Atlantic","value":"atlantic"&#125;]'
+  height="140"&gt;
+&lt;/gk-list-view&gt;
+
+list.addEventListener('gk-list-select', (event) =&gt; &#123;
+  saveSelection(event.detail.values);
+&#125;);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 
