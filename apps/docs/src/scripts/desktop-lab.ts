@@ -201,6 +201,7 @@ export function initDesktopLab(): void {
     "gk-delete",
     "gk-move",
     "gk-edit-change",
+    "gk-control",
     "gk-error",
   ]) {
     canvas.addEventListener(name, (event) => {

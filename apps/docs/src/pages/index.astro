@@ -860,6 +860,119 @@ form.addEventListener('gk-submit', (event) =&gt; &#123;
 &#125;);</code></pre>
           </div>
         </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">ControlGroup</p><h3>Related controls</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/controlgroup" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-control-group label="Playback" items='[{"label":"Rewind","value":"rewind"},{"label":"Play","value":"play","variant":"primary"},{"label":"Forward","value":"forward"},{"label":"Share","value":"share","variant":"quiet","disabled":true}]'></gk-control-group></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="ControlGroup code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>ContentView()
+    .toolbar(id: "items") &#123;
+        ToolbarItem(id: "media") &#123;
+            ControlGroup &#123;
+                MediaButton()
+                ChartButton()
+                GraphButton()
+            &#125; label: &#123;
+                Label("Plus", systemImage: "plus")
+            &#125;
+        &#125;
+    &#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-control-group
+  label="Playback"
+  items='[&#123;"label":"Play","value":"play","variant":"primary"&#125;]'&gt;
+&lt;/gk-control-group&gt;
+
+group.addEventListener('gk-control', (event) =&gt; &#123;
+  send(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">NavigationSplitView</p><h3>Column drill-down</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/navigationsplitview" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-navigation-split-view title="Library" columns="3" sections='[{"value":"living","label":"Living Room","detail":{"title":"Living Room","body":"Six responsive devices."},"children":[{"value":"lights","label":"Lights","detail":{"title":"Lights","body":"Three scenes available."}},{"value":"climate","label":"Climate","detail":{"title":"Climate","body":"21 °C, auto."}}]},{"value":"kitchen","label":"Kitchen","detail":{"title":"Kitchen","body":"Four devices."},"children":[{"value":"sensors","label":"Sensors","detail":{"title":"Sensors","body":"Occupancy and temperature."}}]}]'></gk-navigation-split-view></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="NavigationSplitView code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>@State private var employeeIds: Set&lt;Employee.ID&gt; = []
+
+var body: some View &#123;
+    NavigationSplitView &#123;
+        List(model.employees, selection: $employeeIds) &#123; employee in
+            Text(employee.name)
+        &#125;
+    &#125; detail: &#123;
+        EmployeeDetails(for: employeeIds)
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-navigation-split-view
+  title="Library"
+  columns="3"
+  sections='[&#123;"value":"living","label":"Living Room","children":[&#123;"value":"lights","label":"Lights"&#125;]&#125;]'&gt;
+&lt;/gk-navigation-split-view&gt;
+
+split.addEventListener('gk-navigate', (event) =&gt; &#123;
+  route = event.detail.selection;
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">ActionSheet</p><h3>Contextual choices</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/actionsheet" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-confirmation-dialog trigger-label="Choose destination" title="Resume workout recording" message="Choose a destination for workout data." actions='[{"label":"Append to current workout","value":"append"},{"label":"Overwrite current workout","value":"overwrite","style":"destructive"},{"label":"Cancel","value":"cancel","style":"cancel"}]'></gk-confirmation-dialog></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="ActionSheet code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>@State private var showActionSheet = false
+var body: some View &#123;
+    Button("Tap to show action sheet") &#123;
+        showActionSheet = true
+    &#125;
+    .actionSheet(isPresented: $showActionSheet) &#123;
+        ActionSheet(title: Text("Resume Workout Recording"),
+                    message: Text("Choose a destination for workout data"),
+                    buttons: [
+                        .cancel(),
+                        .destructive(
+                            Text("Overwrite Current Workout"),
+                            action: overwriteWorkout
+                        ),
+                        .default(
+                            Text("Append to Current Workout"),
+                            action: appendWorkout
+                        )
+                    ]
+        )
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-confirmation-dialog
+  trigger-label="Choose destination"
+  title="Resume workout recording"
+  actions='[&#123;"label":"Append","value":"append"&#125;,&#123;"label":"Cancel","style":"cancel"&#125;]'&gt;
+&lt;/gk-confirmation-dialog&gt;
+
+dialog.addEventListener('gk-confirm', (event) =&gt; &#123;
+  save(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 
