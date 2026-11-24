@@ -45,6 +45,9 @@ import { CONFIRMATION_DIALOG_TAG, ConfirmationDialog } from "./components/confir
 import { OUTLINE_GROUP_TAG, OutlineGroup } from "./components/outline-group.js";
 import { GROUP_BOX_TAG, GroupBox } from "./components/group-box.js";
 import { LABELED_CONTENT_TAG, LabeledContent } from "./components/labeled-content.js";
+import { ADAPTIVE_VIEW_TAG, AdaptiveView } from "./components/adaptive-view.js";
+import { TIMELINE_VIEW_TAG, TimelineView } from "./components/timeline-view.js";
+import { CANVAS_VIEW_TAG, CanvasView } from "./components/canvas-view.js";
 import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
 import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
 import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
@@ -104,6 +107,9 @@ const CORE_TAGS = [
   OUTLINE_GROUP_TAG,
   GROUP_BOX_TAG,
   LABELED_CONTENT_TAG,
+  ADAPTIVE_VIEW_TAG,
+  TIMELINE_VIEW_TAG,
+  CANVAS_VIEW_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -161,6 +167,9 @@ export {
   OUTLINE_GROUP_TAG,
   GROUP_BOX_TAG,
   LABELED_CONTENT_TAG,
+  ADAPTIVE_VIEW_TAG,
+  TIMELINE_VIEW_TAG,
+  CANVAS_VIEW_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -217,6 +226,9 @@ export {
   OutlineGroup,
   GroupBox,
   LabeledContent,
+  AdaptiveView,
+  TimelineView,
+  CanvasView,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -274,6 +286,9 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   OutlineGroup,
   GroupBox,
   LabeledContent,
+  AdaptiveView,
+  TimelineView,
+  CanvasView,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -344,6 +359,9 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Outline group", group: "Layout", description: "Recursive hierarchical rows with disclosure and single selection.", higPage: swiftui("outlinegroup") },
   { title: "Group box", group: "Layout", description: "Semantic titled container with caption, content, and actions.", higPage: swiftui("groupbox") },
   { title: "Labeled content", group: "Content", description: "Aligned label and value rows with copy and secondary actions.", higPage: swiftui("labeledcontent") },
+  { title: "Adaptive view", group: "Layout", description: "Chooses the first layout variant that fits the available width.", higPage: swiftui("viewthatfits") },
+  { title: "Timeline view", group: "Status", description: "Periodic clock updates with elapsed time and tick events.", higPage: swiftui("timelineview") },
+  { title: "Canvas view", group: "Content", description: "Pointer drawing surface with undo, clear, and stroke events.", higPage: swiftui("canvas") },
   { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
   { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
   { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
