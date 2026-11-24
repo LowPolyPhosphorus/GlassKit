@@ -58,13 +58,13 @@ These are relevant to Apple's ecosystem but low priority for a Windows desktop U
 
 ## HIG Components index coverage
 
-The Components index has 77 topic pages. All 77 are represented in Glass Kit by 110 registered tags: 57 core elements (28 original plus 29 SwiftUI-derived) and 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
+The Components index has 77 topic pages. All 77 are represented in Glass Kit by 113 registered tags: 60 core elements (28 original plus 32 SwiftUI-derived) and 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
 
 Each `COMPONENT_REGISTRY` entry carries its HIG source page. The same registry renders the docs homepage atlas, the smart-home lab atlas, and the 5185 Settings Glass Kit pane, so coverage is exercised in all three surfaces.
 
 ## SwiftUI-derived component coverage
 
-The 29 SwiftUI-derived elements translate declarative view behaviour into shadow-DOM Web Components. Their code examples on the docs homepage come from Apple's DocC JSON for each linked page; the GlassKit half shows the equivalent markup and event. No Apple assets, symbols, or platform chrome are shipped.
+The 32 SwiftUI-derived elements translate declarative view behaviour into shadow-DOM Web Components. Their code examples on the docs homepage come from Apple's DocC JSON for each linked page; the GlassKit half shows the equivalent markup and event. No Apple assets, symbols, or platform chrome are shipped.
 
 | SwiftUI source | Glass Kit element | Extracted behaviour |
 |---|---|---|
@@ -96,6 +96,9 @@ The 29 SwiftUI-derived elements translate declarative view behaviour into shadow
 | [ViewThatFits](https://developer.apple.com/documentation/swiftui/viewthatfits) | `gk-adaptive-view` | First-fitting responsive layout variant with change events |
 | [TimelineView](https://developer.apple.com/documentation/swiftui/timelineview) | `gk-timeline-view` | Periodic clock and elapsed time with tick events |
 | [Canvas](https://developer.apple.com/documentation/swiftui/canvas) | `gk-canvas-view` | Pointer drawing with undo, clear, and stroke events |
+| [ScrollViewReader](https://developer.apple.com/documentation/swiftui/scrollviewreader) | `gk-scroll-navigator` | Scroll-proxy targets, live position, and `gk-scroll-to` events |
+| [ShareLink](https://developer.apple.com/documentation/swiftui/sharelink) | `gk-share-action` | Share destinations with copy status and `gk-share` events |
+| [LongPressGesture](https://developer.apple.com/documentation/swiftui/longpressgesture) | `gk-long-press` | Held gesture with progress, completion, and cancellation events |
 
 | Glass Kit family | Representative HIG topics | Tags |
 |---|---|---|

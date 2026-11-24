@@ -2,6 +2,8 @@
 
 Date: 2026-11-23
 
+Revision 18 note: the registry grew from 110 to 113 tags. `gk-scroll-navigator`, `gk-share-action`, and `gk-long-press` translate ScrollViewReader, ShareLink, and LongPressGesture into shadow-DOM components with scroll-proxy targets, a share sheet with copy status, and a held action with progress feedback. The docs SwiftUI reference gallery now has 30 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven, and the flat-fill/hairline material rule is unchanged.
+
 Revision 17 note: the registry grew from 107 to 110 tags. `gk-adaptive-view`, `gk-timeline-view`, and `gk-canvas-view` translate ViewThatFits, TimelineView, and Canvas into shadow-DOM components with measured responsive fallbacks, periodic clock updates, and a pointer drawing surface. The docs SwiftUI reference gallery now has 27 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven, all layout is flat-fill/hairline, and the drawing surface uses a flat token colour.
 
 Revision 16 note: the registry grew from 104 to 107 tags. `gk-outline-group`, `gk-group-box`, and `gk-labeled-content` translate OutlineGroup, GroupBox, and LabeledContent into shadow-DOM components with recursive selection, titled semantic grouping, and aligned key/value rows. The docs SwiftUI reference gallery now has 24 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven and the flat-fill/hairline material rule is unchanged.
