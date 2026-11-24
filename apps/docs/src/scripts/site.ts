@@ -336,9 +336,24 @@ function configureComponentAtlas(): void {
 }
 
 function configureCodeTabs(): void {
+  let groupIndex = 0;
+
   for (const tabs of Array.from(document.querySelectorAll<HTMLElement>("[data-code-tabs]"))) {
     const buttons = Array.from(tabs.querySelectorAll<HTMLButtonElement>("[data-code-target]"));
     const panels = Array.from(tabs.querySelectorAll<HTMLElement>("[data-code-panel]"));
+    const groupId = `gk-code-${++groupIndex}`;
+
+    for (const button of buttons) {
+      const target = button.dataset.codeTarget ?? "swift";
+      button.id = `${groupId}-tab-${target}`;
+      button.setAttribute("aria-controls", `${groupId}-panel-${target}`);
+    }
+    for (const panel of panels) {
+      const target = panel.dataset.codePanel ?? "swift";
+      panel.id = `${groupId}-panel-${target}`;
+      panel.setAttribute("role", "tabpanel");
+      panel.setAttribute("aria-labelledby", `${groupId}-tab-${target}`);
+    }
 
     const select = (target: string): void => {
       for (const button of buttons) {
@@ -358,6 +373,27 @@ function configureCodeTabs(): void {
         select(next.dataset.codeTarget ?? "swift");
       });
     }
+
+    const copy = document.createElement("button");
+    copy.type = "button";
+    copy.dataset.codeCopy = "";
+    copy.textContent = "Copy";
+    copy.addEventListener("click", () => {
+      const visible = panels.find((panel) => !panel.hidden);
+      const text = visible?.querySelector("code")?.textContent ?? "";
+      void navigator.clipboard
+        ?.writeText(text)
+        .then(() => {
+          copy.textContent = "Copied";
+        })
+        .catch(() => {
+          copy.textContent = "Select code";
+        });
+      window.setTimeout(() => {
+        copy.textContent = "Copy";
+      }, 1400);
+    });
+    tabs.querySelector<HTMLElement>(".code-tabs__bar")?.append(copy);
 
     select(buttons.find((button) => button.getAttribute("aria-selected") === "true")?.dataset.codeTarget ?? "swift");
   }

@@ -450,6 +450,11 @@ main {
   color: var(--page-accent);
 }
 
+.code-tabs__bar [data-code-copy] {
+  margin-left: auto;
+  color: var(--page-accent);
+}
+
 .code-tabs pre {
   margin: 0;
   padding: 16px;
