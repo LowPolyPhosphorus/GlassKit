@@ -1058,6 +1058,95 @@ details.addEventListener('gk-labeled-action', (event) =&gt; &#123;
 &#125;);</code></pre>
           </div>
         </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">ViewThatFits</p><h3>Responsive fallback</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/viewthatfits" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-adaptive-view label="Upload status" variants='[{"label":"Uploading files","detail":"75% · 3 files remaining"},{"label":"Uploading","detail":"75% complete"},{"label":"75%","detail":"compact"}]'></gk-adaptive-view></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="ViewThatFits code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>ViewThatFits(in: .horizontal) &#123;
+    HStack &#123;
+        Text("\(uploadProgress.formatted(.percent))")
+        ProgressView(value: uploadProgress)
+            .frame(width: 100)
+    &#125;
+    ProgressView(value: uploadProgress)
+        .frame(width: 100)
+    Text("\(uploadProgress.formatted(.percent))")
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-adaptive-view
+  label="Upload status"
+  variants='[&#123;"label":"Uploading files","detail":"75% · 3 files remaining"&#125;,&#123;"label":"75%","detail":"compact"&#125;]'&gt;
+&lt;/gk-adaptive-view&gt;
+
+view.addEventListener('gk-adapt', (event) =&gt; &#123;
+  console.log(event.detail.label);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">TimelineView</p><h3>Periodic updates</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/timelineview" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-timeline-view label="Current time" interval="1000" show-seconds></gk-timeline-view></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="TimelineView code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>TimelineView(.periodic(from: startDate, by: 1)) &#123; context in
+    AnalogTimerView(date: context.date)
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-timeline-view
+  label="Current time"
+  interval="1000"
+  show-seconds&gt;
+&lt;/gk-timeline-view&gt;
+
+clock.addEventListener('gk-tick', (event) =&gt; &#123;
+  updateStatus(event.detail.clock);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Canvas</p><h3>Drawing surface</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/canvas" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-canvas-view label="Annotation" hint="Draw a note" height="110"></gk-canvas-view></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Canvas code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>Canvas &#123; context, size in
+    context.stroke(
+        Path(ellipseIn: CGRect(origin: .zero, size: size)),
+        with: .color(.green),
+        lineWidth: 4)
+&#125;
+.frame(width: 300, height: 200)
+.border(Color.blue)</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-canvas-view
+  label="Annotation"
+  hint="Draw a note"
+  height="110"&gt;
+&lt;/gk-canvas-view&gt;
+
+canvas.addEventListener('gk-draw', (event) =&gt; &#123;
+  saveStroke(event.detail.strokes);
+&#125;);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 

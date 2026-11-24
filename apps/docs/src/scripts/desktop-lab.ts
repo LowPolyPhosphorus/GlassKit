@@ -207,6 +207,11 @@ export function initDesktopLab(): void {
     "gk-group-action",
     "gk-copy",
     "gk-labeled-action",
+    "gk-adapt",
+    "gk-tick",
+    "gk-draw",
+    "gk-clear",
+    "gk-undo",
     "gk-error",
   ]) {
     canvas.addEventListener(name, (event) => {
