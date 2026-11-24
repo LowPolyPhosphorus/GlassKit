@@ -137,6 +137,20 @@ const PREVIEW_ATTRIBUTES: Record<string, Record<string, string>> = {
     caption: "Private text stays masked until revealed.",
     autocomplete: "current-password",
   },
+  "gk-form": {
+    label: "Scene settings",
+    "submit-label": "Save form",
+    "show-actions": "",
+    sections: '[{"title":"Notifications","rows":[{"label":"Notify me about","control":"picker","value":"mentions","options":[{"label":"Direct messages","value":"direct"},{"label":"Mentions","value":"mentions"},{"label":"Anything","value":"all"}]},{"label":"Play notification sounds","control":"toggle","checked":true}],"footer":"Choose how alerts arrive."},{"title":"Profile","rows":[{"label":"Display name","control":"text","value":"Home Hub"},{"label":"Repeat","control":"stepper","value":"2","min":"0","max":"8"}]}]',
+  },
+  "gk-disclosure-group": {
+    label: "Details",
+    items: '[{"title":"Items","expanded":true,"content":"Light, climate, and media controls.","children":[{"title":"Sub-items","content":"Scene steps and schedules."}]},{"title":"Access","content":"Who can run this scene."}]',
+  },
+  "gk-editable-list": {
+    label: "Oceans",
+    items: '[{"label":"Living Room","value":"living","detail":"6 devices"},{"label":"Kitchen","value":"kitchen","detail":"4 devices"},{"label":"Entry","value":"entry","detail":"2 devices"}]',
+  },
 };
 
 const GROUP_ORDER = [

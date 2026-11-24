@@ -17,7 +17,7 @@ function clamp(value: number, min: number, max: number): number {
 function eventValue(event: Event): unknown {
   if (!(event instanceof CustomEvent) || !event.detail || typeof event.detail !== "object") return undefined;
   const detail = event.detail as Record<string, unknown>;
-  return detail.value ?? detail.checked ?? detail.scope ?? detail.state ?? detail.token ?? detail.label ?? detail.id ?? detail.key ?? detail.href ?? detail.action;
+  return detail.value ?? detail.checked ?? detail.scope ?? detail.state ?? detail.token ?? detail.label ?? detail.id ?? detail.key ?? detail.href ?? detail.action ?? detail.title ?? detail.from ?? detail.to ?? detail.all;
 }
 
 export function initDesktopLab(): void {
@@ -196,6 +196,11 @@ export function initDesktopLab(): void {
     "gk-load",
     "gk-sort",
     "gk-reveal-change",
+    "gk-submit",
+    "gk-reset",
+    "gk-delete",
+    "gk-move",
+    "gk-edit-change",
     "gk-error",
   ]) {
     canvas.addEventListener(name, (event) => {

@@ -731,6 +731,135 @@ grid.addEventListener('gk-select', (event) =&gt; &#123;
 &#125;);</code></pre>
           </div>
         </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">DisclosureGroup</p><h3>Nested reveal</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/disclosuregroup" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-disclosure-group label="Details" items='[{"title":"Items","expanded":true,"content":"Light, climate, and media controls.","children":[{"title":"Sub-items","content":"Scene steps and schedules."}]},{"title":"Access","content":"Who can run this scene."}]'></gk-disclosure-group></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="DisclosureGroup code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct ToggleStates &#123;
+    var oneIsOn: Bool = false
+    var twoIsOn: Bool = true
+&#125;
+@State private var toggleStates = ToggleStates()
+@State private var topExpanded: Bool = true
+
+var body: some View &#123;
+    DisclosureGroup("Items", isExpanded: $topExpanded) &#123;
+        Toggle("Toggle 1", isOn: $toggleStates.oneIsOn)
+        Toggle("Toggle 2", isOn: $toggleStates.twoIsOn)
+        DisclosureGroup("Sub-items") &#123;
+            Text("Sub-item 1")
+        &#125;
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-disclosure-group
+  label="Details"
+  items='[&#123;"title":"Items","expanded":true,"children":[&#123;"title":"Sub-items"&#125;]&#125;]'&gt;
+&lt;/gk-disclosure-group&gt;
+
+group.addEventListener('gk-expand-change', (event) =&gt; &#123;
+  expanded = event.detail.expanded;
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">List + EditButton</p><h3>Explicit edit mode</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/editbutton" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-editable-list label="Rooms" items='[{"label":"Living Room","value":"living","detail":"6 devices"},{"label":"Kitchen","value":"kitchen","detail":"4 devices"},{"label":"Entry","value":"entry","detail":"2 devices"}]'></gk-editable-list></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="List and EditButton code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>@State private var fruits = [
+    "Apple",
+    "Banana",
+    "Papaya",
+    "Mango"
+]
+
+var body: some View &#123;
+    NavigationView &#123;
+        List &#123;
+            ForEach(fruits, id: \.self) &#123; fruit in
+                Text(fruit)
+            &#125;
+            .onDelete &#123; fruits.remove(atOffsets: $0) &#125;
+            .onMove &#123; fruits.move(fromOffsets: $0, toOffset: $1) &#125;
+        &#125;
+        .navigationTitle("Fruits")
+        .toolbar &#123;
+            EditButton()
+        &#125;
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-editable-list
+  label="Rooms"
+  items='[&#123;"label":"Living Room","value":"living"&#125;,&#123;"label":"Kitchen","value":"kitchen"&#125;]'&gt;
+&lt;/gk-editable-list&gt;
+
+list.addEventListener('gk-move', (event) =&gt; &#123;
+  reorder(event.detail.from, event.detail.to);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Form</p><h3>Grouped data entry</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/form" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-form label="Scene settings" show-actions submit-label="Save form" sections='[{"title":"Notifications","rows":[{"label":"Notify me about","control":"picker","value":"mentions","options":[{"label":"Direct messages","value":"direct"},{"label":"Mentions","value":"mentions"},{"label":"Anything","value":"all"}]},{"label":"Play notification sounds","control":"toggle","checked":true}],"footer":"Choose how alerts arrive."},{"title":"Profile","rows":[{"label":"Display name","control":"text","value":"Home Hub"},{"label":"Repeat","control":"stepper","value":"2","min":"0","max":"8"}]}]'></gk-form></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Form code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>var body: some View &#123;
+    NavigationView &#123;
+        Form &#123;
+            Section(header: Text("Notifications")) &#123;
+                Picker("Notify Me About", selection: $notifyMeAbout) &#123;
+                    Text("Direct Messages").tag(NotifyMeAboutType.directMessages)
+                    Text("Mentions").tag(NotifyMeAboutType.mentions)
+                    Text("Anything").tag(NotifyMeAboutType.anything)
+                &#125;
+                Toggle("Play notification sounds", isOn: $playNotificationSounds)
+                Toggle("Send read receipts", isOn: $sendReadReceipts)
+            &#125;
+            Section(header: Text("User Profiles")) &#123;
+                Picker("Profile Image Size", selection: $profileImageSize) &#123;
+                    Text("Large").tag(ProfileImageSize.large)
+                    Text("Medium").tag(ProfileImageSize.medium)
+                    Text("Small").tag(ProfileImageSize.small)
+                &#125;
+                Button("Clear Image Cache") &#123;&#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-form
+  label="Scene settings"
+  show-actions
+  submit-label="Save form"
+  sections='[&#123;"title":"Notifications","rows":[&#123;"label":"Play notification sounds","control":"toggle","checked":true&#125;]&#125;]'&gt;
+&lt;/gk-form&gt;
+
+form.addEventListener('gk-submit', (event) =&gt; &#123;
+  save(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 
