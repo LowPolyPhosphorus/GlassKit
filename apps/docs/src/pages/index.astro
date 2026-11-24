@@ -1147,6 +1147,115 @@ canvas.addEventListener('gk-draw', (event) =&gt; &#123;
 &#125;);</code></pre>
           </div>
         </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">ScrollViewReader</p><h3>Programmatic scrolling</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/scrollviewreader" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-scroll-navigator label="Jump to section" targets='[{"label":"Overview","value":"overview"},{"label":"Devices","value":"devices"},{"label":"Scenes","value":"scenes"},{"label":"Energy","value":"energy"},{"label":"Diagnostics","value":"diagnostics"}]'></gk-scroll-navigator></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="ScrollViewReader code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>@Namespace var topID
+@Namespace var bottomID
+
+var body: some View &#123;
+    ScrollViewReader &#123; proxy in
+        ScrollView &#123;
+            Button("Bottom") &#123;
+                withAnimation &#123;
+                    proxy.scrollTo(bottomID)
+                &#125;
+            &#125;
+            .id(topID)
+            VStack(spacing: 0) &#123;
+                ForEach(0..&lt;100) &#123; i in
+                    color(fraction: Double(i) / 100)
+                &#125;
+            &#125;
+            Button("Top") &#123;
+                withAnimation &#123;
+                    proxy.scrollTo(topID)
+                &#125;
+            &#125;
+            .id(bottomID)
+        &#125;
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-scroll-navigator
+  label="Jump to section"
+  targets='[&#123;"label":"Scenes","value":"scenes"&#125;,&#123;"label":"Energy","value":"energy"&#125;]'&gt;
+&lt;/gk-scroll-navigator&gt;
+
+navigator.addEventListener('gk-scroll-to', (event) =&gt; &#123;
+  focusSection(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">ShareLink</p><h3>Share sheet</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/sharelink" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-share-action label="Share scene" title="Evening scene" url="glasskit://scene/evening"></gk-share-action></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="ShareLink code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>ShareLink(item: URL(string: "https://developer.apple.com/xcode/swiftui/")!)</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-share-action
+  label="Share scene"
+  title="Evening scene"
+  url="glasskit://scene/evening"&gt;
+&lt;/gk-share-action&gt;
+
+share.addEventListener('gk-share', (event) =&gt; &#123;
+  recordDestination(event.detail.channel);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">LongPressGesture</p><h3>Held action</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/longpressgesture" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-long-press label="Hold to arm" hint="1.2s" duration="1200" value="arm-scene"></gk-long-press></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="LongPressGesture code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct LongPressGestureView: View &#123;
+    @GestureState private var isDetectingLongPress = false
+    @State private var completedLongPress = false
+
+    var longPress: some Gesture &#123;
+        LongPressGesture(minimumDuration: 3)
+            .updating($isDetectingLongPress) &#123; currentState, gestureState, transaction in
+                gestureState = currentState
+            &#125;
+            .onEnded &#123; finished in
+                self.completedLongPress = finished
+            &#125;
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-long-press
+  label="Hold to arm"
+  duration="1200"
+  value="arm-scene"&gt;
+&lt;/gk-long-press&gt;
+
+hold.addEventListener('gk-press-complete', (event) =&gt; &#123;
+  armScene(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 

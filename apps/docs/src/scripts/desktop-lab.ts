@@ -212,6 +212,14 @@ export function initDesktopLab(): void {
     "gk-draw",
     "gk-clear",
     "gk-undo",
+    "gk-scroll-to",
+    "gk-scroll-position",
+    "gk-share",
+    "gk-share-copy",
+    "gk-press-start",
+    "gk-press-progress",
+    "gk-press-complete",
+    "gk-press-cancel",
     "gk-error",
   ]) {
     canvas.addEventListener(name, (event) => {
