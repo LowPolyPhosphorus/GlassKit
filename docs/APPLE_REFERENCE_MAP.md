@@ -58,13 +58,13 @@ These are relevant to Apple's ecosystem but low priority for a Windows desktop U
 
 ## HIG Components index coverage
 
-The Components index has 77 topic pages. All 77 are represented in Glass Kit by 125 registered tags: 72 core elements (28 original plus 44 SwiftUI-derived) and 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
+The Components index has 77 topic pages. All 77 are represented in Glass Kit by 128 registered tags: 75 core elements (28 original plus 47 SwiftUI-derived) and 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
 
 Each `COMPONENT_REGISTRY` entry carries its HIG source page. The same registry renders the docs homepage atlas, the smart-home lab atlas, and the 5185 Settings Glass Kit pane, so coverage is exercised in all three surfaces.
 
 ## SwiftUI-derived component coverage
 
-The 44 SwiftUI-derived elements translate declarative view behaviour into shadow-DOM Web Components. Their code examples on the docs homepage come from Apple's DocC JSON for each linked page; the GlassKit half shows the equivalent markup and event. No Apple assets, symbols, or platform chrome are shipped.
+The 47 SwiftUI-derived elements translate declarative view behaviour into shadow-DOM Web Components. Their code examples on the docs homepage come from Apple's DocC JSON for each linked page; the GlassKit half shows the equivalent markup and event. No Apple assets, symbols, or platform chrome are shipped.
 
 | SwiftUI source | Glass Kit element | Extracted behaviour |
 |---|---|---|
@@ -111,6 +111,9 @@ The 44 SwiftUI-derived elements translate declarative view behaviour into shadow
 | [Text](https://developer.apple.com/documentation/swiftui/text) | `gk-rich-text` | Styled text with scale, weight, italics, and copy feedback |
 | [Label](https://developer.apple.com/documentation/swiftui/label) | `gk-icon-label` | Title and generic glyph with title-only and icon-only variants |
 | [Grid](https://developer.apple.com/documentation/swiftui/grid) | `gk-grid-layout` | Declarative grid cells with columns, gap, and selection events |
+| [Button](https://developer.apple.com/documentation/swiftui/button) | `gk-push-button` | Bordered, filled, plain, and destructive button variants |
+| [NavigationView](https://developer.apple.com/documentation/swiftui/navigationview) | `gk-nav-pane` | Master and detail pane with navigation events |
+| [Spacer](https://developer.apple.com/documentation/swiftui/spacer) | `gk-check-row` | Checklist row with flexible spacer positioning and check events |
 
 | Glass Kit family | Representative HIG topics | Tags |
 |---|---|---|
