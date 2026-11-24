@@ -1664,6 +1664,96 @@ grid.addEventListener('gk-cell-select', (event) =&gt; &#123;
 &#125;);</code></pre>
           </div>
         </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Button</p><h3>Action variants</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/button" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-push-button label="Sign In" glyph="↗" variant="filled"></gk-push-button></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Button code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>Button(action: signIn) &#123;
+    Text("Sign In")
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-push-button
+  label="Sign In"
+  glyph="↗"
+  variant="filled"&gt;
+&lt;/gk-push-button&gt;
+
+button.addEventListener('gk-activate', (event) =&gt; &#123;
+  signIn(event.detail.label);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">NavigationView</p><h3>Master and detail</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/navigationview" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-nav-pane label="Notes" items='[{"label":"Welcome","value":"welcome","detail":"Draft"},{"label":"Scenes","value":"scenes","detail":"Shared"}]' value="welcome"></gk-nav-pane></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="NavigationView code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>NavigationView &#123;
+    List(model.notes) &#123; note in
+        NavigationLink(note.title, destination: NoteEditor(id: note.id))
+    &#125;
+    Text("Select a Note")
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-nav-pane
+  label="Notes"
+  items='[&#123;"label":"Welcome","value":"welcome"&#125;,&#123;"label":"Scenes","value":"scenes"&#125;]'
+  value="welcome"&gt;
+&lt;/gk-nav-pane&gt;
+
+pane.addEventListener('gk-navigate', (event) =&gt; &#123;
+  showNote(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Spacer</p><h3>Flexible row layout</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/spacer" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-check-row label="Checklist row" checked position="leading"></gk-check-row></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Spacer code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct ChecklistRow: View &#123;
+    let name: String
+
+    var body: some View &#123;
+        HStack &#123;
+            Image(systemName: "checkmark")
+            Spacer()
+            Text(name)
+        &#125;
+        .border(Color.blue)
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-check-row
+  label="Checklist row"
+  checked
+  position="leading"&gt;
+&lt;/gk-check-row&gt;
+
+row.addEventListener('gk-check', (event) =&gt; &#123;
+  setComplete(event.detail.checked);
+&#125;);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 
