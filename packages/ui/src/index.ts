@@ -27,6 +27,14 @@ import { SNIPPET_TAG, Snippet } from "./components/snippet.js";
 import { IMAGE_VIEW_TAG, ImageView } from "./components/image-view.js";
 import { CHART_TAG, Chart } from "./components/chart.js";
 import { WEB_VIEW_TAG, WebView } from "./components/web-view.js";
+import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
+import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
+import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
+import { DATE_PICKER_TAG, DatePicker } from "./components/date-picker.js";
+import { NAVIGATION_LINK_TAG, NavigationLink } from "./components/navigation-link.js";
+import { PROGRESS_VIEW_TAG, ProgressView } from "./components/progress-view.js";
+import { TEXT_EDITOR_TAG, TextEditor } from "./components/text-editor.js";
+import { VALUE_GAUGE_TAG, ValueGauge } from "./components/value-gauge.js";
 import { HIG_PATTERN_MAP, HIG_PATTERNS } from "./components/hig-atlas.js";
 
 export * from "./components/hig-atlas.js";
@@ -60,6 +68,14 @@ const CORE_TAGS = [
   TOKEN_FIELD_TAG,
   TOOLBAR_TAG,
   WEB_VIEW_TAG,
+  ACTION_MENU_TAG,
+  ASYNC_IMAGE_TAG,
+  CONTENT_UNAVAILABLE_TAG,
+  DATE_PICKER_TAG,
+  NAVIGATION_LINK_TAG,
+  PROGRESS_VIEW_TAG,
+  TEXT_EDITOR_TAG,
+  VALUE_GAUGE_TAG,
 ] as const;
 
 export {
@@ -91,6 +107,14 @@ export {
   TOKEN_FIELD_TAG,
   TOOLBAR_TAG,
   WEB_VIEW_TAG,
+  ACTION_MENU_TAG,
+  ASYNC_IMAGE_TAG,
+  CONTENT_UNAVAILABLE_TAG,
+  DATE_PICKER_TAG,
+  NAVIGATION_LINK_TAG,
+  PROGRESS_VIEW_TAG,
+  TEXT_EDITOR_TAG,
+  VALUE_GAUGE_TAG,
 };
 export {
   Badge,
@@ -121,6 +145,14 @@ export {
   TokenField,
   Toolbar,
   WebView,
+  ActionMenu,
+  AsyncImage,
+  ContentUnavailable,
+  DatePicker,
+  NavigationLink,
+  ProgressView,
+  TextEditor,
+  ValueGauge,
 };
 
 const CORE_CLASSES: CustomElementConstructor[] = [
@@ -152,7 +184,17 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   TokenField,
   Toolbar,
   WebView,
+  ActionMenu,
+  AsyncImage,
+  ContentUnavailable,
+  DatePicker,
+  NavigationLink,
+  ProgressView,
+  TextEditor,
+  ValueGauge,
 ];
+
+const swiftui = (page: string): string => `https://developer.apple.com/documentation/swiftui/${page}`;
 
 const hig = (page: string): string => `https://developer.apple.com/design/human-interface-guidelines/${page}`;
 
@@ -194,6 +236,14 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Token field", group: "Navigation and search", description: "Editable token list with add and remove events.", higPage: hig("token-fields") },
   { title: "Toolbar", group: "Menus and actions", description: "Horizontal action strip with slotted controls.", higPage: hig("toolbars") },
   { title: "Web view", group: "Content", description: "Sandboxed inline HTML surface.", higPage: hig("web-views") },
+  { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
+  { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
+  { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
+  { title: "Date picker", group: "Selection and input", description: "Absolute date and optional time selection with bounds.", higPage: swiftui("datepicker") },
+  { title: "Navigation link", group: "Navigation and search", description: "Row that pushes a detail view and emits a route.", higPage: swiftui("navigationstack") },
+  { title: "Progress view", group: "Status", description: "Determinate or indeterminate progress with labelled bounds.", higPage: swiftui("progressview") },
+  { title: "Text editor", group: "Selection and input", description: "Long-form text entry with a live character count.", higPage: swiftui("texteditor") },
+  { title: "Value gauge", group: "Status", description: "Bounded measure with circular or linear presentation.", higPage: swiftui("gauge") },
 ];
 
 /** Every registered Glass Kit element, with HIG provenance where applicable. */
