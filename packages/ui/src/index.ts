@@ -51,6 +51,9 @@ import { CANVAS_VIEW_TAG, CanvasView } from "./components/canvas-view.js";
 import { SCROLL_NAVIGATOR_TAG, ScrollNavigator } from "./components/scroll-navigator.js";
 import { SHARE_ACTION_TAG, ShareAction } from "./components/share-action.js";
 import { LONG_PRESS_TAG, LongPress } from "./components/long-press.js";
+import { PASTE_BUTTON_TAG, PasteButton } from "./components/paste-button.js";
+import { MULTI_DATE_PICKER_TAG, MultiDatePicker } from "./components/multi-date-picker.js";
+import { LAZY_STACK_TAG, LazyStack } from "./components/lazy-stack.js";
 import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
 import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
 import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
@@ -116,6 +119,9 @@ const CORE_TAGS = [
   SCROLL_NAVIGATOR_TAG,
   SHARE_ACTION_TAG,
   LONG_PRESS_TAG,
+  PASTE_BUTTON_TAG,
+  MULTI_DATE_PICKER_TAG,
+  LAZY_STACK_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -179,6 +185,9 @@ export {
   SCROLL_NAVIGATOR_TAG,
   SHARE_ACTION_TAG,
   LONG_PRESS_TAG,
+  PASTE_BUTTON_TAG,
+  MULTI_DATE_PICKER_TAG,
+  LAZY_STACK_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -241,6 +250,9 @@ export {
   ScrollNavigator,
   ShareAction,
   LongPress,
+  PasteButton,
+  MultiDatePicker,
+  LazyStack,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -304,6 +316,9 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   ScrollNavigator,
   ShareAction,
   LongPress,
+  PasteButton,
+  MultiDatePicker,
+  LazyStack,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -380,6 +395,9 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Scroll navigator", group: "Navigation", description: "Scroll-proxy target buttons with live position and scroll-to events.", higPage: swiftui("scrollviewreader") },
   { title: "Share action", group: "Menus and actions", description: "Share sheet with copy, draft, and local destinations plus share events.", higPage: swiftui("sharelink") },
   { title: "Long press", group: "Gestures", description: "Held action with progress feedback, completion, start, and cancel events.", higPage: swiftui("longpressgesture") },
+  { title: "Paste button", group: "Selection and input", description: "Clipboard paste control with editable value and paste events.", higPage: swiftui("pastebutton") },
+  { title: "Multi-date picker", group: "Selection and input", description: "Month grid that toggles several dates with ISO values and change events.", higPage: swiftui("multidatepicker") },
+  { title: "Lazy stack", group: "Layout", description: "Virtualized vertical or horizontal rows with rendered range and selection events.", higPage: swiftui("lazyvstack") },
   { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
   { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
   { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
