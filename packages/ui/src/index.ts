@@ -54,6 +54,9 @@ import { LONG_PRESS_TAG, LongPress } from "./components/long-press.js";
 import { PASTE_BUTTON_TAG, PasteButton } from "./components/paste-button.js";
 import { MULTI_DATE_PICKER_TAG, MultiDatePicker } from "./components/multi-date-picker.js";
 import { LAZY_STACK_TAG, LazyStack } from "./components/lazy-stack.js";
+import { DRAG_SURFACE_TAG, DragSurface } from "./components/drag-surface.js";
+import { TAP_COUNTER_TAG, TapCounter } from "./components/tap-counter.js";
+import { LAZY_GRID_TAG, LazyGrid } from "./components/lazy-grid.js";
 import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
 import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
 import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
@@ -122,6 +125,9 @@ const CORE_TAGS = [
   PASTE_BUTTON_TAG,
   MULTI_DATE_PICKER_TAG,
   LAZY_STACK_TAG,
+  DRAG_SURFACE_TAG,
+  TAP_COUNTER_TAG,
+  LAZY_GRID_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -188,6 +194,9 @@ export {
   PASTE_BUTTON_TAG,
   MULTI_DATE_PICKER_TAG,
   LAZY_STACK_TAG,
+  DRAG_SURFACE_TAG,
+  TAP_COUNTER_TAG,
+  LAZY_GRID_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -253,6 +262,9 @@ export {
   PasteButton,
   MultiDatePicker,
   LazyStack,
+  DragSurface,
+  TapCounter,
+  LazyGrid,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -319,6 +331,9 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   PasteButton,
   MultiDatePicker,
   LazyStack,
+  DragSurface,
+  TapCounter,
+  LazyGrid,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -398,6 +413,9 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Paste button", group: "Selection and input", description: "Clipboard paste control with editable value and paste events.", higPage: swiftui("pastebutton") },
   { title: "Multi-date picker", group: "Selection and input", description: "Month grid that toggles several dates with ISO values and change events.", higPage: swiftui("multidatepicker") },
   { title: "Lazy stack", group: "Layout", description: "Virtualized vertical or horizontal rows with rendered range and selection events.", higPage: swiftui("lazyvstack") },
+  { title: "Drag surface", group: "Gestures", description: "Pointer drag with live coordinate readout, drag lifecycle, and reset.", higPage: swiftui("draggesture") },
+  { title: "Tap counter", group: "Gestures", description: "Counted tap gesture with goal progress and completion events.", higPage: swiftui("tapgesture") },
+  { title: "Lazy grid", group: "Layout", description: "Virtualized horizontal grid columns with rendered range and selection events.", higPage: swiftui("lazyhgrid") },
   { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
   { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
   { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
