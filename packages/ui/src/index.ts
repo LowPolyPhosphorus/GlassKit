@@ -63,6 +63,9 @@ import { LIST_VIEW_TAG, ListView } from "./components/list-view.js";
 import { RICH_TEXT_TAG, RichText } from "./components/rich-text.js";
 import { ICON_LABEL_TAG, IconLabel } from "./components/icon-label.js";
 import { GRID_LAYOUT_TAG, GridLayout } from "./components/grid-layout.js";
+import { PUSH_BUTTON_TAG, PushButton } from "./components/push-button.js";
+import { NAV_PANE_TAG, NavPane } from "./components/nav-pane.js";
+import { CHECK_ROW_TAG, CheckRow } from "./components/check-row.js";
 import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
 import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
 import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
@@ -140,6 +143,9 @@ const CORE_TAGS = [
   RICH_TEXT_TAG,
   ICON_LABEL_TAG,
   GRID_LAYOUT_TAG,
+  PUSH_BUTTON_TAG,
+  NAV_PANE_TAG,
+  CHECK_ROW_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -215,6 +221,9 @@ export {
   RICH_TEXT_TAG,
   ICON_LABEL_TAG,
   GRID_LAYOUT_TAG,
+  PUSH_BUTTON_TAG,
+  NAV_PANE_TAG,
+  CHECK_ROW_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -289,6 +298,9 @@ export {
   RichText,
   IconLabel,
   GridLayout,
+  PushButton,
+  NavPane,
+  CheckRow,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -364,6 +376,9 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   RichText,
   IconLabel,
   GridLayout,
+  PushButton,
+  NavPane,
+  CheckRow,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -452,6 +467,9 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Rich text", group: "Text", description: "Styled text with scale, weight, italics, and copy feedback.", higPage: swiftui("text") },
   { title: "Icon label", group: "Text", description: "Title and generic glyph with title-only and icon-only variants.", higPage: swiftui("label") },
   { title: "Grid layout", group: "Layout", description: "Declarative grid cells with configurable columns, gap, and selection events.", higPage: swiftui("grid") },
+  { title: "Push button", group: "Buttons", description: "Bordered, filled, plain, and destructive button variants with activate events.", higPage: swiftui("button") },
+  { title: "Navigation pane", group: "Navigation and search", description: "Master and detail pane with selection, back navigation, and pane events.", higPage: swiftui("navigationview") },
+  { title: "Check row", group: "Selection and input", description: "Checklist row with leading or trailing check and check events.", higPage: swiftui("spacer") },
   { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
   { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
   { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
