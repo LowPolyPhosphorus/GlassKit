@@ -621,6 +621,116 @@ var body: some View &#123;
 dialog.addEventListener('gk-confirm', acknowledge);</code></pre>
           </div>
         </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">SecureField</p><h3>Private text entry</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/securefield" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-secure-field label="Password" value="glasskit-preview" caption="Masked until revealed." autocomplete="current-password"></gk-secure-field></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="SecureField code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>@State private var username: String = ""
+@State private var password: String = ""
+
+var body: some View &#123;
+    VStack &#123;
+        TextField("Username", text: $username)
+            .autocorrectionDisabled(true)
+            #if !os(macOS)
+            .textInputAutocapitalization(.never)
+            #endif
+
+        SecureField("Password", text: $password)
+            .onSubmit &#123;
+                handleLogin(username: username, password: password)
+            &#125;
+    &#125;
+    .textFieldStyle(.roundedBorder)
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-secure-field
+  label="Password"
+  caption="Masked until revealed."
+  autocomplete="current-password"&gt;
+&lt;/gk-secure-field&gt;
+
+field.addEventListener('gk-reveal-change', (event) =&gt; &#123;
+  showMask = !event.detail.revealed;
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">NavigationStack</p><h3>Root to detail</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/navigationstack" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-navigation-stack title="Destinations" items='[{"label":"Living Room","value":"living","detail":"6 devices","description":"Lights, climate, and media in the main living space."},{"label":"Kitchen","value":"kitchen","detail":"4 devices","description":"Counter lights, kettle, and fridge sensors."}]'></gk-navigation-stack></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="NavigationStack code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>NavigationStack &#123;
+    List(parks) &#123; park in
+        NavigationLink(park.name, value: park)
+    &#125;
+    .navigationDestination(for: Park.self) &#123; park in
+        ParkDetails(park: park)
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-navigation-stack
+  title="Destinations"
+  items='[&#123;"label":"Living Room","value":"living"&#125;,&#123;"label":"Kitchen","value":"kitchen"&#125;]'&gt;
+&lt;/gk-navigation-stack&gt;
+
+stack.addEventListener('gk-navigate', (event) =&gt; &#123;
+  route = event.detail.value;
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">LazyVGrid</p><h3>Responsive grids</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/lazyvgrid" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-grid-view caption="Rooms" columns="3" items='[{"label":"Living Room","value":"living","detail":"6 devices","badge":"Active"},{"label":"Kitchen","value":"kitchen","detail":"4 devices"},{"label":"Entry","value":"entry","detail":"2 devices","badge":"Away"}]' value="living"></gk-grid-view></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="LazyVGrid code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct VerticalSmileys: View &#123;
+    let columns = [GridItem(.flexible()), GridItem(.flexible())]
+
+    var body: some View &#123;
+        ScrollView &#123;
+            LazyVGrid(columns: columns) &#123;
+                ForEach(0x1f600...0x1f679, id: \.self) &#123; value in
+                    Text(String(format: "%x", value))
+                    Text(emoji(value))
+                        .font(.largeTitle)
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-grid-view
+  caption="Rooms"
+  columns="3"
+  items='[&#123;"label":"Living Room","value":"living","badge":"Active"&#125;]'
+  value="living"&gt;
+&lt;/gk-grid-view&gt;
+
+grid.addEventListener('gk-select', (event) =&gt; &#123;
+  activeRoom = event.detail.value;
+&#125;);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 

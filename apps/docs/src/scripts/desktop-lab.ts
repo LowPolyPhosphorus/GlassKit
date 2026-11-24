@@ -195,6 +195,7 @@ export function initDesktopLab(): void {
     "gk-point-select",
     "gk-load",
     "gk-sort",
+    "gk-reveal-change",
     "gk-error",
   ]) {
     canvas.addEventListener(name, (event) => {

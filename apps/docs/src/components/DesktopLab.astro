@@ -324,6 +324,7 @@ import Icon from "./Icon.astro";
               <div class="device-head"><strong>New recipe</strong><gk-badge tone="accent" dot>Input set</gk-badge></div>
               <gk-search-field label="Find a device" placeholder="Search rooms" scopes='["All","Lights","Climate"]' scope="All"></gk-search-field>
               <gk-text-field label="Recipe name" placeholder="e.g. Movie night" clearable></gk-text-field>
+              <gk-secure-field label="Hub PIN" value="2468" caption="Masked until revealed." autocomplete="off"></gk-secure-field>
               <gk-combo-box></gk-combo-box>
               <gk-color-picker label="Scene color" value="#0a84ff" swatches='["#0a84ff","#30d158","#ff9f0a"]'></gk-color-picker>
               <gk-value-picker label="Notify about" value="mentions" options='[{"label":"Direct messages","value":"direct"},{"label":"Mentions","value":"mentions"},{"label":"Anything","value":"all"}]'></gk-value-picker>
@@ -359,6 +360,10 @@ import Icon from "./Icon.astro";
             <gk-glass-panel class="device-card device-card--wide" tone="thin">
               <div class="device-head"><strong>Review &amp; actions</strong><gk-badge tone="success" dot>SwiftUI set</gk-badge></div>
               <gk-data-table caption="Affected devices" columns='[{"key":"name","title":"Device"},{"key":"room","title":"Room"},{"key":"state","title":"State","align":"end"}]' rows='[{"id":"lights","name":"Lights","room":"Living Room","state":"On"},{"id":"thermostat","name":"Thermostat","room":"Hallway","state":"Auto"}]' row-key="id" value="lights"></gk-data-table>
+              <gk-grid-view caption="Rooms" columns="3" items='[{"label":"Living Room","value":"living","detail":"6 devices","badge":"Active"},{"label":"Kitchen","value":"kitchen","detail":"4 devices"},{"label":"Entry","value":"entry","detail":"2 devices","badge":"Away"}]' value="living"></gk-grid-view>
+              <gk-navigation-stack title="Destinations" items='[{"label":"Living Room","value":"living","detail":"6 devices","description":"Lights, climate, and media in the main living space."},{"label":"Kitchen","value":"kitchen","detail":"4 devices","description":"Counter lights, kettle, and fridge sensors."}]' value="living">
+                <gk-text-field label="Room note" value="Scene uses the main hub."></gk-text-field>
+              </gk-navigation-stack>
               <gk-value-gauge label="Comfort" value="68" min="0" max="100" current-value-label="68%"></gk-value-gauge>
               <gk-navigation-link label="Living Room" detail="6 devices" value="living-room"></gk-navigation-link>
               <gk-action-menu label="Actions" items='[{"label":"Duplicate","detail":"Ctrl+D"},{"label":"Rename"},{"separator":true},{"label":"Delete","value":"delete"}]'></gk-action-menu>
