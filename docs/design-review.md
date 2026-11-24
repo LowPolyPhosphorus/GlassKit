@@ -2,6 +2,8 @@
 
 Date: 2026-11-23
 
+Revision 17 note: the registry grew from 107 to 110 tags. `gk-adaptive-view`, `gk-timeline-view`, and `gk-canvas-view` translate ViewThatFits, TimelineView, and Canvas into shadow-DOM components with measured responsive fallbacks, periodic clock updates, and a pointer drawing surface. The docs SwiftUI reference gallery now has 27 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven, all layout is flat-fill/hairline, and the drawing surface uses a flat token colour.
+
 Revision 16 note: the registry grew from 104 to 107 tags. `gk-outline-group`, `gk-group-box`, and `gk-labeled-content` translate OutlineGroup, GroupBox, and LabeledContent into shadow-DOM components with recursive selection, titled semantic grouping, and aligned key/value rows. The docs SwiftUI reference gallery now has 24 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven and the flat-fill/hairline material rule is unchanged.
 
 Revision 15 note: the registry grew from 101 to 104 tags. `gk-control-group`, `gk-navigation-split-view`, and `gk-confirmation-dialog` translate ControlGroup, NavigationSplitView, and ActionSheet into shadow-DOM components with grouped actions, column drill-down, and stacked contextual choices. The docs SwiftUI reference gallery now has 21 live examples, and the lab and 5185 panes exercise the same three elements. All counts remain registry-driven, and the flat-fill/hairline surface rule is unchanged.
