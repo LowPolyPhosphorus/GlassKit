@@ -192,7 +192,7 @@ installGlassKit();
       <header class="section-heading">
         <p class="eyebrow"><Icon name="components" /> Components</p>
         <h2>One kit. Every app surface.</h2>
-        <p class="lede">Eighty-one components cover every topic in Apple’s HIG Components index: core controls, layout, menus, navigation, presentation, selection, status, system experiences, and input. They share one token system and one event vocabulary.</p>
+        <p class="lede">The registry covers every topic in Apple’s HIG Components index, plus SwiftUI-derived views for dates, progress, menus, and content states. They share one token system and one event vocabulary.</p>
       </header>
       <div class="card-grid">
         <div class="card"><span class="card-icon"><Icon name="components" /></span><h3>Predictable events</h3><p>Core controls use <code>gk-activate</code>, <code>gk-change</code>, and <code>gk-input</code>; richer patterns add focused events such as <code>gk-select</code>, <code>gk-dismiss</code>, and <code>gk-point-select</code>.</p></div>
@@ -222,10 +222,198 @@ installGlassKit();
           <label class="atlas-picker-label">Component
             <select class="atlas-picker" id="atlas-component-picker" aria-label="Jump to a component"></select>
           </label>
-          <gk-badge id="atlas-count" tone="success">81 components</gk-badge>
+          <gk-badge id="atlas-count" tone="success">Components</gk-badge>
         </div>
         <div class="atlas-grid" data-component-atlas></div>
         <p class="atlas-status" data-atlas-status aria-live="polite">Interact with any component to see its event here.</p>
+      </div>
+    </section>
+
+    <section id="reference" class="section section--tinted">
+      <header class="section-heading">
+        <p class="eyebrow"><Icon name="code" /> SwiftUI reference</p>
+        <h2>Real docs. Honest translations.</h2>
+        <p class="lede">These Swift snippets come from Apple’s SwiftUI documentation. Each one sits beside the live GlassKit translation, with the same bounds, labels, loading states, and event shape. Source links open the original doc page.</p>
+      </header>
+
+      <div class="reference-grid">
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">DatePicker</p><h3>Start date</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/datepicker" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-date-picker label="Start Date" value="2026-11-23" components="date"></gk-date-picker></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="DatePicker code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>@State private var date = Date()
+
+var body: some View &#123;
+    DatePicker(
+        "Start Date",
+        selection: $date,
+        displayedComponents: [.date]
+    )
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-date-picker
+  label="Start Date"
+  value="2026-11-23"
+  components="date"&gt;
+&lt;/gk-date-picker&gt;
+
+picker.addEventListener('gk-change', (event) =&gt; &#123;
+  save(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">ProgressView</p><h3>Sync progress</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/progressview" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-progress-view label="Syncing" value="68" total="100" current-value-label="68%"></gk-progress-view></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="ProgressView code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct LinearProgressDemoView: View &#123;
+    @State private var progress = 0.5
+
+    var body: some View &#123;
+        VStack &#123;
+            ProgressView(value: progress)
+            Button("More") &#123; progress += 0.05 &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-progress-view
+  label="Syncing"
+  value="68"
+  total="100"
+  current-value-label="68%"&gt;
+&lt;/gk-progress-view&gt;
+
+progressView.value = 84; // animates the fill</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">ContentUnavailableView</p><h3>No results</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/contentunavailableview" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-content-unavailable search action-label="Clear filter"></gk-content-unavailable></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="ContentUnavailableView code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>.overlay &#123;
+    if searchResults.isEmpty &amp;&amp; !searchText.isEmpty &#123;
+        ContentUnavailableView.search
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-content-unavailable
+  search
+  action-label="Clear filter"&gt;
+&lt;/gk-content-unavailable&gt;
+
+empty.addEventListener('gk-activate', clearSearch);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">Menu</p><h3>Actions</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/menu" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-action-menu label="Actions" items='[{"label":"Duplicate","detail":"⌘D"},{"label":"Rename"},{"separator":true},{"label":"Delete","value":"delete"}]'></gk-action-menu></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="Menu code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>Menu("Actions") &#123;
+    Button("Duplicate", action: duplicate)
+    Button("Rename", action: rename)
+    Button("Delete…", action: delete)
+    Menu("Copy") &#123;
+        Button("Copy", action: copy)
+        Button("Copy Formatted", action: copyFormatted)
+        Button("Copy Library Path", action: copyPath)
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-action-menu
+  label="Actions"
+  items='[&#123;"label":"Duplicate"&#125;,&#123;"label":"Rename"&#125;]'&gt;
+&lt;/gk-action-menu&gt;
+
+menu.addEventListener('gk-select', (event) =&gt; &#123;
+  run(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">TextEditor</p><h3>Long-form notes</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/texteditor" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-text-editor label="Notes" value="Describe the scene you want to save." rows="3" max-length="120"></gk-text-editor></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="TextEditor code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct TextEditingView: View &#123;
+    @State private var fullText: String = "This is some editable text..."
+
+    var body: some View &#123;
+        TextEditor(text: $fullText)
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-text-editor
+  label="Notes"
+  rows="3"
+  max-length="120"&gt;
+&lt;/gk-text-editor&gt;
+
+editor.addEventListener('gk-input', (event) =&gt; &#123;
+  draft = event.detail.value;
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">AsyncImage</p><h3>Real loading states</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/asyncimage" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-async-image alt="Abstract preview" ratio="16 / 9" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%231c1c1e'/%3E%3Ccircle cx='160' cy='90' r='30' fill='none' stroke='%230a84ff' stroke-width='4'/%3E%3C/svg%3E"></gk-async-image></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="AsyncImage code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>AsyncImage(url: URL(string: "https://example.com/icon.png")) &#123; image in
+    image.resizable()
+&#125; placeholder: &#123;
+    ProgressView()
+&#125;
+.frame(width: 50, height: 50)</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-async-image
+  src="/assets/room-thumb.webp"
+  alt="Living room preview"
+  ratio="16 / 9"&gt;
+&lt;/gk-async-image&gt;
+
+image.addEventListener('gk-error', showFallback);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 

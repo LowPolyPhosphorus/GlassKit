@@ -364,6 +364,104 @@ main {
   color: var(--page-green);
 }
 
+.reference-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.reference-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--page-line);
+  border-radius: 18px;
+  background: var(--page-card);
+}
+
+.reference-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.reference-card__head h3 {
+  margin: 4px 0 0;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.reference-card__head a {
+  flex: none;
+  color: var(--page-accent);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.reference-card__head a:hover { text-decoration: underline; }
+
+.reference-card__preview {
+  display: grid;
+  align-items: center;
+  min-height: 132px;
+  margin-bottom: 14px;
+  padding: 14px;
+  border: 1px solid var(--page-soft-line);
+  border-radius: 14px;
+  background: var(--page-tint);
+}
+
+.code-tabs {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-top: auto;
+  overflow: hidden;
+  border: 1px solid var(--page-soft-line);
+  border-radius: 12px;
+  background: var(--page-surface);
+}
+
+.code-tabs__bar {
+  display: flex;
+  gap: 4px;
+  padding: 6px;
+  border-bottom: 1px solid var(--page-soft-line);
+}
+
+.code-tabs__bar button {
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--page-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.code-tabs__bar button[aria-selected="true"] {
+  background: var(--page-accent-fill);
+  color: var(--page-accent);
+}
+
+.code-tabs pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  color: var(--page-text);
+  font-size: 12px;
+  line-height: 1.65;
+  tab-size: 4;
+}
+
+.code-tabs pre[hidden] { display: none; }
+
 .section {
   position: relative;
   padding: 92px 0;
@@ -1294,7 +1392,8 @@ tr:last-child td {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .recipe-grid {
+  .recipe-grid,
+  .reference-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1318,6 +1417,7 @@ tr:last-child td {
   .card-grid--two,
   .material-stack,
   .room-grid,
+  .reference-grid,
   .footer-shell {
     grid-template-columns: 1fr;
   }

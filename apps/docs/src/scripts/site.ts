@@ -73,6 +73,26 @@ const PREVIEW_ATTRIBUTES: Record<string, Record<string, string>> = {
   "gk-token-field": { label: "Rooms", placeholder: "Add a room", tokens: '["Kitchen","Hallway"]' },
   "gk-virtual-keyboard": {},
   "gk-web-view": { title: "Inline content", height: "90", srcdoc: "<p>Sandboxed content stays inside the app.</p>" },
+  "gk-action-menu": {
+    label: "Actions",
+    items: '[{"label":"Duplicate","detail":"⌘D"},{"label":"Rename"},{"separator":true},{"label":"Delete","value":"delete"}]',
+  },
+  "gk-async-image": {
+    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%231c1c1e'/%3E%3Ccircle cx='160' cy='90' r='30' fill='none' stroke='%230a84ff' stroke-width='4'/%3E%3C/svg%3E",
+    alt: "Abstract preview",
+    ratio: "16 / 9",
+  },
+  "gk-content-unavailable": {
+    title: "No results",
+    message: "Try a different room or clear the filter.",
+    "action-label": "Clear filter",
+    search: "",
+  },
+  "gk-date-picker": { label: "Start date", value: "2026-11-23T09:00", components: "date,hourAndMinute" },
+  "gk-navigation-link": { label: "Living Room", detail: "6 devices", value: "living-room" },
+  "gk-progress-view": { label: "Syncing", value: "68", total: "100", "current-value-label": "68%" },
+  "gk-text-editor": { label: "Notes", value: "Describe the scene you want to save.", rows: "3", "max-length": "120" },
+  "gk-value-gauge": { label: "Comfort", value: "68", min: "0", max: "100", "current-value-label": "68%" },
 };
 
 const GROUP_ORDER = [
@@ -192,7 +212,7 @@ function renderComponentAtlas(host: HTMLElement, compact: boolean): number {
           link.href = component.higPage;
           link.target = "_blank";
           link.rel = "noreferrer";
-          link.textContent = "HIG reference ↗";
+          link.textContent = "Reference ↗";
           card.append(link);
         }
       }
@@ -285,6 +305,34 @@ function configureComponentAtlas(): void {
     control?.addEventListener("gk-input", paint);
     control?.addEventListener("gk-change", paint);
     control?.addEventListener("change", paint);
+  }
+}
+
+function configureCodeTabs(): void {
+  for (const tabs of Array.from(document.querySelectorAll<HTMLElement>("[data-code-tabs]"))) {
+    const buttons = Array.from(tabs.querySelectorAll<HTMLButtonElement>("[data-code-target]"));
+    const panels = Array.from(tabs.querySelectorAll<HTMLElement>("[data-code-panel]"));
+
+    const select = (target: string): void => {
+      for (const button of buttons) {
+        button.setAttribute("aria-selected", String(button.dataset.codeTarget === target));
+      }
+      for (const panel of panels) panel.hidden = panel.dataset.codePanel !== target;
+    };
+
+    for (const [index, button] of buttons.entries()) {
+      button.addEventListener("click", () => select(button.dataset.codeTarget ?? "swift"));
+      button.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        const step = event.key === "ArrowRight" ? 1 : -1;
+        const next = buttons[(index + step + buttons.length) % buttons.length]!;
+        next.focus();
+        select(next.dataset.codeTarget ?? "swift");
+      });
+    }
+
+    select(buttons.find((button) => button.getAttribute("aria-selected") === "true")?.dataset.codeTarget ?? "swift");
   }
 }
 
@@ -521,6 +569,7 @@ configureTheme();
 configureMaterial();
 configureAccents();
 configureEventStrip();
+configureCodeTabs();
 configureMotion();
 configureNative();
 configureComponentAtlas();
