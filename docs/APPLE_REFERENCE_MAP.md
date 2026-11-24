@@ -58,13 +58,13 @@ These are relevant to Apple's ecosystem but low priority for a Windows desktop U
 
 ## HIG Components index coverage
 
-The Components index has 77 topic pages. All 77 are represented in Glass Kit by 104 registered tags: 51 core elements (28 original plus 23 SwiftUI-derived) and 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
+The Components index has 77 topic pages. All 77 are represented in Glass Kit by 107 registered tags: 54 core elements (28 original plus 26 SwiftUI-derived) and 53 declarative atlas patterns. Some topics have more than one tag where a family needs both a reusable primitive and a translated pattern, such as sidebars plus sidebar items or lists and tables plus list rows.
 
 Each `COMPONENT_REGISTRY` entry carries its HIG source page. The same registry renders the docs homepage atlas, the smart-home lab atlas, and the 5185 Settings Glass Kit pane, so coverage is exercised in all three surfaces.
 
 ## SwiftUI-derived component coverage
 
-The 23 SwiftUI-derived elements translate declarative view behaviour into shadow-DOM Web Components. Their code examples on the docs homepage come from Apple's DocC JSON for each linked page; the GlassKit half shows the equivalent markup and event. No Apple assets, symbols, or platform chrome are shipped.
+The 26 SwiftUI-derived elements translate declarative view behaviour into shadow-DOM Web Components. Their code examples on the docs homepage come from Apple's DocC JSON for each linked page; the GlassKit half shows the equivalent markup and event. No Apple assets, symbols, or platform chrome are shipped.
 
 | SwiftUI source | Glass Kit element | Extracted behaviour |
 |---|---|---|
@@ -90,6 +90,9 @@ The 23 SwiftUI-derived elements translate declarative view behaviour into shadow
 | [ControlGroup](https://developer.apple.com/documentation/swiftui/controlgroup) | `gk-control-group` | Related actions with shared `gk-control` event |
 | [NavigationSplitView](https://developer.apple.com/documentation/swiftui/navigationsplitview) | `gk-navigation-split-view` | Two- or three-column selection with a live route |
 | [ActionSheet](https://developer.apple.com/documentation/swiftui/actionsheet) | `gk-confirmation-dialog` | Stacked cancel, default, and destructive choices |
+| [OutlineGroup](https://developer.apple.com/documentation/swiftui/outlinegroup) | `gk-outline-group` | Recursive disclosure tree with single selection |
+| [GroupBox](https://developer.apple.com/documentation/swiftui/groupbox) | `gk-group-box` | Titled semantic container with caption and actions |
+| [LabeledContent](https://developer.apple.com/documentation/swiftui/labeledcontent) | `gk-labeled-content` | Aligned key/value rows with copy and secondary actions |
 
 | Glass Kit family | Representative HIG topics | Tags |
 |---|---|---|

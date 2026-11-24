@@ -2,6 +2,8 @@
 
 Date: 2026-11-23
 
+Revision 16 note: the registry grew from 104 to 107 tags. `gk-outline-group`, `gk-group-box`, and `gk-labeled-content` translate OutlineGroup, GroupBox, and LabeledContent into shadow-DOM components with recursive selection, titled semantic grouping, and aligned key/value rows. The docs SwiftUI reference gallery now has 24 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven and the flat-fill/hairline material rule is unchanged.
+
 Revision 15 note: the registry grew from 101 to 104 tags. `gk-control-group`, `gk-navigation-split-view`, and `gk-confirmation-dialog` translate ControlGroup, NavigationSplitView, and ActionSheet into shadow-DOM components with grouped actions, column drill-down, and stacked contextual choices. The docs SwiftUI reference gallery now has 21 live examples, and the lab and 5185 panes exercise the same three elements. All counts remain registry-driven, and the flat-fill/hairline surface rule is unchanged.
 
 Revision 14 note: `gk-glass-panel` no longer paints a decorative gradient. Its specular cue is a one-pixel flat hairline, so every surface now uses flat fills and hairlines only; real blur remains the native HWND material in the Tauri host.

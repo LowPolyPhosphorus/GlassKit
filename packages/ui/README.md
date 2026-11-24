@@ -1,6 +1,6 @@
 # @glasskit/ui
 
-Framework-agnostic Web Components for Glass Kit. The package exports 104 registered elements — 51 core components (28 original plus 23 SwiftUI-derived) and a 53-pattern atlas covering all 77 topics in Apple’s HIG Components index — and one idempotent installer.
+Framework-agnostic Web Components for Glass Kit. The package exports 107 registered elements — 54 core components (28 original plus 26 SwiftUI-derived) and a 53-pattern atlas covering all 77 topics in Apple’s HIG Components index — and one idempotent installer.
 
 ```ts
 import { installGlassKit } from "@glasskit/ui";
@@ -35,7 +35,7 @@ installGlassKit();
 - **Navigation and search:** `gk-path-control`, `gk-search-field`, `gk-sidebar`, `gk-sidebar-item`, `gk-tab-bar`, `gk-token-field`
 - **Status and feedback:** `gk-control-tile`, `gk-live-activity`, `gk-notification`, `gk-snippet`, `gk-status-bar`
 - **Media and data:** `gk-chart`, `gk-image-view`, `gk-web-view`
-- **SwiftUI-derived:** `gk-date-picker`, `gk-progress-view`, `gk-content-unavailable`, `gk-action-menu`, `gk-text-editor`, `gk-async-image`, `gk-value-gauge`, `gk-navigation-link`, `gk-alert-dialog`, `gk-color-picker`, `gk-data-table`, `gk-stepper-control`, `gk-value-picker`, `gk-web-link`, `gk-grid-view`, `gk-navigation-stack`, `gk-secure-field`, `gk-disclosure-group`, `gk-editable-list`, `gk-form`, `gk-control-group`, `gk-navigation-split-view`, `gk-confirmation-dialog`
+- **SwiftUI-derived:** `gk-date-picker`, `gk-progress-view`, `gk-content-unavailable`, `gk-action-menu`, `gk-text-editor`, `gk-async-image`, `gk-value-gauge`, `gk-navigation-link`, `gk-alert-dialog`, `gk-color-picker`, `gk-data-table`, `gk-stepper-control`, `gk-value-picker`, `gk-web-link`, `gk-grid-view`, `gk-navigation-stack`, `gk-secure-field`, `gk-disclosure-group`, `gk-editable-list`, `gk-form`, `gk-control-group`, `gk-navigation-split-view`, `gk-confirmation-dialog`, `gk-outline-group`, `gk-group-box`, `gk-labeled-content`
 - **HIG atlas:** `gk-text-view`, `gk-tab-view`, `gk-split-view`, `gk-color-well`, `gk-stepper`, `gk-popover`, `gk-menu`, `gk-widget`, `gk-gesture`, and 44 more topic patterns
 
 `COMPONENT_REGISTRY` is the single source of truth for tag, constructor, title, group, description, and HIG source page. `installGlassKit()` registers every entry once. Sliders, text fields, color wells, and toggles follow their HIG pages at the visual and interaction level; all patterns keep Windows-native behaviour and use no Apple artwork, fonts, or symbols.
