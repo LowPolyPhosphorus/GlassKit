@@ -1,6 +1,6 @@
 # @glasskit/ui
 
-Framework-agnostic Web Components for Glass Kit. The package exports 81 registered elements — 28 core components plus a 53-pattern atlas covering all 77 topics in Apple’s HIG Components index — and one idempotent installer.
+Framework-agnostic Web Components for Glass Kit. The package exports 95 registered elements — 42 core components (28 original plus 14 SwiftUI-derived) and a 53-pattern atlas covering all 77 topics in Apple’s HIG Components index — and one idempotent installer.
 
 ```ts
 import { installGlassKit } from "@glasskit/ui";
@@ -35,6 +35,7 @@ installGlassKit();
 - **Navigation and search:** `gk-path-control`, `gk-search-field`, `gk-sidebar`, `gk-sidebar-item`, `gk-tab-bar`, `gk-token-field`
 - **Status and feedback:** `gk-control-tile`, `gk-live-activity`, `gk-notification`, `gk-snippet`, `gk-status-bar`
 - **Media and data:** `gk-chart`, `gk-image-view`, `gk-web-view`
+- **SwiftUI-derived:** `gk-date-picker`, `gk-progress-view`, `gk-content-unavailable`, `gk-action-menu`, `gk-text-editor`, `gk-async-image`, `gk-value-gauge`, `gk-navigation-link`, `gk-alert-dialog`, `gk-color-picker`, `gk-data-table`, `gk-stepper-control`, `gk-value-picker`, `gk-web-link`
 - **HIG atlas:** `gk-text-view`, `gk-tab-view`, `gk-split-view`, `gk-color-well`, `gk-stepper`, `gk-popover`, `gk-menu`, `gk-widget`, `gk-gesture`, and 44 more topic patterns
 
 `COMPONENT_REGISTRY` is the single source of truth for tag, constructor, title, group, description, and HIG source page. `installGlassKit()` registers every entry once. Sliders, text fields, color wells, and toggles follow their HIG pages at the visual and interaction level; all patterns keep Windows-native behaviour and use no Apple artwork, fonts, or symbols.
@@ -45,4 +46,4 @@ Components use CSS variables from `@glasskit/tokens`, so light/dark theming is j
 
 Core controls emit `gk-activate`, `gk-input`, and `gk-change`: segmented controls, sliders, text fields, search fields, and token fields include `detail.value`; toggles include `detail.checked`.
 
-Richer patterns add focused events: `gk-select`, `gk-navigate`, `gk-open`, `gk-close`, `gk-scope-change`, `gk-token-add`, `gk-token-remove`, `gk-token-change`, `gk-toggle`, `gk-state-change`, `gk-dismiss`, `gk-expand-change`, `gk-confirm`, `gk-cancel`, `gk-snippet-action`, `gk-point-select`, `gk-error`, and `gk-load`. All events bubble and cross the shadow boundary.
+Richer patterns add focused events: `gk-select`, `gk-navigate`, `gk-open`, `gk-close`, `gk-scope-change`, `gk-token-add`, `gk-token-remove`, `gk-token-change`, `gk-toggle`, `gk-state-change`, `gk-dismiss`, `gk-expand-change`, `gk-confirm`, `gk-cancel`, `gk-snippet-action`, `gk-point-select`, `gk-sort`, `gk-error`, and `gk-load`. All events bubble and cross the shadow boundary.

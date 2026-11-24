@@ -27,6 +27,12 @@ import { SNIPPET_TAG, Snippet } from "./components/snippet.js";
 import { IMAGE_VIEW_TAG, ImageView } from "./components/image-view.js";
 import { CHART_TAG, Chart } from "./components/chart.js";
 import { WEB_VIEW_TAG, WebView } from "./components/web-view.js";
+import { ALERT_DIALOG_TAG, AlertDialog } from "./components/alert-dialog.js";
+import { COLOR_PICKER_TAG, ColorPicker } from "./components/color-picker.js";
+import { DATA_TABLE_TAG, DataTable } from "./components/data-table.js";
+import { STEPPER_TAG, Stepper } from "./components/stepper.js";
+import { VALUE_PICKER_TAG, ValuePicker } from "./components/value-picker.js";
+import { WEB_LINK_TAG, WebLink } from "./components/web-link.js";
 import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
 import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
 import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
@@ -68,6 +74,12 @@ const CORE_TAGS = [
   TOKEN_FIELD_TAG,
   TOOLBAR_TAG,
   WEB_VIEW_TAG,
+  ALERT_DIALOG_TAG,
+  COLOR_PICKER_TAG,
+  DATA_TABLE_TAG,
+  STEPPER_TAG,
+  VALUE_PICKER_TAG,
+  WEB_LINK_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -107,6 +119,12 @@ export {
   TOKEN_FIELD_TAG,
   TOOLBAR_TAG,
   WEB_VIEW_TAG,
+  ALERT_DIALOG_TAG,
+  COLOR_PICKER_TAG,
+  DATA_TABLE_TAG,
+  STEPPER_TAG,
+  VALUE_PICKER_TAG,
+  WEB_LINK_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -145,6 +163,12 @@ export {
   TokenField,
   Toolbar,
   WebView,
+  AlertDialog,
+  ColorPicker,
+  DataTable,
+  Stepper,
+  ValuePicker,
+  WebLink,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -184,6 +208,12 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   TokenField,
   Toolbar,
   WebView,
+  AlertDialog,
+  ColorPicker,
+  DataTable,
+  Stepper,
+  ValuePicker,
+  WebLink,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -236,6 +266,12 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Token field", group: "Navigation and search", description: "Editable token list with add and remove events.", higPage: hig("token-fields") },
   { title: "Toolbar", group: "Menus and actions", description: "Horizontal action strip with slotted controls.", higPage: hig("toolbars") },
   { title: "Web view", group: "Content", description: "Sandboxed inline HTML surface.", higPage: hig("web-views") },
+  { title: "Alert dialog", group: "Presentation", description: "Focus-managed confirmation with confirm and cancel actions.", higPage: swiftui("alert") },
+  { title: "Color picker", group: "Selection and input", description: "Native color input, hex entry, and suggested swatches.", higPage: swiftui("colorpicker") },
+  { title: "Data table", group: "Content", description: "Sortable, selectable rows with accessible column headers.", higPage: swiftui("table") },
+  { title: "Stepper control", group: "Selection and input", description: "Bounded increment and decrement with wrap support.", higPage: swiftui("stepper") },
+  { title: "Value picker", group: "Selection and input", description: "Radio-style selection with labels, details, and disabled options.", higPage: swiftui("picker") },
+  { title: "Web link", group: "Navigation and search", description: "Safe external link with a route event and visible affordance.", higPage: swiftui("link") },
   { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
   { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
   { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
