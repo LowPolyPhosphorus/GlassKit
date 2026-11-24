@@ -973,6 +973,91 @@ dialog.addEventListener('gk-confirm', (event) =&gt; &#123;
 &#125;);</code></pre>
           </div>
         </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">OutlineGroup</p><h3>Hierarchical rows</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/outlinegroup" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-outline-group label="Project files" items='[{"label":"Sources","value":"sources","expanded":true,"detail":"12 files","children":[{"label":"Components","value":"components","detail":"8 files"},{"label":"Styles","value":"styles","detail":"4 files"}]},{"label":"Tests","value":"tests","detail":"6 files","children":[{"label":"Unit","value":"unit","detail":"4 files"}]}]'></gk-outline-group></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="OutlineGroup code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>OutlineGroup(data, children: \.children) &#123; item in
+    Text("\(item.description)")
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-outline-group
+  label="Project files"
+  items='[&#123;"label":"Sources","expanded":true,"children":[&#123;"label":"Components"&#125;]&#125;]'&gt;
+&lt;/gk-outline-group&gt;
+
+tree.addEventListener('gk-outline-select', (event) =&gt; &#123;
+  openFile(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">GroupBox</p><h3>Titled container</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/groupbox" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-group-box label="Scene summary" caption="Current room configuration" content="Six devices respond to this scene." actions='[{"label":"Edit","value":"edit"},{"label":"Run","value":"run","variant":"primary"}]'></gk-group-box></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="GroupBox code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>GroupBox(label: Label("End-User Agreement", systemImage: "building.columns")) &#123;
+    Toggle(isOn: $userAgreed) &#123;
+        Text("I agree to the above terms")
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-group-box
+  label="Scene summary"
+  caption="Current room configuration"
+  content="Six devices respond to this scene."
+  actions='[&#123;"label":"Run","value":"run","variant":"primary"&#125;]'&gt;
+&lt;/gk-group-box&gt;
+
+box.addEventListener('gk-group-action', (event) =&gt; &#123;
+  runAction(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">LabeledContent</p><h3>Key and value rows</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/labeledcontent" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-labeled-content label="Hub details" rows='[{"label":"Name","value":"Living Room Hub","copy":true},{"label":"Status","value":"Online","detail":"updated just now"},{"label":"Firmware","value":"2.4.1","action":"Update"}]'></gk-labeled-content></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="LabeledContent code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>Form &#123;
+    LabeledContent("Custom Value") &#123;
+        MyCustomView(value: $value)
+    &#125;
+    Picker("Selected Value", selection: $selection) &#123;
+        Text("Option 1").tag(1)
+        Text("Option 2").tag(2)
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-labeled-content
+  label="Hub details"
+  rows='[&#123;"label":"Name","value":"Living Room Hub","copy":true&#125;,&#123;"label":"Firmware","value":"2.4.1","action":"Update"&#125;]'&gt;
+&lt;/gk-labeled-content&gt;
+
+details.addEventListener('gk-labeled-action', (event) =&gt; &#123;
+  update(event.detail.value);
+&#125;);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 

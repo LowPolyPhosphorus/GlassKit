@@ -166,6 +166,20 @@ const PREVIEW_ATTRIBUTES: Record<string, Record<string, string>> = {
     message: "Choose a destination for workout data.",
     actions: '[{"label":"Append to current workout","value":"append"},{"label":"Overwrite current workout","value":"overwrite","style":"destructive"},{"label":"Cancel","value":"cancel","style":"cancel"}]',
   },
+  "gk-outline-group": {
+    label: "Project files",
+    items: '[{"label":"Sources","value":"sources","expanded":true,"detail":"12 files","children":[{"label":"Components","value":"components","detail":"8 files"},{"label":"Styles","value":"styles","detail":"4 files"}]},{"label":"Tests","value":"tests","detail":"6 files","children":[{"label":"Unit","value":"unit","detail":"4 files"}]}]',
+  },
+  "gk-group-box": {
+    label: "Scene summary",
+    caption: "Current room configuration",
+    content: "Six devices respond to this scene.",
+    actions: '[{"label":"Edit","value":"edit"},{"label":"Run","value":"run","variant":"primary"}]',
+  },
+  "gk-labeled-content": {
+    label: "Hub details",
+    rows: '[{"label":"Name","value":"Living Room Hub","copy":true},{"label":"Status","value":"Online","detail":"updated just now"},{"label":"Firmware","value":"2.4.1","action":"Update"}]',
+  },
 };
 
 const GROUP_ORDER = [
