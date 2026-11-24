@@ -223,6 +223,12 @@ export function initDesktopLab(): void {
     "gk-paste",
     "gk-date-toggle",
     "gk-range-change",
+    "gk-drag-start",
+    "gk-drag-move",
+    "gk-drag-end",
+    "gk-tap",
+    "gk-tap-complete",
+    "gk-grid-range",
     "gk-error",
   ]) {
     canvas.addEventListener(name, (event) => {

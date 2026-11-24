@@ -224,6 +224,13 @@ const PREVIEW_ATTRIBUTES: Record<string, Record<string, string>> = {
     items: '[{"label":"Lamp on","value":"event-1","detail":"09:12"},{"label":"Climate set to 21°C","value":"event-2","detail":"09:18"},{"label":"Door locked","value":"event-3","detail":"09:24"},{"label":"Scene started","value":"event-4","detail":"09:31"},{"label":"Sensor clear","value":"event-5","detail":"09:44"},{"label":"Lamp off","value":"event-6","detail":"10:02"},{"label":"Energy report","value":"event-7","detail":"10:15"},{"label":"Camera online","value":"event-8","detail":"10:22"},{"label":"Scene ended","value":"event-9","detail":"10:38"},{"label":"Climate auto","value":"event-10","detail":"10:51"},{"label":"Door unlocked","value":"event-11","detail":"11:04"},{"label":"Backup complete","value":"event-12","detail":"11:20"}]',
     height: "150",
   },
+  "gk-drag-surface": { label: "Position sensor", x: "20", y: "20", height: "120" },
+  "gk-tap-counter": { label: "Calibrate", count: "3", value: "0" },
+  "gk-lazy-grid": {
+    label: "Room tiles",
+    items: '[{"label":"Lamp","value":"tile-1","detail":"01"},{"label":"Climate","value":"tile-2","detail":"02"},{"label":"Door","value":"tile-3","detail":"03"},{"label":"Camera","value":"tile-4","detail":"04"},{"label":"Scene","value":"tile-5","detail":"05"},{"label":"Energy","value":"tile-6","detail":"06"},{"label":"Sensor","value":"tile-7","detail":"07"},{"label":"Backup","value":"tile-8","detail":"08"},{"label":"Router","value":"tile-9","detail":"09"},{"label":"Speaker","value":"tile-10","detail":"10"},{"label":"Lock","value":"tile-11","detail":"11"},{"label":"Light","value":"tile-12","detail":"12"},{"label":"Bridge","value":"tile-13","detail":"13"},{"label":"Outlet","value":"tile-14","detail":"14"},{"label":"Thermostat","value":"tile-15","detail":"15"},{"label":"Hub","value":"tile-16","detail":"16"},{"label":"Meter","value":"tile-17","detail":"17"},{"label":"Panel","value":"tile-18","detail":"18"},{"label":"Gate","value":"tile-19","detail":"19"},{"label":"Garage","value":"tile-20","detail":"20"},{"label":"Porch","value":"tile-21","detail":"21"},{"label":"Hall","value":"tile-22","detail":"22"},{"label":"Studio","value":"tile-23","detail":"23"},{"label":"Yard","value":"tile-24","detail":"24"}]',
+    rows: "2",
+  },
 };
 
 const GROUP_ORDER = [

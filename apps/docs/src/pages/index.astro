@@ -1348,6 +1348,125 @@ list.addEventListener('gk-range-change', (event) =&gt; &#123;
 &#125;);</code></pre>
           </div>
         </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">DragGesture</p><h3>Pointer drag</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/draggesture" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-drag-surface label="Position sensor" x="20" y="20" height="120"></gk-drag-surface></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="DragGesture code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct DragGestureView: View &#123;
+    @State private var isDragging = false
+
+    var drag: some Gesture &#123;
+        DragGesture()
+            .onChanged &#123; _ in self.isDragging = true &#125;
+            .onEnded &#123; _ in self.isDragging = false &#125;
+    &#125;
+
+    var body: some View &#123;
+        Circle()
+            .fill(self.isDragging ? Color.red : Color.blue)
+            .frame(width: 100, height: 100, alignment: .center)
+            .gesture(drag)
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-drag-surface
+  label="Position sensor"
+  x="20" y="20"
+  height="120"&gt;
+&lt;/gk-drag-surface&gt;
+
+surface.addEventListener('gk-drag-end', (event) =&gt; &#123;
+  savePosition(event.detail.x, event.detail.y);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">TapGesture</p><h3>Counted taps</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/tapgesture" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-tap-counter label="Calibrate" count="3" value="0"></gk-tap-counter></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="TapGesture code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct TapGestureView: View &#123;
+    @State private var tapped = false
+
+    var tap: some Gesture &#123;
+        TapGesture(count: 1)
+            .onEnded &#123; _ in self.tapped = !self.tapped &#125;
+    &#125;
+
+    var body: some View &#123;
+        Circle()
+            .fill(self.tapped ? Color.blue : Color.red)
+            .frame(width: 100, height: 100, alignment: .center)
+            .gesture(tap)
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-tap-counter
+  label="Calibrate"
+  count="3" value="0"&gt;
+&lt;/gk-tap-counter&gt;
+
+counter.addEventListener('gk-tap-complete', (event) =&gt; &#123;
+  finishCalibration(event.detail.count);
+&#125;);</code></pre>
+          </div>
+        </article>
+
+        <article class="reference-card">
+          <header class="reference-card__head">
+            <div><p class="eyebrow">LazyHGrid</p><h3>Virtualized columns</h3></div>
+            <a href="https://developer.apple.com/documentation/swiftui/lazyhgrid" target="_blank" rel="noreferrer">Source ↗</a>
+          </header>
+          <div class="reference-card__preview"><gk-lazy-grid label="Room tiles" items='[{"label":"Lamp","value":"tile-1"},{"label":"Climate","value":"tile-2"},{"label":"Door","value":"tile-3"},{"label":"Camera","value":"tile-4"},{"label":"Scene","value":"tile-5"},{"label":"Energy","value":"tile-6"}]' rows="2"></gk-lazy-grid></div>
+          <div class="code-tabs" data-code-tabs>
+            <div class="code-tabs__bar" role="tablist" aria-label="LazyHGrid code">
+              <button type="button" role="tab" aria-selected="true" data-code-target="swift">SwiftUI</button>
+              <button type="button" role="tab" aria-selected="false" data-code-target="glass">GlassKit</button>
+            </div>
+            <pre data-code-panel="swift"><code>struct HorizontalSmileys: View &#123;
+    let rows = [GridItem(.fixed(30)), GridItem(.fixed(30))]
+
+    var body: some View &#123;
+        ScrollView(.horizontal) &#123;
+            LazyHGrid(rows: rows) &#123;
+                ForEach(0x1f600...0x1f679, id: \.self) &#123; value in
+                    Text(String(format: "%x", value))
+                    Text(emoji(value))
+                        .font(.largeTitle)
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    private func emoji(_ value: Int) -&gt; String &#123;
+        guard let scalar = UnicodeScalar(value) else &#123; return "?" &#125;
+        return String(Character(scalar))
+    &#125;
+&#125;</code></pre>
+            <pre data-code-panel="glass" hidden><code>&lt;gk-lazy-grid
+  label="Room tiles"
+  items='[&#123;"label":"Lamp","value":"tile-1"&#125;,&#123;"label":"Climate","value":"tile-2"&#125;]'
+  rows="2"&gt;
+&lt;/gk-lazy-grid&gt;
+
+grid.addEventListener('gk-grid-range', (event) =&gt; &#123;
+  prefetchColumns(event.detail.start, event.detail.end);
+&#125;);</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 
