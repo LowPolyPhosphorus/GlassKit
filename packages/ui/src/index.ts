@@ -42,6 +42,9 @@ import { FORM_TAG, GlassForm } from "./components/form.js";
 import { CONTROL_GROUP_TAG, ControlGroup } from "./components/control-group.js";
 import { NAVIGATION_SPLIT_VIEW_TAG, NavigationSplitView } from "./components/navigation-split-view.js";
 import { CONFIRMATION_DIALOG_TAG, ConfirmationDialog } from "./components/confirmation-dialog.js";
+import { OUTLINE_GROUP_TAG, OutlineGroup } from "./components/outline-group.js";
+import { GROUP_BOX_TAG, GroupBox } from "./components/group-box.js";
+import { LABELED_CONTENT_TAG, LabeledContent } from "./components/labeled-content.js";
 import { ACTION_MENU_TAG, ActionMenu } from "./components/action-menu.js";
 import { ASYNC_IMAGE_TAG, AsyncImage } from "./components/async-image.js";
 import { CONTENT_UNAVAILABLE_TAG, ContentUnavailable } from "./components/content-unavailable.js";
@@ -98,6 +101,9 @@ const CORE_TAGS = [
   CONTROL_GROUP_TAG,
   NAVIGATION_SPLIT_VIEW_TAG,
   CONFIRMATION_DIALOG_TAG,
+  OUTLINE_GROUP_TAG,
+  GROUP_BOX_TAG,
+  LABELED_CONTENT_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -152,6 +158,9 @@ export {
   CONTROL_GROUP_TAG,
   NAVIGATION_SPLIT_VIEW_TAG,
   CONFIRMATION_DIALOG_TAG,
+  OUTLINE_GROUP_TAG,
+  GROUP_BOX_TAG,
+  LABELED_CONTENT_TAG,
   ACTION_MENU_TAG,
   ASYNC_IMAGE_TAG,
   CONTENT_UNAVAILABLE_TAG,
@@ -205,6 +214,9 @@ export {
   ControlGroup,
   NavigationSplitView,
   ConfirmationDialog,
+  OutlineGroup,
+  GroupBox,
+  LabeledContent,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -259,6 +271,9 @@ const CORE_CLASSES: CustomElementConstructor[] = [
   ControlGroup,
   NavigationSplitView,
   ConfirmationDialog,
+  OutlineGroup,
+  GroupBox,
+  LabeledContent,
   ActionMenu,
   AsyncImage,
   ContentUnavailable,
@@ -326,6 +341,9 @@ const CORE_META: Array<Pick<GlassKitComponent, "title" | "group" | "description"
   { title: "Control group", group: "Menus and actions", description: "Related controls grouped horizontally or vertically with a single event.", higPage: swiftui("controlgroup") },
   { title: "Navigation split view", group: "Navigation and search", description: "Two- or three-column drill-down with a live selection route.", higPage: swiftui("navigationsplitview") },
   { title: "Confirmation dialog", group: "Presentation", description: "Stacked choices including cancel and destructive actions with focus management.", higPage: swiftui("actionsheet") },
+  { title: "Outline group", group: "Layout", description: "Recursive hierarchical rows with disclosure and single selection.", higPage: swiftui("outlinegroup") },
+  { title: "Group box", group: "Layout", description: "Semantic titled container with caption, content, and actions.", higPage: swiftui("groupbox") },
+  { title: "Labeled content", group: "Content", description: "Aligned label and value rows with copy and secondary actions.", higPage: swiftui("labeledcontent") },
   { title: "Action menu", group: "Menus and actions", description: "Keyboard-ready menu of commands with details and separators.", higPage: swiftui("menu") },
   { title: "Async image", group: "Content", description: "Image with explicit loading, placeholder, and error states.", higPage: swiftui("asyncimage") },
   { title: "Content unavailable", group: "Content", description: "Empty or no-results state with a clear next action.", higPage: swiftui("contentunavailableview") },
