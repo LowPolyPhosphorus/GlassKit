@@ -21,7 +21,7 @@ const COMPONENT_EVENTS: Record<string, string[]> = {
   "gk-check-row": ["gk-check"],
   "gk-color-picker": ["gk-input", "gk-change"],
   "gk-column-view": ["gk-select"],
-  "gk-combo-box": ["gk-input", "gk-change", "gk-select"],
+  "gk-combo-box": ["gk-input", "gk-change"],
   "gk-confirmation-dialog": ["gk-close", "gk-dismiss", "gk-open"],
   "gk-content-unavailable": ["gk-activate"],
   "gk-control-group": ["gk-activate", "gk-control"],
@@ -193,12 +193,21 @@ async function copyText(value: string): Promise<boolean> {
   }
 }
 
+function configureRegistryCounts(): void {
+  const count = String(COMPONENT_REGISTRY.length);
+  for (const element of Array.from(document.querySelectorAll<HTMLElement>("[data-component-count]"))) {
+    element.textContent = count;
+  }
+}
+
 function configureCodeCopies(): void {
   for (const pre of Array.from(document.querySelectorAll<HTMLPreElement>(".docs-section > pre"))) {
     const wrap = make("div", "docs-code");
     const button = make<HTMLButtonElement>("button", "docs-code__copy", "Copy");
     button.type = "button";
-    button.setAttribute("aria-label", "Copy code sample");
+    const section = pre.closest<HTMLElement>(".docs-section");
+    const sectionTitle = section?.querySelector("h2")?.textContent?.trim() ?? "this guide";
+    button.setAttribute("aria-label", `Copy code sample from ${sectionTitle}`);
     button.addEventListener("click", async () => {
       const copied = await copyText(pre.textContent ?? "");
       button.textContent = copied ? "Copied" : "Select and copy";
@@ -397,6 +406,11 @@ function configureDocsSearch(selectComponent: (tag: string) => void): void {
   const results = one<HTMLElement>("[data-docs-results]");
   if (!input || !results) return;
 
+  const setOpen = (open: boolean): void => {
+    results.hidden = !open;
+    input.setAttribute("aria-expanded", String(open));
+  };
+
   const entries: SearchEntry[] = [];
   const seen = new Set<string>();
   const anchors = Array.from(
@@ -428,13 +442,13 @@ function configureDocsSearch(selectComponent: (tag: string) => void): void {
     const query = input.value.trim().toLowerCase();
     results.replaceChildren();
     if (query.length < 2) {
-      results.hidden = true;
+      setOpen(false);
       return;
     }
     const matches = entries
       .filter((entry) => `${entry.title} ${entry.detail} ${entry.tag ?? ""}`.toLowerCase().includes(query))
       .slice(0, 10);
-    results.hidden = false;
+    setOpen(true);
     if (matches.length === 0) {
       results.append(make("p", "docs-search__empty", "No matches. Try a tag like gk-slider or a topic like tokens."));
       return;
@@ -457,7 +471,7 @@ function configureDocsSearch(selectComponent: (tag: string) => void): void {
   input.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       input.value = "";
-      results.hidden = true;
+      setOpen(false);
       input.blur();
       return;
     }
@@ -472,7 +486,7 @@ function configureDocsSearch(selectComponent: (tag: string) => void): void {
 
   results.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-      results.hidden = true;
+      setOpen(false);
       input.focus();
       return;
     }
@@ -501,12 +515,12 @@ function configureDocsSearch(selectComponent: (tag: string) => void): void {
       const top = target.getBoundingClientRect().top + window.scrollY - 82;
       window.scrollTo({ top: Math.max(0, top), behavior: "instant" });
     }
-    results.hidden = true;
+    setOpen(false);
     input.value = "";
   });
 
   document.addEventListener("click", (event) => {
-    if (!results.hidden && !(event.target as HTMLElement).closest(".docs-search")) results.hidden = true;
+    if (!results.hidden && !(event.target as HTMLElement).closest(".docs-search")) setOpen(false);
   });
 }
 
@@ -535,6 +549,7 @@ function configureDemoLog(): void {
 }
 
 function configureRail(): void {
+  const rail = document.querySelector<HTMLElement>(".docs-rail");
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>(".docs-rail a[href^='#']"));
   if (links.length === 0) return;
 
@@ -543,16 +558,28 @@ function configureRail(): void {
     .filter((target): target is HTMLElement => Boolean(target));
   if (targets.length === 0) return;
 
+  let paintedId = "";
   const paint = (): void => {
     let active = targets[0];
     for (const target of targets) {
       if (target.getBoundingClientRect().top <= 140) active = target;
     }
+    let activeLink: HTMLAnchorElement | undefined;
     for (const link of links) {
       const isActive = active?.id === decodeURIComponent(link.hash.slice(1));
-      if (isActive) link.setAttribute("aria-current", "location");
-      else link.removeAttribute("aria-current");
+      if (isActive) {
+        link.setAttribute("aria-current", "location");
+        activeLink = link;
+      } else {
+        link.removeAttribute("aria-current");
+      }
     }
+    if (window.scrollY === 0 || !rail || active?.id === paintedId || rail.scrollWidth <= rail.clientWidth || !activeLink) return;
+    paintedId = active?.id ?? "";
+    const left =
+      activeLink.getBoundingClientRect().left - rail.getBoundingClientRect().left + rail.scrollLeft -
+      (rail.clientWidth - activeLink.clientWidth) / 2;
+    rail.scrollTo({ left: Math.max(0, left), behavior: "instant" });
   };
 
   window.addEventListener("scroll", paint, { passive: true });
@@ -560,6 +587,7 @@ function configureRail(): void {
   paint();
 }
 
+configureRegistryCounts();
 configureCodeCopies();
 configureApiBrowser();
 configureDocsSearch((tag) => {

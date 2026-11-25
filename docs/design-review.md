@@ -2,6 +2,8 @@
 
 Date: 2026-11-24
 
+Revision 25 note: the compact-width docs section rail is now a single-line, transparent, scrollable strip instead of a large filled panel; the active section is kept visible as the article scrolls. The docs search exposes combobox state, component counts come from the registry, copy buttons identify their section, and the split-view recipe uses the real `sections` attribute.
+
 Revision 24 note: added a full `/docs` developer manual with a left section rail, searchable guides and component tags, a registry-driven API browser with copyable markup and live previews, an event playground, practical recipes, troubleshooting, and a release checklist. The header and footer now link the manual; anchors account for the sticky header; the active mobile nav item is scrolled into view; and the favicon follows the authored theme. Light-theme accent and success colours were darkened for 4.5:1 text contrast, and the body no longer transitions between palettes so paused background tabs cannot show stale colours. No right-side “On this page” rail was added, no Apple assets or chrome were introduced, and all surfaces remain flat fills and hairlines.
 
 Revision 23 note: the registry grew from 125 to 128 tags. `gk-push-button`, `gk-nav-pane`, and `gk-check-row` translate Button, NavigationView, and Spacer into shadow-DOM components with button variants, a master/detail pane, and a flexible checklist row. The docs SwiftUI reference gallery now has 45 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven, and the flat-fill/hairline material rule is unchanged.

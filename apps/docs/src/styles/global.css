@@ -2340,14 +2340,39 @@ tr:last-child td {
   .docs-rail {
     position: static;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    gap: 6px;
     max-height: none;
+    padding: 6px 0 10px;
     overflow-x: auto;
+    border: 0;
+    border-bottom: 1px solid var(--page-soft-line);
+    border-radius: 0;
+    background: transparent;
+    scrollbar-width: thin;
   }
 
-  .docs-rail__title,
+  .docs-rail__title {
+    display: flex;
+    flex: none;
+    align-items: center;
+    margin: 0;
+    padding: 7px 9px;
+  }
+
+  .docs-rail a {
+    flex: none;
+    white-space: nowrap;
+  }
+
   .docs-rail__links {
-    flex-basis: 100%;
+    display: flex;
+    flex: none;
+    gap: 6px;
+    margin: 0;
+    padding: 0 0 0 6px;
+    border: 0;
+    border-left: 1px solid var(--page-soft-line);
   }
 
   .docs-api {

@@ -39,9 +39,9 @@ import Icon from "../components/Icon.astro";
           </nav>
           <p class="eyebrow"><Icon name="book" /> Developer documentation</p>
           <h1 class="page-title">Build deliberate Windows apps.</h1>
-          <p class="page-intro">Glass Kit gives you tokens, Web Components, motion recipes, and a browser-safe native bridge. This page is the working manual: start with the install, borrow a recipe, then look up any of the 128 registered elements.</p>
-          <div class="docs-metrics" aria-label="Glass Kit at a glance">
-            <div><strong>128</strong><span>registered elements</span></div>
+          <p class="page-intro">Glass Kit gives you tokens, Web Components, motion recipes, and a browser-safe native bridge. This page is the working manual: start with the install, borrow a recipe, then look up any of the <span data-component-count>128</span> registered elements.</p>
+          <div class="docs-metrics" role="group" aria-label="Glass Kit at a glance">
+            <div><strong data-component-count>128</strong><span>registered elements</span></div>
             <div><strong>5</strong><span>monorepo packages</span></div>
             <div><strong>12</strong><span>motion recipes</span></div>
             <div><strong>1</strong><span>native material bridge</span></div>
@@ -50,9 +50,9 @@ import Icon from "../components/Icon.astro";
             <label for="docs-search-input">Find in the docs</label>
             <div class="docs-search__field">
               <Icon name="search" />
-              <input id="docs-search-input" data-docs-search type="search" autocomplete="off" placeholder="Search guides or components, e.g. tokens, gk-slider" />
+              <input id="docs-search-input" data-docs-search type="search" role="combobox" aria-autocomplete="list" aria-controls="docs-search-results" aria-expanded="false" autocomplete="off" placeholder="Search guides or components, e.g. tokens, gk-slider" />
             </div>
-            <div class="docs-search__results" data-docs-results aria-live="polite" hidden></div>
+            <div id="docs-search-results" class="docs-search__results" data-docs-results role="region" aria-label="Search results" aria-live="polite" hidden></div>
             <p class="docs-search__hint">Start typing to search every heading and component in this reference.</p>
           </div>
         </header>
@@ -220,7 +220,7 @@ if (nativeStatus().native) &#123;
 
         <section class="docs-section" id="api">
           <h2>API reference</h2>
-          <p>Browse all 128 registered elements. The list is generated from <code>COMPONENT_REGISTRY</code>, so it stays in step with the code. Select a component to see copyable markup, its event list, optional source guidance, and a live preview where one is available.</p>
+          <p>Browse all <span data-component-count>128</span> registered elements. The list is generated from <code>COMPONENT_REGISTRY</code>, so it stays in step with the code. Select a component to see copyable markup, its event list, optional source guidance, and a live preview where one is available.</p>
           <div class="docs-api">
             <div class="docs-api__browser">
               <div class="docs-api__filters">
@@ -264,7 +264,7 @@ if (nativeStatus().native) &#123;
           <h3 id="recipe-navigation">Master and detail navigation</h3>
           <pre><code>&lt;gk-navigation-split-view
   title="Settings"
-  columns='&#123;"items":["General","Wi-Fi","Bluetooth"],"value":"Wi-Fi"&#125;'
+  sections='&#123;"label":"General","value":"general","children":[&#123;"label":"Wi-Fi","value":"wifi"&#125;]&#125;'
 &gt;&lt;/gk-navigation-split-view&gt;</code></pre>
           <p><a href="/#desktop-lab">Open the desktop lab to see these patterns in a live smart-home window →</a></p>
         </section>
