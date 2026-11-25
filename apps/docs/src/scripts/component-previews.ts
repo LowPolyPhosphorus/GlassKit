@@ -281,4 +281,3 @@ export function createComponentPreview(component: GlassKitComponent): HTMLElemen
   element.setAttribute("aria-label", component.title);
   return element;
 }
-
