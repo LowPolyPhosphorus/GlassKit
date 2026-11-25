@@ -1933,8 +1933,11 @@ tr:last-child td {
 }
 
 .docs-search {
-  position: relative;
   max-width: 620px;
+}
+
+.docs-search__combo {
+  position: relative;
 }
 
 .docs-search > label {
@@ -1956,6 +1959,8 @@ tr:last-child td {
 
 .docs-search__field:focus-within {
   border-color: var(--page-accent-stroke);
+  outline: 2px solid var(--page-accent);
+  outline-offset: 2px;
 }
 
 .docs-search__field .icon {
@@ -2007,7 +2012,8 @@ tr:last-child td {
 }
 
 .docs-search__result:hover,
-.docs-search__result:focus-visible {
+.docs-search__result:focus-visible,
+.docs-search__result[aria-selected="true"] {
   background: var(--page-surface-2);
 }
 

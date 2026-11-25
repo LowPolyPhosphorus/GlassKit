@@ -790,7 +790,7 @@ const ATLAS_ATTRIBUTES: Record<string, Record<string, string>> = {
   "gk-web-view": { title: "Inline content", height: "90px", srcdoc: "<p>Sandboxed content stays inside the app.</p>" },
   "gk-action-menu": {
     label: "Actions",
-    items: '[{"label":"Duplicate","detail":"⌘D"},{"label":"Rename"},{"separator":true},{"label":"Delete","value":"delete"}]',
+    items: '[{"label":"Duplicate","detail":"Ctrl+D"},{"label":"Rename"},{"separator":true},{"label":"Delete","value":"delete"}]',
   },
   "gk-async-image": {
     src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%231c1c1e'/%3E%3Ccircle cx='160' cy='90' r='30' fill='none' stroke='%230a84ff' stroke-width='4'/%3E%3C/svg%3E",

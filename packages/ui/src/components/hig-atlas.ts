@@ -54,7 +54,7 @@ const optionList = (items: string[], action = "select"): string =>
       (item, index) =>
         `<button type="button" class="menu-item" data-gk-action="${action}" data-gk-value="${esc(item)}"><span>${esc(
           item,
-        )}</span><span class="menu-meta">${index === 0 ? "⌘1" : ""}</span></button>`,
+        )}</span><span class="menu-meta">${index === 0 ? "Ctrl+1" : ""}</span></button>`,
     )
     .join("")}</div>`;
 
@@ -863,7 +863,7 @@ export const HIG_PATTERNS: HigPatternSpec[] = [
   spec("remote", "Remotes", "Inputs", "A directional and action pad for ten-foot interaction.", ["Keep focus visible", "Use large targets", "Support move and select"], () => `<div class="row"><div class="d-pad"><i></i><i>↑</i><i></i><i>←</i><i>OK</i><i>→</i><i></i><i>↓</i><i></i></div><div class="stack"><span class="pad-button">▶</span><span class="pad-button">↩</span></div></div>`),
   spec("pointing-device", "Pointing devices", "Inputs", "Pointer, click, and scroll behaviour translated for Windows.", ["Keep hover states", "Support right-click", "Respect pointer precision"], () => `<div class="row"><span class="pointer"></span><span class="meta">Move · click · secondary click · scroll</span></div>`),
   spec("nearby-interaction", "Nearby interactions", "Inputs", "Short-range handoff between nearby devices.", ["Confirm before transfer", "Show both endpoints", "Fail gracefully"], () => `<div class="row"><div class="surface"><strong>This PC</strong><small>Home Control</small></div><span class="meta">→</span><div class="surface"><strong>Nearby</strong><small>Living Room Hub</small></div></div>`),
-  spec("keyboard", "Keyboards", "Inputs", "Physical keyboard handling with visible focus and shortcuts.", ["Show focus", "Support standard shortcuts", "Avoid trapping keys"], () => keys([["Esc", "Tab", "⇧", "⌘"], ["A", "S", "D", "F"], ["←", "↓", "↑", "→"]])),
+  spec("keyboard", "Keyboards", "Inputs", "Physical keyboard handling with visible focus and shortcuts.", ["Show focus", "Support standard shortcuts", "Avoid trapping keys"], () => keys([["Esc", "Tab", "Shift", "Ctrl"], ["A", "S", "D", "F"], ["←", "↓", "↑", "→"]])),
   spec("gyro-and-accelerometer", "Gyroscope and accelerometer", "Inputs", "Motion sensing mapped to bounded, optional interactions.", ["Make motion optional", "Keep ranges bounded", "Provide a fallback"], () => `<div class="row"><div class="axes"><i></i><i></i><i></i></div><span class="meta">Tilt · rotate · orientation</span></div>`),
   spec("gesture", "Gestures", "Inputs", "Direct manipulation patterns such as swipe and drag.", ["Use familiar directions", "Show feedback", "Allow cancel"], () => `<div class="swipe"><i></i><span>→</span></div>`),
   spec("game-control", "Game controls", "Inputs", "Controller input with a focusable D-pad and action buttons.", ["Map to focus", "Keep actions labelled", "Avoid conflicting bindings"], () => `<div class="row"><div class="d-pad"><i></i><i>↑</i><i></i><i>←</i><i>OK</i><i>→</i><i></i><i>↓</i><i></i></div><div class="stack"><span class="pad-button">A</span><span class="pad-button">B</span></div></div>`),

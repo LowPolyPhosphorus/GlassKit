@@ -1,4 +1,5 @@
 import { COMPONENT_REGISTRY, type GlassKitComponent } from "@glasskit/ui";
+import { componentMarkup, createComponentPreview } from "./component-previews";
 
 type SearchEntry = {
   kind: "Guide" | "Component";
@@ -8,8 +9,8 @@ type SearchEntry = {
   tag?: string;
 };
 
-// Event names are extracted from packages/ui/src/components/*.ts so this reference
-// cannot drift into guessed events that a component never emits.
+// Curated event names for components with dedicated event APIs. Elements not listed
+// here share the base Glass Kit events described by EVENT_FALLBACK.
 const COMPONENT_EVENTS: Record<string, string[]> = {
   "gk-action-menu": ["gk-select"],
   "gk-adaptive-view": ["gk-adapt"],
@@ -80,68 +81,6 @@ const COMPONENT_EVENTS: Record<string, string[]> = {
   "gk-web-view": ["gk-load"],
 };
 
-const COMPONENT_ATTRIBUTES: Record<string, string> = {
-  "gk-badge": 'tone="accent" dot',
-  "gk-button": 'variant="primary"',
-  "gk-glass-panel": 'tone="regular" elevation="high"',
-  "gk-toggle": 'label="Wi-Fi" checked',
-  "gk-list-row": 'subtitle="2 devices"',
-  "gk-segmented": 'value="one" label="Choices"',
-  "gk-slider": 'label="Brightness" min="0" max="100" value="68" unit="%"',
-  "gk-text-field": 'label="Device name" placeholder="Name this device" clearable',
-  "gk-search-field": 'label="Search" placeholder="Search devices" scopes=\'["All","Lights"]\'',
-  "gk-token-field": 'label="Rooms" tokens=\'["Kitchen","Hallway"]\'',
-  "gk-box": 'title="Grouped content" subtitle="Title and subtitle"',
-  "gk-chart": 'title="Energy" values="12,18,14,24" labels="Mon,Tue,Wed,Thu"',
-  "gk-color-well": 'value="#0a84ff"',
-  "gk-color-picker": 'value="#0a84ff"',
-  "gk-stepper": 'value="2" min="0" max="8"',
-  "gk-stepper-control": 'value="2" min="0" max="8"',
-  "gk-value-picker": 'options=\'["Comfort","Quiet","Away"]\' value="Comfort"',
-  "gk-date-picker": 'value="2026-11-24"',
-  "gk-progress-view": 'value="68" min="0" max="100" label="Progress"',
-  "gk-value-gauge": 'value="68" min="0" max="100" label="Humidity"',
-  "gk-image-view": 'alt="Room preview" ratio="16 / 9"',
-  "gk-web-view": 'title="Inline content" height="100" srcdoc="<p>Sandboxed content.</p>"',
-  "gk-status-bar": 'label="Home" status="All systems normal" time="09:41"',
-  "gk-live-activity": 'title="Air purifier" status="Filter at 82%" progress="82"',
-  "gk-notification": 'title="Scene ready" message="Your scene is available." tone="info"',
-  "gk-snippet": 'kind="confirmation" title="Run scene?" message="This dims the lights."',
-  "gk-path-control": 'items=\'["Home","Living Room","Lights"]\'',
-  "gk-tab-bar": 'tabs=\'[{"id":"all","label":"All"},{"id":"core","label":"Core"}]\' active="all"',
-  "gk-combo-box": 'label="Device" options=\'["Lamp","Sensor"]\'',
-  "gk-action-menu": 'label="Actions" items=\'[{"label":"Duplicate"},{"label":"Rename"}]\'',
-  "gk-content-unavailable": 'title="No devices" message="Add a device to get started." action-label="Add device"',
-  "gk-data-table": 'columns=\'["Room","Devices"]\' rows=\'[["Living Room","6"],["Kitchen","3"]]\'',
-  "gk-editable-list": 'items=\'[{"label":"Living Room","value":"living"}]\'',
-  "gk-form": 'label="Settings" sections=\'[{"title":"General","rows":[]}]\'',
-  "gk-disclosure-group": 'items=\'[{"title":"Details","content":"More information."}]\'',
-  "gk-group-box": 'title="Scene" caption="Quick controls"',
-  "gk-labeled-content": 'label="Device" value="Living Room Lamp" copyable',
-  "gk-outline-group": 'items=\'[{"title":"Rooms","children":[{"title":"Living Room"}]}]\'',
-  "gk-long-press": 'label="Hold to run" value="Run scene"',
-  "gk-tap-counter": 'label="Taps" goal="5"',
-  "gk-drag-surface": 'label="Drag surface"',
-  "gk-rotate-view": 'label="Rotate"',
-  "gk-scroll-navigator": 'items=\'["Overview","Details"]\'',
-  "gk-share-action": 'title="Share scene" url="/scenes/evening"',
-  "gk-navigation-link": 'label="Open details" value="details"',
-  "gk-navigation-stack": 'title="Settings"',
-  "gk-nav-pane": 'items=\'["Wi-Fi","Bluetooth"]\' value="Wi-Fi"',
-  "gk-navigation-split-view": 'title="Settings"',
-  "gk-text-editor": 'label="Notes" placeholder="Write a note"',
-  "gk-secure-field": 'label="Password" placeholder="Password"',
-  "gk-check-row": 'label="Notify me"',
-  "gk-icon-label": 'title="Wi-Fi" icon="wifi"',
-};
-
-const COMPONENT_CHILDREN: Record<string, string> = {
-  "gk-segmented": "<button value='one'>One</button><button value='two'>Two</button>",
-  "gk-push-button": "Run scene",
-  "gk-action-menu": "",
-  "gk-sidebar": "<gk-sidebar-item value='general' label='General'></gk-sidebar-item>",
-  "gk-tab-bar": "",
-};
 
 const EVENT_FALLBACK = [
   "All Glass Kit events bubble and cross the shadow boundary.",
@@ -150,12 +89,6 @@ const EVENT_FALLBACK = [
 
 function one<T extends Element>(selector: string): T | null {
   return document.querySelector<T>(selector);
-}
-
-function sampleFor(component: GlassKitComponent): string {
-  const attributes = COMPONENT_ATTRIBUTES[component.tag] ?? "";
-  const children = COMPONENT_CHILDREN[component.tag] ?? "";
-  return `<${component.tag}${attributes ? ` ${attributes}` : ""}>${children}</${component.tag}>`;
 }
 
 function eventsFor(component: GlassKitComponent): string[] {
@@ -208,11 +141,15 @@ function configureCodeCopies(): void {
     const section = pre.closest<HTMLElement>(".docs-section");
     const sectionTitle = section?.querySelector("h2")?.textContent?.trim() ?? "this guide";
     button.setAttribute("aria-label", `Copy code sample from ${sectionTitle}`);
+    button.setAttribute("aria-live", "polite");
+    const baseLabel = `Copy code sample from ${sectionTitle}`;
     button.addEventListener("click", async () => {
       const copied = await copyText(pre.textContent ?? "");
       button.textContent = copied ? "Copied" : "Select and copy";
+      button.setAttribute("aria-label", `${button.textContent} code sample from ${sectionTitle}`);
       window.setTimeout(() => {
         button.textContent = "Copy";
+        button.setAttribute("aria-label", baseLabel);
       }, 1600);
     });
     pre.before(wrap);
@@ -220,13 +157,13 @@ function configureCodeCopies(): void {
   }
 }
 
-function configureApiBrowser(): void {
+function configureApiBrowser(): (tag: string) => void {
   const list = one<HTMLDivElement>("[data-api-list]");
   const detail = one<HTMLElement>("[data-api-detail]");
   const search = one<HTMLInputElement>("[data-api-search]");
   const group = one<HTMLSelectElement>("[data-api-group]");
   const count = one<HTMLElement>("[data-api-count]");
-  if (!list || !detail) return;
+  if (!list || !detail) return () => {};
 
   const groups = Array.from(new Set(COMPONENT_REGISTRY.map((component) => component.group))).sort();
   if (group) {
@@ -280,6 +217,13 @@ function configureApiBrowser(): void {
     }
   };
 
+  const syncSelection = (tag: string): void => {
+    selectedTag = tag;
+    for (const button of list.querySelectorAll<HTMLButtonElement>(".docs-api__item")) {
+      button.setAttribute("aria-pressed", String(button.dataset.tag === tag));
+    }
+  };
+
   const renderDetail = (): void => {
     detail.replaceChildren();
     const component = COMPONENT_REGISTRY.find((item) => item.tag === selectedTag);
@@ -298,13 +242,15 @@ function configureApiBrowser(): void {
 
     detail.append(make("p", "docs-api__description", component.description));
 
-    const sample = sampleFor(component);
+    const sample = componentMarkup(component);
     const sampleBlock = make("section", "docs-api__block");
     const sampleHead = make("div", "docs-api__block-head");
     sampleHead.append(make("h4", "", "Markup"));
     const copy = make<HTMLButtonElement>("button", "docs-copy", "Copy");
     copy.type = "button";
     copy.dataset.copyTarget = component.tag;
+    copy.setAttribute("aria-label", `Copy markup for ${component.title}`);
+    copy.setAttribute("aria-live", "polite");
     sampleHead.append(copy);
     sampleBlock.append(sampleHead);
     const code = document.createElement("pre");
@@ -344,25 +290,30 @@ function configureApiBrowser(): void {
       previewHost.replaceChildren();
       const label = make("p", "docs-api__preview-label", `Live preview · ${component.title}`);
       const stage = make("div", "docs-api__preview-stage");
-      const element = document.createElement(component.tag);
-      const attributes = (COMPONENT_ATTRIBUTES[component.tag] ?? "").trim();
-      if (attributes) {
-        const parsed = new DOMParser().parseFromString(`<x ${attributes}></x>`, "text/html").body.firstElementChild;
-        if (parsed) {
-          for (const attribute of Array.from(parsed.attributes)) element.setAttribute(attribute.name, attribute.value);
-        }
-      }
-      if (COMPONENT_CHILDREN[component.tag]) element.innerHTML = COMPONENT_CHILDREN[component.tag];
-      stage.append(element);
+      stage.append(createComponentPreview(component));
       previewHost.append(label, stage);
+    }
+  };
+
+  const select = (tag: string): void => {
+    selectedTag = tag;
+    if (search) search.value = "";
+    if (group) group.value = "all";
+    filter();
+    syncSelection(tag);
+    const heading = detail.querySelector<HTMLElement>("h3");
+    if (heading) {
+      heading.setAttribute("tabindex", "-1");
+      heading.focus({ preventScroll: true });
+      const top = heading.getBoundingClientRect().top + window.scrollY - 82;
+      window.scrollTo({ top: Math.max(0, top), behavior: "instant" });
     }
   };
 
   list.addEventListener("click", (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>(".docs-api__item");
     if (!button?.dataset.tag) return;
-    selectedTag = button.dataset.tag;
-    renderList();
+    syncSelection(button.dataset.tag);
     renderDetail();
   });
 
@@ -391,14 +342,17 @@ function configureApiBrowser(): void {
     if (!button) return;
     const component = COMPONENT_REGISTRY.find((item) => item.tag === button.dataset.copyTarget);
     if (!component) return;
-    const copied = await copyText(sampleFor(component));
+    const copied = await copyText(componentMarkup(component));
     button.textContent = copied ? "Copied" : "Select and copy";
+    button.setAttribute("aria-label", `${button.textContent} markup for ${component.title}`);
     window.setTimeout(() => {
       button.textContent = "Copy";
+      button.setAttribute("aria-label", `Copy markup for ${component.title}`);
     }, 1600);
   });
 
   filter();
+  return select;
 }
 
 function configureDocsSearch(selectComponent: (tag: string) => void): void {
@@ -406,9 +360,51 @@ function configureDocsSearch(selectComponent: (tag: string) => void): void {
   const results = one<HTMLElement>("[data-docs-results]");
   if (!input || !results) return;
 
+  const options = (): HTMLButtonElement[] =>
+    Array.from(results.querySelectorAll<HTMLButtonElement>(".docs-search__result"));
+  let activeIndex = -1;
+
+  const clearActive = (): void => {
+    activeIndex = -1;
+    input.removeAttribute("aria-activedescendant");
+    for (const option of options()) option.setAttribute("aria-selected", "false");
+  };
+
+  const setActive = (index: number): void => {
+    const buttons = options();
+    if (buttons.length === 0) {
+      clearActive();
+      return;
+    }
+    activeIndex = Math.max(0, Math.min(index, buttons.length - 1));
+    buttons.forEach((button, optionIndex) => {
+      button.setAttribute("aria-selected", String(optionIndex === activeIndex));
+    });
+    input.setAttribute("aria-activedescendant", buttons[activeIndex].id);
+  };
+
   const setOpen = (open: boolean): void => {
     results.hidden = !open;
     input.setAttribute("aria-expanded", String(open));
+    if (!open) clearActive();
+  };
+
+  const activate = (button: HTMLButtonElement): void => {
+    const tag = button.dataset.tag;
+    if (tag) {
+      selectComponent(tag);
+      setOpen(false);
+      input.value = "";
+      return;
+    }
+    const target = button.dataset.target ? document.querySelector<HTMLElement>(button.dataset.target) : null;
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.scrollY - 82;
+      window.scrollTo({ top: Math.max(0, top), behavior: "instant" });
+    }
+    setOpen(false);
+    input.value = "";
+    input.focus();
   };
 
   const entries: SearchEntry[] = [];
@@ -441,6 +437,7 @@ function configureDocsSearch(selectComponent: (tag: string) => void): void {
   const render = (): void => {
     const query = input.value.trim().toLowerCase();
     results.replaceChildren();
+    clearActive();
     if (query.length < 2) {
       setOpen(false);
       return;
@@ -453,9 +450,12 @@ function configureDocsSearch(selectComponent: (tag: string) => void): void {
       results.append(make("p", "docs-search__empty", "No matches. Try a tag like gk-slider or a topic like tokens."));
       return;
     }
-    for (const entry of matches) {
+    matches.forEach((entry, index) => {
       const button = make<HTMLButtonElement>("button", "docs-search__result");
       button.type = "button";
+      button.id = `docs-search-option-${index}`;
+      button.setAttribute("role", "option");
+      button.setAttribute("aria-selected", "false");
       button.dataset.target = entry.target;
       if (entry.tag) button.dataset.tag = entry.tag;
       const kind = make("span", "docs-search__kind", entry.kind);
@@ -463,7 +463,8 @@ function configureDocsSearch(selectComponent: (tag: string) => void): void {
       const detail = make("span", "docs-search__detail", entry.detail);
       button.append(kind, title, detail);
       results.append(button);
-    }
+    });
+    setActive(0);
   };
 
   input.addEventListener("input", render);
@@ -472,51 +473,32 @@ function configureDocsSearch(selectComponent: (tag: string) => void): void {
     if (event.key === "Escape") {
       input.value = "";
       setOpen(false);
-      input.blur();
       return;
     }
-    if (event.key === "ArrowDown" && !results.hidden) {
-      const first = results.querySelector<HTMLButtonElement>(".docs-search__result");
-      if (first) {
+    if (results.hidden) return;
+    if (event.key === "ArrowDown" || event.key === "ArrowUp" || event.key === "Home" || event.key === "End") {
+      event.preventDefault();
+      const last = options().length - 1;
+      if (event.key === "Home") setActive(0);
+      else if (event.key === "End") setActive(last);
+      else if (event.key === "ArrowDown") setActive(activeIndex + 1);
+      else setActive(activeIndex <= 0 ? 0 : activeIndex - 1);
+      return;
+    }
+    if (event.key === "Enter" && activeIndex >= 0) {
+      const button = options()[activeIndex];
+      if (button) {
         event.preventDefault();
-        first.focus();
+        activate(button);
       }
     }
   });
 
-  results.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      setOpen(false);
-      input.focus();
-      return;
-    }
-    if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
-    const buttons = Array.from(results.querySelectorAll<HTMLButtonElement>(".docs-search__result"));
-    const current = buttons.indexOf(document.activeElement as HTMLButtonElement);
-    if (current < 0 || buttons.length === 0) return;
-    event.preventDefault();
-    const next =
-      event.key === "Home"
-        ? 0
-        : event.key === "End"
-          ? buttons.length - 1
-          : event.key === "ArrowDown"
-            ? Math.min(current + 1, buttons.length - 1)
-            : Math.max(current - 1, 0);
-    buttons[next]?.focus();
-  });
-
+  results.addEventListener("mousedown", (event) => event.preventDefault());
   results.addEventListener("click", (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>(".docs-search__result");
     if (!button) return;
-    if (button.dataset.tag) selectComponent(button.dataset.tag);
-    const target = button.dataset.target ? document.querySelector<HTMLElement>(button.dataset.target) : null;
-    if (target) {
-      const top = target.getBoundingClientRect().top + window.scrollY - 82;
-      window.scrollTo({ top: Math.max(0, top), behavior: "instant" });
-    }
-    setOpen(false);
-    input.value = "";
+    activate(button);
   });
 
   document.addEventListener("click", (event) => {
@@ -589,10 +571,6 @@ function configureRail(): void {
 
 configureRegistryCounts();
 configureCodeCopies();
-configureApiBrowser();
-configureDocsSearch((tag) => {
-  const item = document.querySelector<HTMLButtonElement>(`.docs-api__item[data-tag="${tag}"]`);
-  item?.click();
-});
+configureDocsSearch(configureApiBrowser());
 configureDemoLog();
 configureRail();

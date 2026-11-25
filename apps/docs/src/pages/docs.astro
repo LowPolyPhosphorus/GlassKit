@@ -48,12 +48,14 @@ import Icon from "../components/Icon.astro";
           </div>
           <div class="docs-search">
             <label for="docs-search-input">Find in the docs</label>
-            <div class="docs-search__field">
-              <Icon name="search" />
-              <input id="docs-search-input" data-docs-search type="search" role="combobox" aria-autocomplete="list" aria-controls="docs-search-results" aria-expanded="false" autocomplete="off" placeholder="Search guides or components, e.g. tokens, gk-slider" />
+            <div class="docs-search__combo">
+              <div class="docs-search__field">
+                <Icon name="search" />
+                <input id="docs-search-input" data-docs-search type="search" role="combobox" aria-autocomplete="list" aria-controls="docs-search-results" aria-expanded="false" autocomplete="off" placeholder="Search guides or components, e.g. tokens, gk-slider" />
+              </div>
+              <div id="docs-search-results" class="docs-search__results" data-docs-results role="listbox" aria-label="Search results" hidden></div>
             </div>
-            <div id="docs-search-results" class="docs-search__results" data-docs-results role="region" aria-label="Search results" aria-live="polite" hidden></div>
-            <p class="docs-search__hint">Start typing to search every heading and component in this reference.</p>
+            <p class="docs-search__hint">Start typing to search sections, headings, and components in this reference.</p>
           </div>
         </header>
 
@@ -123,10 +125,10 @@ const accent = tokens.theme.dark.accent;</code></pre>
   &lt;gk-search-field label="Search" placeholder="Search devices"&gt;&lt;/gk-search-field&gt;
   &lt;gk-slider label="Volume" min="0" max="100" value="68"&gt;&lt;/gk-slider&gt;
 &lt;/gk-glass-panel&gt;</code></pre>
-          <p>Use attributes for initial values and properties for live state. Prefer slotted content for text and trailing controls; it keeps labels readable and lets the browser do its normal layout work.</p>
+          <p>Use attributes for initial values and properties for live state. Prefer slotted content for text and trailing controls; it keeps labels readable and lets the browser do its normal layout work. The families below describe origin; the API browser filters by the exact registry group.</p>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Package group</th><th>Typical elements</th><th>When to reach for it</th></tr></thead>
+              <thead><tr><th>Family / origin</th><th>Typical elements</th><th>When to reach for it</th></tr></thead>
               <tbody>
                 <tr><td>Core</td><td><code>gk-glass-panel</code>, <code>gk-button</code>, <code>gk-toggle</code></td><td>Everyday surfaces and controls</td></tr>
                 <tr><td>Layout</td><td><code>gk-box</code>, <code>gk-disclosure</code>, <code>gk-list-row</code></td><td>Grouping and hierarchy</td></tr>
@@ -150,7 +152,7 @@ const button = document.querySelector("gk-button");
 button.addEventListener("gk-activate", () =&gt; &#123;
   saveScene();
 &#125;);</code></pre>
-          <p>Richer views add focused events such as <code>gk-select</code>, <code>gk-navigate</code>, <code>gk-dismiss</code>, <code>gk-confirm</code>, <code>gk-cancel</code>, <code>gk-scope-change</code>, and <code>gk-token-change</code>. The API reference below lists the events exposed by each element.</p>
+          <p>Richer views add focused events such as <code>gk-select</code>, <code>gk-navigate</code>, <code>gk-dismiss</code>, <code>gk-confirm</code>, <code>gk-cancel</code>, <code>gk-scope-change</code>, and <code>gk-token-change</code>. The API reference below lists known events for each element; components without a dedicated list use the shared base events.</p>
           <div class="docs-demo" data-docs-demo>
             <div class="docs-demo__controls">
               <gk-button variant="primary">Run scene</gk-button>
@@ -168,12 +170,13 @@ button.addEventListener("gk-activate", () =&gt; &#123;
           <pre><code>import &#123; animateRecipe, setReducedMotionOverride, clearReducedMotionOverride &#125;
   from "@glasskit/motion";
 
-const animation = animateRecipe(element, "sheetPresentation", &#123;
-  direction: "enter",
-&#125;);
+const animation = animateRecipe(element, "sheet-in");
+void animation.finished.catch(() =&gt; &#123;&#125;);
 
-animation.finished.finally(() =&gt; animation.cancel());</code></pre>
-          <p>Use <code>setReducedMotionOverride("reduced")</code> in docs and tests to preview the quiet path, then clear it with <code>clearReducedMotionOverride()</code>. Reduced motion removes travel but keeps feedback.</p>
+setReducedMotionOverride(true);
+const quiet = animateRecipe(element, "sheet-in");
+clearReducedMotionOverride();</code></pre>
+          <p>Use <code>setReducedMotionOverride(true)</code> in docs and tests to preview the quiet path, then clear it with <code>clearReducedMotionOverride()</code>. Reduced motion removes travel but keeps feedback.</p>
           <p><a href="/motion">Read the full motion model and spring lab →</a></p>
         </section>
 
@@ -188,7 +191,7 @@ if (nativeStatus().native) &#123;
 &#125; else &#123;
   // Keep the authored flat surface. Do not fake blur with an image.
 &#125;</code></pre>
-          <p>Native calls from the UI surface are reported honestly. Failed calls reject with a clear <code>MaterialError::Windows</code> rather than pretending the material was applied. Clear the material before closing a native window.</p>
+          <p>Native calls from the UI surface are reported honestly. Outside Tauri, or when a native call fails, the promise rejects with a readable message instead of pretending the material was applied. Check <code>nativeStatus().native</code> before calling, and clear the material before closing a native window.</p>
           <p><a href="/native#tauri">Read the Tauri host guide →</a></p>
         </section>
 
@@ -220,7 +223,7 @@ if (nativeStatus().native) &#123;
 
         <section class="docs-section" id="api">
           <h2>API reference</h2>
-          <p>Browse all <span data-component-count>128</span> registered elements. The list is generated from <code>COMPONENT_REGISTRY</code>, so it stays in step with the code. Select a component to see copyable markup, its event list, optional source guidance, and a live preview where one is available.</p>
+          <p>Browse all <span data-component-count>128</span> registered elements. The list is generated from <code>COMPONENT_REGISTRY</code>, so it stays in step with the code. Select a component to see copyable markup, known events, optional source guidance, and a live preview.</p>
           <div class="docs-api">
             <div class="docs-api__browser">
               <div class="docs-api__filters">
@@ -280,7 +283,7 @@ if (nativeStatus().native) &#123;
                 <tr><td>A control has no accessible name</td><td>Label omitted or slotted text is not associated</td><td>Add <code>label</code> or visible text inside the element</td></tr>
                 <tr><td>An action handler fires twice</td><td>Listening to both <code>click</code> and <code>gk-activate</code></td><td>Use <code>gk-activate</code> alone for component actions</td></tr>
                 <tr><td>Slider looks wrong after a mode change</td><td>Multiple visual modes on one instance</td><td>Keep one visual mode per instance and let motion snap smoothly</td></tr>
-                <tr><td>Docs atlas is empty</td><td>Lazy painting has not seen a nearby viewport</td><td>Scroll to the atlas; the passive scroll fallback paints it</td></tr>
+                <tr><td>Homepage component atlas is empty</td><td>Lazy painting has not seen a nearby viewport</td><td>Scroll to <a href="/#atlas">the atlas on the homepage</a>; the passive scroll fallback paints it</td></tr>
                 <tr><td>Light theme feels inverted</td><td>Dark palette was mathematically flipped</td><td>Use the authored <code>theme.light</code> token set</td></tr>
               </tbody>
             </table>
