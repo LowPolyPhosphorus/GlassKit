@@ -2,6 +2,7 @@ import { tokens } from "@glasskit/tokens";
 import {
   animateRecipe,
   animateSpring,
+  clearReducedMotionOverride,
   recipes,
   setReducedMotionOverride,
   type RecipeName,
@@ -434,10 +435,13 @@ function configureComponentAtlas(): void {
   populateAtlasSelect(componentPicker, "All components");
   populateAtlasSelect(labComponentPicker, "All components");
 
+  const docsHost = hosts.find((host) => host.hasAttribute("data-component-atlas"));
+  const labHost = hosts.find((host) => host.hasAttribute("data-lab-atlas"));
+
   let painted = false;
-  const paint = (): void => {
+  const paint = (target?: HTMLElement): void => {
     painted = true;
-    for (const host of hosts) {
+    for (const host of target ? [target] : hosts) {
       const compact = host.hasAttribute("data-lab-atlas");
       host.dataset.atlasQuery = compact ? labSearch?.value ?? "" : search?.value ?? "";
       host.dataset.atlasScope = compact ? "all" : scope?.value ?? "all";
@@ -446,16 +450,31 @@ function configureComponentAtlas(): void {
       const total = renderComponentAtlas(host, compact);
       const readout = compact ? labCount : count;
       if (readout) readout.textContent = `${total} / ${COMPONENT_REGISTRY.length} shown`;
+      const status = one<HTMLElement>(compact ? "[data-lab-atlas-status]" : "[data-atlas-status]");
+      if (status) {
+        status.textContent = total === 0
+          ? "No components match the filter."
+          : `${total} of ${COMPONENT_REGISTRY.length} components shown.`;
+      }
     }
   };
 
-  let observer: IntersectionObserver | null = null;
-  if ("IntersectionObserver" in window) {
-    observer = new IntersectionObserver(
+  const nearViewport = (): boolean =>
+    hosts.some((host) => {
+      const rect = (host.parentElement ?? host).getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return false;
+      return rect.top < window.innerHeight + 400 && rect.bottom > -400;
+    });
+  const reveal = (): void => {
+    if (!painted && nearViewport()) paint();
+  };
+
+  if (typeof IntersectionObserver !== "undefined") {
+    const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
-          if (!painted) paint();
-          observer?.disconnect();
+          reveal();
+          observer.disconnect();
         }
       },
       { rootMargin: "400px" },
@@ -464,17 +483,26 @@ function configureComponentAtlas(): void {
     for (const host of hosts) observer.observe(host.parentElement ?? host);
   }
   // IntersectionObserver can be throttled in background tabs and embedded
-  // previews. The fallback keeps the registry visible; content-visibility in
-  // CSS still avoids laying out off-screen cards.
-  window.setTimeout(() => {
-    if (!painted) paint();
-  }, 120);
+  // previews. A passive scroll/resize check keeps the registry reliable while
+  // still deferring creation until a host is near the viewport.
+  window.addEventListener("scroll", reveal, { passive: true });
+  window.addEventListener("resize", reveal, { passive: true });
+  document.querySelector('[data-room="atlas"]')?.addEventListener("click", () => {
+    window.requestAnimationFrame(reveal);
+  });
+  reveal();
 
-  for (const control of [search, scope, groupPicker, componentPicker, labSearch, labGroupPicker, labComponentPicker]) {
-    control?.addEventListener("gk-input", paint);
-    control?.addEventListener("gk-change", paint);
-    control?.addEventListener("change", paint);
-  }
+  const bind = (control: HTMLElement | null, host: HTMLElement | undefined, eventName: string): void => {
+    if (!host) return;
+    control?.addEventListener(eventName, () => paint(host));
+  };
+  bind(search, docsHost, "gk-input");
+  bind(scope, docsHost, "gk-change");
+  bind(groupPicker, docsHost, "change");
+  bind(componentPicker, docsHost, "change");
+  bind(labSearch, labHost, "gk-input");
+  bind(labGroupPicker, labHost, "change");
+  bind(labComponentPicker, labHost, "change");
 }
 
 function configureCodeTabs(): void {
@@ -499,7 +527,9 @@ function configureCodeTabs(): void {
 
     const select = (target: string): void => {
       for (const button of buttons) {
-        button.setAttribute("aria-selected", String(button.dataset.codeTarget === target));
+        const selected = button.dataset.codeTarget === target;
+        button.setAttribute("aria-selected", String(selected));
+        button.tabIndex = selected ? 0 : -1;
       }
       for (const panel of panels) panel.hidden = panel.dataset.codePanel !== target;
     };
@@ -520,22 +550,25 @@ function configureCodeTabs(): void {
     copy.type = "button";
     copy.dataset.codeCopy = "";
     copy.textContent = "Copy";
+    let copyTimer = 0;
     copy.addEventListener("click", () => {
       const visible = panels.find((panel) => !panel.hidden);
       const text = visible?.querySelector("code")?.textContent ?? "";
-      void navigator.clipboard
-        ?.writeText(text)
-        .then(() => {
-          copy.textContent = "Copied";
-        })
-        .catch(() => {
-          copy.textContent = "Select code";
-        });
-      window.setTimeout(() => {
-        copy.textContent = "Copy";
-      }, 1400);
+      const show = (message: string): void => {
+        copy.textContent = message;
+        window.clearTimeout(copyTimer);
+        copyTimer = window.setTimeout(() => {
+          copy.textContent = "Copy";
+        }, 1400);
+      };
+      const clipboard = navigator.clipboard;
+      if (!clipboard?.writeText) {
+        show("Select code");
+        return;
+      }
+      void clipboard.writeText(text).then(() => show("Copied")).catch(() => show("Select code"));
     });
-    tabs.querySelector<HTMLElement>(".code-tabs__bar")?.append(copy);
+    tabs.append(copy);
 
     select(buttons.find((button) => button.getAttribute("aria-selected") === "true")?.dataset.codeTarget ?? "swift");
   }
@@ -584,6 +617,10 @@ function configureAccents(): void {
   if (swatches.length === 0 || !section) return;
 
   for (const swatch of swatches) {
+    swatch.setAttribute("aria-pressed", String(swatch.classList.contains("is-selected")));
+  }
+
+  for (const swatch of swatches) {
     swatch.addEventListener("click", () => {
       const accent = swatch.dataset.accent!;
       const fill = swatch.dataset.accentFill ?? "transparent";
@@ -601,7 +638,10 @@ function configureAccents(): void {
         "--page-accent-stroke": stroke,
       };
       for (const [name, value] of Object.entries(properties)) section.style.setProperty(name, value);
-      for (const other of swatches) other.classList.toggle("is-selected", other === swatch);
+      for (const other of swatches) {
+        other.classList.toggle("is-selected", other === swatch);
+        other.setAttribute("aria-pressed", String(other === swatch));
+      }
     });
   }
 }
@@ -635,20 +675,17 @@ function configureEventStrip(): void {
   const strip = one<HTMLElement>("[data-event-strip]");
   if (!strip) return;
 
-  const atlasStatus = one<HTMLElement>("[data-atlas-status]");
   const append = (text: string): void => {
     const chip = document.createElement("span");
     chip.className = "event-chip";
     chip.textContent = text;
     strip.prepend(chip);
     while (strip.children.length > 6) strip.lastElementChild?.remove();
-    if (atlasStatus) atlasStatus.textContent = text;
   };
 
   for (const name of [
     "gk-activate",
     "gk-change",
-    "gk-input",
     "gk-select",
     "gk-navigate",
     "gk-open",
@@ -714,14 +751,13 @@ function configureMotion(): void {
 
   for (const control of [stiffness, damping, mass]) {
     control?.addEventListener("gk-input", sync);
-    control?.addEventListener("input", sync);
   }
 
-  replay?.addEventListener("click", run);
   replay?.addEventListener("gk-activate", run);
-  reduced?.addEventListener("gk-change", () => setReducedMotionOverride(reduced.checked));
-
-  if (springTarget) requestAnimationFrame(run);
+  reduced?.addEventListener("gk-change", () => {
+    if (reduced.checked) setReducedMotionOverride(true);
+    else clearReducedMotionOverride();
+  });
 }
 
 async function nativeCall(label: string, action: () => Promise<unknown>): Promise<void> {
@@ -761,7 +797,6 @@ function configureNative(): void {
   const bind = (selector: string, label: string, action: () => Promise<unknown>): void => {
     const button = one<HTMLElement>(selector);
     button?.addEventListener("gk-activate", () => void nativeCall(label, action));
-    button?.addEventListener("click", () => void nativeCall(label, action));
   };
 
   bind("#native-blur", "Blur", () => applyNativeGlass("blur"));

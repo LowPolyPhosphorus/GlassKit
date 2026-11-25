@@ -37,6 +37,7 @@ export function initDesktopLab(): void {
 
   let drag: { x: number; y: number; left: number; top: number } | null = null;
   let size: { x: number; y: number; width: number; height: number } | null = null;
+  let minimizedHeight: string | null = null;
 
   const normalisePosition = (): void => {
     const rect = win.getBoundingClientRect();
@@ -79,6 +80,26 @@ export function initDesktopLab(): void {
   dragHandle.addEventListener("pointerup", endDrag);
   dragHandle.addEventListener("pointercancel", endDrag);
 
+  dragHandle.addEventListener("keydown", (event) => {
+    const step = event.shiftKey ? 48 : 16;
+    const deltas: Record<string, [number, number]> = {
+      ArrowLeft: [-step, 0],
+      ArrowRight: [step, 0],
+      ArrowUp: [0, -step],
+      ArrowDown: [0, step],
+    };
+    const delta = deltas[event.key];
+    if (!delta) return;
+    event.preventDefault();
+    normalisePosition();
+    const parent = canvas.getBoundingClientRect();
+    const left = clamp((parseFloat(win.style.left) || 0) + delta[0], 8, parent.width - win.offsetWidth - 8);
+    const top = clamp((parseFloat(win.style.top) || 0) + delta[1], 8, parent.height - 46);
+    win.style.left = `${left}px`;
+    win.style.top = `${top}px`;
+    setStatus("Window moved");
+  });
+
   resizeHandle.addEventListener("pointerdown", (event) => {
     normalisePosition();
     size = {
@@ -100,8 +121,10 @@ export function initDesktopLab(): void {
     const parent = canvas.getBoundingClientRect();
     const left = parseFloat(win.style.left) || 0;
     const top = parseFloat(win.style.top) || 0;
-    const width = clamp(size.width + event.clientX - size.x, 480, parent.width - left - 12);
-    const height = clamp(size.height + event.clientY - size.y, 420, parent.height - top - 12);
+    const minWidth = Math.min(480, Math.max(240, parent.width - 16));
+    const minHeight = Math.min(420, Math.max(240, parent.height - 16));
+    const width = clamp(size.width + event.clientX - size.x, minWidth, parent.width - left - 12);
+    const height = clamp(size.height + event.clientY - size.y, minHeight, parent.height - top - 12);
     win.style.width = `${width}px`;
     win.style.height = `${height}px`;
   });
@@ -113,19 +136,56 @@ export function initDesktopLab(): void {
   resizeHandle.addEventListener("pointerup", endResize);
   resizeHandle.addEventListener("pointercancel", endResize);
 
+  resizeHandle.addEventListener("keydown", (event) => {
+    const step = event.shiftKey ? 48 : 16;
+    const deltas: Record<string, [number, number]> = {
+      ArrowLeft: [-step, 0],
+      ArrowRight: [step, 0],
+      ArrowUp: [0, -step],
+      ArrowDown: [0, step],
+    };
+    const delta = deltas[event.key];
+    if (!delta) return;
+    event.preventDefault();
+    normalisePosition();
+    const parent = canvas.getBoundingClientRect();
+    const left = parseFloat(win.style.left) || 0;
+    const top = parseFloat(win.style.top) || 0;
+    const minWidth = Math.min(480, Math.max(240, parent.width - 16));
+    const minHeight = Math.min(420, Math.max(240, parent.height - 16));
+    win.style.width = `${clamp(win.offsetWidth + delta[0], minWidth, parent.width - left - 12)}px`;
+    win.style.height = `${clamp(win.offsetHeight + delta[1], minHeight, parent.height - top - 12)}px`;
+    setStatus("Window resized");
+  });
+
   for (const button of canvas.querySelectorAll<HTMLButtonElement>("[data-window-action]")) {
     button.addEventListener("click", () => {
       const action = button.dataset.windowAction;
       if (action === "close") {
+        minimizedHeight = null;
+        win.classList.remove("is-minimized");
         win.hidden = true;
         if (restore) restore.hidden = false;
         setStatus("Window closed");
       }
       if (action === "minimize") {
-        win.classList.toggle("is-minimized");
-        setStatus(win.classList.contains("is-minimized") ? "Window minimized" : "Window restored");
+        if (win.classList.contains("is-minimized")) {
+          win.classList.remove("is-minimized");
+          if (minimizedHeight !== null) win.style.height = minimizedHeight;
+          minimizedHeight = null;
+          setStatus("Window restored");
+        } else {
+          minimizedHeight = win.style.height;
+          win.style.height = "46px";
+          win.classList.add("is-minimized");
+          setStatus("Window minimized");
+        }
       }
       if (action === "maximize") {
+        if (minimizedHeight !== null) {
+          minimizedHeight = null;
+          win.classList.remove("is-minimized");
+        }
         const parent = canvas.getBoundingClientRect();
         normalisePosition();
         const isMaximised = win.dataset.maximized === "true";
@@ -175,6 +235,25 @@ export function initDesktopLab(): void {
     });
   }
 
+  const selectRoom = (room: string): void => {
+    canvas.querySelector<HTMLButtonElement>(`[data-room="${room}"]`)?.click();
+  };
+  for (const button of canvas.querySelectorAll<HTMLElement>("[data-lab-action]")) {
+    button.addEventListener("gk-activate", (event) => {
+      event.stopPropagation();
+      const action = button.dataset.labAction;
+      if (action === "scene") {
+        selectRoom("recipes");
+        setStatus("Scene ready · tune it in Recipes");
+      } else if (action === "automations") {
+        selectRoom("climate");
+        setStatus("Automations · climate controls open");
+      } else if (action === "diagnostics") {
+        setStatus("Lab ready · all panels responsive");
+      }
+    });
+  }
+
   for (const name of [
     "gk-activate",
     "gk-change",
@@ -208,23 +287,19 @@ export function initDesktopLab(): void {
     "gk-copy",
     "gk-labeled-action",
     "gk-adapt",
-    "gk-tick",
     "gk-draw",
     "gk-clear",
     "gk-undo",
     "gk-scroll-to",
-    "gk-scroll-position",
     "gk-share",
     "gk-share-copy",
     "gk-press-start",
-    "gk-press-progress",
     "gk-press-complete",
     "gk-press-cancel",
     "gk-paste",
     "gk-date-toggle",
     "gk-range-change",
     "gk-drag-start",
-    "gk-drag-move",
     "gk-drag-end",
     "gk-tap",
     "gk-tap-complete",
@@ -242,6 +317,7 @@ export function initDesktopLab(): void {
   ]) {
     canvas.addEventListener(name, (event) => {
       const target = event.target as HTMLElement;
+      if (target.closest("[hidden]")) return;
       const detail = event instanceof CustomEvent && event.detail ? (event.detail as Record<string, unknown>) : {};
       const label =
         target.getAttribute("label") ||
@@ -286,6 +362,13 @@ export function initDesktopLab(): void {
     card.append(head);
     panel.append(card);
     animateRecipe(card, "panel-in");
+    const devices = panel.querySelectorAll(".device-card").length;
+    const active = Array.from(panel.querySelectorAll<HTMLElement & { checked?: boolean }>("gk-toggle")).filter(
+      (toggle) => toggle.checked,
+    ).length;
+    const subtitle = `${devices} devices · ${active} active`;
+    ROOM_COPY.living = { ...ROOM_COPY.living, subtitle };
+    if (roomSubtitle) roomSubtitle.textContent = subtitle;
     setStatus(`Added · ${name}`);
   });
 
@@ -293,7 +376,6 @@ export function initDesktopLab(): void {
   const recipeStatus = recipePanel?.querySelector<HTMLElement>("[data-recipe-status]");
   const setRecipeStatus = (text: string): void => {
     if (recipeStatus) recipeStatus.textContent = text;
-    setStatus(text);
   };
 
   recipePanel?.querySelector<HTMLElement>("[data-save-recipe]")?.addEventListener("gk-activate", () => {

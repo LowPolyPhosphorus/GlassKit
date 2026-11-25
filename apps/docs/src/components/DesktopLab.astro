@@ -13,7 +13,7 @@ import Icon from "./Icon.astro";
     <span class="desktop-hint"><Icon name="window" /> Drag the title bar · resize from the corner</span>
 
     <div class="lab-window" data-lab-window>
-      <div class="lab-titlebar" data-drag-handle>
+      <div class="lab-titlebar" data-drag-handle tabindex="0" role="group" aria-label="Move window with arrow keys">
         <div class="window-controls" aria-label="Window controls">
           <button type="button" data-window-action="close" aria-label="Close window"></button>
           <button type="button" data-window-action="minimize" aria-label="Minimize window"></button>
@@ -36,9 +36,9 @@ import Icon from "./Icon.astro";
           </div>
           <p>Views</p>
           <div class="lab-nav" role="navigation" aria-label="Views">
-            <button type="button"><Icon name="sparkle" /> Scenes</button>
-            <button type="button"><Icon name="layers" /> Materials</button>
-            <button type="button"><Icon name="sliders" /> Automations</button>
+            <button type="button" data-room="recipes"><Icon name="sparkle" /> Scenes</button>
+            <button type="button" data-room="patterns"><Icon name="layers" /> Materials</button>
+            <button type="button" data-room="climate"><Icon name="sliders" /> Automations</button>
           </div>
         </aside>
 
@@ -439,9 +439,9 @@ import Icon from "./Icon.astro";
 
           <div class="lab-footer">
             <gk-toolbar>
-              <gk-button variant="primary" size="small">Run scene</gk-button>
-              <gk-button size="small">Automations</gk-button>
-              <gk-button variant="quiet" size="small">Diagnostics</gk-button>
+              <gk-button variant="primary" size="small" data-lab-action="scene">Run scene</gk-button>
+              <gk-button size="small" data-lab-action="automations">Automations</gk-button>
+              <gk-button variant="quiet" size="small" data-lab-action="diagnostics">Diagnostics</gk-button>
             </gk-toolbar>
             <span class="lab-status" data-lab-status aria-live="polite">Ready</span>
           </div>
@@ -453,7 +453,7 @@ import Icon from "./Icon.astro";
         </div>
       </div>
 
-      <div class="resize-handle" data-resize-handle aria-hidden="true"></div>
+      <div class="resize-handle" data-resize-handle tabindex="0" role="group" aria-label="Resize window with arrow keys"></div>
     </div>
 
     <button class="pill desktop-restore" type="button" data-restore hidden><Icon name="window" /> Reopen Home Control</button>
