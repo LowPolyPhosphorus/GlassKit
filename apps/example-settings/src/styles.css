@@ -41,6 +41,10 @@ html[data-gk-theme="dark"] {
 
 html[data-gk-theme="light"] {
   color-scheme: light;
+  /* Text-safe semantic colors on white surfaces; fills keep the Apple palette. */
+  --gk-color-accent: #0064c8;
+  --gk-color-success: #1f7a34;
+  --gk-color-warning: #8a5a00;
   --app-desktop: #dfe3e9;
   --app-window: var(--gk-color-window-background);
   --app-titlebar: var(--gk-color-secondary-system-background);
@@ -502,6 +506,15 @@ html[data-gk-host="tauri"] .titlebar-left {
   overflow: hidden;
   font-size: 12px;
   font-weight: 560;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-item[data-page="appearance"] .nav-copy small {
+  display: block;
+  overflow: hidden;
+  color: var(--app-muted);
+  font-size: 10px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

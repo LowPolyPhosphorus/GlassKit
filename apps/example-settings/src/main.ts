@@ -192,6 +192,7 @@ function applyTheme(preference: ThemePreference, announce = true): void {
 
   const appearanceRow = nav.querySelector<HTMLElement>('[data-page="appearance"] .nav-copy small');
   if (appearanceRow) appearanceRow.textContent = preference === "auto" ? `Auto · ${resolved}` : resolved[0]!.toUpperCase() + resolved.slice(1);
+  if (activeAccentSwatch) applyAccentTokens(activeAccentSwatch);
 
   try {
     localStorage.setItem(THEME_KEY, preference);
@@ -205,6 +206,13 @@ function applyTheme(preference: ThemePreference, announce = true): void {
 function showPage(page: string, push = true): void {
   const meta = PAGES[page];
   if (!meta) return;
+
+  // Navigation from history, hash, or the sidebar must not leave an unrelated
+  // search filter hiding the destination in the list.
+  if (search.value) {
+    search.value = "";
+    filterNavigation("");
+  }
 
   if (push && page !== currentPage) {
     pageStack = [...pageStack, page];
@@ -321,11 +329,33 @@ function configureSearch(): void {
       search.focus();
       search.select();
     }
-    if (event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && event.key === "ArrowLeft") {
+    if (
+      event.altKey &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.shiftKey &&
+      !event.defaultPrevented &&
+      event.key === "ArrowLeft"
+    ) {
       event.preventDefault();
       navigateBack();
     }
   });
+}
+
+let activeAccentSwatch: HTMLButtonElement | null = null;
+
+function applyAccentTokens(swatch: HTMLButtonElement): void {
+  const light = root.dataset.gkTheme === "light";
+  const accent = (light ? swatch.dataset.accentLight : undefined) ?? swatch.dataset.accent ?? "#0a84ff";
+  const fill = (light ? swatch.dataset.accentLightFill : undefined) ?? swatch.dataset.accentFill ?? "rgba(10,132,255,0.18)";
+  const stroke = (light ? swatch.dataset.accentLightStroke : undefined) ?? swatch.dataset.accentStroke ?? "rgba(10,132,255,0.6)";
+  root.style.setProperty("--app-accent", accent);
+  root.style.setProperty("--app-accent-fill", fill);
+  root.style.setProperty("--app-accent-stroke", stroke);
+  root.style.setProperty("--gk-color-accent", accent);
+  root.style.setProperty("--gk-color-accent-fill", fill);
+  root.style.setProperty("--gk-color-accent-stroke", stroke);
 }
 
 function configureTheme(): void {
@@ -377,12 +407,8 @@ function configureSurfaceMode(): void {
 function configureAccents(): void {
   const accents = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-accent]"));
   const applyAccent = (swatch: HTMLButtonElement, announce = true, persist = true): void => {
-    root.style.setProperty("--app-accent", swatch.dataset.accent!);
-    root.style.setProperty("--app-accent-fill", swatch.dataset.accentFill!);
-    root.style.setProperty("--app-accent-stroke", swatch.dataset.accentStroke!);
-    root.style.setProperty("--gk-color-accent", swatch.dataset.accent!);
-    root.style.setProperty("--gk-color-accent-fill", swatch.dataset.accentFill!);
-    root.style.setProperty("--gk-color-accent-stroke", swatch.dataset.accentStroke!);
+    activeAccentSwatch = swatch;
+    applyAccentTokens(swatch);
     for (const other of accents) {
       const selected = other === swatch;
       other.classList.toggle("is-selected", selected);
@@ -448,6 +474,7 @@ function configureWallpaper(): void {
     const color = tile.dataset.wallpaper!;
     const name = tile.dataset.name ?? "Wallpaper";
     root.style.setProperty("--app-desktop", color);
+    root.dataset.settingsWallpaper = name;
     preview.style.setProperty("--app-desktop", color);
     label.textContent = name;
     for (const other of tiles) {

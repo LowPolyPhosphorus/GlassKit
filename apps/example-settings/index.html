@@ -52,15 +52,16 @@
         }
         if (wallpaper && Object.hasOwn(wallpapers, wallpaper)) {
           document.documentElement.style.setProperty("--app-desktop", wallpapers[wallpaper]);
+          document.documentElement.dataset.settingsWallpaper = wallpaper;
         }
 
         // Keep these values in sync with the accent and highlight swatches on the Colors page.
         const accents = {
-          "#0a84ff": { fill: "rgba(10,132,255,0.18)", stroke: "rgba(10,132,255,0.6)" },
-          "#bf5af2": { fill: "rgba(191,90,242,0.18)", stroke: "rgba(191,90,242,0.6)" },
-          "#ff375f": { fill: "rgba(255,55,95,0.18)", stroke: "rgba(255,55,95,0.6)" },
-          "#ff9f0a": { fill: "rgba(255,159,10,0.18)", stroke: "rgba(255,159,10,0.6)" },
-          "#30d158": { fill: "rgba(48,209,88,0.18)", stroke: "rgba(48,209,88,0.6)" },
+          "#0a84ff": { fill: "rgba(10,132,255,0.18)", stroke: "rgba(10,132,255,0.6)", light: "#0064c8", lightFill: "rgba(0,100,200,0.12)", lightStroke: "rgba(0,100,200,0.36)" },
+          "#bf5af2": { fill: "rgba(191,90,242,0.18)", stroke: "rgba(191,90,242,0.6)", light: "#8a34b5", lightFill: "rgba(138,52,181,0.12)", lightStroke: "rgba(138,52,181,0.36)" },
+          "#ff375f": { fill: "rgba(255,55,95,0.18)", stroke: "rgba(255,55,95,0.6)", light: "#c2184b", lightFill: "rgba(194,24,75,0.12)", lightStroke: "rgba(194,24,75,0.36)" },
+          "#ff9f0a": { fill: "rgba(255,159,10,0.18)", stroke: "rgba(255,159,10,0.6)", light: "#a15c00", lightFill: "rgba(161,92,0,0.12)", lightStroke: "rgba(161,92,0,0.36)" },
+          "#30d158": { fill: "rgba(48,209,88,0.18)", stroke: "rgba(48,209,88,0.6)", light: "#186a32", lightFill: "rgba(24,106,50,0.12)", lightStroke: "rgba(24,106,50,0.36)" },
         };
         let accent = null;
         try {
@@ -69,12 +70,16 @@
           accent = null;
         }
         if (accent && Object.hasOwn(accents, accent)) {
-          const { fill, stroke } = accents[accent];
+          const entry = accents[accent];
+          const light = document.documentElement.dataset.gkTheme === "light";
+          const resolvedAccent = light ? entry.light : accent;
+          const fill = light ? entry.lightFill : entry.fill;
+          const stroke = light ? entry.lightStroke : entry.stroke;
           const style = document.documentElement.style;
-          style.setProperty("--app-accent", accent);
+          style.setProperty("--app-accent", resolvedAccent);
           style.setProperty("--app-accent-fill", fill);
           style.setProperty("--app-accent-stroke", stroke);
-          style.setProperty("--gk-color-accent", accent);
+          style.setProperty("--gk-color-accent", resolvedAccent);
           style.setProperty("--gk-color-accent-fill", fill);
           style.setProperty("--gk-color-accent-stroke", stroke);
         }
@@ -354,7 +359,13 @@
                   <h2>Appearance</h2>
                   <div class="setting-row">
                     <div class="row-copy"><strong>Choose your mode</strong><span>Light, dark, or follow the system</span></div>
-                    <gk-segmented id="theme-mode" value="dark" label="Appearance"><button value="light">Light</button><button value="dark">Dark</button><button value="auto">Auto</button></gk-segmented>
+                    <gk-segmented id="theme-mode" value="light" label="Appearance"><button value="light">Light</button><button value="dark">Dark</button><button value="auto">Auto</button></gk-segmented>
+                    <script>
+                      document.getElementById("theme-mode")?.setAttribute(
+                        "value",
+                        document.documentElement.dataset.gkThemePreference || "light",
+                      );
+                    </script>
                   </div>
                   <div class="setting-row">
                     <div class="row-copy"><strong>Surface counterpart</strong><span>Flat system fills or restrained liquid glass</span></div>
@@ -363,11 +374,11 @@
                   <div class="setting-row">
                     <div class="row-copy"><strong>Accent color</strong><span>Used for selection, focus, and primary actions</span></div>
                     <div class="accent-row" id="accent-row">
-                      <button class="accent-swatch is-selected" type="button" aria-pressed="true" data-accent="#0a84ff" data-accent-fill="rgba(10,132,255,0.18)" data-accent-stroke="rgba(10,132,255,0.6)" style="--swatch:#0a84ff" aria-label="Blue accent"></button>
-                      <button class="accent-swatch" type="button" aria-pressed="false" data-accent="#bf5af2" data-accent-fill="rgba(191,90,242,0.18)" data-accent-stroke="rgba(191,90,242,0.6)" style="--swatch:#bf5af2" aria-label="Purple accent"></button>
-                      <button class="accent-swatch" type="button" aria-pressed="false" data-accent="#ff375f" data-accent-fill="rgba(255,55,95,0.18)" data-accent-stroke="rgba(255,55,95,0.6)" style="--swatch:#ff375f" aria-label="Pink accent"></button>
-                      <button class="accent-swatch" type="button" aria-pressed="false" data-accent="#ff9f0a" data-accent-fill="rgba(255,159,10,0.18)" data-accent-stroke="rgba(255,159,10,0.6)" style="--swatch:#ff9f0a" aria-label="Orange accent"></button>
-                      <button class="accent-swatch" type="button" aria-pressed="false" data-accent="#30d158" data-accent-fill="rgba(48,209,88,0.18)" data-accent-stroke="rgba(48,209,88,0.6)" style="--swatch:#30d158" aria-label="Green accent"></button>
+                      <button class="accent-swatch is-selected" type="button" aria-pressed="true" data-accent="#0a84ff" data-accent-fill="rgba(10,132,255,0.18)" data-accent-stroke="rgba(10,132,255,0.6)" data-accent-light="#0064c8" data-accent-light-fill="rgba(0,100,200,0.12)" data-accent-light-stroke="rgba(0,100,200,0.36)" style="--swatch:#0a84ff" aria-label="Blue accent"></button>
+                      <button class="accent-swatch" type="button" aria-pressed="false" data-accent="#bf5af2" data-accent-fill="rgba(191,90,242,0.18)" data-accent-stroke="rgba(191,90,242,0.6)" data-accent-light="#8a34b5" data-accent-light-fill="rgba(138,52,181,0.12)" data-accent-light-stroke="rgba(138,52,181,0.36)" style="--swatch:#bf5af2" aria-label="Purple accent"></button>
+                      <button class="accent-swatch" type="button" aria-pressed="false" data-accent="#ff375f" data-accent-fill="rgba(255,55,95,0.18)" data-accent-stroke="rgba(255,55,95,0.6)" data-accent-light="#c2184b" data-accent-light-fill="rgba(194,24,75,0.12)" data-accent-light-stroke="rgba(194,24,75,0.36)" style="--swatch:#ff375f" aria-label="Pink accent"></button>
+                      <button class="accent-swatch" type="button" aria-pressed="false" data-accent="#ff9f0a" data-accent-fill="rgba(255,159,10,0.18)" data-accent-stroke="rgba(255,159,10,0.6)" data-accent-light="#a15c00" data-accent-light-fill="rgba(161,92,0,0.12)" data-accent-light-stroke="rgba(161,92,0,0.36)" style="--swatch:#ff9f0a" aria-label="Orange accent"></button>
+                      <button class="accent-swatch" type="button" aria-pressed="false" data-accent="#30d158" data-accent-fill="rgba(48,209,88,0.18)" data-accent-stroke="rgba(48,209,88,0.6)" data-accent-light="#186a32" data-accent-light-fill="rgba(24,106,50,0.12)" data-accent-light-stroke="rgba(24,106,50,0.36)" style="--swatch:#30d158" aria-label="Green accent"></button>
                     </div>
                   </div>
                   <div class="setting-row">
@@ -396,6 +407,13 @@
                 <gk-glass-panel class="settings-group" elevation="flat">
                   <h2>Current background</h2>
                   <div class="wallpaper-preview" id="wallpaper-preview"><span>Studio Flat</span></div>
+                  <script>
+                    const savedWallpaper = document.documentElement.dataset.settingsWallpaper;
+                    if (savedWallpaper) {
+                      const label = document.querySelector("#wallpaper-preview span");
+                      if (label) label.textContent = savedWallpaper;
+                    }
+                  </script>
                   <div class="setting-row">
                     <div class="row-copy"><strong>Automatic rotation</strong><span>Change picture every day</span></div>
                     <gk-toggle label="Automatic wallpaper rotation"></gk-toggle>
