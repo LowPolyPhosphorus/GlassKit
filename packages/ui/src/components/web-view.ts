@@ -117,6 +117,14 @@ export class WebView extends HTMLElement {
     }
   }
 
+  #wrapSrcdoc(srcdoc: string): string {
+    const style = getComputedStyle(this);
+    const scheme = style.getPropertyValue("color-scheme").trim() || "light dark";
+    const color = style.getPropertyValue("--gk-color-text").trim() || style.color;
+    const fontFamily = style.getPropertyValue("--gk-font-family").trim() || style.fontFamily;
+    return `<!doctype html><html><head><style>html{color-scheme:${scheme};background:transparent;color:${color};font-family:${fontFamily}}body{background:transparent;color:inherit;font-family:inherit}</style></head><body>${srcdoc}</body></html>`;
+  }
+
   #sync(): void {
     if (!this.#frame || !this.#bar) return;
     const root = this.shadowRoot!;
@@ -133,7 +141,8 @@ export class WebView extends HTMLElement {
 
     if (srcdoc !== null) {
       this.#frame.removeAttribute("src");
-      if (this.#frame.srcdoc !== srcdoc) this.#frame.srcdoc = srcdoc;
+      const framed = srcdoc ? this.#wrapSrcdoc(srcdoc) : srcdoc;
+      if (this.#frame.srcdoc !== framed) this.#frame.srcdoc = framed;
     } else {
       this.#frame.removeAttribute("srcdoc");
       if (this.#frame.getAttribute("src") !== src) this.#frame.setAttribute("src", src);

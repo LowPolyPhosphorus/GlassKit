@@ -155,7 +155,7 @@ export class ActionMenu extends HTMLElement {
 
   #onMenuKeydown = (event: KeyboardEvent): void => {
     const items = Array.from(this.#menu?.querySelectorAll<HTMLButtonElement>(".item:not(:disabled)") ?? []);
-    const current = items.indexOf(document.activeElement as HTMLButtonElement);
+    const current = items.indexOf(this.shadowRoot?.activeElement as HTMLButtonElement);
     if (event.key === "Escape") {
       event.preventDefault();
       this.#setOpen(false);

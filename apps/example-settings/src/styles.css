@@ -1,6 +1,6 @@
 :root {
   --gk-font-family: "Inter Variable", Inter, "Segoe UI Variable", "Segoe UI",
-    "SF Pro Text", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    system-ui, sans-serif;
   --app-accent: var(--gk-color-accent);
   --app-accent-fill: var(--gk-color-accent-fill);
   --app-accent-soft: var(--gk-color-selected-content-background);

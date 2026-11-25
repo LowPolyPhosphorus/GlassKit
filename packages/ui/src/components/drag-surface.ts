@@ -2,6 +2,7 @@ import { mountShadow } from "../base.js";
 import { componentBaseCss, emit, toNumber } from "../shared.js";
 
 const PUCK = 44;
+const KEY_STEP = 8;
 
 const styles = `
   ${componentBaseCss}
@@ -71,7 +72,7 @@ const html = `
   <section class="panel" part="panel">
     <header class="head"><span class="label" part="label"></span><span class="readout" part="readout"></span></header>
     <div class="surface" part="surface" tabindex="0" role="application" aria-label="Drag surface">
-      <div class="puck" part="puck" role="button" aria-label="Drag handle">↔</div>
+      <div class="puck" part="puck" aria-label="Drag handle">↔</div>
     </div>
     <div class="actions"><button type="button" class="reset" part="reset">Reset</button></div>
   </section>`;
@@ -96,6 +97,7 @@ export class DragSurface extends HTMLElement {
       mountShadow(this, html, styles);
       const puck = this.shadowRoot!.querySelector<HTMLElement>(".puck")!;
       puck.addEventListener("pointerdown", this.#onDown);
+      this.shadowRoot!.querySelector<HTMLElement>(".surface")!.addEventListener("keydown", this.#onSurfaceKeydown);
       window.addEventListener("pointermove", this.#onMove);
       window.addEventListener("pointerup", this.#onUp);
       window.addEventListener("pointercancel", this.#onUp);
@@ -132,6 +134,21 @@ export class DragSurface extends HTMLElement {
     puck.setAttribute("aria-label", `Drag handle at ${Math.round(this.#x)}, ${Math.round(this.#y)}`);
     if (emitEvent) emit(this, "gk-drag-move", { x: this.#x, y: this.#y, ratioX: this.#x / bounds.width, ratioY: this.#y / bounds.height, source: this });
   }
+
+  #onSurfaceKeydown = (event: KeyboardEvent): void => {
+    let dx = 0;
+    let dy = 0;
+    if (event.key === "ArrowLeft") dx = -KEY_STEP;
+    else if (event.key === "ArrowRight") dx = KEY_STEP;
+    else if (event.key === "ArrowUp") dy = -KEY_STEP;
+    else if (event.key === "ArrowDown") dy = KEY_STEP;
+    else return;
+    event.preventDefault();
+    const bounds = this.#bounds();
+    this.#x = Math.min(bounds.width, Math.max(0, this.#x + dx));
+    this.#y = Math.min(bounds.height, Math.max(0, this.#y + dy));
+    this.#paint(true);
+  };
 
   #onDown = (event: PointerEvent): void => {
     if (event.button !== 0) return;

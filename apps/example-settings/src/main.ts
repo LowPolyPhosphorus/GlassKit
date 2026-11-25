@@ -536,11 +536,17 @@ function configureActions(): void {
 
 let restoreOffset: { left: string; top: string } | null = null;
 
-function setWindowVisible(visible: boolean, message: string): void {
+function setWindowVisible(visible: boolean, message: string, focusWindow = false): void {
+  const restoreTaskbarFocus = !visible && document.activeElement === taskbarSettings;
   windowElement.hidden = !visible;
   reopenButton.hidden = visible;
   taskbarSettings.classList.toggle("is-open", visible);
   document.querySelector<HTMLElement>("#context-menu")?.setAttribute("hidden", "");
+  if (!visible) {
+    (restoreTaskbarFocus ? taskbarSettings : reopenButton).focus();
+  } else if (focusWindow) {
+    search.focus();
+  }
   setStatus(message);
 }
 
@@ -568,7 +574,7 @@ function configureWindow(): void {
     });
   }
 
-  reopenButton.addEventListener("click", () => setWindowVisible(true, "Window reopened"));
+  reopenButton.addEventListener("click", () => setWindowVisible(true, "Window reopened", true));
 }
 
 function configureWindowDrag(): void {

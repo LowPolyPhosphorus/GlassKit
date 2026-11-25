@@ -101,6 +101,7 @@ export class ShareAction extends HTMLElement {
       mountShadow(this, html, styles);
       this.shadowRoot!.querySelector<HTMLButtonElement>(".trigger")!.addEventListener("click", this.#onTriggerClick);
       this.shadowRoot!.querySelector<HTMLElement>(".actions")!.addEventListener("click", this.#onActionClick);
+      this.shadowRoot!.querySelector<HTMLElement>(".sheet")!.addEventListener("keydown", this.#onSheetKeydown);
       document.addEventListener("pointerdown", this.#onDocumentPointerDown, true);
     }
     this.#sync();
@@ -128,6 +129,13 @@ export class ShareAction extends HTMLElement {
   }
 
   #onTriggerClick = (): void => this.#setOpen(!this.#open);
+
+  #onSheetKeydown = (event: KeyboardEvent): void => {
+    if (event.key !== "Escape" || !this.#open) return;
+    event.preventDefault();
+    this.#setOpen(false);
+    this.shadowRoot?.querySelector<HTMLButtonElement>(".trigger")?.focus();
+  };
 
   #onDocumentPointerDown = (event: PointerEvent): void => {
     if (this.#open && !event.composedPath().includes(this)) this.#setOpen(false);
@@ -160,6 +168,8 @@ export class ShareAction extends HTMLElement {
       this.#setStatus(channel === "email" ? "Email draft prepared" : "Saved locally");
     }
     emit(this, "gk-share", { channel, title, url, source: this });
+    this.#setOpen(false);
+    this.shadowRoot?.querySelector<HTMLButtonElement>(".trigger")?.focus();
   };
 
   #sync(): void {

@@ -54,6 +54,46 @@
           document.documentElement.style.setProperty("--app-desktop", wallpapers[wallpaper]);
         }
 
+        // Keep these values in sync with the accent and highlight swatches on the Colors page.
+        const accents = {
+          "#0a84ff": { fill: "rgba(10,132,255,0.18)", stroke: "rgba(10,132,255,0.6)" },
+          "#bf5af2": { fill: "rgba(191,90,242,0.18)", stroke: "rgba(191,90,242,0.6)" },
+          "#ff375f": { fill: "rgba(255,55,95,0.18)", stroke: "rgba(255,55,95,0.6)" },
+          "#ff9f0a": { fill: "rgba(255,159,10,0.18)", stroke: "rgba(255,159,10,0.6)" },
+          "#30d158": { fill: "rgba(48,209,88,0.18)", stroke: "rgba(48,209,88,0.6)" },
+        };
+        let accent = null;
+        try {
+          accent = localStorage.getItem("gk-settings-accent");
+        } catch {
+          accent = null;
+        }
+        if (accent && Object.hasOwn(accents, accent)) {
+          const { fill, stroke } = accents[accent];
+          const style = document.documentElement.style;
+          style.setProperty("--app-accent", accent);
+          style.setProperty("--app-accent-fill", fill);
+          style.setProperty("--app-accent-stroke", stroke);
+          style.setProperty("--gk-color-accent", accent);
+          style.setProperty("--gk-color-accent-fill", fill);
+          style.setProperty("--gk-color-accent-stroke", stroke);
+        }
+
+        const highlights = [
+          "rgba(10,132,255,0.34)",
+          "rgba(191,90,242,0.34)",
+          "rgba(255,159,10,0.34)",
+        ];
+        let highlight = null;
+        try {
+          highlight = localStorage.getItem("gk-settings-highlight");
+        } catch {
+          highlight = null;
+        }
+        if (highlight && highlights.includes(highlight)) {
+          document.documentElement.style.setProperty("--app-highlight", highlight);
+        }
+
         let sidebarSize = null;
         try {
           sidebarSize = localStorage.getItem("gk-settings-sidebar-size");
@@ -142,7 +182,7 @@
               <p class="nav-heading">Personalization</p>
               <button class="nav-item" type="button" data-page="appearance" data-search="appearance colors theme light dark accent transparency">
                 <span class="nav-icon"><svg><use href="/icons.svg#icon-appearance" /></svg></span>
-                <span class="nav-copy"><strong>Colors</strong><small>Auto · dark</small></span>
+                <span class="nav-copy"><strong>Colors</strong><small>System theme</small></span>
                 <svg class="nav-chevron"><use href="/icons.svg#icon-chevron-right" /></svg>
               </button>
               <button class="nav-item" type="button" data-page="wallpaper" data-search="wallpaper background desktop picture personalization">
@@ -197,8 +237,8 @@
             </nav>
 
             <div class="sidebar-footer">
-              <gk-badge id="native-badge" tone="warning" dot>Browser</gk-badge>
-              <gk-button id="theme-toggle" variant="quiet" size="small">Light</gk-button>
+              <gk-badge id="native-badge" tone="warning" dot>Preview</gk-badge>
+              <gk-button id="theme-toggle" variant="quiet" size="small">Theme</gk-button>
             </div>
           </aside>
 

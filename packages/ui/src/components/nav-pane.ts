@@ -51,7 +51,7 @@ const styles = `
     text-align: left;
   }
   .item:hover { background: var(--gk-color-card-hover); color: var(--gk-color-text); }
-  .item[aria-current="true"] { background: var(--gk-color-accent-fill); color: var(--gk-color-text); }
+  .item[aria-selected="true"] { background: var(--gk-color-accent-fill); color: var(--gk-color-text); }
   .item .detail { color: var(--gk-color-text-dim); font-size: 9px; }
 
   .detail { display: grid; align-content: start; gap: 6px; padding: 10px; }
@@ -122,7 +122,7 @@ export class NavPane extends HTMLElement {
     root.querySelector<HTMLElement>(".list")!.innerHTML = items
       .map((item) => {
         const value = String(item.value ?? item.label ?? "item");
-        return `<button type="button" class="item" role="option" data-value="${esc(value)}" aria-current="${value === this.value}"><span>${esc(item.label ?? value)}</span><span class="detail">${esc(item.detail ?? "")}</span></button>`;
+        return `<button type="button" class="item" role="option" data-value="${esc(value)}" aria-selected="${value === this.value}"><span>${esc(item.label ?? value)}</span><span class="detail">${esc(item.detail ?? "")}</span></button>`;
       })
       .join("");
     root.querySelector<HTMLElement>(".detail-title")!.textContent =

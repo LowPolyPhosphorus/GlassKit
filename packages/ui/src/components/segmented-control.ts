@@ -117,7 +117,7 @@ export class SegmentedControl extends HTMLElement {
     if (!this.shadowRoot) {
       mountShadow(
         this,
-        '<div class="control" role="tablist"><span class="indicator" aria-hidden="true"></span><slot></slot></div>',
+        '<div class="control" role="radiogroup"><span class="indicator" aria-hidden="true"></span><slot></slot></div>',
         styles,
       );
       this.#control = this.shadowRoot!.querySelector<HTMLElement>(".control");
@@ -181,8 +181,8 @@ export class SegmentedControl extends HTMLElement {
     for (const option of options) {
       const active = option.getAttribute("value") === this.value;
       option.classList.toggle("is-active", active);
-      option.setAttribute("aria-selected", String(active));
-      if (!option.hasAttribute("role")) option.setAttribute("role", "tab");
+      option.setAttribute("aria-checked", String(active));
+      if (!option.hasAttribute("role")) option.setAttribute("role", "radio");
     }
 
     this.#positionIndicator();

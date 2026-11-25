@@ -1,6 +1,8 @@
 import { mountShadow } from "../base.js";
 import { componentBaseCss, emit, toNumber } from "../shared.js";
 
+const KEY_STEP = 15;
+
 const styles = `
   ${componentBaseCss}
   :host { display: block; min-width: 0; }
@@ -68,7 +70,7 @@ const html = `
   <section class="panel" part="panel">
     <header class="head"><span class="label" part="label"></span><span class="readout" part="readout" aria-live="polite"></span></header>
     <div class="surface" part="surface" tabindex="0" role="application" aria-label="Rotation surface">
-      <div class="rotor" part="rotor" role="button" aria-label="Rotation handle">↻</div>
+      <div class="rotor" part="rotor" aria-label="Rotation handle">↻</div>
     </div>
     <div class="actions"><button type="button" class="reset" part="reset">Reset</button></div>
   </section>`;
@@ -91,6 +93,7 @@ export class RotateView extends HTMLElement {
     if (!this.shadowRoot) {
       mountShadow(this, html, styles);
       this.shadowRoot!.querySelector<HTMLElement>(".rotor")!.addEventListener("pointerdown", this.#onDown);
+      this.shadowRoot!.querySelector<HTMLElement>(".surface")!.addEventListener("keydown", this.#onSurfaceKeydown);
       window.addEventListener("pointermove", this.#onMove);
       window.addEventListener("pointerup", this.#onUp);
       window.addEventListener("pointercancel", this.#onUp);
@@ -129,6 +132,14 @@ export class RotateView extends HTMLElement {
     const center = this.#center();
     return (Math.atan2(event.clientY - center.y, event.clientX - center.x) * 180) / Math.PI;
   }
+
+  #onSurfaceKeydown = (event: KeyboardEvent): void => {
+    if (event.key === "ArrowRight" || event.key === "ArrowUp") this.#angle += KEY_STEP;
+    else if (event.key === "ArrowLeft" || event.key === "ArrowDown") this.#angle -= KEY_STEP;
+    else return;
+    event.preventDefault();
+    this.#paint(true);
+  };
 
   #onDown = (event: PointerEvent): void => {
     if (event.button !== 0) return;
