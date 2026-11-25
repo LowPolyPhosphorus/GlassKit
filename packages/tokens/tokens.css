@@ -57,8 +57,8 @@
   --gk-motion-spring-sheet-damping: 38;
   --gk-motion-spring-sheet-mass: 1;
   --gk-color-text: #ffffff;
-  --gk-color-text-muted: rgba(235, 235, 245, 0.6);
-  --gk-color-text-dim: rgba(235, 235, 245, 0.3);
+  --gk-color-text-muted: rgba(235, 235, 245, 0.78);
+  --gk-color-text-dim: rgba(235, 235, 245, 0.62);
   --gk-color-glass-thin: rgba(255, 255, 255, 0.04);
   --gk-color-glass-regular: rgba(255, 255, 255, 0.07);
   --gk-color-glass-thick: rgba(255, 255, 255, 0.12);
@@ -74,8 +74,8 @@
   --gk-color-secondary-grouped-background: #1c1c1e;
   --gk-color-tertiary-grouped-background: #2c2c2e;
   --gk-color-label: #ffffff;
-  --gk-color-secondary-label: rgba(235, 235, 245, 0.6);
-  --gk-color-tertiary-label: rgba(235, 235, 245, 0.3);
+  --gk-color-secondary-label: rgba(235, 235, 245, 0.78);
+  --gk-color-tertiary-label: rgba(235, 235, 245, 0.62);
   --gk-color-quaternary-label: rgba(235, 235, 245, 0.18);
   --gk-color-separator: rgba(84, 84, 88, 0.65);
   --gk-color-soft-hairline: rgba(84, 84, 88, 0.35);
@@ -94,8 +94,8 @@
 [data-gk-theme="light"] {
   color-scheme: light;
   --gk-color-text: #000000;
-  --gk-color-text-muted: rgba(60, 60, 67, 0.6);
-  --gk-color-text-dim: rgba(60, 60, 67, 0.3);
+  --gk-color-text-muted: rgba(60, 60, 67, 0.82);
+  --gk-color-text-dim: rgba(60, 60, 67, 0.72);
   --gk-color-glass-thin: rgba(255, 255, 255, 0.22);
   --gk-color-glass-regular: rgba(255, 255, 255, 0.34);
   --gk-color-glass-thick: rgba(255, 255, 255, 0.52);
@@ -111,8 +111,8 @@
   --gk-color-secondary-grouped-background: #ffffff;
   --gk-color-tertiary-grouped-background: #f2f2f7;
   --gk-color-label: #000000;
-  --gk-color-secondary-label: rgba(60, 60, 67, 0.6);
-  --gk-color-tertiary-label: rgba(60, 60, 67, 0.3);
+  --gk-color-secondary-label: rgba(60, 60, 67, 0.82);
+  --gk-color-tertiary-label: rgba(60, 60, 67, 0.72);
   --gk-color-quaternary-label: rgba(60, 60, 67, 0.18);
   --gk-color-separator: rgba(60, 60, 67, 0.29);
   --gk-color-soft-hairline: rgba(60, 60, 67, 0.14);
@@ -136,8 +136,8 @@
 [data-gk-material="liquid"] {
   --gk-material-filter: var(--gk-material-filter-liquid);
   --gk-color-text: #ffffff;
-  --gk-color-text-muted: rgba(235, 235, 245, 0.72);
-  --gk-color-text-dim: rgba(235, 235, 245, 0.44);
+  --gk-color-text-muted: rgba(235, 235, 245, 0.86);
+  --gk-color-text-dim: rgba(235, 235, 245, 0.68);
   --gk-color-glass-thin: rgba(255, 255, 255, 0.06);
   --gk-color-glass-regular: rgba(255, 255, 255, 0.1);
   --gk-color-glass-thick: rgba(255, 255, 255, 0.16);
@@ -154,8 +154,8 @@
 
 [data-gk-theme="light"][data-gk-material="liquid"] {
   --gk-color-text: #000000;
-  --gk-color-text-muted: rgba(60, 60, 67, 0.68);
-  --gk-color-text-dim: rgba(60, 60, 67, 0.4);
+  --gk-color-text-muted: rgba(60, 60, 67, 0.88);
+  --gk-color-text-dim: rgba(60, 60, 67, 0.75);
   --gk-color-glass-thin: rgba(255, 255, 255, 0.32);
   --gk-color-glass-regular: rgba(255, 255, 255, 0.5);
   --gk-color-glass-thick: rgba(255, 255, 255, 0.68);
