@@ -66,11 +66,30 @@ const PAGES: Record<string, PageMeta> = {
 
 const THEME_KEY = "gk-settings-theme";
 const WALLPAPER_KEY = "gk-settings-wallpaper";
+const ACCENT_KEY = "gk-settings-accent";
+const HIGHLIGHT_KEY = "gk-settings-highlight";
+const SIDEBAR_SIZE_KEY = "gk-settings-sidebar-size";
 
 function must<T extends Element>(selector: string): T {
   const element = document.querySelector<T>(selector);
   if (!element) throw new Error(`Missing element: ${selector}`);
   return element;
+}
+
+function storedValue(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function saveValue(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Private-mode storage failures are safe to ignore.
+  }
 }
 
 function detailValue(event: Event): DetailValue {
@@ -127,7 +146,22 @@ const KIT_CONTROL_IDS = new Set([
 const navItems = Array.from(nav.querySelectorAll<HTMLButtonElement>(".nav-item"));
 const panels = Array.from(pageHost.querySelectorAll<HTMLElement>("[data-page-panel]"));
 let currentPage = "wifi";
-const pageStack: string[] = ["wifi"];
+let pageStack: string[] = ["wifi"];
+
+function pageFromHash(): string {
+  const page = location.hash.replace(/^#/, "");
+  return PAGES[page] ? page : "wifi";
+}
+
+interface PageHistoryState {
+  page: string;
+  stack: string[];
+}
+
+function historyStack(state: unknown): string[] {
+  const stack = (state as Partial<PageHistoryState> | null)?.stack;
+  return Array.isArray(stack) ? stack.filter((entry): entry is string => typeof entry === "string" && Boolean(PAGES[entry])) : [];
+}
 
 function setStatus(text: string): void {
   status.textContent = text;
@@ -146,7 +180,7 @@ function readPreference(): ThemePreference {
     stored = null;
   }
   const value = stored ?? root.dataset.gkThemePreference ?? "light";
-  return value === "light" || value === "dark" ? value : "auto";
+  return value === "dark" || value === "auto" ? value : "light";
 }
 
 function applyTheme(preference: ThemePreference, announce = true): void {
@@ -173,8 +207,8 @@ function showPage(page: string, push = true): void {
   if (!meta) return;
 
   if (push && page !== currentPage) {
-    pageStack.push(page);
-    history.pushState({ page }, "", `#${page}`);
+    pageStack = [...pageStack, page];
+    history.pushState({ page, stack: pageStack } satisfies PageHistoryState, "", `#${page}`);
   }
 
   currentPage = page;
@@ -192,12 +226,12 @@ function showPage(page: string, push = true): void {
 
   const active = panels.find((panel) => panel.dataset.pagePanel === page);
   if (active) animateRecipe(active, "panel-in");
+  pageHost.scrollTop = 0;
   setStatus(`${meta.title} selected`);
 }
 
 function navigateBack(): void {
   if (pageStack.length <= 1) return;
-  pageStack.pop();
   history.back();
 }
 
@@ -237,19 +271,28 @@ function configureNavigation(): void {
   }
 
   backButton.addEventListener("click", navigateBack);
-  window.addEventListener("popstate", () => {
-    const page = location.hash.replace(/^#/, "") || "wifi";
-    if (pageStack.length > 1) pageStack.pop();
+  window.addEventListener("popstate", (event) => {
+    const page = pageFromHash();
+    const restored = historyStack(event.state);
+    pageStack = restored.length ? restored : [page];
     showPage(page, false);
   });
   window.addEventListener("hashchange", () => {
-    const page = location.hash.replace(/^#/, "") || "wifi";
-    if (page !== currentPage) showPage(page, false);
+    const page = pageFromHash();
+    if (page === currentPage) return;
+    pageStack = [...pageStack, page];
+    history.replaceState({ page, stack: pageStack } satisfies PageHistoryState, "", `${location.pathname}${location.search}#${page}`);
+    showPage(page, false);
   });
 
-  const initial = location.hash.replace(/^#/, "");
-  showPage(PAGES[initial] ? initial : "wifi", false);
-  history.replaceState({ page: currentPage }, "", `${location.pathname}${location.search}#${currentPage}`);
+  const restored = historyStack(history.state);
+  pageStack = restored.length ? restored : [pageFromHash()];
+  showPage(pageStack[pageStack.length - 1] ?? "wifi", false);
+  history.replaceState(
+    { page: currentPage, stack: pageStack } satisfies PageHistoryState,
+    "",
+    `${location.pathname}${location.search}#${currentPage}`,
+  );
 }
 
 function configureSearch(): void {
@@ -270,12 +313,15 @@ function configureSearch(): void {
   });
 
   document.addEventListener("keydown", (event) => {
-    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "f") {
+    const editing = event.composedPath().some(
+      (node) => node instanceof Element && node.matches("input, textarea, [contenteditable], [role='textbox']"),
+    );
+    if ((event.metaKey || event.ctrlKey) && !event.altKey && event.key.toLowerCase() === "f" && !editing) {
       event.preventDefault();
       search.focus();
       search.select();
     }
-    if (event.altKey && event.key === "ArrowLeft") {
+    if (event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && event.key === "ArrowLeft") {
       event.preventDefault();
       navigateBack();
     }
@@ -330,32 +376,59 @@ function configureSurfaceMode(): void {
 
 function configureAccents(): void {
   const accents = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-accent]"));
-  for (const swatch of accents) {
-    swatch.addEventListener("click", () => {
-      root.style.setProperty("--app-accent", swatch.dataset.accent!);
-      root.style.setProperty("--app-accent-fill", swatch.dataset.accentFill!);
-      root.style.setProperty("--app-accent-stroke", swatch.dataset.accentStroke!);
-      root.style.setProperty("--gk-color-accent", swatch.dataset.accent!);
-      root.style.setProperty("--gk-color-accent-fill", swatch.dataset.accentFill!);
-      root.style.setProperty("--gk-color-accent-stroke", swatch.dataset.accentStroke!);
-      for (const other of accents) other.classList.toggle("is-selected", other === swatch);
-      setStatus(`Accent color: ${swatch.getAttribute("aria-label") ?? "custom"}`);
-    });
-  }
+  const applyAccent = (swatch: HTMLButtonElement, announce = true, persist = true): void => {
+    root.style.setProperty("--app-accent", swatch.dataset.accent!);
+    root.style.setProperty("--app-accent-fill", swatch.dataset.accentFill!);
+    root.style.setProperty("--app-accent-stroke", swatch.dataset.accentStroke!);
+    root.style.setProperty("--gk-color-accent", swatch.dataset.accent!);
+    root.style.setProperty("--gk-color-accent-fill", swatch.dataset.accentFill!);
+    root.style.setProperty("--gk-color-accent-stroke", swatch.dataset.accentStroke!);
+    for (const other of accents) {
+      const selected = other === swatch;
+      other.classList.toggle("is-selected", selected);
+      other.setAttribute("aria-pressed", String(selected));
+    }
+    if (persist) saveValue(ACCENT_KEY, swatch.dataset.accent!);
+    if (announce) setStatus(`Accent color: ${swatch.getAttribute("aria-label") ?? "custom"}`);
+  };
+
+  const savedAccent = storedValue(ACCENT_KEY);
+  const initialAccent =
+    accents.find((swatch) => swatch.dataset.accent === savedAccent) ??
+    accents.find((swatch) => swatch.classList.contains("is-selected"));
+  if (initialAccent) applyAccent(initialAccent, false, false);
+  for (const swatch of accents) swatch.addEventListener("click", () => applyAccent(swatch));
 
   const highlights = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-highlight]"));
-  for (const swatch of highlights) {
-    swatch.addEventListener("click", () => {
-      root.style.setProperty("--app-highlight", swatch.dataset.highlight!);
-      for (const other of highlights) other.classList.toggle("is-selected", other === swatch);
-      setStatus(`Highlight color: ${swatch.getAttribute("aria-label") ?? "custom"}`);
-    });
-  }
+  const applyHighlight = (swatch: HTMLButtonElement, announce = true, persist = true): void => {
+    root.style.setProperty("--app-highlight", swatch.dataset.highlight!);
+    for (const other of highlights) {
+      const selected = other === swatch;
+      other.classList.toggle("is-selected", selected);
+      other.setAttribute("aria-pressed", String(selected));
+    }
+    if (persist) saveValue(HIGHLIGHT_KEY, swatch.dataset.highlight!);
+    if (announce) setStatus(`Highlight color: ${swatch.getAttribute("aria-label") ?? "custom"}`);
+  };
 
-  const size = must<HTMLElement>("#sidebar-size");
+  const savedHighlight = storedValue(HIGHLIGHT_KEY);
+  const initialHighlight =
+    highlights.find((swatch) => swatch.dataset.highlight === savedHighlight) ??
+    highlights.find((swatch) => swatch.classList.contains("is-selected"));
+  if (initialHighlight) applyHighlight(initialHighlight, false, false);
+  for (const swatch of highlights) swatch.addEventListener("click", () => applyHighlight(swatch));
+
+  const size = must<HTMLElement>("#sidebar-size") as HTMLElement & { value: string };
+  const sizes = ["small", "medium", "large"];
+  const savedSize = storedValue(SIDEBAR_SIZE_KEY);
+  const initialSize = sizes.includes(savedSize ?? "") ? savedSize! : size.value || "medium";
+  root.dataset.sidebarSize = initialSize;
+  size.value = initialSize;
   size.addEventListener("gk-change", (event) => {
     const value = stringValue(detailValue(event));
+    if (!sizes.includes(value)) return;
     root.dataset.sidebarSize = value;
+    saveValue(SIDEBAR_SIZE_KEY, value);
     setStatus(`Sidebar icon size: ${value}`);
   });
 }
@@ -377,7 +450,10 @@ function configureWallpaper(): void {
     root.style.setProperty("--app-desktop", color);
     preview.style.setProperty("--app-desktop", color);
     label.textContent = name;
-    for (const other of tiles) other.classList.toggle("is-selected", other === tile);
+    for (const other of tiles) {
+      other.classList.toggle("is-selected", other === tile);
+      other.setAttribute("aria-pressed", String(other === tile));
+    }
     try {
       localStorage.setItem(WALLPAPER_KEY, name);
     } catch {
@@ -411,9 +487,11 @@ function configureReadouts(): void {
     if (!slider || !readout) continue;
     const update = (): void => {
       readout.textContent = format(slider.value);
+      if (sliderSelector === "#taskbar-size") {
+        root.style.setProperty("--taskbar-size", `${Math.round(slider.value)}px`);
+      }
     };
     slider.addEventListener("gk-input", update);
-    slider.addEventListener("input", update);
     update();
   }
 }
@@ -430,6 +508,7 @@ function configureActions(): void {
     choice.addEventListener("click", () => {
       for (const other of document.querySelectorAll<HTMLButtonElement>(".choice")) {
         other.classList.toggle("is-selected", other === choice);
+        other.setAttribute("aria-pressed", String(other === choice));
       }
       setStatus(`Output device: ${choice.dataset.output}`);
     });
@@ -558,35 +637,70 @@ function configureTaskbar(): void {
 
 function configureContextMenu(): void {
   const menu = must<HTMLElement>("#context-menu");
+  const items = Array.from(menu.querySelectorAll<HTMLButtonElement>("[data-context-action]"));
+  let returnFocus: HTMLElement | null = null;
+
+  const close = (restoreFocus = false): void => {
+    if (menu.hidden) return;
+    menu.hidden = true;
+    if (restoreFocus) returnFocus?.focus();
+    returnFocus = null;
+  };
 
   windowElement.addEventListener("contextmenu", (event) => {
-    if (!(event.target instanceof Element) || event.target.closest("input, textarea")) return;
+    const editing = event.composedPath().some(
+      (node) => node instanceof Element && node.matches("input, textarea, [contenteditable]"),
+    );
+    if (editing) return;
     event.preventDefault();
+    returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     menu.hidden = false;
     const width = menu.offsetWidth || 210;
     const height = menu.offsetHeight || 168;
     menu.style.left = `${Math.max(8, Math.min(event.clientX, window.innerWidth - width - 8))}px`;
     menu.style.top = `${Math.max(8, Math.min(event.clientY, window.innerHeight - height - 8))}px`;
+    items[0]?.focus();
   });
 
   document.addEventListener("click", (event) => {
-    if (!menu.contains(event.target as Node)) menu.hidden = true;
+    if (!menu.contains(event.target as Node)) close();
   });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") menu.hidden = true;
+    if (menu.hidden) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      close(true);
+      return;
+    }
+    const index = items.indexOf(document.activeElement as HTMLButtonElement);
+    if (event.key === "ArrowDown" || event.key === "ArrowUp" || event.key === "Home" || event.key === "End") {
+      event.preventDefault();
+      const step = event.key === "ArrowDown" ? 1 : event.key === "ArrowUp" ? -1 : 0;
+      const next = event.key === "Home" ? 0 : event.key === "End" ? items.length - 1 : index + step;
+      items[(next + items.length) % items.length]?.focus();
+    }
   });
-  menu.querySelectorAll<HTMLButtonElement>("[data-context-action]").forEach((button) => {
+  items.forEach((button) => {
+    button.tabIndex = -1;
     button.addEventListener("click", () => {
-      setStatus(`${button.dataset.contextAction ?? "Action"} selected`);
-      menu.hidden = true;
+      const action = button.dataset.contextAction ?? "Action";
+      if (action === "Native material status") {
+        const native = nativeStatus();
+        setStatus(`${native.native ? "Native" : "Browser"}: ${native.reason}`);
+      } else {
+        setStatus(`${action} selected`);
+      }
+      close(true);
     });
   });
 }
 
 function configureClock(): void {
-  const clock = must<HTMLElement>("#clock");
+  const clock = must<HTMLTimeElement>("#clock");
   const update = (): void => {
-    clock.textContent = new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    const now = new Date();
+    clock.dateTime = now.toISOString();
+    clock.textContent = now.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
   };
   update();
   window.setInterval(update, 30_000);
@@ -673,7 +787,7 @@ const ATLAS_ATTRIBUTES: Record<string, Record<string, string>> = {
   "gk-tab-bar": { tabs: '[{"id":"all","label":"All"},{"id":"core","label":"Core"},{"id":"hig","label":"HIG"}]', active: "all" },
   "gk-token-field": { label: "Rooms", placeholder: "Add a room", tokens: '["Kitchen","Hallway"]' },
   "gk-virtual-keyboard": {},
-  "gk-web-view": { title: "Inline content", height: "90", srcdoc: "<p>Sandboxed content stays inside the app.</p>" },
+  "gk-web-view": { title: "Inline content", height: "90px", srcdoc: "<p>Sandboxed content stays inside the app.</p>" },
   "gk-action-menu": {
     label: "Actions",
     items: '[{"label":"Duplicate","detail":"⌘D"},{"label":"Rename"},{"separator":true},{"label":"Delete","value":"delete"}]',
@@ -891,6 +1005,22 @@ function atlasGroupRank(group: string): number {
   return index === -1 ? GROUP_ORDER.length : index;
 }
 
+function populateComponentPicker(select: HTMLSelectElement, group: string): void {
+  select.replaceChildren();
+  const all = document.createElement("option");
+  all.value = "all";
+  all.textContent = "All components";
+  select.append(all);
+  for (const item of COMPONENT_REGISTRY) {
+    if (group !== "all" && item.group !== group) continue;
+    const option = document.createElement("option");
+    option.value = item.tag;
+    option.textContent = `${item.title} · ${item.tag}`;
+    select.append(option);
+  }
+  select.value = "all";
+}
+
 function populateAtlasPickers(): { group: HTMLSelectElement; component: HTMLSelectElement } {
   const group = must<HTMLSelectElement>("#kit-atlas-group");
   const component = must<HTMLSelectElement>("#kit-atlas-component");
@@ -898,7 +1028,7 @@ function populateAtlasPickers(): { group: HTMLSelectElement; component: HTMLSele
     (left, right) => atlasGroupRank(left) - atlasGroupRank(right) || left.localeCompare(right),
   );
 
-  for (const select of [group, component]) select.replaceChildren();
+  group.replaceChildren();
   const allGroups = document.createElement("option");
   allGroups.value = "all";
   allGroups.textContent = "All groups";
@@ -909,17 +1039,7 @@ function populateAtlasPickers(): { group: HTMLSelectElement; component: HTMLSele
     option.textContent = value;
     group.append(option);
   }
-
-  const allComponents = document.createElement("option");
-  allComponents.value = "all";
-  allComponents.textContent = "All components";
-  component.append(allComponents);
-  for (const item of COMPONENT_REGISTRY) {
-    const option = document.createElement("option");
-    option.value = item.tag;
-    option.textContent = `${item.title} · ${item.tag}`;
-    component.append(option);
-  }
+  populateComponentPicker(component, "all");
   return { group, component };
 }
 
@@ -1000,14 +1120,19 @@ function configureKitAtlas(): void {
     readout.textContent =
       total === COMPONENT_REGISTRY.length
         ? "Every registered Glass Kit element is rendered here."
-        : `${total} components match the filter.`;
+        : `${total} component${total === 1 ? "" : "s"} match${total === 1 ? "es" : ""} the filter.`;
   };
 
-  for (const control of [search, pickers.group, pickers.component]) {
-    control.addEventListener("gk-input", paint);
-    control.addEventListener("gk-change", paint);
-    control.addEventListener("change", paint);
-  }
+  let searchTimer = 0;
+  search.addEventListener("gk-input", () => {
+    window.clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(paint, 120);
+  });
+  pickers.group.addEventListener("change", () => {
+    populateComponentPicker(pickers.component, pickers.group.value);
+    paint();
+  });
+  pickers.component.addEventListener("change", paint);
   paint();
 }
 
@@ -1030,6 +1155,7 @@ function configureKitHig(): void {
     "gk-expand-change",
     "gk-confirm",
     "gk-cancel",
+    "gk-snippet-action",
     "gk-point-select",
     "gk-load",
     "gk-sort",
@@ -1079,7 +1205,7 @@ function configureKitHig(): void {
     "gk-error",
   ];
 
-  for (const name of names) {
+  for (const name of new Set(names)) {
     document.addEventListener(name, (event) => {
       const detail = (event as CustomEvent<Record<string, unknown>>).detail ?? {};
       const info = Object.entries(detail)
@@ -1199,7 +1325,8 @@ async function playAllRecipes(): Promise<void> {
 function playSpring(): void {
   stopMotionSequence();
   const preset = (must<HTMLElement>("#kit-spring-preset") as KitSegmented).value as SpringPresetName;
-  const time = (must<HTMLElement>("#kit-spring-time") as KitSlider).value || 420;
+  const slider = must<HTMLElement>("#kit-spring-time") as KitSlider;
+  const time = Number.isFinite(slider.value) ? slider.value : 420;
   kitAnimation = animateSpring(must<HTMLElement>("#kit-motion-preview"), "left", {
     preset,
     from: 0,
@@ -1237,6 +1364,8 @@ function applyReducedPreference(value: string): void {
   if (value === "reduced") setReducedMotionOverride(true);
   else if (value === "full") setReducedMotionOverride(false);
   else clearReducedMotionOverride();
+  if (value === "reduced" || value === "full") root.dataset.gkReducedMotion = value;
+  else delete root.dataset.gkReducedMotion;
   updateSpringMetrics();
   setStatus(`Reduced motion: ${value}`);
 }
@@ -1252,6 +1381,8 @@ function renderRecipeRows(filter = ""): void {
     const row = document.createElement("gk-list-row");
     row.setAttribute("subtitle", "");
     row.setAttribute("interactive", "");
+    row.setAttribute("role", "button");
+    row.tabIndex = 0;
     row.dataset.recipe = name;
     row.innerHTML = `
       <svg slot="leading" class="row-icon"><use href="/icons.svg#icon-sparkle" /></svg>
@@ -1259,6 +1390,11 @@ function renderRecipeRows(filter = ""): void {
       <span slot="subtitle">${recipe.preset} · ${recipe.durationMs}ms · ${ease("standard")}</span>
       <svg slot="trailing" class="row-chevron"><use href="/icons.svg#icon-arrow-right" /></svg>`;
     row.addEventListener("click", () => playRecipe(name));
+    row.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      playRecipe(name);
+    });
     host.append(row);
   }
 
@@ -1357,8 +1493,11 @@ function configureKitMaterial(native: NativeStatus): void {
     const alpha = Math.round(tint.value);
     try {
       await applyNativeGlass(selected, (alpha << 24) | 0x00ffffff);
+      if (selected === "none") delete root.dataset.gkNativeMaterial;
+      else root.dataset.gkNativeMaterial = selected;
       if (announce) setStatus(`Native material: ${selected} · alpha ${alpha}`);
     } catch (error) {
+      delete root.dataset.gkNativeMaterial;
       setStatus(error instanceof Error ? error.message : String(error));
     }
   };
@@ -1376,7 +1515,11 @@ function configureKitMaterial(native: NativeStatus): void {
   clear.addEventListener("gk-activate", () => {
     if (!ready) return;
     void clearNativeGlass()
-      .then(() => setStatus("Native glass cleared"))
+      .then(() => {
+        mode.value = "none";
+        delete root.dataset.gkNativeMaterial;
+        setStatus("Native glass cleared");
+      })
       .catch((error: unknown) => setStatus(error instanceof Error ? error.message : String(error)));
   });
 
@@ -1407,8 +1550,10 @@ async function configureNative(): Promise<void> {
   try {
     await setNativeCorners(true);
     await applyNativeGlass("blur");
+    root.dataset.gkNativeMaterial = "blur";
     setStatus("Native glass applied to this window");
   } catch (error) {
+    delete root.dataset.gkNativeMaterial;
     setStatus(error instanceof Error ? error.message : String(error));
   }
 }

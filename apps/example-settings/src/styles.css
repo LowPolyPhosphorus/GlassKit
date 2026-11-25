@@ -141,7 +141,7 @@ gk-slider:focus-visible {
   display: grid;
   place-items: center;
   min-height: 100vh;
-  padding: 28px 20px 76px;
+  padding: 28px 20px calc(var(--taskbar-size, 48px) + 28px);
 }
 
 .is-hidden {
@@ -178,6 +178,32 @@ gk-slider:focus-visible {
   background: var(--app-window);
   box-shadow: 0 30px 80px var(--app-shadow), 0 2px 8px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(24px);
+}
+
+html[data-gk-native-material] body {
+  background: transparent;
+}
+
+html[data-gk-native-material] .settings-window {
+  background: color-mix(in srgb, var(--app-window) 35%, transparent);
+  box-shadow: none;
+}
+
+html[data-gk-native-material] .titlebar,
+html[data-gk-native-material] .detail {
+  background: transparent;
+}
+
+html[data-gk-native-material] .sidebar {
+  background: color-mix(in srgb, var(--app-sidebar) 60%, transparent);
+}
+
+html[data-gk-host="tauri"] .window-controls {
+  display: none;
+}
+
+html[data-gk-host="tauri"] .titlebar-left {
+  margin-left: 6px;
 }
 
 .settings-window.is-maximized {
@@ -446,7 +472,7 @@ gk-slider:focus-visible {
 
 .nav-item.is-active {
   background: var(--app-accent-soft);
-  color: var(--app-accent);
+  color: var(--app-text);
 }
 
 .nav-icon {
@@ -924,7 +950,7 @@ gk-list-row[interactive]:hover::part(row) .subtitle {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  height: 48px;
+  height: var(--taskbar-size, 48px);
   padding: 0 12px;
   border-top: 1px solid var(--app-line);
   background: var(--app-titlebar);
@@ -1446,12 +1472,19 @@ gk-toolbar.kit-toolbar {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  html:not([data-gk-reduced-motion="full"]) *,
+  html:not([data-gk-reduced-motion="full"]) *::before,
+  html:not([data-gk-reduced-motion="full"]) *::after {
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;
   }
+}
+
+html[data-gk-reduced-motion="reduced"] *,
+html[data-gk-reduced-motion="reduced"] *::before,
+html[data-gk-reduced-motion="reduced"] *::after {
+  animation-duration: 1ms !important;
+  transition-duration: 1ms !important;
 }
 
 @media (max-width: 900px) {

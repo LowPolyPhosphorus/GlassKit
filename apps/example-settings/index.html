@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Glass Kit Settings — a Windows-native sample built with Glass Kit components, tokens, and materials." />
     <meta name="color-scheme" content="dark light" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a84ff'/%3E%3Cpath d='M16 8a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6z' fill='white'/%3E%3C/svg%3E" />
     <title>Settings</title>
     <script>
       (() => {
@@ -33,6 +35,40 @@
           material = null;
         }
         if (material === "liquid") document.documentElement.dataset.gkMaterial = "liquid";
+
+        const wallpapers = {
+          "Studio Flat": "#2c2c30",
+          Slate: "#233a4d",
+          Plum: "#3d2f45",
+          Moss: "#2f4038",
+          Umber: "#4a3b2d",
+          Paper: "#d9dae0",
+        };
+        let wallpaper = null;
+        try {
+          wallpaper = localStorage.getItem("gk-settings-wallpaper");
+        } catch {
+          wallpaper = null;
+        }
+        if (wallpaper && Object.hasOwn(wallpapers, wallpaper)) {
+          document.documentElement.style.setProperty("--app-desktop", wallpapers[wallpaper]);
+        }
+
+        let sidebarSize = null;
+        try {
+          sidebarSize = localStorage.getItem("gk-settings-sidebar-size");
+        } catch {
+          sidebarSize = null;
+        }
+        if (sidebarSize === "small" || sidebarSize === "medium" || sidebarSize === "large") {
+          document.documentElement.dataset.sidebarSize = sidebarSize;
+        }
+
+        try {
+          if (window.__TAURI_INTERNALS__?.invoke) document.documentElement.dataset.gkHost = "tauri";
+        } catch {
+          // Host detection is best-effort; the browser preview keeps its own chrome.
+        }
       })();
     </script>
   </head>
@@ -287,19 +323,19 @@
                   <div class="setting-row">
                     <div class="row-copy"><strong>Accent color</strong><span>Used for selection, focus, and primary actions</span></div>
                     <div class="accent-row" id="accent-row">
-                      <button class="accent-swatch is-selected" type="button" data-accent="#0a84ff" data-accent-fill="rgba(10,132,255,0.18)" data-accent-stroke="rgba(10,132,255,0.6)" style="--swatch:#0a84ff" aria-label="Blue accent"></button>
-                      <button class="accent-swatch" type="button" data-accent="#bf5af2" data-accent-fill="rgba(191,90,242,0.18)" data-accent-stroke="rgba(191,90,242,0.6)" style="--swatch:#bf5af2" aria-label="Purple accent"></button>
-                      <button class="accent-swatch" type="button" data-accent="#ff375f" data-accent-fill="rgba(255,55,95,0.18)" data-accent-stroke="rgba(255,55,95,0.6)" style="--swatch:#ff375f" aria-label="Pink accent"></button>
-                      <button class="accent-swatch" type="button" data-accent="#ff9f0a" data-accent-fill="rgba(255,159,10,0.18)" data-accent-stroke="rgba(255,159,10,0.6)" style="--swatch:#ff9f0a" aria-label="Orange accent"></button>
-                      <button class="accent-swatch" type="button" data-accent="#30d158" data-accent-fill="rgba(48,209,88,0.18)" data-accent-stroke="rgba(48,209,88,0.6)" style="--swatch:#30d158" aria-label="Green accent"></button>
+                      <button class="accent-swatch is-selected" type="button" aria-pressed="true" data-accent="#0a84ff" data-accent-fill="rgba(10,132,255,0.18)" data-accent-stroke="rgba(10,132,255,0.6)" style="--swatch:#0a84ff" aria-label="Blue accent"></button>
+                      <button class="accent-swatch" type="button" aria-pressed="false" data-accent="#bf5af2" data-accent-fill="rgba(191,90,242,0.18)" data-accent-stroke="rgba(191,90,242,0.6)" style="--swatch:#bf5af2" aria-label="Purple accent"></button>
+                      <button class="accent-swatch" type="button" aria-pressed="false" data-accent="#ff375f" data-accent-fill="rgba(255,55,95,0.18)" data-accent-stroke="rgba(255,55,95,0.6)" style="--swatch:#ff375f" aria-label="Pink accent"></button>
+                      <button class="accent-swatch" type="button" aria-pressed="false" data-accent="#ff9f0a" data-accent-fill="rgba(255,159,10,0.18)" data-accent-stroke="rgba(255,159,10,0.6)" style="--swatch:#ff9f0a" aria-label="Orange accent"></button>
+                      <button class="accent-swatch" type="button" aria-pressed="false" data-accent="#30d158" data-accent-fill="rgba(48,209,88,0.18)" data-accent-stroke="rgba(48,209,88,0.6)" style="--swatch:#30d158" aria-label="Green accent"></button>
                     </div>
                   </div>
                   <div class="setting-row">
                     <div class="row-copy"><strong>Highlight color</strong><span>Used for selected text</span></div>
                     <div class="accent-row" id="highlight-row">
-                      <button class="accent-swatch is-selected" type="button" data-highlight="rgba(10,132,255,0.34)" style="--swatch:#0a84ff" aria-label="Blue highlight"></button>
-                      <button class="accent-swatch" type="button" data-highlight="rgba(191,90,242,0.34)" style="--swatch:#bf5af2" aria-label="Purple highlight"></button>
-                      <button class="accent-swatch" type="button" data-highlight="rgba(255,159,10,0.34)" style="--swatch:#ff9f0a" aria-label="Orange highlight"></button>
+                      <button class="accent-swatch is-selected" type="button" aria-pressed="true" data-highlight="rgba(10,132,255,0.34)" style="--swatch:#0a84ff" aria-label="Blue highlight"></button>
+                      <button class="accent-swatch" type="button" aria-pressed="false" data-highlight="rgba(191,90,242,0.34)" style="--swatch:#bf5af2" aria-label="Purple highlight"></button>
+                      <button class="accent-swatch" type="button" aria-pressed="false" data-highlight="rgba(255,159,10,0.34)" style="--swatch:#ff9f0a" aria-label="Orange highlight"></button>
                     </div>
                   </div>
                 </gk-glass-panel>
@@ -328,12 +364,12 @@
                 <gk-glass-panel class="settings-group" elevation="flat">
                   <h2>Flat colors</h2>
                   <div class="wallpaper-grid" id="wallpaper-grid">
-                    <button class="wallpaper-tile is-selected" type="button" data-wallpaper="#2c2c30" data-name="Studio Flat"><span></span><strong>Studio Flat</strong></button>
-                    <button class="wallpaper-tile" type="button" data-wallpaper="#233a4d" data-name="Slate"><span></span><strong>Slate</strong></button>
-                    <button class="wallpaper-tile" type="button" data-wallpaper="#3d2f45" data-name="Plum"><span></span><strong>Plum</strong></button>
-                    <button class="wallpaper-tile" type="button" data-wallpaper="#2f4038" data-name="Moss"><span></span><strong>Moss</strong></button>
-                    <button class="wallpaper-tile" type="button" data-wallpaper="#4a3b2d" data-name="Umber"><span></span><strong>Umber</strong></button>
-                    <button class="wallpaper-tile" type="button" data-wallpaper="#d9dae0" data-name="Paper"><span></span><strong>Paper</strong></button>
+                    <button class="wallpaper-tile is-selected" type="button" aria-pressed="true" data-wallpaper="#2c2c30" data-name="Studio Flat"><span></span><strong>Studio Flat</strong></button>
+                    <button class="wallpaper-tile" type="button" aria-pressed="false" data-wallpaper="#233a4d" data-name="Slate"><span></span><strong>Slate</strong></button>
+                    <button class="wallpaper-tile" type="button" aria-pressed="false" data-wallpaper="#3d2f45" data-name="Plum"><span></span><strong>Plum</strong></button>
+                    <button class="wallpaper-tile" type="button" aria-pressed="false" data-wallpaper="#2f4038" data-name="Moss"><span></span><strong>Moss</strong></button>
+                    <button class="wallpaper-tile" type="button" aria-pressed="false" data-wallpaper="#4a3b2d" data-name="Umber"><span></span><strong>Umber</strong></button>
+                    <button class="wallpaper-tile" type="button" aria-pressed="false" data-wallpaper="#d9dae0" data-name="Paper"><span></span><strong>Paper</strong></button>
                   </div>
                 </gk-glass-panel>
               </section>
@@ -402,9 +438,9 @@
                 <gk-glass-panel class="settings-group" elevation="flat">
                   <h2>Output device</h2>
                   <div class="choice-list">
-                    <button class="choice is-selected" type="button" data-output="Studio speakers"><svg><use href="/icons.svg#icon-speaker" /></svg><span><strong>Studio speakers</strong><small>USB audio · Connected</small></span><svg class="choice-check"><use href="/icons.svg#icon-check" /></svg></button>
-                    <button class="choice" type="button" data-output="Headphones"><svg><use href="/icons.svg#icon-sound" /></svg><span><strong>Headphones</strong><small>Bluetooth · Available</small></span><svg class="choice-check"><use href="/icons.svg#icon-check" /></svg></button>
-                    <button class="choice" type="button" data-output="Built-in output"><svg><use href="/icons.svg#icon-display" /></svg><span><strong>Built-in output</strong><small>Internal speakers</small></span><svg class="choice-check"><use href="/icons.svg#icon-check" /></svg></button>
+                    <button class="choice is-selected" type="button" aria-pressed="true" data-output="Studio speakers"><svg><use href="/icons.svg#icon-speaker" /></svg><span><strong>Studio speakers</strong><small>USB audio · Connected</small></span><svg class="choice-check"><use href="/icons.svg#icon-check" /></svg></button>
+                    <button class="choice" type="button" aria-pressed="false" data-output="Headphones"><svg><use href="/icons.svg#icon-sound" /></svg><span><strong>Headphones</strong><small>Bluetooth · Available</small></span><svg class="choice-check"><use href="/icons.svg#icon-check" /></svg></button>
+                    <button class="choice" type="button" aria-pressed="false" data-output="Built-in output"><svg><use href="/icons.svg#icon-display" /></svg><span><strong>Built-in output</strong><small>Internal speakers</small></span><svg class="choice-check"><use href="/icons.svg#icon-check" /></svg></button>
                   </div>
                 </gk-glass-panel>
               </section>
@@ -659,7 +695,7 @@
                   </gk-live-activity>
                   <gk-chart title="Energy use" values="12,18,14,24,20,9" labels="Mon,Tue,Wed,Thu,Fri,Sat"></gk-chart>
                   <gk-image-view src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%231f2430'/%3E%3Ccircle cx='160' cy='90' r='42' fill='none' stroke='%230a84ff' stroke-width='4'/%3E%3C/svg%3E" alt="Camera preview" ratio="16 / 9" fit="contain"></gk-image-view>
-                  <gk-web-view title="Inline note" height="120" srcdoc='<p>Rich content stays inside a sandboxed frame.</p>'></gk-web-view>
+                  <gk-web-view title="Inline note" height="120px" srcdoc='<p>Rich content stays inside a sandboxed frame.</p>'></gk-web-view>
                   <div class="setting-row">
                     <div class="row-copy"><strong>Text field</strong><span>Label, placeholder, clear, and caption</span></div>
                     <gk-text-field label="Device name" placeholder="Name this device" clearable caption="Validation stays in the caption."></gk-text-field>
