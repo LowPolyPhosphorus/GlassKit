@@ -106,7 +106,13 @@ export class LazyStack extends HTMLElement {
     this.shadowRoot?.querySelector<HTMLElement>(".viewport")?.removeEventListener("scroll", this.#onScroll);
   }
 
-  attributeChangedCallback(): void {
+  attributeChangedCallback(name: string): void {
+    if (name === "value" && this.shadowRoot) {
+      this.shadowRoot.querySelectorAll<HTMLButtonElement>(".row").forEach((row) => {
+        row.setAttribute("aria-current", String(row.dataset.value === this.value));
+      });
+      return;
+    }
     this.#sync();
   }
 
@@ -166,9 +172,14 @@ export class LazyStack extends HTMLElement {
       const value = String(item.value ?? item.label ?? `item-${absolute + 1}`);
       return `<button type="button" class="row" data-index="${absolute}" data-value="${esc(value)}" aria-current="${value === this.value}"><span>${esc(item.label ?? value)}</span><span class="detail">${esc(item.detail ?? `${absolute + 1} / ${items.length}`)}</span></button>`;
     });
+    const active = root.activeElement;
+    const focusedValue = active instanceof HTMLButtonElement && active.classList.contains("row") ? active.dataset.value : undefined;
     content.replaceChildren(before);
     rows.forEach((row) => content.insertAdjacentHTML("beforeend", row));
     content.append(after);
+    if (focusedValue !== undefined) {
+      [...content.querySelectorAll<HTMLButtonElement>(".row")].find((row) => row.dataset.value === focusedValue)?.focus();
+    }
     root.querySelector<HTMLElement>(".range")!.textContent = `${first + 1}–${last} of ${items.length}`;
     emit(this, "gk-range-change", { start: first, end: last, total: items.length, host: this });
   }
@@ -178,7 +189,6 @@ export class LazyStack extends HTMLElement {
     if (!row) return;
     const value = row.dataset.value ?? "";
     this.setAttribute("value", value);
-    this.#renderWindow();
     emit(this, "gk-select", { value, index: Number(row.dataset.index), label: row.querySelector("span")?.textContent ?? value, host: this });
   };
 }

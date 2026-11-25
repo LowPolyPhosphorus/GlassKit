@@ -46,13 +46,13 @@ const styles = `
 `;
 
 const html = `
-  <label class="picker" part="picker">
+  <div class="picker" part="picker">
     <span class="label" part="label"></span>
     <span class="inputs">
-      <input class="date" type="date" aria-label="Date" />
-      <input class="time" type="time" aria-label="Time" hidden />
+      <input class="date" type="date" />
+      <input class="time" type="time" hidden />
     </span>
-  </label>`;
+  </div>`;
 
 export class DatePicker extends HTMLElement {
   static get observedAttributes(): string[] {
@@ -102,7 +102,10 @@ export class DatePicker extends HTMLElement {
   #sync(): void {
     if (!this.#date || !this.#time || !this.shadowRoot) return;
     const [date = "", time = "09:00"] = this.value.split("T");
-    this.shadowRoot.querySelector<HTMLElement>(".label")!.textContent = this.getAttribute("label") ?? "Date";
+    const label = this.getAttribute("label")?.trim();
+    this.shadowRoot.querySelector<HTMLElement>(".label")!.textContent = label ?? "Date";
+    this.#date.setAttribute("aria-label", label ? `${label} date` : "Date");
+    this.#time.setAttribute("aria-label", label ? `${label} time` : "Time");
     this.#date.value = date;
     this.#time.value = time;
     this.#time.hidden = !this.hasTime;

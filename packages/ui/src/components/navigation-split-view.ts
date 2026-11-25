@@ -102,11 +102,11 @@ const html = `
   <div class="split" part="split">
     <div class="pane" part="primary">
       <div class="pane-title">Sections</div>
-      <div class="items" role="list"></div>
+      <div class="items" role="group" aria-label="Sections"></div>
     </div>
     <div class="pane content" part="content" hidden>
       <div class="pane-title">Content</div>
-      <div class="items" role="list"></div>
+      <div class="items" role="group" aria-label="Content"></div>
     </div>
     <div class="detail" part="detail" role="region" aria-live="polite">
       <h3 class="detail-title"></h3>
@@ -223,7 +223,7 @@ export class NavigationSplitView extends HTMLElement {
       ? sections
           .map(
             (item) => `<button type="button" class="item${item.value === primary?.value ? " is-selected" : ""}"
-              data-level="primary" data-value="${esc(item.value)}" role="listitem">${esc(item.label)}</button>`,
+              data-level="primary" data-value="${esc(item.value)}"${item.value === primary?.value ? ' aria-current="true"' : ""}>${esc(item.label)}</button>`,
           )
           .join("")
       : `<span class="hint">No sections</span>`;
@@ -233,7 +233,7 @@ export class NavigationSplitView extends HTMLElement {
         ? children
             .map(
               (item) => `<button type="button" class="item${item.value === secondary?.value ? " is-selected" : ""}"
-                data-level="secondary" data-value="${esc(item.value)}" role="listitem">${esc(item.label)}</button>`,
+                data-level="secondary" data-value="${esc(item.value)}"${item.value === secondary?.value ? ' aria-current="true"' : ""}>${esc(item.label)}</button>`,
             )
             .join("")
         : `<span class="hint">No child items</span>`

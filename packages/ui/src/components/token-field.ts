@@ -109,6 +109,7 @@ export class TokenField extends HTMLElement {
       this.#input!.addEventListener("input", this.#onInput);
       this.#input!.addEventListener("keydown", this.#onKeydown);
       this.#input!.addEventListener("blur", () => this.#commitDraft());
+      this.#list!.addEventListener("click", this.#onTokenClick);
     }
     this.#sync();
   }
@@ -131,6 +132,13 @@ export class TokenField extends HTMLElement {
     }
   };
 
+  #onTokenClick = (event: MouseEvent): void => {
+    const remove = (event.target as HTMLElement).closest<HTMLButtonElement>(".remove");
+    if (!remove) return;
+    const token = remove.closest<HTMLElement>(".token")?.dataset.token;
+    if (token) this.#remove(token, remove);
+  };
+
   #commitDraft(): void {
     const token = this.#draft.trim().replace(/,$/, "").trim();
     if (!token) return;
@@ -146,8 +154,13 @@ export class TokenField extends HTMLElement {
     emit(this, "gk-token-change", { tokens: this.tokens });
   }
 
-  #remove(token: string): void {
+  #remove(token: string, source?: HTMLButtonElement): void {
+    const chips = [...(this.#list?.querySelectorAll<HTMLElement>(".token") ?? [])];
+    const index = source ? chips.indexOf(source.closest<HTMLElement>(".token")!) : -1;
+    const adjacent = index >= 0 ? Math.min(index, this.#tokens.length - 1) : -1;
     this.tokens = this.#tokens.filter((item) => item !== token);
+    if (adjacent >= 0) this.#list?.querySelectorAll<HTMLButtonElement>(".remove")[adjacent]?.focus();
+    else if (index >= 0) this.#input?.focus();
     emit(this, "gk-token-remove", { token, tokens: this.tokens });
     emit(this, "gk-token-change", { tokens: this.tokens });
   }
@@ -159,23 +172,26 @@ export class TokenField extends HTMLElement {
     this.#input.placeholder = this.getAttribute("placeholder") ?? "";
     this.#input.disabled = this.hasAttribute("disabled");
     this.#input.value = this.#draft;
-    this.#list.replaceChildren();
-
-    for (const token of this.#tokens) {
-      const chip = document.createElement("span");
-      chip.className = "token";
-      chip.setAttribute("role", "listitem");
-      chip.append(document.createTextNode(token));
-
-      const remove = document.createElement("button");
-      remove.type = "button";
-      remove.className = "remove";
-      remove.setAttribute("aria-label", `Remove ${token}`);
-      remove.textContent = "×";
-      remove.addEventListener("click", () => this.#remove(token));
-      chip.append(remove);
-      this.#list.append(chip);
-    }
+    const chips = [...this.#list.querySelectorAll<HTMLElement>(".token")];
+    this.#tokens.forEach((token, index) => {
+      let chip = chips[index];
+      if (!chip) {
+        chip = document.createElement("span");
+        chip.className = "token";
+        chip.setAttribute("role", "listitem");
+        chip.append(document.createTextNode(token));
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "remove";
+        remove.textContent = "×";
+        chip.append(remove);
+        this.#list!.append(chip);
+      }
+      chip.dataset.token = token;
+      chip.firstChild!.textContent = token;
+      chip.querySelector<HTMLButtonElement>(".remove")!.setAttribute("aria-label", `Remove ${token}`);
+    });
+    chips.slice(this.#tokens.length).forEach((chip) => chip.remove());
   }
 }
 

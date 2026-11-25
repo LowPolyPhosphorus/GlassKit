@@ -155,13 +155,14 @@ export class ConfirmationDialog extends HTMLElement {
   #onDialogKeydown = (event: KeyboardEvent): void => {
     if (event.key !== "Tab" || !this.shadowRoot) return;
     const buttons = Array.from(this.shadowRoot.querySelectorAll<HTMLButtonElement>(".action"));
-    if (buttons.length < 2) return;
+    if (!buttons.length) return;
     const first = buttons[0]!;
     const last = buttons[buttons.length - 1]!;
-    if (event.shiftKey && this.shadowRoot.activeElement === first) {
+    const current = buttons.indexOf(this.shadowRoot.activeElement as HTMLButtonElement);
+    if (event.shiftKey && current <= 0) {
       event.preventDefault();
       last.focus();
-    } else if (!event.shiftKey && this.shadowRoot.activeElement === last) {
+    } else if (!event.shiftKey && (current === -1 || current === buttons.length - 1)) {
       event.preventDefault();
       first.focus();
     }
@@ -214,7 +215,8 @@ export class ConfirmationDialog extends HTMLElement {
 
     this.#overlay.hidden = !this.open;
     if (this.open && !this.#wasOpen) {
-      actionHost.querySelector<HTMLButtonElement>(".action:not([data-style='cancel'])")?.focus();
+      (actionHost.querySelector<HTMLButtonElement>(".action:not([data-style='cancel'])") ??
+        actionHost.querySelector<HTMLButtonElement>(".action"))?.focus();
     }
     this.#wasOpen = this.open;
   }

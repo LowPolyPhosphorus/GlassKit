@@ -92,7 +92,7 @@ const html = `
       <span class="title" part="title"></span>
       <span class="crumb" part="crumb"></span>
     </div>
-    <div class="root" part="root" role="list"></div>
+    <div class="root" part="root" role="group" aria-label="Destinations"></div>
     <div class="detail" part="detail" hidden>
       <h3 class="detail-title" part="detail-title"></h3>
       <p class="detail-copy" part="detail-copy"></p>
@@ -170,7 +170,7 @@ export class NavigationStack extends HTMLElement {
     root.querySelector<HTMLElement>(".root")!.innerHTML = items.length
       ? items
           .map(
-            (item) => `<button type="button" class="route" role="listitem" data-value="${esc(item.value)}" data-label="${esc(item.label)}">
+            (item) => `<button type="button" class="route"${item.value === active?.value ? ' aria-current="true"' : ""} data-value="${esc(item.value)}" data-label="${esc(item.label)}">
               <span><span class="name">${esc(item.label)}</span>${item.detail ? `<span class="meta">${esc(item.detail)}</span>` : ""}</span>
               <span class="chevron" aria-hidden="true">›</span>
             </button>`,

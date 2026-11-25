@@ -109,6 +109,7 @@ export class ColorPicker extends HTMLElement {
 
   #native: HTMLInputElement | null = null;
   #hex: HTMLInputElement | null = null;
+  #renderedSwatches = "";
 
   get value(): string {
     return normalizeColor(this.getAttribute("value"));
@@ -174,7 +175,19 @@ export class ColorPicker extends HTMLElement {
     this.#hex.disabled = disabled;
 
     const swatches = parseList(this.getAttribute("swatches"));
-    root.querySelector<HTMLElement>(".swatches")!.innerHTML = swatches
+    const container = root.querySelector<HTMLElement>(".swatches")!;
+    const signature = JSON.stringify(swatches);
+    const buttons = [...container.querySelectorAll<HTMLButtonElement>(".swatch")];
+    if (signature === this.#renderedSwatches && buttons.length === swatches.length) {
+      buttons.forEach((button, index) => {
+        const swatch = normalizeColor(swatches[index]);
+        button.setAttribute("aria-pressed", String(swatch === value));
+        button.disabled = disabled;
+      });
+      return;
+    }
+    this.#renderedSwatches = signature;
+    container.innerHTML = swatches
       .map((raw) => {
         const swatch = normalizeColor(raw);
         const selected = swatch === value ? "true" : "false";

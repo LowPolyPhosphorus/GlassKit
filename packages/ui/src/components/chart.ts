@@ -88,7 +88,7 @@ export class Chart extends HTMLElement {
         this,
         `<section class="chart" part="chart">
           <header><span class="title"></span><span class="legend"><slot name="legend"></slot></span></header>
-          <div class="plot" part="plot" role="list" aria-label="Chart data"></div>
+          <div class="plot" part="plot" role="group" aria-label="Chart data"></div>
         </section>`,
         styles,
       );
@@ -122,7 +122,6 @@ export class Chart extends HTMLElement {
       const bar = document.createElement("button");
       bar.type = "button";
       bar.className = "bar";
-      bar.setAttribute("role", "listitem");
       bar.setAttribute("aria-label", `${label}: ${value}`);
 
       const valueLabel = document.createElement("span");

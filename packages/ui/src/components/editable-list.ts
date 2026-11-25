@@ -108,6 +108,7 @@ export class EditableList extends HTMLElement {
   }
 
   #items: ListEntry[] = [];
+  #renderedItems = "";
 
   get value(): ListEntry[] {
     return this.#items.map((item) => ({ ...item }));
@@ -163,12 +164,13 @@ export class EditableList extends HTMLElement {
     if (!button) return;
     const row = button.closest<HTMLElement>(".row")!;
     const index = Number(row.dataset.index);
-    const action = button.dataset.action;
+    const action = button.dataset.action ?? "";
     const next = this.#items.map((item) => ({ ...item }));
 
     if (action === "delete") {
       const [removed] = next.splice(index, 1);
       this.value = next;
+      this.#focusRowAction(Math.min(index, next.length - 1), action);
       emit(this, "gk-delete", { value: removed?.value ?? "", index, items: next, source: this });
       return;
     }
@@ -177,8 +179,26 @@ export class EditableList extends HTMLElement {
     if (to < 0 || to >= next.length) return;
     [next[index], next[to]] = [next[to]!, next[index]!];
     this.value = next;
+    this.#focusRowAction(to, action);
     emit(this, "gk-move", { value: next[to]?.value ?? "", from: index, to, items: next, source: this });
   };
+
+  #focusRowAction(index: number, action: string): void {
+    const row = this.shadowRoot?.querySelectorAll<HTMLElement>(".row")[index];
+    if (!row) {
+      const edit = this.shadowRoot?.querySelector<HTMLElement>(".bar [data-action='edit']");
+      const target = edit?.shadowRoot?.querySelector<HTMLButtonElement>("button") ?? edit;
+      target?.focus();
+      return;
+    }
+    const button = row.querySelector<HTMLButtonElement>(`button[data-action="${action}"]`);
+    if (button && !button.disabled) {
+      button.focus();
+      return;
+    }
+    const fallback = action === "up" ? "down" : action === "down" ? "up" : "delete";
+    row.querySelector<HTMLButtonElement>(`button[data-action="${fallback}"]`)?.focus();
+  }
 
   #sync(): void {
     if (!this.shadowRoot) return;
@@ -187,23 +207,35 @@ export class EditableList extends HTMLElement {
 
     root.querySelector<HTMLElement>(".title")!.textContent = this.getAttribute("label") ?? "Items";
     root.querySelector<HTMLElement>(".count")!.textContent = `${this.#items.length}`;
-    root.querySelector<HTMLElement>(".rows")!.innerHTML = this.#items.length
-      ? this.#items
-          .map(
-            (item, index) => `<div class="row" role="listitem" data-index="${index}">
-              <div class="text">
-                <span class="label">${esc(item.label)}</span>
-                <span class="detail">${esc(item.detail ?? "")}</span>
-              </div>
-              <div class="actions"${this.editing ? "" : " hidden"}>
-                <button type="button" data-action="up" aria-label="Move ${esc(item.label)} up"${index === 0 ? " disabled" : ""}>↑</button>
-                <button type="button" data-action="down" aria-label="Move ${esc(item.label)} down"${index === this.#items.length - 1 ? " disabled" : ""}>↓</button>
-                <button type="button" data-action="delete" aria-label="Delete ${esc(item.label)}">×</button>
-              </div>
-            </div>`,
-          )
-          .join("")
-      : `<p class="empty">No items yet</p>`;
+    const rows = root.querySelector<HTMLElement>(".rows")!;
+    const signature = JSON.stringify(this.#items);
+    if (signature === this.#renderedItems) {
+      rows.querySelectorAll<HTMLElement>(".row").forEach((row, index) => {
+        row.dataset.index = String(index);
+        row.querySelector<HTMLElement>(".actions")!.hidden = !this.editing;
+        row.querySelector<HTMLButtonElement>('[data-action="up"]')!.disabled = index === 0;
+        row.querySelector<HTMLButtonElement>('[data-action="down"]')!.disabled = index === this.#items.length - 1;
+      });
+    } else {
+      this.#renderedItems = signature;
+      rows.innerHTML = this.#items.length
+        ? this.#items
+            .map(
+              (item, index) => `<div class="row" role="listitem" data-index="${index}">
+                <div class="text">
+                  <span class="label">${esc(item.label)}</span>
+                  <span class="detail">${esc(item.detail ?? "")}</span>
+                </div>
+                <div class="actions"${this.editing ? "" : " hidden"}>
+                  <button type="button" data-action="up" aria-label="Move ${esc(item.label)} up"${index === 0 ? " disabled" : ""}>↑</button>
+                  <button type="button" data-action="down" aria-label="Move ${esc(item.label)} down"${index === this.#items.length - 1 ? " disabled" : ""}>↓</button>
+                  <button type="button" data-action="delete" aria-label="Delete ${esc(item.label)}">×</button>
+                </div>
+              </div>`,
+            )
+            .join("")
+        : `<p class="empty">No items yet</p>`;
+    }
 
     const edit = root.querySelector<HTMLElement>('[data-action="edit"]')!;
     edit.textContent = this.editing ? "Done" : "Edit";

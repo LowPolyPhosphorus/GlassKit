@@ -90,6 +90,8 @@ export class GridView extends HTMLElement {
     return ["caption", "columns", "gap", "items", "value"];
   }
 
+  #renderedItems = "";
+
   get value(): string {
     return this.getAttribute("value") ?? "";
   }
@@ -141,6 +143,14 @@ export class GridView extends HTMLElement {
     root.querySelector<HTMLElement>(".caption")!.textContent = this.getAttribute("caption") ?? "";
     grid.style.setProperty("--gk-grid-columns", String(columns));
     grid.style.setProperty("--gk-grid-gap", gap);
+    const signature = JSON.stringify(items);
+    if (signature === this.#renderedItems) {
+      grid.querySelectorAll<HTMLButtonElement>(".cell").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.value === this.value));
+      });
+      return;
+    }
+    this.#renderedItems = signature;
     grid.innerHTML = items.length
       ? items
           .map(

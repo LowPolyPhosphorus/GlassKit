@@ -84,6 +84,8 @@ export class NavPane extends HTMLElement {
     return ["label", "items", "value", "detail-title", "detail-body"];
   }
 
+  #renderedItems = "";
+
   get value(): string {
     return this.getAttribute("value") ?? "";
   }
@@ -119,12 +121,23 @@ export class NavPane extends HTMLElement {
     root.querySelector<HTMLElement>(".label")!.textContent = label;
     root.querySelector<HTMLElement>(".list")!.setAttribute("aria-label", label);
     root.querySelector<HTMLElement>(".hint")!.textContent = current ? "Detail shown" : `${items.length} items`;
-    root.querySelector<HTMLElement>(".list")!.innerHTML = items
-      .map((item) => {
-        const value = String(item.value ?? item.label ?? "item");
-        return `<button type="button" class="item" role="option" data-value="${esc(value)}" aria-selected="${value === this.value}"><span>${esc(item.label ?? value)}</span><span class="detail">${esc(item.detail ?? "")}</span></button>`;
-      })
-      .join("");
+    const list = root.querySelector<HTMLElement>(".list")!;
+    const signature = items
+      .map((item) => JSON.stringify([item.value ?? item.label ?? "item", item.label ?? "", item.detail ?? ""]))
+      .join("|");
+    if (signature === this.#renderedItems) {
+      list.querySelectorAll<HTMLButtonElement>(".item").forEach((button) => {
+        button.setAttribute("aria-selected", String(button.dataset.value === this.value));
+      });
+    } else {
+      this.#renderedItems = signature;
+      list.innerHTML = items
+        .map((item) => {
+          const value = String(item.value ?? item.label ?? "item");
+          return `<button type="button" class="item" role="option" data-value="${esc(value)}" aria-selected="${value === this.value}"><span>${esc(item.label ?? value)}</span><span class="detail">${esc(item.detail ?? "")}</span></button>`;
+        })
+        .join("");
+    }
     root.querySelector<HTMLElement>(".detail-title")!.textContent =
       this.getAttribute("detail-title") ?? current?.label ?? "Select a Note";
     root.querySelector<HTMLElement>(".detail-body")!.textContent =
@@ -142,7 +155,12 @@ export class NavPane extends HTMLElement {
   };
 
   #onBack = (): void => {
+    const previous = this.value;
     this.removeAttribute("value");
+    const item = [...(this.shadowRoot?.querySelectorAll<HTMLButtonElement>(".item") ?? [])].find(
+      (button) => button.dataset.value === previous,
+    );
+    item?.focus();
     emit(this, "gk-navigate", { value: "back", label: "Back", source: this });
   };
 }

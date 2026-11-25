@@ -38,6 +38,15 @@ const styles = `
     background: var(--gk-color-glass-regular);
   }
 
+  .track.is-indeterminate {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   .fill {
     width: var(--gk-progress, 0%);
     height: 100%;
@@ -89,7 +98,7 @@ const html = `
       <div class="fill" part="fill"></div>
     </div>
     <div class="bounds"><span class="minimum"></span><span class="maximum"></span></div>
-    <div class="indeterminate" hidden><span class="spinner" aria-hidden="true"></span><span class="label">Working…</span></div>
+    <div class="indeterminate" hidden role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span><span class="label">Working…</span></div>
   </div>`;
 
 export class ProgressView extends HTMLElement {
@@ -138,9 +147,17 @@ export class ProgressView extends HTMLElement {
     root.querySelector<HTMLElement>(".fill")!.style.setProperty("--gk-progress", `${percent}%`);
 
     this.#track.style.setProperty("--gk-progress", `${percent}%`);
-    this.#track.setAttribute("aria-valuenow", String(Math.round(percent)));
-    this.#track.setAttribute("aria-valuetext", this.getAttribute("current-value-label") ?? `${Math.round(percent)}%`);
-    this.#track.hidden = isIndeterminate;
+    if (isIndeterminate) {
+      this.#track.removeAttribute("aria-valuenow");
+      this.#track.setAttribute("aria-valuetext", "Working…");
+      this.#track.classList.add("is-indeterminate");
+      this.setAttribute("aria-busy", "true");
+    } else {
+      this.#track.setAttribute("aria-valuenow", String(Math.round(percent)));
+      this.#track.setAttribute("aria-valuetext", this.getAttribute("current-value-label") ?? `${Math.round(percent)}%`);
+      this.#track.classList.remove("is-indeterminate");
+      this.removeAttribute("aria-busy");
+    }
     root.querySelector<HTMLElement>(".bounds")!.hidden = isIndeterminate;
     this.#determinate.hidden = isIndeterminate;
     this.#indeterminate.hidden = !isIndeterminate;

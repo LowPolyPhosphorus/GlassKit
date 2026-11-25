@@ -80,6 +80,7 @@ export class ValuePicker extends HTMLElement {
   }
 
   #name = `gk-value-picker-${++nextId}`;
+  #renderedOptions = "";
 
   get value(): string {
     return this.getAttribute("value") ?? "";
@@ -139,7 +140,19 @@ export class ValuePicker extends HTMLElement {
     const root = this.shadowRoot;
     const disabled = this.hasAttribute("disabled");
     root.querySelector<HTMLElement>(".label")!.textContent = this.getAttribute("label") ?? "Choose one";
-    root.querySelector<HTMLElement>(".options")!.innerHTML = this.#options()
+    const options = this.#options();
+    const container = root.querySelector<HTMLElement>(".options")!;
+    const signature = JSON.stringify(options);
+    const inputs = [...container.querySelectorAll<HTMLInputElement>("input[type=radio]")];
+    if (signature === this.#renderedOptions && inputs.length === options.length) {
+      inputs.forEach((input, index) => {
+        input.checked = options[index]!.value === this.value;
+        input.disabled = disabled || Boolean(options[index]!.disabled);
+      });
+      return;
+    }
+    this.#renderedOptions = signature;
+    container.innerHTML = options
       .map((option, index) => {
         const checked = option.value === this.value ? "checked" : "";
         const detail = option.detail ? `<span class="detail">${esc(option.detail)}</span>` : "";

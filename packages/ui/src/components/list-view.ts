@@ -90,6 +90,8 @@ export class ListView extends HTMLElement {
     return ["label", "items", "mode", "value", "height"];
   }
 
+  #renderedItems = "";
+
   get value(): string[] {
     const raw = this.getAttribute("value") ?? "";
     if (!raw) return [];
@@ -161,7 +163,17 @@ export class ListView extends HTMLElement {
       items.forEach((item) => rows.push(this.#row(item, selected)));
     }
 
-    content.innerHTML = rows.join("");
+    const signature = items
+      .map((item) => JSON.stringify([item.section ?? "", item.value ?? item.label ?? "item", item.label ?? "", item.detail ?? ""]))
+      .join("|");
+    if (signature === this.#renderedItems) {
+      content.querySelectorAll<HTMLButtonElement>(".row").forEach((row) => {
+        row.setAttribute("aria-selected", String(selected.has(row.dataset.value ?? "")));
+      });
+    } else {
+      this.#renderedItems = signature;
+      content.innerHTML = rows.join("");
+    }
     root.querySelector<HTMLElement>(".count")!.textContent = `${selected.size} selected · ${this.multiple ? "multiple" : "single"}`;
   }
 

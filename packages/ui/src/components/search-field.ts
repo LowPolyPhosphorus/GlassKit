@@ -118,6 +118,7 @@ export class SearchField extends HTMLElement {
   #input: HTMLInputElement | null = null;
   #clear: HTMLButtonElement | null = null;
   #scopes: HTMLElement | null = null;
+  #renderedScopes = "";
 
   get value(): string {
     return this.getAttribute("value") ?? "";
@@ -171,6 +172,14 @@ export class SearchField extends HTMLElement {
     if (!this.#scopes) return;
     const scopes = parseList(this.getAttribute("scopes"));
     const active = this.getAttribute("scope") ?? scopes[0] ?? "";
+    const signature = scopes.join("\u0000");
+    if (signature === this.#renderedScopes) {
+      this.#scopes.querySelectorAll<HTMLButtonElement>(".scope").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.scope === active));
+      });
+      return;
+    }
+    this.#renderedScopes = signature;
     this.#scopes.replaceChildren();
     for (const scope of scopes) {
       const button = document.createElement("button");

@@ -60,6 +60,8 @@ export class MultiDatePicker extends HTMLElement {
     return ["label", "month", "value"];
   }
 
+  #renderedMonth = "";
+
   get value(): number[] {
     return this.#selected();
   }
@@ -120,19 +122,30 @@ export class MultiDatePicker extends HTMLElement {
     const selected = this.#selected();
     const label = this.getAttribute("label") ?? "Available dates";
     root.querySelector<HTMLElement>(".label")!.textContent = label;
-    root.querySelector<HTMLElement>(".weekdays")!.innerHTML = WEEKDAYS.map((day) => `<span class="weekday">${day}</span>`).join("");
-    const firstDay = new Date(Date.UTC(year, month - 1, 1));
-    const offset = (firstDay.getUTCDay() + 6) % 7;
-    const count = new Date(Date.UTC(year, month, 0)).getUTCDate();
-    const cells: string[] = [];
-    for (let index = 0; index < offset; index += 1) cells.push('<span class="day blank" aria-hidden="true"></span>');
-    for (let day = 1; day <= count; day += 1) {
-      const isSelected = selected.includes(day);
-      cells.push(
-        `<button type="button" class="day" data-day="${day}" aria-pressed="${isSelected}" aria-label="${label}, ${this.#iso(day)}">${day}</button>`,
-      );
+    const monthKey = `${year}-${month}`;
+    const days = root.querySelector<HTMLElement>(".days")!;
+    if (monthKey === this.#renderedMonth) {
+      days.querySelectorAll<HTMLButtonElement>(".day[data-day]").forEach((button) => {
+        const day = Number(button.dataset.day);
+        button.setAttribute("aria-pressed", String(selected.includes(day)));
+        button.setAttribute("aria-label", `${label}, ${this.#iso(day)}`);
+      });
+    } else {
+      this.#renderedMonth = monthKey;
+      root.querySelector<HTMLElement>(".weekdays")!.innerHTML = WEEKDAYS.map((day) => `<span class="weekday">${day}</span>`).join("");
+      const firstDay = new Date(Date.UTC(year, month - 1, 1));
+      const offset = (firstDay.getUTCDay() + 6) % 7;
+      const count = new Date(Date.UTC(year, month, 0)).getUTCDate();
+      const cells: string[] = [];
+      for (let index = 0; index < offset; index += 1) cells.push('<span class="day blank" aria-hidden="true"></span>');
+      for (let day = 1; day <= count; day += 1) {
+        const isSelected = selected.includes(day);
+        cells.push(
+          `<button type="button" class="day" data-day="${day}" aria-pressed="${isSelected}" aria-label="${label}, ${this.#iso(day)}">${day}</button>`,
+        );
+      }
+      days.innerHTML = cells.join("");
     }
-    root.querySelector<HTMLElement>(".days")!.innerHTML = cells.join("");
     root.querySelector<HTMLElement>(".count")!.textContent = `${selected.length} selected`;
     root.querySelector<HTMLElement>(".summary")!.textContent = selected.length
       ? selected.map((day) => this.#iso(day)).join(" · ")

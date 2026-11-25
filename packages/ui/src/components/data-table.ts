@@ -168,20 +168,49 @@ export class DataTable extends HTMLElement {
     const rows = this.#rows();
 
     root.querySelector<HTMLElement>("caption")!.textContent = this.getAttribute("caption") ?? "";
-    root.querySelector<HTMLElement>("thead")!.innerHTML = columns
+    this.#syncHeader(columns);
+    this.#syncRows(columns, rows);
+  }
+
+  #sortLabel(): string {
+    return this.#sortDirection === "ascending" ? "↑" : "↓";
+  }
+
+  #syncHeader(columns: TableColumn[]): void {
+    const head = this.shadowRoot!.querySelector<HTMLElement>("thead")!;
+    const buttons = [...head.querySelectorAll<HTMLButtonElement>("button[data-key]")];
+    if (buttons.length === columns.length && buttons.every((button, index) => button.dataset.key === columns[index]!.key)) {
+      buttons.forEach((button, index) => {
+        const th = button.closest("th")!;
+        const active = this.#sortKey === columns[index]!.key;
+        if (active) th.setAttribute("aria-sort", this.#sortDirection);
+        else th.removeAttribute("aria-sort");
+        button.querySelector<HTMLElement>(".sort")!.textContent = active ? this.#sortLabel() : "";
+      });
+      return;
+    }
+    head.innerHTML = columns
       .map((column) => {
         const active = this.#sortKey === column.key;
-        const sort = active ? (this.#sortDirection === "ascending" ? "↑" : "↓") : "";
         const ariaSort = active ? ` aria-sort="${this.#sortDirection}"` : "";
         const align = column.align === "end" ? "right" : "left";
-        return `<th scope="col"${ariaSort} style="text-align:${align}"><button type="button" data-key="${esc(column.key)}">${esc(column.title)}<span class="sort" aria-hidden="true">${sort}</span></button></th>`;
+        return `<th scope="col"${ariaSort} style="text-align:${align}"><button type="button" data-key="${esc(column.key)}">${esc(column.title)}<span class="sort" aria-hidden="true">${active ? this.#sortLabel() : ""}</span></button></th>`;
       })
       .join("");
+  }
 
-    root.querySelector<HTMLElement>("tbody")!.innerHTML = rows.length
+  #syncRows(columns: TableColumn[], rows: TableRow[]): void {
+    const body = this.shadowRoot!.querySelector<HTMLElement>("tbody")!;
+    const keys = rows.map((row, index) => this.#rowKey(row, index));
+    const existing = [...body.querySelectorAll<HTMLTableRowElement>("tr[data-key]")];
+    if (existing.length === keys.length && existing.every((row, index) => row.dataset.key === keys[index])) {
+      existing.forEach((row) => row.setAttribute("aria-selected", String(row.dataset.key === this.value)));
+      return;
+    }
+    body.innerHTML = rows.length
       ? rows
           .map((row, index) => {
-            const key = this.#rowKey(row, index);
+            const key = keys[index]!;
             const cells = columns
               .map((column) => {
                 const align = column.align === "end" ? "right" : "left";
