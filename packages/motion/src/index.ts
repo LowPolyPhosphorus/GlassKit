@@ -218,16 +218,16 @@ export const recipes = {
     durationMs: 300,
     from: { transform: "translateX(0)" },
     to: { transform: "translateX(16px)" },
-    reducedFrom: { opacity: 1 },
-    reducedTo: { opacity: 1 },
+    reducedFrom: { transform: "translateX(16px)" },
+    reducedTo: { transform: "translateX(16px)" },
   },
   "toggle-off": {
     preset: "snappy",
     durationMs: 260,
     from: { transform: "translateX(16px)" },
     to: { transform: "translateX(0)" },
-    reducedFrom: { opacity: 1 },
-    reducedTo: { opacity: 1 },
+    reducedFrom: { transform: "translateX(0)" },
+    reducedTo: { transform: "translateX(0)" },
   },
   "row-insert": {
     preset: "gentle",
@@ -258,8 +258,8 @@ export const recipes = {
     durationMs: 240,
     from: { transform: "none" },
     to: { transform: "translateY(-2px)" },
-    reducedFrom: { opacity: 1 },
-    reducedTo: { opacity: 1 },
+    reducedFrom: { transform: "translateY(-2px)" },
+    reducedTo: { transform: "translateY(-2px)" },
   },
 } satisfies Record<string, MotionRecipe>;
 

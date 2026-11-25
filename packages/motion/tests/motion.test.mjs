@@ -7,6 +7,7 @@ import {
   prefersReducedMotion,
   setReducedMotionOverride,
   clearReducedMotionOverride,
+  recipes,
 } from "../dist/index.js";
 
 test("spring starts at the initial value and settles at the target", () => {
@@ -47,4 +48,12 @@ test("reduced motion can be overridden for docs and tests", () => {
   setReducedMotionOverride(false);
   assert.equal(prefersReducedMotion(), false);
   clearReducedMotionOverride();
+});
+
+test("stateful recipes snap to their final state under reduced motion", () => {
+  for (const name of ["toggle-on", "toggle-off", "hover-lift"]) {
+    const recipe = recipes[name];
+    assert.deepEqual(recipe.reducedFrom, recipe.to);
+    assert.deepEqual(recipe.reducedTo, recipe.to);
+  }
 });
