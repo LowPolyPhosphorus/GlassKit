@@ -1,6 +1,8 @@
 # Design review: GlassKit reference
 
-Date: 2026-11-23
+Date: 2026-11-24
+
+Revision 24 note: added a full `/docs` developer manual with a left section rail, searchable guides and component tags, a registry-driven API browser with copyable markup and live previews, an event playground, practical recipes, troubleshooting, and a release checklist. The header and footer now link the manual; anchors account for the sticky header; the active mobile nav item is scrolled into view; and the favicon follows the authored theme. Light-theme accent and success colours were darkened for 4.5:1 text contrast, and the body no longer transitions between palettes so paused background tabs cannot show stale colours. No right-side “On this page” rail was added, no Apple assets or chrome were introduced, and all surfaces remain flat fills and hairlines.
 
 Revision 23 note: the registry grew from 125 to 128 tags. `gk-push-button`, `gk-nav-pane`, and `gk-check-row` translate Button, NavigationView, and Spacer into shadow-DOM components with button variants, a master/detail pane, and a flexible checklist row. The docs SwiftUI reference gallery now has 45 live examples, and the lab and 5185 panes exercise the same three elements. Counts stay registry-driven, and the flat-fill/hairline material rule is unchanged.
 
@@ -91,7 +93,7 @@ The [Apple Design](https://developer.apple.com/design/) and [Design Resources](h
 
 ## Visual direction
 
-- **Shell:** an Astro layout with one sticky navigation bar, a centred 1180 px page column, and no right rail. The homepage carries Tokens, Materials, Motion, Components, and the desktop lab. Motion, Native, and Practice are the three deep pages.
+- **Shell:** an Astro layout with one sticky navigation bar, a centred 1180 px page column, and no right-side “On this page” rail. The homepage carries Tokens, Materials, Motion, Components, and the desktop lab. Docs, Motion, Native, and Practice are the four deep pages; the Docs page uses a left section rail because it is a reference manual rather than an editorial page.
 - **Type:** self-hosted Inter Variable is the primary web typeface because its cadence is close to SF without bundling Apple fonts. Segoe UI Variable remains first in native Windows stacks. `SF Pro Text` and related Apple names are local fallbacks only. Code prefers `SFMono-Regular`, then `ui-monospace` / Consolas. Weights 400–680; no thin weights. Hero 44–76 px, section headings 32–48 px, lede 19 px, body 15–16 px, metadata 11–13 px. No serif display face.
 - **Color:** authored semantic tokens: `#0066cc` in light, `#0a84ff` in dark, neutral greys `#1d1d1f`, `#6e6e73`, `#f5f5f7`, and authored dark surfaces. One accent means selection, focus, and primary action. All decorative gradients are gone; blue is a flat fill.
 - **Brand:** the supplied original GlassKit logo PNGs live in `apps/docs/public/assets/` and swap with the authored light/dark theme.
@@ -115,7 +117,7 @@ No Apple logos, product imagery, SF Symbols, traffic-light controls, menu bar, D
 ## Verification
 
 - `npm run build` and `npm run typecheck` must pass.
-- Browser smoke test must confirm four pages, one active top-nav item, twelve motion recipes, live controls, theme switching without a light flash, the draggable/resizable desktop lab, the HIG patterns room, responsive navigation, icon sprite loading, both logo PNGs loading, and no console errors.
+- Browser smoke test must confirm five pages, one active top-nav item, a 128-entry API browser in `/docs`, docs search and copy feedback, twelve motion recipes, live controls, theme switching without a light flash, the draggable/resizable desktop lab, the HIG patterns room, responsive navigation, icon sprite loading, both logo PNGs loading, and no console errors.
 - The settings sample must be reachable only on port 5185, with working sidebar navigation, search filtering, theme modes, accent colours, wallpaper switching, slider readouts, Windows window controls, window dragging/resizing, a taskbar, right-click menus, keyboard shortcuts, and native status.
-- Lighthouse accessibility, best practices, and SEO must remain at 1.00 on all four pages in both light and dark themes.
+- Lighthouse accessibility, best practices, and SEO must remain at 1.00 on all five pages in both light and dark themes.
 - The native host command remains `cd apps/native-host/src-tauri && cargo tauri dev`.

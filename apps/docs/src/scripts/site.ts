@@ -577,10 +577,12 @@ function configureCodeTabs(): void {
 function configureTheme(): void {
   const toggle = one<HTMLButtonElement>("[data-theme-toggle]");
   const label = one<HTMLElement>("[data-theme-label]");
+  const favicon = one<HTMLLinkElement>("link[rel='icon']");
   const use = toggle?.querySelector("use");
 
   const paint = (theme: Theme): void => {
     root.dataset.gkTheme = theme;
+    if (favicon) favicon.href = theme === "dark" ? "/assets/dark-mode-logo.png" : "/assets/light-mode-logo.png";
     if (label) label.textContent = theme === "dark" ? "Light" : "Dark";
     use?.setAttribute(
       "href",
@@ -805,6 +807,13 @@ function configureNative(): void {
   bind("#native-clear", "Clear", () => clearNativeGlass());
 }
 
+function configureHeaderNav(): void {
+  const active = one<HTMLAnchorElement>(".top-nav a[aria-current='page']");
+  const nav = active?.closest<HTMLElement>(".top-nav");
+  if (!active || !nav || nav.scrollWidth <= nav.clientWidth) return;
+  nav.scrollLeft = Math.max(0, active.offsetLeft - (nav.clientWidth - active.clientWidth) / 2);
+}
+
 configureTheme();
 configureMaterial();
 configureAccents();
@@ -814,3 +823,4 @@ configureMotion();
 configureNative();
 configureComponentAtlas();
 initDesktopLab();
+configureHeaderNav();

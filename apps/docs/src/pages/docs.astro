@@ -1,0 +1,309 @@
+---
+import DocsLayout from "../layouts/DocsLayout.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<DocsLayout
+  title="Documentation — Glass Kit"
+  description="Complete Glass Kit developer documentation: install the packages, use tokens, compose components, handle events, tune motion, and ship real DWM glass in Tauri."
+>
+  <div class="docs-page page-shell">
+    <div class="docs-shell">
+      <nav class="docs-rail" aria-label="Documentation sections">
+        <p class="docs-rail__title">Documentation</p>
+        <a href="#overview" aria-current="location">Overview</a>
+        <a href="#quick-start">Quick start</a>
+        <a href="#tokens">Design tokens</a>
+        <a href="#components">Components</a>
+        <a href="#events">Events</a>
+        <a href="#motion">Motion</a>
+        <a href="#native">Native material</a>
+        <a href="#theming">Theming</a>
+        <a href="#api">API reference</a>
+        <a href="#recipes">Recipes</a>
+        <a href="#troubleshooting">Troubleshooting</a>
+        <a href="#checklist">Release checklist</a>
+        <div class="docs-rail__links">
+          <a href="/motion">Motion model ↗</a>
+          <a href="/native">Native guide ↗</a>
+          <a href="/practice">Design practice ↗</a>
+        </div>
+      </nav>
+
+      <article class="docs-article">
+        <header class="docs-hero" id="overview">
+          <nav class="docs-breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">Docs</span>
+          </nav>
+          <p class="eyebrow"><Icon name="book" /> Developer documentation</p>
+          <h1 class="page-title">Build deliberate Windows apps.</h1>
+          <p class="page-intro">Glass Kit gives you tokens, Web Components, motion recipes, and a browser-safe native bridge. This page is the working manual: start with the install, borrow a recipe, then look up any of the 128 registered elements.</p>
+          <div class="docs-metrics" aria-label="Glass Kit at a glance">
+            <div><strong>128</strong><span>registered elements</span></div>
+            <div><strong>5</strong><span>monorepo packages</span></div>
+            <div><strong>12</strong><span>motion recipes</span></div>
+            <div><strong>1</strong><span>native material bridge</span></div>
+          </div>
+          <div class="docs-search">
+            <label for="docs-search-input">Find in the docs</label>
+            <div class="docs-search__field">
+              <Icon name="search" />
+              <input id="docs-search-input" data-docs-search type="search" autocomplete="off" placeholder="Search guides or components, e.g. tokens, gk-slider" />
+            </div>
+            <div class="docs-search__results" data-docs-results aria-live="polite" hidden></div>
+            <p class="docs-search__hint">Start typing to search every heading and component in this reference.</p>
+          </div>
+        </header>
+
+        <section class="docs-section" id="quick-start">
+          <h2>Quick start</h2>
+          <p>Install dependencies, build the packages once, then run either the documentation site or the Settings sample. The native host is a separate Tauri command because it needs the Windows SDK toolchain.</p>
+          <pre><code>npm install
+npm run build
+npm run dev:docs
+npm run dev:settings</code></pre>
+          <p>In an app, install the custom elements once near startup and import the generated token stylesheet. The installer is idempotent, so calling it from multiple entry points is safe.</p>
+          <pre><code>import &#123; installGlassKit &#125; from "@glasskit/ui";
+import "@glasskit/tokens/tokens.css";
+
+installGlassKit();</code></pre>
+          <div class="docs-callout">
+            <Icon name="shield" />
+            <p><strong>Windows first.</strong> Glass Kit changes surfaces, not the operating system contract. Keep the taskbar, tray, right-click menus, shortcuts, and window snapping exactly as Windows provides them.</p>
+          </div>
+        </section>
+
+        <section class="docs-section" id="tokens">
+          <h2>Design tokens</h2>
+          <p><code>@glasskit/tokens</code> is the single source of truth. <code>tokens.json</code> generates both <code>tokens.css</code> and typed exports. Use CSS variables in stylesheets; use the typed object when logic needs a value.</p>
+          <h3 id="tokens-css">Use the variables</h3>
+          <pre><code>:root &#123;
+  --app-accent: var(--gk-color-accent);
+  --app-surface: var(--gk-color-card);
+  --app-hairline: var(--gk-color-hairline);
+&#125;
+
+.panel &#123;
+  background: var(--app-surface);
+  border: 1px solid var(--app-hairline);
+&#125;</code></pre>
+          <h3 id="tokens-typed">Use the typed export</h3>
+          <pre><code>import &#123; tokens &#125; from "@glasskit/tokens";
+
+const stiffness = tokens.motion.spring.snappy.stiffness;
+const accent = tokens.theme.dark.accent;</code></pre>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Group</th><th>Examples</th><th>Use it for</th></tr></thead>
+              <tbody>
+                <tr><td>color</td><td><code>accent</code>, <code>success</code>, <code>scrim</code></td><td>Semantic status and accent values</td></tr>
+                <tr><td>theme.dark / light</td><td><code>text</code>, <code>card</code>, <code>hairline</code></td><td>Authored palettes, not inversion</td></tr>
+                <tr><td>theme.liquid</td><td><code>glassThin</code>, <code>glassRegular</code></td><td>Sparse, functional translucent chrome</td></tr>
+                <tr><td>radius / space</td><td><code>--gk-radius-md</code>, <code>--gk-space-4</code></td><td>Consistent shape and rhythm</td></tr>
+                <tr><td>motion</td><td><code>spring.snappy</code>, <code>duration.fast</code></td><td>Shared physics and timing</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Regenerate the outputs after editing the source with <code>npm run build -w @glasskit/tokens</code>. There is deliberately no separate <code>generate</code> script.</p>
+        </section>
+
+        <section class="docs-section section--tinted" id="components">
+          <h2>Components</h2>
+          <p>Every component is a standards-based custom element with a shadow root. Components read tokens from CSS variables and emit composed <code>gk-*</code> events. They do not ship Apple artwork, fonts, symbols, macOS chrome, or traffic lights.</p>
+          <pre><code>&lt;gk-glass-panel tone="regular" elevation="high"&gt;
+  &lt;gk-status-bar label="Home" status="All systems normal" time="09:41"&gt;&lt;/gk-status-bar&gt;
+
+  &lt;gk-list-row subtitle="Connected"&gt;
+    Noise control
+    &lt;gk-toggle slot="trailing" checked label="Noise control"&gt;&lt;/gk-toggle&gt;
+  &lt;/gk-list-row&gt;
+
+  &lt;gk-search-field label="Search" placeholder="Search devices"&gt;&lt;/gk-search-field&gt;
+  &lt;gk-slider label="Volume" min="0" max="100" value="68"&gt;&lt;/gk-slider&gt;
+&lt;/gk-glass-panel&gt;</code></pre>
+          <p>Use attributes for initial values and properties for live state. Prefer slotted content for text and trailing controls; it keeps labels readable and lets the browser do its normal layout work.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Package group</th><th>Typical elements</th><th>When to reach for it</th></tr></thead>
+              <tbody>
+                <tr><td>Core</td><td><code>gk-glass-panel</code>, <code>gk-button</code>, <code>gk-toggle</code></td><td>Everyday surfaces and controls</td></tr>
+                <tr><td>Layout</td><td><code>gk-box</code>, <code>gk-disclosure</code>, <code>gk-list-row</code></td><td>Grouping and hierarchy</td></tr>
+                <tr><td>Navigation and search</td><td><code>gk-sidebar</code>, <code>gk-search-field</code>, <code>gk-path-control</code></td><td>Finding and moving through content</td></tr>
+                <tr><td>SwiftUI-derived</td><td><code>gk-form</code>, <code>gk-date-picker</code>, <code>gk-outline-group</code></td><td>Familiar structured views</td></tr>
+                <tr><td>HIG atlas</td><td><code>gk-color-well</code>, <code>gk-stepper</code>, <code>gk-virtual-keyboard</code></td><td>Specific pattern studies from Apple's index</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="docs-section" id="events">
+          <h2>Events</h2>
+          <p>All component events bubble and cross the shadow boundary. Use <code>gk-activate</code> for actions, <code>gk-input</code> for live values, and <code>gk-change</code> for committed values. Buttons also emit a normal composed <code>click</code>; listen for <code>gk-activate</code> alone when you wire component actions so a press does not call your handler twice.</p>
+          <pre><code>const slider = document.querySelector("gk-slider");
+slider.addEventListener("gk-input", (event) =&gt; &#123;
+  console.log(event.detail.value);
+&#125;);
+
+const button = document.querySelector("gk-button");
+button.addEventListener("gk-activate", () =&gt; &#123;
+  saveScene();
+&#125;);</code></pre>
+          <p>Richer views add focused events such as <code>gk-select</code>, <code>gk-navigate</code>, <code>gk-dismiss</code>, <code>gk-confirm</code>, <code>gk-cancel</code>, <code>gk-scope-change</code>, and <code>gk-token-change</code>. The API reference below lists the events exposed by each element.</p>
+          <div class="docs-demo" data-docs-demo>
+            <div class="docs-demo__controls">
+              <gk-button variant="primary">Run scene</gk-button>
+              <gk-toggle label="Enabled" checked></gk-toggle>
+              <gk-slider label="Level" min="0" max="100" value="42"></gk-slider>
+              <gk-text-field label="Scene name" value="Evening" clearable></gk-text-field>
+            </div>
+            <output class="docs-demo__output" data-docs-output aria-live="polite">Interact with a control to see its event.</output>
+          </div>
+        </section>
+
+        <section class="docs-section section--tinted" id="motion">
+          <h2>Motion</h2>
+          <p><code>@glasskit/motion</code> holds one analytic spring model, twelve named recipes, and reduced-motion helpers. Motion should explain a state change. If a transition only shows that animation is available, remove it.</p>
+          <pre><code>import &#123; animateRecipe, setReducedMotionOverride, clearReducedMotionOverride &#125;
+  from "@glasskit/motion";
+
+const animation = animateRecipe(element, "sheetPresentation", &#123;
+  direction: "enter",
+&#125;);
+
+animation.finished.finally(() =&gt; animation.cancel());</code></pre>
+          <p>Use <code>setReducedMotionOverride("reduced")</code> in docs and tests to preview the quiet path, then clear it with <code>clearReducedMotionOverride()</code>. Reduced motion removes travel but keeps feedback.</p>
+          <p><a href="/motion">Read the full motion model and spring lab →</a></p>
+        </section>
+
+        <section class="docs-section" id="native">
+          <h2>Native material</h2>
+          <p>The browser cannot sample the Windows desktop through WebView2. On the web, Glass Kit uses flat fills and hairlines. In the Tauri host, <code>@glasskit/native</code> calls Rust commands that ask DWM for real blur, acrylic, and rounded window corners.</p>
+          <pre><code>import &#123; nativeStatus, applyNativeGlass, setNativeCorners &#125; from "@glasskit/native";
+
+if (nativeStatus().native) &#123;
+  await setNativeCorners(true);
+  await applyNativeGlass("blur");
+&#125; else &#123;
+  // Keep the authored flat surface. Do not fake blur with an image.
+&#125;</code></pre>
+          <p>Native calls from the UI surface are reported honestly. Failed calls reject with a clear <code>MaterialError::Windows</code> rather than pretending the material was applied. Clear the material before closing a native window.</p>
+          <p><a href="/native#tauri">Read the Tauri host guide →</a></p>
+        </section>
+
+        <section class="docs-section section--tinted" id="theming">
+          <h2>Theming and material</h2>
+          <p>Dark is the authored default. Light is a separate authored palette, not an inversion. Set <code>data-gk-theme</code> on the document element and <code>data-gk-material="liquid"</code> only when you want the sparse Liquid Glass treatment.</p>
+          <pre><code>&lt;html data-gk-theme="light"&gt;
+&lt;html data-gk-theme="dark" data-gk-material="liquid"&gt;</code></pre>
+          <p>Accent changes should be scoped to the surface that owns them. The documentation homepage demonstrates this: its swatches change only the tokens section, while the Settings sample applies a chosen accent across the app and persists it.</p>
+          <div class="do-grid">
+            <div class="do-panel">
+              <h3>Do</h3>
+              <ul>
+                <li>Use one accent for selection, focus, and primary actions.</li>
+                <li>Keep glass on functional chrome such as sidebars and popovers.</li>
+                <li>Check both palettes with Lighthouse and at 200% text scaling.</li>
+              </ul>
+            </div>
+            <div class="do-panel">
+              <h3>Don't</h3>
+              <ul>
+                <li>Tint the whole interface to signal brand.</li>
+                <li>Use gradients or glowing cards as decoration.</li>
+                <li>Ship Apple font binaries or SF Symbols inside the bundle.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="docs-section" id="api">
+          <h2>API reference</h2>
+          <p>Browse all 128 registered elements. The list is generated from <code>COMPONENT_REGISTRY</code>, so it stays in step with the code. Select a component to see copyable markup, its event list, optional source guidance, and a live preview where one is available.</p>
+          <div class="docs-api">
+            <div class="docs-api__browser">
+              <div class="docs-api__filters">
+                <label>
+                  <span>Filter components</span>
+                  <input type="search" data-api-search autocomplete="off" placeholder="Name, tag, or description" />
+                </label>
+                <label>
+                  <span>Group</span>
+                  <select data-api-group aria-label="Filter API reference by group"></select>
+                </label>
+              </div>
+              <p class="docs-api__count" data-api-count aria-live="polite"></p>
+              <div class="docs-api__list" data-api-list></div>
+            </div>
+            <div class="docs-api__panel">
+              <div class="docs-api__detail" data-api-detail></div>
+              <div class="docs-api__preview" data-api-preview></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="docs-section section--tinted" id="recipes">
+          <h2>Recipes</h2>
+          <p>These compositions cover most app screens. Start from the smallest one that works, then add only the structure the content needs.</p>
+          <h3 id="recipe-settings">Settings row with a trailing control</h3>
+          <pre><code>&lt;gk-box title="Wi-Fi" subtitle="Connected to Studio 5G"&gt;
+  &lt;gk-list-row subtitle="Known networks: 4"&gt;
+    Ask to join new networks
+    &lt;gk-toggle slot="trailing" checked label="Ask to join"&gt;&lt;/gk-toggle&gt;
+  &lt;/gk-list-row&gt;
+&lt;/gk-box&gt;</code></pre>
+          <h3 id="recipe-form">Form with grouped sections</h3>
+          <pre><code>&lt;gk-form
+  label="Profile"
+  sections='&#123;"title":"Profile","rows":[
+    &#123;"label":"Display name","control":"text","value":"Home Hub"&#125;,
+    &#123;"label":"Repeat","control":"stepper","value":"2","min":"0","max":"8"&#125;
+  ]&#125;'
+&gt;&lt;/gk-form&gt;</code></pre>
+          <h3 id="recipe-navigation">Master and detail navigation</h3>
+          <pre><code>&lt;gk-navigation-split-view
+  title="Settings"
+  columns='&#123;"items":["General","Wi-Fi","Bluetooth"],"value":"Wi-Fi"&#125;'
+&gt;&lt;/gk-navigation-split-view&gt;</code></pre>
+          <p><a href="/#desktop-lab">Open the desktop lab to see these patterns in a live smart-home window →</a></p>
+        </section>
+
+        <section class="docs-section" id="troubleshooting">
+          <h2>Troubleshooting</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr></thead>
+              <tbody>
+                <tr><td>Native material does nothing</td><td>The page is running in a browser, not the Tauri host</td><td>Check <code>nativeStatus().native</code> and keep the flat fallback</td></tr>
+                <tr><td>Windows blur looks like a picture</td><td>CSS <code>backdrop-filter</code> cannot sample the desktop through WebView2</td><td>Call <code>applyNativeGlass</code> from the Tauri host</td></tr>
+                <tr><td>A control has no accessible name</td><td>Label omitted or slotted text is not associated</td><td>Add <code>label</code> or visible text inside the element</td></tr>
+                <tr><td>An action handler fires twice</td><td>Listening to both <code>click</code> and <code>gk-activate</code></td><td>Use <code>gk-activate</code> alone for component actions</td></tr>
+                <tr><td>Slider looks wrong after a mode change</td><td>Multiple visual modes on one instance</td><td>Keep one visual mode per instance and let motion snap smoothly</td></tr>
+                <tr><td>Docs atlas is empty</td><td>Lazy painting has not seen a nearby viewport</td><td>Scroll to the atlas; the passive scroll fallback paints it</td></tr>
+                <tr><td>Light theme feels inverted</td><td>Dark palette was mathematically flipped</td><td>Use the authored <code>theme.light</code> token set</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="docs-section section--tinted" id="checklist">
+          <h2>Release checklist</h2>
+          <div class="callout">
+            <p>Before shipping, verify light and dark palettes, keyboard-only navigation, visible focus, reduced motion, 200% text scaling, status meaning without colour, native material in the Tauri host, and an honest fallback when native calls fail.</p>
+          </div>
+          <p>The deeper rules, review questions, and writing guidance live on the <a href="/practice">Practice page</a>. The reference map in the repository tracks the Apple HIG and SwiftUI sources behind each pattern.</p>
+          <div class="hero-actions">
+            <a class="pill pill--primary" href="/motion">Explore motion</a>
+            <a class="pill" href="/native">Run the native host</a>
+            <a class="pill" href="/practice">Read the practice guide</a>
+          </div>
+        </section>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    import "../scripts/docs.ts";
+  </script>
+</DocsLayout>
