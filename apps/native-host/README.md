@@ -10,8 +10,9 @@ cd apps/native-host/src-tauri
 cargo tauri dev
 ```
 
-The host starts the Vite dev server for the Settings demo, applies rounded
-corners and native blur at startup, and exposes:
+The host starts the Vite dev server for the Settings demo and registers the
+commands below. The Settings UI applies rounded corners and native material
+after load; `setup()` deliberately makes no DWM/HWND calls.
 
 - `glasskit_apply_glass`
 - `glasskit_set_corners`

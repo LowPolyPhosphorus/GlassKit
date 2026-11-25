@@ -159,6 +159,7 @@ mod windows_impl {
     extern "system" {
         fn LoadLibraryA(name: *const i8) -> *mut c_void;
         fn GetProcAddress(module: *mut c_void, name: *const i8) -> *mut c_void;
+        fn FreeLibrary(module: *mut c_void) -> i32;
     }
 
     unsafe fn set_accent(hwnd: isize, state: u32, tint: Tint) -> Result<(), MaterialError> {
@@ -173,6 +174,7 @@ mod windows_impl {
             b"SetWindowCompositionAttribute\0".as_ptr() as *const i8,
         );
         if address.is_null() {
+            FreeLibrary(module);
             return Err(MaterialError::Windows(
                 "SetWindowCompositionAttribute is unavailable".into(),
             ));
@@ -190,7 +192,9 @@ mod windows_impl {
             data: &mut policy as *mut AccentPolicy as *mut c_void,
             data_size: size_of::<AccentPolicy>(),
         };
-        if function(hwnd as *mut c_void, &mut data) == 0 {
+        let accepted = function(hwnd as *mut c_void, &mut data);
+        FreeLibrary(module);
+        if accepted == 0 {
             return Err(MaterialError::Windows(
                 "SetWindowCompositionAttribute rejected the material".into(),
             ));
