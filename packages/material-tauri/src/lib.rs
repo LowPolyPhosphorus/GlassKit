@@ -161,19 +161,21 @@ mod windows_impl {
         fn GetProcAddress(module: *mut c_void, name: *const i8) -> *mut c_void;
     }
 
-    unsafe fn set_accent(hwnd: isize, state: u32, tint: Tint) {
+    unsafe fn set_accent(hwnd: isize, state: u32, tint: Tint) -> Result<(), MaterialError> {
         // SetWindowCompositionAttribute is undocumented and absent from
         // user32.lib, so resolve it at runtime.
         let module = LoadLibraryA(b"user32.dll\0".as_ptr() as *const i8);
         if module.is_null() {
-            return;
+            return Err(MaterialError::Windows("user32.dll is unavailable".into()));
         }
         let address = GetProcAddress(
             module,
             b"SetWindowCompositionAttribute\0".as_ptr() as *const i8,
         );
         if address.is_null() {
-            return;
+            return Err(MaterialError::Windows(
+                "SetWindowCompositionAttribute is unavailable".into(),
+            ));
         }
         let function: SetCompositionAttribute = std::mem::transmute(address);
 
@@ -188,7 +190,12 @@ mod windows_impl {
             data: &mut policy as *mut AccentPolicy as *mut c_void,
             data_size: size_of::<AccentPolicy>(),
         };
-        let _ = function(hwnd as *mut c_void, &mut data);
+        if function(hwnd as *mut c_void, &mut data) == 0 {
+            return Err(MaterialError::Windows(
+                "SetWindowCompositionAttribute rejected the material".into(),
+            ));
+        }
+        Ok(())
     }
 
     pub(crate) unsafe fn set_style(hwnd: isize, style: GlassStyle) -> Result<(), MaterialError> {
@@ -199,7 +206,6 @@ mod windows_impl {
             }
             GlassStyle::Disabled => set_accent(hwnd, ACCENT_DISABLED, Tint(0)),
         }
-        Ok(())
     }
 
     pub(crate) unsafe fn set_corner_preference(
