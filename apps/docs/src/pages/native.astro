@@ -30,7 +30,7 @@ import Icon from "../components/Icon.astro";
           <p><strong id="native-title">Browser preview, native-ready</strong><br /><span id="native-reason">Native DWM material needs a Tauri window.</span></p>
         </div>
 
-        <p>Apply a material from any web view. The call is a no-op in a browser and reports why, so a web preview never appears to work when it cannot.</p>
+        <p>Apply a material from any web view. In a browser the call rejects with a readable reason, so a web preview never appears to work when it cannot.</p>
         <pre><code id="native-code"></code></pre>
 
         <h2>API surface</h2>
@@ -42,7 +42,7 @@ import Icon from "../components/Icon.astro";
               <tr><td><code>applyNativeGlass('acrylic')</code></td><td><code>glasskit_apply_glass</code></td><td>Applies the acrylic material</td></tr>
               <tr><td><code>applyNativeGlass('none')</code></td><td><code>glasskit_apply_glass</code></td><td>Removes the material</td></tr>
               <tr><td><code>setNativeCorners(true)</code></td><td><code>glasskit_set_corners</code></td><td>Rounds the real window corners</td></tr>
-              <tr><td><code>clearNativeGlass()</code></td><td><code>glasskit_clear_glass</code></td><td>Resets material and corners</td></tr>
+              <tr><td><code>clearNativeGlass()</code></td><td><code>glasskit_clear_glass</code></td><td>Resets the native backdrop only</td></tr>
               <tr><td><code>nativeStatus()</code></td><td>—</td><td>Reports host availability and reason</td></tr>
             </tbody>
           </table>
@@ -56,11 +56,11 @@ import Icon from "../components/Icon.astro";
           <table>
             <thead><tr><th>Platform</th><th>Behaviour</th></tr></thead>
             <tbody>
-              <tr><td>Windows 11</td><td>Mica, acrylic, and rounded corners follow the current DWM composition rules.</td></tr>
+              <tr><td>Windows 11</td><td>Blur, acrylic, and rounded corners follow the current DWM composition rules.</td></tr>
               <tr><td>Windows 10</td><td>Blur and acrylic are available where supported; corner rounding falls back to a rectangular window.</td></tr>
               <tr><td>Transparency disabled</td><td>The material request is accepted but DWM renders an opaque surface. Keep foreground text readable.</td></tr>
               <tr><td>Browser</td><td>No native call is made. The docs use authored flat fills and hairlines.</td></tr>
-              <tr><td>Non-Windows</td><td>Commands resolve without effect and report the platform reason.</td></tr>
+              <tr><td>Non-Windows</td><td>Commands reject with a platform reason; check <code>nativeStatus()</code> before calling them.</td></tr>
             </tbody>
           </table>
         </div>
@@ -89,7 +89,7 @@ cargo tauri dev</code></pre>
               <tr><td>Status says browser preview</td><td>Launch through <code>cargo tauri dev</code>, not a plain browser.</td></tr>
               <tr><td>Material looks opaque</td><td>Windows transparency effects may be disabled in system settings.</td></tr>
               <tr><td>Corners stay square</td><td>Older Windows builds do not support DWM window corner preference.</td></tr>
-              <tr><td>Command rejects</td><td>Confirm the capability file grants the GlassKit commands to the webview.</td></tr>
+              <tr><td>Command rejects</td><td>On non-Windows this is expected. On Windows, confirm the commands are registered with <code>generate_handler!</code>; <code>core:default</code> is sufficient in capabilities.</td></tr>
             </tbody>
           </table>
         </div>
@@ -101,7 +101,7 @@ cargo tauri dev</code></pre>
               <li>Check <code>nativeStatus()</code> before showing material controls.</li>
               <li>Keep a readable opaque fallback palette.</li>
               <li>Apply material changes once, not on every frame.</li>
-              <li>Grant only the three GlassKit commands in Tauri capabilities.</li>
+              <li>Register the three GlassKit commands with <code>generate_handler!</code>; <code>core:default</code> is enough.</li>
             </ul>
           </div>
           <div class="do-panel">

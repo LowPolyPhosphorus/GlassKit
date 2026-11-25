@@ -29,7 +29,9 @@
 [data-gk-theme="light"] {
   color-scheme: light;
   --page-accent: #0064c8;
+  --gk-color-accent: #0064c8;
   --gk-color-success: #1f7a34;
+  --gk-color-warning: #8a5a00;
   --page-faint: rgba(60, 60, 67, 0.74);
   --shadow: 0 24px 70px var(--gk-color-shadow);
   --window-shadow: 0 30px 80px var(--gk-color-shadow);
@@ -662,7 +664,7 @@ main {
   gap: 6px;
   color: var(--page-faint);
   font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .semantic-values code {
@@ -831,6 +833,26 @@ main {
 
 .recipe-grid gk-button {
   width: 100%;
+}
+
+.recipe-stage {
+  display: grid;
+  place-items: center;
+  min-height: 88px;
+  margin-top: 16px;
+  border: 1px solid var(--page-soft-line);
+  border-radius: 14px;
+  background: var(--page-tint);
+  overflow: hidden;
+}
+
+.recipe-target {
+  width: 96px;
+  height: 32px;
+  border: 1px solid var(--page-accent);
+  border-radius: 10px;
+  background: var(--page-accent-fill);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
 }
 
 .spring-lab {
@@ -1168,7 +1190,7 @@ tr:last-child td {
 .lab-sidebar p {
   margin: 0 0 10px 10px;
   color: var(--page-muted);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 650;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1699,7 +1721,7 @@ tr:last-child td {
   border-radius: 6px;
   background: var(--page-surface-2);
   color: var(--page-text);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .atlas-card__body {
@@ -1787,7 +1809,7 @@ tr:last-child td {
 
 .lab-atlas__card-header code {
   color: var(--page-faint);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .lab-atlas__card-body {
@@ -2024,7 +2046,7 @@ tr:last-child td {
   grid-row: span 2;
   align-self: center;
   color: var(--page-muted);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }

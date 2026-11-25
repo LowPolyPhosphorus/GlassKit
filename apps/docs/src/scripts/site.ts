@@ -172,10 +172,10 @@ function configureComponentAtlas(): void {
   const docsHost = hosts.find((host) => host.hasAttribute("data-component-atlas"));
   const labHost = hosts.find((host) => host.hasAttribute("data-lab-atlas"));
 
-  let painted = false;
+  const painted = new WeakSet<HTMLElement>();
   const paint = (target?: HTMLElement): void => {
-    painted = true;
     for (const host of target ? [target] : hosts) {
+      painted.add(host);
       const compact = host.hasAttribute("data-lab-atlas");
       host.dataset.atlasQuery = compact ? labSearch?.value ?? "" : search?.value ?? "";
       host.dataset.atlasScope = compact ? "all" : scope?.value ?? "all";
@@ -193,37 +193,44 @@ function configureComponentAtlas(): void {
     }
   };
 
-  const nearViewport = (): boolean =>
-    hosts.some((host) => {
-      const rect = (host.parentElement ?? host).getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) return false;
-      return rect.top < window.innerHeight + 400 && rect.bottom > -400;
-    });
+  const nearViewport = (host: HTMLElement): boolean => {
+    const rect = (host.parentElement ?? host).getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return false;
+    return rect.top < window.innerHeight + 400 && rect.bottom > -400;
+  };
   const reveal = (): void => {
-    if (!painted && nearViewport()) paint();
+    for (const host of hosts) {
+      if (!painted.has(host) && nearViewport(host)) paint(host);
+    }
   };
 
   if (typeof IntersectionObserver !== "undefined") {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          reveal();
-          observer.disconnect();
-        }
+        if (entries.some((entry) => entry.isIntersecting)) reveal();
+        if (hosts.every((host) => painted.has(host))) observer.disconnect();
       },
       { rootMargin: "400px" },
     );
     // The grid starts empty, so observe its non-zero parent container instead.
     for (const host of hosts) observer.observe(host.parentElement ?? host);
   }
-  // IntersectionObserver can be throttled in background tabs and embedded
-  // previews. A passive scroll/resize check keeps the registry reliable while
-  // still deferring creation until a host is near the viewport.
+  // IntersectionObserver and requestAnimationFrame can be throttled in
+  // background tabs and embedded previews. Passive scroll/resize checks plus a
+  // mutation check keep the registry reliable while still deferring creation
+  // until a host is near the viewport.
   window.addEventListener("scroll", reveal, { passive: true });
   window.addEventListener("resize", reveal, { passive: true });
-  document.querySelector('[data-room="atlas"]')?.addEventListener("click", () => {
-    window.requestAnimationFrame(reveal);
-  });
+  const labPanel = labHost?.closest<HTMLElement>("[data-room-panel]");
+  if (labPanel) {
+    const panelObserver = new MutationObserver(() => {
+      if (!labPanel.hidden) {
+        reveal();
+        panelObserver.disconnect();
+      }
+    });
+    panelObserver.observe(labPanel, { attributes: true, attributeFilter: ["hidden"] });
+  }
   reveal();
 
   const bind = (control: HTMLElement | null, host: HTMLElement | undefined, eventName: string): void => {

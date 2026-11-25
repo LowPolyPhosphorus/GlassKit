@@ -1,7 +1,7 @@
 import { animateRecipe } from "@glasskit/motion";
 
 const ROOM_COPY: Record<string, { title: string; subtitle: string }> = {
-  living: { title: "Living Room", subtitle: "6 devices · 3 active" },
+  living: { title: "Living Room", subtitle: "5 devices · 3 active" },
   kitchen: { title: "Kitchen", subtitle: "4 devices · 2 active" },
   climate: { title: "Climate", subtitle: "Whole home · Comfort mode" },
   security: { title: "Security", subtitle: "3 zones · Armed home" },
@@ -12,6 +12,19 @@ const ROOM_COPY: Record<string, { title: string; subtitle: string }> = {
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), Math.max(min, max));
+}
+
+function resizeBounds(parent: DOMRect, left: number, top: number) {
+  const availableWidth = Math.max(240, parent.width - left - 12);
+  const availableHeight = Math.max(240, parent.height - top - 12);
+  const minWidth = Math.min(480, availableWidth);
+  const minHeight = Math.min(420, availableHeight);
+  return {
+    minWidth,
+    minHeight,
+    maxWidth: Math.max(minWidth, availableWidth),
+    maxHeight: Math.max(minHeight, availableHeight),
+  };
 }
 
 function eventValue(event: Event): unknown {
@@ -81,6 +94,7 @@ export function initDesktopLab(): void {
   dragHandle.addEventListener("pointercancel", endDrag);
 
   dragHandle.addEventListener("keydown", (event) => {
+    if (event.target !== dragHandle) return;
     const step = event.shiftKey ? 48 : 16;
     const deltas: Record<string, [number, number]> = {
       ArrowLeft: [-step, 0],
@@ -121,10 +135,9 @@ export function initDesktopLab(): void {
     const parent = canvas.getBoundingClientRect();
     const left = parseFloat(win.style.left) || 0;
     const top = parseFloat(win.style.top) || 0;
-    const minWidth = Math.min(480, Math.max(240, parent.width - 16));
-    const minHeight = Math.min(420, Math.max(240, parent.height - 16));
-    const width = clamp(size.width + event.clientX - size.x, minWidth, parent.width - left - 12);
-    const height = clamp(size.height + event.clientY - size.y, minHeight, parent.height - top - 12);
+    const { minWidth, minHeight, maxWidth, maxHeight } = resizeBounds(parent, left, top);
+    const width = clamp(size.width + event.clientX - size.x, minWidth, maxWidth);
+    const height = clamp(size.height + event.clientY - size.y, minHeight, maxHeight);
     win.style.width = `${width}px`;
     win.style.height = `${height}px`;
   });
@@ -151,10 +164,9 @@ export function initDesktopLab(): void {
     const parent = canvas.getBoundingClientRect();
     const left = parseFloat(win.style.left) || 0;
     const top = parseFloat(win.style.top) || 0;
-    const minWidth = Math.min(480, Math.max(240, parent.width - 16));
-    const minHeight = Math.min(420, Math.max(240, parent.height - 16));
-    win.style.width = `${clamp(win.offsetWidth + delta[0], minWidth, parent.width - left - 12)}px`;
-    win.style.height = `${clamp(win.offsetHeight + delta[1], minHeight, parent.height - top - 12)}px`;
+    const { minWidth, minHeight, maxWidth, maxHeight } = resizeBounds(parent, left, top);
+    win.style.width = `${clamp(win.offsetWidth + delta[0], minWidth, maxWidth)}px`;
+    win.style.height = `${clamp(win.offsetHeight + delta[1], minHeight, maxHeight)}px`;
     setStatus("Window resized");
   });
 
@@ -162,6 +174,7 @@ export function initDesktopLab(): void {
     button.addEventListener("click", () => {
       const action = button.dataset.windowAction;
       if (action === "close") {
+        if (minimizedHeight !== null) win.style.height = minimizedHeight;
         minimizedHeight = null;
         win.classList.remove("is-minimized");
         win.hidden = true;
@@ -219,7 +232,7 @@ export function initDesktopLab(): void {
     button.addEventListener("click", () => {
       const room = button.dataset.room!;
       for (const other of canvas.querySelectorAll<HTMLButtonElement>("[data-room]")) {
-        other.setAttribute("aria-current", String(other === button));
+        other.setAttribute("aria-current", String(other.dataset.room === room));
       }
       for (const panel of canvas.querySelectorAll<HTMLElement>("[data-room-panel]")) {
         panel.hidden = panel.dataset.roomPanel !== room;
