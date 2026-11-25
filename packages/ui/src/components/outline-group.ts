@@ -36,7 +36,7 @@ const styles = `
 
   .line {
     display: grid;
-    grid-template-columns: 18px minmax(0, 1fr);
+    grid-template-columns: 24px minmax(0, 1fr);
     align-items: center;
     gap: 2px;
     min-width: 0;
@@ -44,7 +44,7 @@ const styles = `
 
   .twisty {
     display: grid;
-    width: 18px;
+    width: 24px;
     height: 24px;
     place-items: center;
     padding: 0;
@@ -59,7 +59,7 @@ const styles = `
   }
   .twisty:hover { background: var(--gk-color-card-hover); color: var(--gk-color-text); }
   .twisty[aria-expanded="true"] { transform: rotate(90deg); }
-  .spacer { width: 18px; }
+  .spacer { width: 24px; }
 
   .select {
     display: flex;

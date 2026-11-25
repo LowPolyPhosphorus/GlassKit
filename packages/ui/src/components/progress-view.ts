@@ -128,7 +128,9 @@ export class ProgressView extends HTMLElement {
     const percent = clamp((this.value / total) * 100);
     const isIndeterminate = this.hasAttribute("indeterminate");
 
+    const label = this.getAttribute("label") ?? "Progress";
     root.querySelector<HTMLElement>(".label")!.textContent = this.getAttribute("label") ?? "";
+    this.#track.setAttribute("aria-label", label);
     root.querySelector<HTMLElement>(".current")!.textContent =
       this.getAttribute("current-value-label") ?? `${Math.round(percent)}%`;
     root.querySelector<HTMLElement>(".minimum")!.textContent = this.getAttribute("minimum-value-label") ?? "";

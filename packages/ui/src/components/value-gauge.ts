@@ -97,6 +97,7 @@ export class ValueGauge extends HTMLElement {
     const variant = this.getAttribute("variant") === "linear" ? "linear" : "circular";
     const gauge = root.querySelector<HTMLElement>(".gauge")!;
 
+    gauge.setAttribute("aria-label", this.getAttribute("label") ?? "Value");
     gauge.setAttribute("aria-valuemin", String(min));
     gauge.setAttribute("aria-valuemax", String(max));
     gauge.setAttribute("aria-valuenow", String(raw));

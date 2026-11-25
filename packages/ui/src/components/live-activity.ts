@@ -153,6 +153,7 @@ export class LiveActivity extends HTMLElement {
     if (!this.#header || !this.#details || !this.#progress || !this.#action || !this.shadowRoot) return;
     const root = this.shadowRoot;
     root.querySelector<HTMLElement>(".title")!.textContent = this.getAttribute("title") ?? "";
+    this.#progress.setAttribute("aria-label", this.getAttribute("title") ?? "Activity progress");
     root.querySelector<HTMLElement>(".status")!.textContent = this.getAttribute("status") ?? "";
     root.querySelector<HTMLElement>(".icon .fallback")!.hidden = slotHasContent(root, "icon");
     const progress = clamp(toNumber(this.getAttribute("progress"), 0));

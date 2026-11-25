@@ -115,7 +115,9 @@ export class NavPane extends HTMLElement {
     const root = this.shadowRoot;
     const items = this.#items();
     const current = items.find((item) => String(item.value ?? "") === this.value);
-    root.querySelector<HTMLElement>(".label")!.textContent = this.getAttribute("label") ?? "Notes";
+    const label = this.getAttribute("label") ?? "Notes";
+    root.querySelector<HTMLElement>(".label")!.textContent = label;
+    root.querySelector<HTMLElement>(".list")!.setAttribute("aria-label", label);
     root.querySelector<HTMLElement>(".hint")!.textContent = current ? "Detail shown" : `${items.length} items`;
     root.querySelector<HTMLElement>(".list")!.innerHTML = items
       .map((item) => {

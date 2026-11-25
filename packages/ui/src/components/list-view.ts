@@ -135,6 +135,7 @@ export class ListView extends HTMLElement {
     const height = Math.min(360, Math.max(90, toNumber(this.getAttribute("height"), 160)));
     root.querySelector<HTMLElement>(".viewport")!.style.height = `${height}px`;
     const content = root.querySelector<HTMLElement>(".content")!;
+    content.setAttribute("aria-label", this.getAttribute("label") ?? "List");
     content.setAttribute("aria-multiselectable", String(this.multiple));
 
     const items = this.#items();
