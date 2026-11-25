@@ -2,6 +2,8 @@
 
 Date: 2026-11-24
 
+Revision 27 note: the desktop documentation rail is no longer a tall filled card. It is now a transparent sticky list with a single right hairline, so it cannot cover the top of the article; compact widths keep the one-line transparent strip. Verified by forcing the desktop media rules in the browser: the rail computes to a transparent 220px grid with no panel background or radius. Guide search results now keep focus in the input without scrolling the target back out of view, the workspace count reads 6, and all source and built assets are free of Apple command glyphs.
+
 Revision 26 note: the docs and atlas now share one preview fixture set, so copyable API markup matches the live component schema for all 128 tags. The docs search implements the full combobox pattern with listbox options, active-descendant navigation, Enter activation, and deliberate focus handling. API list selection keeps keyboard focus on the chosen row. The motion snippet now uses a real recipe and overload; native error wording, origin labels, troubleshooting links, header accessible names, copy announcements, and search focus/anchoring were corrected. Windows shortcut labels replaced the last Apple glyphs in the docs, atlas, and Settings sample. No gradients, fake chrome, or Apple assets were introduced.
 
 Revision 25 note: the compact-width docs section rail is now a single-line, transparent, scrollable strip instead of a large filled panel; the active section is kept visible as the article scrolls. The docs search exposes combobox state, component counts come from the registry, copy buttons identify their section, and the split-view recipe uses the real `sections` attribute.

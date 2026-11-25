@@ -404,7 +404,7 @@ function configureDocsSearch(selectComponent: (tag: string) => void): void {
     }
     setOpen(false);
     input.value = "";
-    input.focus();
+    input.focus({ preventScroll: true });
   };
 
   const entries: SearchEntry[] = [];

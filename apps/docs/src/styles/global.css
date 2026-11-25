@@ -1814,13 +1814,16 @@ tr:last-child td {
   position: sticky;
   top: 78px;
   display: grid;
+  align-content: start;
   gap: 2px;
   max-height: calc(100vh - 100px);
-  padding: 16px;
+  padding: 0 14px 0 0;
   overflow: auto;
-  border: 1px solid var(--page-soft-line);
-  border-radius: 16px;
-  background: var(--page-surface);
+  border: 0;
+  border-right: 1px solid var(--page-soft-line);
+  border-radius: 0;
+  background: transparent;
+  scrollbar-width: thin;
 }
 
 .docs-rail__title {
